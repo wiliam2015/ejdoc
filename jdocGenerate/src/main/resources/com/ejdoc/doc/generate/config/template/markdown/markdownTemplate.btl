@@ -1,0 +1,4 @@
+# ${i18n.childfile.projectName!}:${prop.projectName!}
+${i18n.childfile.moduleName!}:${prop.moduleName!}
+${i18n.childfile.packageName!}:${prop.packageName!}
+${i18n.childfile.className!}:${prop.className!}

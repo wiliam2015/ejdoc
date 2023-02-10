@@ -1,0 +1,9 @@
+[mainfile]
+name=文档名称
+host=网址
+description=描述
+[childfile]
+projectName=项目名称
+moduleName=模块名称
+packageName=包名称
+className=类名称

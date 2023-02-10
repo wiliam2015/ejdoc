@@ -1,0 +1,9 @@
+mainfile.name=文档名称
+mainfile.host=网址
+mainfile.description=描述
+${i18n.mainfile.name!} : ${prop.name!}
+${i18n.mainfile.host!} | ${prop.host!}
+${i18n.mainfile.description!} | ${prop.description!}
+
+测试
+
