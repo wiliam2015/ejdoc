@@ -5,13 +5,13 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.model.*;
+import com.ejdoc.metainfo.seralize.paraser.impl.AbstractMetaInfoParaser;
 import com.ejdoc.metainfo.seralize.resource.MetaFileRead;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.Comment;
-import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.ReferenceType;
@@ -28,42 +28,56 @@ import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.JavaParserTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
-import com.ejdoc.metainfo.seralize.paraser.impl.AbstractMetaInfoParaser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class JavaParaserMetaInfoParaser extends AbstractMetaInfoParaser {
     private static final Logger log = LoggerFactory.getLogger(JavaParaserMetaInfoParaser.class);
 
+    /**
+     * 文件目录缓存
+     */
     private Set<String> srcDirCache = new HashSet<>();
+    /**
+     * 包名信息
+     */
+    private static final String PACKAGE_INFO_SOURCE="package-info.java";
+    private static final String PACKAGE_INFO="package-info";
 
 //    private JavaParaser
     private JavaParser javaParser;
 
     public JavaParaserMetaInfoParaser() {
         super();
-//        this.javaParser = new JavaParser();
+
         List<MetaFileInfoDto> metaFileInfos = metaFileRead.readAllMetaFile();
+
+        String projectSourceDir = metaFileRead.getMetaEnvironment().getProjectSourceDir();
         CombinedTypeSolver combinedTypeSolverNewCode = new CombinedTypeSolver();
         combinedTypeSolverNewCode.add(new ReflectionTypeSolver());
         ParserConfiguration parserConfiguration = new ParserConfiguration();
         parserConfiguration.setLanguageLevel(ParserConfiguration.LanguageLevel.RAW);
-        parserConfiguration.setStoreTokens(false);
-        parserConfiguration.setAttributeComments(false);
-        parserConfiguration.setLexicalPreservationEnabled(false);
+//        parserConfiguration.setStoreTokens(false);
+//        parserConfiguration.setAttributeComments(false);
+//        parserConfiguration.setLexicalPreservationEnabled(false);
         if(CollectionUtil.isNotEmpty(metaFileInfos)){
             for (MetaFileInfoDto metaFileInfo : metaFileInfos) {
                 String parent = metaFileInfo.getMetaFile().getParent();
-                if(!srcDirCache.contains(parent)){
-                    combinedTypeSolverNewCode.add(new JavaParserTypeSolver(parent, parserConfiguration));
-                    srcDirCache.add(parent);
-                }
 
+                int src = parent.indexOf(projectSourceDir);
+                if(src != -1){
+                    String sourceDir = parent.substring(0,src+projectSourceDir.length());
+                    if(!srcDirCache.contains(sourceDir)){
+                        combinedTypeSolverNewCode.add(new JavaParserTypeSolver(sourceDir, parserConfiguration));
+                        srcDirCache.add(sourceDir);
+                    }
+                }
             }
 
         }
@@ -75,21 +89,27 @@ public class JavaParaserMetaInfoParaser extends AbstractMetaInfoParaser {
 //        this.javaParser = new JavaParser();
 
         List<MetaFileInfoDto> metaFileInfos = metaFileRead.readAllMetaFile();
+
+        String projectSourceDir = metaFileRead.getMetaEnvironment().getProjectSourceDir();
         CombinedTypeSolver combinedTypeSolverNewCode = new CombinedTypeSolver();
         combinedTypeSolverNewCode.add(new ReflectionTypeSolver());
         ParserConfiguration parserConfiguration = new ParserConfiguration();
         parserConfiguration.setLanguageLevel(ParserConfiguration.LanguageLevel.RAW);
-        parserConfiguration.setStoreTokens(false);
-        parserConfiguration.setAttributeComments(false);
-        parserConfiguration.setLexicalPreservationEnabled(false);
+//        parserConfiguration.setStoreTokens(false);
+//        parserConfiguration.setAttributeComments(false);
+//        parserConfiguration.setLexicalPreservationEnabled(false);
         if(CollectionUtil.isNotEmpty(metaFileInfos)){
             for (MetaFileInfoDto metaFileInfo : metaFileInfos) {
                 String parent = metaFileInfo.getMetaFile().getParent();
-                if(!srcDirCache.contains(parent)){
-                    combinedTypeSolverNewCode.add(new JavaParserTypeSolver(parent, parserConfiguration));
-                    srcDirCache.add(parent);
-                }
 
+                int src = parent.indexOf(projectSourceDir);
+                if(src != -1){
+                    String sourceDir = parent.substring(0,src+projectSourceDir.length());
+                    if(!srcDirCache.contains(sourceDir)){
+                        combinedTypeSolverNewCode.add(new JavaParserTypeSolver(sourceDir, parserConfiguration));
+                        srcDirCache.add(sourceDir);
+                    }
+                }
             }
 
         }
@@ -133,10 +153,10 @@ public class JavaParaserMetaInfoParaser extends AbstractMetaInfoParaser {
 
         //抽象语法树的根节点
         CompilationUnit rootAst = result.get();
+        boolean addMeta = parasePackageInfo(metaFileInfo, javaClassMeta, rootAst);
 
         NodeList<TypeDeclaration<?>> classTypeDataList = rootAst.getTypes();
         if(CollectionUtil.isNotEmpty(classTypeDataList)){
-            boolean addMeta = false;
             for (TypeDeclaration<?> typeDeclaration : classTypeDataList) {
                 if(typeDeclaration instanceof ClassOrInterfaceDeclaration){
                     addMeta = true;
@@ -147,14 +167,45 @@ public class JavaParaserMetaInfoParaser extends AbstractMetaInfoParaser {
                     paraseModifiers(javaClassMeta,declaration,rootAst);
                     paraseInterfaces(javaClassMeta,declaration,rootAst);
                     paraseMembers(javaClassMeta,declaration,rootAst);
-
+                    paraseClassDeclaration(javaClassMeta,declaration,rootAst);
                 }
             }
-            if(addMeta){
-                javaClassMetaList.add(javaClassMeta);
-            }
+        }
+        if(addMeta){
+            javaClassMetaList.add(javaClassMeta);
         }
 
+    }
+
+    /**
+     * 解析类声明结构
+     * @param javaClassMeta
+     * @param declaration
+     * @param rootAst
+     */
+    private void paraseClassDeclaration(JavaClassMeta javaClassMeta, ClassOrInterfaceDeclaration declaration, CompilationUnit rootAst) {
+        javaClassMeta.setDeclarationStructure(javaClassMeta.parseDeclarationStructure());
+    }
+
+    /**
+     * 解析package-info文件
+     * @param metaFileInfo
+     * @param javaClassMeta
+     * @param rootAst
+     * @return
+     */
+    private boolean parasePackageInfo(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta,  CompilationUnit rootAst) {
+        boolean addMeta = false;
+        if(PACKAGE_INFO_SOURCE.equals(metaFileInfo.getMetaFileName())){
+            addMeta = true;
+            paraseJavaSouce(javaClassMeta, metaFileInfo,null, rootAst);
+            javaClassMeta.setModuleName(metaFileInfo.getModuleName());
+            javaClassMeta.setProjectName(metaFileInfo.getProjectName());
+            javaClassMeta.setClassName(PACKAGE_INFO);
+            javaClassMeta.setValue(PACKAGE_INFO);
+            javaClassMeta.setFullClassName(javaClassMeta.getClassNamePrefix()+PACKAGE_INFO);
+        }
+        return addMeta;
     }
 
     protected JavaParser createParserWithResolver(TypeSolver typeSolver) {
@@ -187,30 +238,24 @@ public class JavaParaserMetaInfoParaser extends AbstractMetaInfoParaser {
             MethodDeclaration methodDeclaration = (MethodDeclaration)member;
             ResolvedMethodDeclaration resolve = methodDeclaration.resolve();
             ResolvedType returnTypeDeclaration = getMethodReturnResolvedType(resolve);
-            String name = resolve.getName();
             Optional<Javadoc> javadoc = methodDeclaration.getJavadoc();
-            Optional<JavadocComment> javadocComment = methodDeclaration.getJavadocComment();
 
             //方法名与方法体
-            String nameAsString = methodDeclaration.getNameAsString();
-            if(nameAsString.equals("create")){
-                methodDeclaration.getNameAsString();
-            }
             javaMethodMeta.setName(methodDeclaration.getNameAsString());
             javaMethodMeta.setCallSignature(methodDeclaration.getDeclarationAsString());
 
             //返回类型
             JavaTypeMeta returnType = new JavaTypeMeta();
             Type type = methodDeclaration.getType();
-//            returnType.setBinaryName(type.toString());
             returnType.setFullyQualifiedName(type.toString());
             if(returnTypeDeclaration != null){
                 returnType.setFullyQualifiedName(returnTypeDeclaration.describe());
             }
-            returnType.setValue(type.toString());
+            returnType.setName(type.toString());
             NodeList<TypeParameter> typeParameters = methodDeclaration.getTypeParameters();
             if(CollectionUtil.isNotEmpty(typeParameters)){
-                returnType.setGenericValue(typeParameters.get(0).getNameAsString());
+                List<String> typeParamList = typeParameters.stream().map(typeParameter -> typeParameter.getNameAsString()).collect(Collectors.toList());
+                returnType.setTypeParameters(typeParamList);
             }
             javaMethodMeta.setReturnType(returnType);
 
@@ -225,27 +270,7 @@ public class JavaParaserMetaInfoParaser extends AbstractMetaInfoParaser {
             javaModelMeta.setLineNumber(methodDeclaration.getBegin().get().line);
             //避免方法太长 方法体内容不要了
 //            javaModelMeta.setCodeBlock(methodDeclaration.getTokenRange().get().toString());
-            List<JavaDocletTagMeta>  tags = new ArrayList<>();
-            if(javadoc.isPresent()){
-                JavadocDescription description = javadoc.get().getDescription();
-                List<JavadocDescriptionElement> elements = description.getElements();
-                if(CollectionUtil.isNotEmpty(elements)){
-                    javaModelMeta.setComment(elements.get(0).toText());
-                }
-                List<JavadocBlockTag> blockTags = javadoc.get().getBlockTags();
-                if(CollectionUtil.isNotEmpty(blockTags)){
-                    JavaDocletTagMeta docletTagMeta = null;
-                    for (JavadocBlockTag blockTag : blockTags) {
-                        docletTagMeta = new JavaDocletTagMeta();
-                        docletTagMeta.setType(blockTag.getType().name());
-                        docletTagMeta.setName(blockTag.getName().orElse(""));
-                        docletTagMeta.setTagName(blockTag.getTagName());
-                        docletTagMeta.setValue(blockTag.getContent().toText());
-                        tags.add(docletTagMeta);
-                    }
-                    javaModelMeta.setTags(tags);
-                }
-            }
+            createJavaDocTag(javadoc, javaModelMeta);
             javaMethodMeta.setJavaModelMeta(javaModelMeta);
 
             //入参与异常
@@ -254,6 +279,7 @@ public class JavaParaserMetaInfoParaser extends AbstractMetaInfoParaser {
             List<JavaParameterMeta> javaParameters = new ArrayList<>();
             int numberOfParams = resolve.getNumberOfParams();
             if(numberOfParams > 0){
+
                 JavaParameterMeta javaParameterMeta = null;
                 for (int i = 0; i < numberOfParams; i++) {
                     ResolvedParameterDeclaration param = resolve.getParam(i);
@@ -291,7 +317,7 @@ public class JavaParaserMetaInfoParaser extends AbstractMetaInfoParaser {
                     if(specifiedException != null){
                         ex.setFullyQualifiedName(specifiedException.describe());
                     }
-                    ex.setValue(thrownException.asString());
+                    ex.setName(thrownException.asString());
                     exceptionTypes.add(ex);
                 }
                 javaExecutableMeta.setExceptionTypes(exceptionTypes);
@@ -306,6 +332,48 @@ public class JavaParaserMetaInfoParaser extends AbstractMetaInfoParaser {
             return javaMethodMeta;
         }
         return null;
+    }
+
+    /**
+     * 创建javadoc标签
+     * @param javadoc
+     * @param javaModelMeta
+     */
+    private static void createJavaDocTag(Optional<Javadoc> javadoc, JavaModelMeta javaModelMeta) {
+        List<JavaDocletTagMeta>  tags = new ArrayList<>();
+        if(javadoc.isPresent()){
+            JavadocDescription description = javadoc.get().getDescription();
+            List<JavadocDescriptionElement> elements = description.getElements();
+            if(CollectionUtil.isNotEmpty(elements)){
+                javaModelMeta.setComment(elements.get(0).toText());
+            }
+            List<JavadocBlockTag> blockTags = javadoc.get().getBlockTags();
+            if(CollectionUtil.isNotEmpty(blockTags)){
+                JavaDocletTagMeta docletTagMeta = null;
+                for (JavadocBlockTag blockTag : blockTags) {
+                    docletTagMeta = new JavaDocletTagMeta();
+                    String typeVal = blockTag.getType().name();
+                    Optional<String> typeName = blockTag.getName();
+                    docletTagMeta.setType(blockTag.getType().name());
+                    docletTagMeta.setName(typeName.orElse(""));
+                    docletTagMeta.setTagName(blockTag.getTagName());
+                    docletTagMeta.setValue(blockTag.getContent().toText());
+                    if(typeVal.equals("PARAM") && typeName.isPresent()){
+                        if(typeName.get().matches("<.*>")){
+                            docletTagMeta.setType("TYPEPARAM");
+                            docletTagMeta.setTagName("typeParm");
+                            String typeNameStr = typeName.orElse("");
+                            typeNameStr = typeNameStr.replace("<","");
+                            typeNameStr = typeNameStr.replace(">","");
+                            docletTagMeta.setName(typeNameStr);
+                        }
+                    }
+
+                    tags.add(docletTagMeta);
+                }
+                javaModelMeta.setTags(tags);
+            }
+        }
     }
 
     private static ResolvedType getThrowResolvedType(ResolvedMethodDeclaration resolve, int i) {
@@ -378,7 +446,7 @@ public class JavaParaserMetaInfoParaser extends AbstractMetaInfoParaser {
             }
 
             JavaClassMeta returnTypeMeta = new JavaClassMeta();
-            List<String> modifierList = modifiers.stream().map(modifier -> modifier.getKeyword().name()).collect(Collectors.toList());
+            List<String> modifierList = modifiers.stream().map(modifier -> modifier.getKeyword().asString()).collect(Collectors.toList());
             returnTypeMeta.setModifiers(modifierList);
 
             ResolvedTypeDeclaration resolvedTypeDeclaration = getFieldResolvedTypeDeclaration(fieldDeclaration);
@@ -446,22 +514,19 @@ public class JavaParaserMetaInfoParaser extends AbstractMetaInfoParaser {
 
     private void paraseModifiers(JavaClassMeta javaClassMeta, ClassOrInterfaceDeclaration javaClass, CompilationUnit rootAst) {
         NodeList<Modifier> modifiers = javaClass.getModifiers();
-        List<String> collect = modifiers.stream().map(modifier -> modifier.getKeyword().name()).collect(Collectors.toList());
+        List<String> collect = modifiers.stream().map(modifier -> modifier.getKeyword().asString()).collect(Collectors.toList());
         javaClassMeta.setModifiers(collect);
     }
     private void paraseSuperJavaClass(JavaClassMeta javaClassMeta, ClassOrInterfaceDeclaration javaClass, CompilationUnit rootAst) {
 
         NodeList<ClassOrInterfaceType> extendedTypes = javaClass.getExtendedTypes();
-//        ResolvedReferenceTypeDeclaration resolve = javaClass.resolve();
-//        if(resolve != null){
-//            List<ResolvedReferenceType> allAncestors = resolve.getAllAncestors();
-//            List<ResolvedReferenceType> ancestors = resolve.getAncestors();
-//        }
-
 
         if(CollectionUtil.isNotEmpty(extendedTypes)){
-            ClassOrInterfaceType classOrInterfaceType = extendedTypes.get(0);
-            javaClassMeta.setSuperJavaClass(convertByJavaClass(classOrInterfaceType));
+            List<JavaClassMeta> superClasses = new ArrayList<>();
+            for (ClassOrInterfaceType extendedType : extendedTypes) {
+                superClasses.add(convertByJavaClass(extendedType));
+            }
+            javaClassMeta.setSuperClasses(superClasses);
         }
 
 
@@ -488,14 +553,32 @@ public class JavaParaserMetaInfoParaser extends AbstractMetaInfoParaser {
         if(packageDeclarationOptional.isPresent()){
             PackageDeclaration packageDeclaration = rootAst.getPackageDeclaration().get();
 
-            CompilationUnit node = (CompilationUnit)javaClass.getParentNode().get();
+            CompilationUnit node = rootAst;
             List<String> importList = node.getImports().stream().map(importDeclaration -> importDeclaration.getNameAsString()).collect(Collectors.toList());
             javaClassMeta.setImports(importList);
 
             try {
-                javaClassMeta.setUrl(node.getStorage().get().getPath().toUri().toURL());
+                URL url = node.getStorage().get().getPath().toUri().toURL();
+                String path = url.getPath();
+                javaClassMeta.setUrl(url);
+                javaClassMeta.setRelativePath(path.substring(path.indexOf("src")));
             } catch (MalformedURLException e) {
             }
+            if(javaClass != null){
+                Optional<Javadoc> javadoc = javaClass.getJavadoc();
+                JavaModelMeta javaModelMeta = new JavaModelMeta();
+                createJavaDocTag(javadoc,javaModelMeta);
+
+                javaClassMeta.setJavaModelMeta(javaModelMeta);
+            }else{
+                Optional<Comment> comment = rootAst.getComment();
+                if(comment.isPresent()){
+                    JavaModelMeta javaModelMeta = new JavaModelMeta();
+                    javaModelMeta.setComment(comment.get().getContent());
+                    javaClassMeta.setJavaModelMeta(javaModelMeta);
+                }
+            }
+
 
             javaClassMeta.setClassNamePrefix(packageDeclaration.getNameAsString()+".");
             javaClassMeta.setPackageName(packageDeclaration.getNameAsString());
@@ -511,45 +594,65 @@ public class JavaParaserMetaInfoParaser extends AbstractMetaInfoParaser {
      * @param rootAst
      */
     private void paraseClassMetaProp(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfoDto, ClassOrInterfaceDeclaration javaClass, CompilationUnit rootAst) {
-        SimpleName simpleName = javaClass.getName();
-        javaClassMeta.setClassName(simpleName.getIdentifier());
-        javaClassMeta.setFullClassName(javaClass.getFullyQualifiedName().get());
-        javaClassMeta.setValue(simpleName.getIdentifier());
-        if(javaClass.isAbstract()){
-            javaClassMeta.setAbstractClass(javaClass.isAbstract());
-        }
-        if(javaClass.isEnumDeclaration()){
-            javaClassMeta.setEnumClass(javaClass.isEnumDeclaration());
-        }
-        if(javaClass.isFinal()){
-            javaClassMeta.setFinalClass(javaClass.isFinal());
-        }
-        if(javaClass.isInterface()){
-            javaClassMeta.setInterfaceClass(javaClass.isInterface());
-        }
-        if(javaClass.isPrivate()){
-            javaClassMeta.setPrimitiveClass(javaClass.isPrivate());
-        }
-        if(javaClass.isPrivate()){
-            javaClassMeta.setPrivateClass(javaClass.isPrivate());
-        }
-       if(javaClass.isProtected()){
-           javaClassMeta.setProtectedClass(javaClass.isProtected());
-       }
-        if(javaClass.isPublic()){
-            javaClassMeta.setPublicClass(javaClass.isPublic());
-        }
-        if(javaClass.isAnnotationDeclaration()){
-            javaClassMeta.setAnnotationClass(javaClass.isAnnotationDeclaration());
-        }
-        if(javaClass.isStatic()){
-            javaClassMeta.setStaticClass(javaClass.isStatic());
-        }
-        if(javaClass.isEmpty()){
-            javaClassMeta.setVoidClass(javaClass.isEmpty());
-        }
         javaClassMeta.setModuleName(metaFileInfoDto.getModuleName());
         javaClassMeta.setProjectName(metaFileInfoDto.getProjectName());
+        if(javaClass != null){
+            ResolvedReferenceTypeDeclaration resolve = javaClass.resolve();
+            String qualifiedName = resolve.getQualifiedName();
+//            ResolvedType resolve = getRefClassResolvedType(implementedType);
+//            if(resolve != null){
+//                javaClassMeta.setFullClassName(resolve.describe());
+//            }
+            SimpleName simpleName = javaClass.getName();
+            javaClassMeta.setClassName(simpleName.getIdentifier());
+            javaClassMeta.setFullClassName(javaClass.getFullyQualifiedName().get());
+            javaClassMeta.setValue(simpleName.getIdentifier());
+
+            NodeList<TypeParameter> typeParameters = javaClass.getTypeParameters();
+            if(CollectionUtil.isNotEmpty(typeParameters)){
+                List<String> typeParameterList = new ArrayList<>();
+                for (TypeParameter typeParameter : typeParameters) {
+                    typeParameterList.add(typeParameter.getNameAsString());
+                }
+                javaClassMeta.setTypeParameters(typeParameterList);
+            }
+
+            if(javaClass.isAbstract()){
+                javaClassMeta.setAbstractClass(javaClass.isAbstract());
+            }
+
+            if(javaClass.isEnumDeclaration()){
+                javaClassMeta.setEnumClass(javaClass.isEnumDeclaration());
+            }
+            if(javaClass.isFinal()){
+                javaClassMeta.setFinalClass(javaClass.isFinal());
+            }
+            if(javaClass.isInterface()){
+                javaClassMeta.setInterfaceClass(javaClass.isInterface());
+            }
+            if(javaClass.isPrivate()){
+                javaClassMeta.setPrimitiveClass(javaClass.isPrivate());
+            }
+            if(javaClass.isPrivate()){
+                javaClassMeta.setPrivateClass(javaClass.isPrivate());
+            }
+            if(javaClass.isProtected()){
+                javaClassMeta.setProtectedClass(javaClass.isProtected());
+            }
+            if(javaClass.isPublic()){
+                javaClassMeta.setPublicClass(javaClass.isPublic());
+            }
+            if(javaClass.isAnnotationDeclaration()){
+                javaClassMeta.setAnnotationClass(javaClass.isAnnotationDeclaration());
+            }
+            if(javaClass.isStatic()){
+                javaClassMeta.setStaticClass(javaClass.isStatic());
+            }
+            if(javaClass.isEmpty()){
+                javaClassMeta.setVoidClass(javaClass.isEmpty());
+            }
+        }
+
     }
 
     private static String describe(Node node) {

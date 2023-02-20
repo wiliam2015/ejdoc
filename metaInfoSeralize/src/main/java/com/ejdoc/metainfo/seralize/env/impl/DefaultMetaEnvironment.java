@@ -18,6 +18,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +54,17 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
 
         PROPS = defaultMetaEnvSetting;
 
+        checkRequiredAttribute();
+
+    }
+
+    /**
+     * 校验必须属性
+     */
+    private void checkRequiredAttribute() {
+        getProjectRootPath();
+        getProjectSourceDir();
+        getProjectCompileType();
     }
 
 
@@ -60,8 +72,15 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
     public String getProjectRootPath() {
 
         String projectRootDir = PROPS.getStr("project.root.dir", "");
-        Assert.notBlank(projectRootDir, "projectRootDir not Blank properties !");
+        Assert.notBlank(projectRootDir, "[project.root.dir] properties is require,please config in metaDir.properties !");
         return projectRootDir;
+    }
+
+    @Override
+    public String getProjectSourceDir() {
+        String projectSourceDir = PROPS.getStr("project.source.dir", "");
+        Assert.notBlank(projectSourceDir, "[project.source.dir] properties is require,please config in metaDir.properties !");
+        return projectSourceDir;
     }
 
     @Override
@@ -97,11 +116,33 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
 
     @Override
     public ProjectCompileEnum getProjectCompileType() {
-        String projectCompileType = PROPS.getStr("project.compile.type", "");
-        Assert.notBlank(projectCompileType, "projectCompileType not Blank properties !");
+        String projectCompileType = autoDecisionCompileType();
+        Assert.notBlank(projectCompileType, "the compile type not detect,please config in metaDir.properties.the porp name is [project.compile.type] !");
         ProjectCompileEnum projectCompileEnum = ProjectCompileEnum.convertToEnumByName(projectCompileType);
-        Assert.notNull(projectCompileEnum, "projectCompileEnum is null !");
+        Assert.notNull(projectCompileEnum, "not support the compile type ["+projectCompileType+"]!");
         return projectCompileEnum;
+    }
+
+    /**
+     * 编译类型为空时尝试自动探测项目编译方式
+     * 目前支持的是Maven和Gradle
+     * @return
+     */
+    private String autoDecisionCompileType() {
+        String projectCompileType = PROPS.getStr("project.compile.type", "");
+        if(StrUtil.isBlank(projectCompileType)){
+            String projectRootPath = getProjectRootPath();
+            String mavenPomFile = projectRootPath+"/pom.xml";
+            String gradleSetFile = projectRootPath+"/settings.gradle";
+            if(FileUtil.isNotEmpty(new File(mavenPomFile))){
+                PROPS.put("project.compile.type",ProjectCompileEnum.Maven.name());
+                projectCompileType = ProjectCompileEnum.Maven.name();
+            }else if(FileUtil.isNotEmpty(new File(gradleSetFile))){
+                PROPS.put("project.compile.type",ProjectCompileEnum.Gradle.name());
+                projectCompileType = ProjectCompileEnum.Gradle.name();
+            }
+        }
+        return projectCompileType;
     }
 
     @Override

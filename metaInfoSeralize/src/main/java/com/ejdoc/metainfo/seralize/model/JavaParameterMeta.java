@@ -10,25 +10,13 @@ public class JavaParameterMeta implements Serializable {
 
     private JavaClassMeta javaClass;
 
+    private String dependencyRelativePath;
+
+    private String dependencyAbsolutePath;
+
     private JavaExecutableMeta executable;
 
     private JavaClassMeta declaringClass;
-
-    private Boolean varArgs;
-
-    private String value;
-
-    private String fullyQualifiedName;
-
-    private String canonicalName;
-
-    private String resolvedValue;
-
-    private String resolvedGenericValue;
-
-    private String resolvedFullyQualifiedName;
-
-    private String resolvedGenericFullyQualifiedName;
 
 
     public String getName() {
@@ -71,67 +59,19 @@ public class JavaParameterMeta implements Serializable {
         this.declaringClass = declaringClass;
     }
 
-    public Boolean getVarArgs() {
-        return varArgs;
+    public String getDependencyRelativePath() {
+        return dependencyRelativePath;
     }
 
-    public void setVarArgs(Boolean varArgs) {
-        this.varArgs = varArgs;
+    public void setDependencyRelativePath(String dependencyRelativePath) {
+        this.dependencyRelativePath = dependencyRelativePath;
     }
 
-    public String getValue() {
-        return value;
+    public String getDependencyAbsolutePath() {
+        return dependencyAbsolutePath;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public String getFullyQualifiedName() {
-        return fullyQualifiedName;
-    }
-
-    public void setFullyQualifiedName(String fullyQualifiedName) {
-        this.fullyQualifiedName = fullyQualifiedName;
-    }
-
-    public String getCanonicalName() {
-        return canonicalName;
-    }
-
-    public void setCanonicalName(String canonicalName) {
-        this.canonicalName = canonicalName;
-    }
-
-    public String getResolvedValue() {
-        return resolvedValue;
-    }
-
-    public void setResolvedValue(String resolvedValue) {
-        this.resolvedValue = resolvedValue;
-    }
-
-    public String getResolvedGenericValue() {
-        return resolvedGenericValue;
-    }
-
-    public void setResolvedGenericValue(String resolvedGenericValue) {
-        this.resolvedGenericValue = resolvedGenericValue;
-    }
-
-    public String getResolvedFullyQualifiedName() {
-        return resolvedFullyQualifiedName;
-    }
-
-    public void setResolvedFullyQualifiedName(String resolvedFullyQualifiedName) {
-        this.resolvedFullyQualifiedName = resolvedFullyQualifiedName;
-    }
-
-    public String getResolvedGenericFullyQualifiedName() {
-        return resolvedGenericFullyQualifiedName;
-    }
-
-    public void setResolvedGenericFullyQualifiedName(String resolvedGenericFullyQualifiedName) {
-        this.resolvedGenericFullyQualifiedName = resolvedGenericFullyQualifiedName;
+    public void setDependencyAbsolutePath(String dependencyAbsolutePath) {
+        this.dependencyAbsolutePath = dependencyAbsolutePath;
     }
 }

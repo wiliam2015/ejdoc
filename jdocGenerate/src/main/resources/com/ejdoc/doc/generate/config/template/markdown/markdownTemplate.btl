@@ -1,4 +1,200 @@
-# ${i18n.childfile.projectName!}:${prop.projectName!}
-${i18n.childfile.moduleName!}:${prop.moduleName!}
-${i18n.childfile.packageName!}:${prop.packageName!}
-${i18n.childfile.className!}:${prop.className!}
+<% if(isNotEmpty(prop.interfaceClass) && prop.interfaceClass){
+     print("# 接口名称:");
+}else if(isNotEmpty(prop.abstractClass) && prop.abstractClass){
+    print("# 抽象类:");
+}else{
+    print("# 类名称:");
+}
+%>
+${prop.className!}
+
+## 基本信息
+
+* **全路径信息:** ${prop.fullClassName!}
+* **${i18n.childfile.packageName!}:** ${prop.packageName!}
+* **${i18n.childfile.projectName!}:** ${prop.projectName!}
+* **${i18n.childfile.moduleName!}:** ${prop.moduleName!}
+
+<%if(isNotEmpty(prop.javaModelMeta.tags)){
+    var paramStr = "";
+    var authorStr = "";
+    for(tagObj in prop.javaModelMeta.tags){
+       if(tagObj.type == "TYPEPARAM"){
+         paramStr+="  ";
+         paramStr+=tagObj.name;
+         paramStr+=" - ";
+         paramStr+=tagObj.value+"\n\n";
+       }else if(tagObj.type == "AUTHOR"){
+         authorStr+="  ";
+         authorStr+=tagObj.value+"\n\n";
+       }
+    }
+
+    if(isNotEmpty(paramStr)){
+        println("* **类型参数描述：** ");
+        println();
+        println(paramStr);
+    }
+    if(isNotEmpty(paramStr)){
+        println("* **作者：** ");
+        println();
+        println(authorStr);
+    }
+}%>
+---
+
+```java
+${prop.declarationStructure!}
+```
+
+<% if(isNotEmpty(prop.javaModelMeta) && isNotEmpty(prop.javaModelMeta.comment)){
+           println(prop.javaModelMeta.comment);
+}%>
+
+<% if(isNotEmpty(prop.superClasses)){
+    if(isNotEmpty(prop.interfaceClass) && prop.interfaceClass){
+        println("## 继承接口");
+        println("");
+        println("|    索引  |    接口名字  |   接口全称   |");
+        println("| ---- | ---- | ---- |");
+        for(interfaceObj in prop.superClasses){
+            print("|");
+            print(interfaceObjLP.index);
+            print("|");
+            print(interfaceObj.className);
+            print("|");
+            print(interfaceObj.fullClassName);
+            println("|");
+        }
+
+    }else{
+        println("## 继承类");
+        for(supperClassObj in prop.superClasses){
+            print("* 继承类简称:");
+            println(supperClassObj.className);
+            print("* 继承类全称:");
+            println(supperClassObj.fullClassName);
+        }
+    }
+}
+%>
+
+<% if(isNotEmpty(prop.interfaces)){
+    println("## 实现接口");
+    println("");
+    println("|    索引  |    接口名字  |   接口全称   |");
+    println("| ---- | ---- | ---- |");
+    for(interfaceObj in prop.interfaces){
+        print("|");
+        print(interfaceObjLP.index);
+        print("|");
+        print(interfaceObj.className);
+        print("|");
+        print(interfaceObj.fullClassName);
+        println("|");
+      }
+    }
+%>
+
+<% if(isNotEmpty(prop.fields)){
+    println("## 成员变量汇总");
+    println("");
+    println("|   索引  |   修饰符  |    类型  |   字段与描述   |");
+    println("| ---- | ---- | ---- | ---- |");
+    for(fieldsObj in prop.fields){
+        print("|");
+        print(fieldsObjLP.index);
+         print("|");
+        for(modifierObj in fieldsObj.type.modifiers!){
+            print(modifierObj);
+            print(" ");
+        }
+        print("|");
+        print(fieldsObj.type.className);
+        print("|");
+        print(fieldsObj.initializationExpression);print("<br/>");
+        var metaComment = fieldsObj.javaModelMeta.comment;
+         if(isNotEmpty(metaComment)){
+             print(strutil.replace(metaComment,"\n",""));
+         }else{
+            print("无");
+         }
+        println("|");
+      }
+    }
+%>
+
+
+<% if(isNotEmpty(prop.methods)){
+    println("## 方法汇总");
+    println("");
+    println("|   索引  |    方法体和描述   |");
+    println("| ---- | ---- | ");
+    for(methodObj in prop.methods){
+        print("|");
+        print(methodObjLP.index);
+         print("|");
+         print(methodObj.callSignature);
+         print("<br/>");
+         var metaComment = methodObj.javaModelMeta.comment;
+         if(isNotEmpty(metaComment)){
+             print(strutil.replace(metaComment,"\n",""));
+         }else{
+            print("无");
+         }
+        println("|");
+
+      }
+    }
+%>
+
+<% if(isNotEmpty(prop.methods)){
+    println("## 方法详细信息");
+    println("");
+
+    for(methodObj in prop.methods){
+        println("---");
+        print("### ");print(methodObjLP.index);print(".");println(methodObj.name);
+        print("* **方法签名：** ");
+        println();
+        println("  ```java");
+        print("  ");println(methodObj.callSignature);
+        println("  ```");
+
+        if(isNotEmpty(methodObj.javaModelMeta.comment)){
+            print("* **描述：** ");println(methodObj.javaModelMeta.comment!);
+        }
+        if(isNotEmpty(methodObj.javaModelMeta.tags)){
+            var paramStr = "";
+            var returnStr = "";
+            for(tagObj in methodObj.javaModelMeta.tags){
+               if(tagObj.type == "PARAM"){
+                 paramStr+="  ";
+                 paramStr+=tagObj.name;
+                 paramStr+=" - ";
+                 paramStr+=tagObj.value+"\n\n";
+               }else if(tagObj.type == "RETURN"){
+                    returnStr+="  ";
+                    returnStr+=tagObj.value+"\n\n";
+               }
+            }
+            println("* **参数描述：** ");
+            if(isEmpty(paramStr)){
+                println("无");
+            }else{
+                println();
+                println(paramStr);
+            }
+            println("* **返回值描述：** ");
+            if(isEmpty(returnStr)){
+                println("无");
+            }else{
+                println();
+                println(returnStr);
+            }
+
+        }
+
+      }
+    }
+%>

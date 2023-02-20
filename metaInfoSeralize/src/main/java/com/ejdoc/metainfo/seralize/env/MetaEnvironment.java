@@ -10,6 +10,7 @@ import java.util.Map;
 public interface MetaEnvironment {
 
     String getProjectRootPath();
+    String getProjectSourceDir();
 
     boolean isIncludeSubProject();
 

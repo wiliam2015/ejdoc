@@ -11,7 +11,8 @@ public class JavaProjectMeta implements Serializable {
 
     private String title;
 
-    private String contact;
+    private String author;
+    private String contract;
 
     private String email;
 
@@ -51,12 +52,20 @@ public class JavaProjectMeta implements Serializable {
         this.title = title;
     }
 
-    public String getContact() {
-        return contact;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getContract() {
+        return contract;
+    }
+
+    public void setContract(String contract) {
+        this.contract = contract;
     }
 
     public String getHost() {

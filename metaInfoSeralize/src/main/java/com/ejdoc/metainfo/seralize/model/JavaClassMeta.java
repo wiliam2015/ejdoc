@@ -16,11 +16,13 @@ public class JavaClassMeta  implements Serializable {
 
     private String fullClassName;
 
+    private List<String> typeParameters;
 
     private String classNamePrefix;
 
     private String value;
 
+    private String declarationStructure;
 
     private URL url;
 
@@ -61,9 +63,8 @@ public class JavaClassMeta  implements Serializable {
     private Boolean voidClass;
     private JavaClassMeta declaringClass;
 
-    private JavaTypeMeta superClass;
 
-    private JavaClassMeta superJavaClass;
+    private List<JavaClassMeta> superClasses;
 
     private List<String> modifiers;
 
@@ -180,20 +181,20 @@ public class JavaClassMeta  implements Serializable {
         this.declaringClass = declaringClass;
     }
 
-    public JavaTypeMeta getSuperClass() {
-        return superClass;
+    public List<String> getTypeParameters() {
+        return typeParameters;
     }
 
-    public void setSuperClass(JavaTypeMeta superClass) {
-        this.superClass = superClass;
+    public void setTypeParameters(List<String> typeParameters) {
+        this.typeParameters = typeParameters;
     }
 
-    public JavaClassMeta getSuperJavaClass() {
-        return superJavaClass;
+    public List<JavaClassMeta> getSuperClasses() {
+        return superClasses;
     }
 
-    public void setSuperJavaClass(JavaClassMeta superJavaClass) {
-        this.superJavaClass = superJavaClass;
+    public void setSuperClasses(List<JavaClassMeta> superClasses) {
+        this.superClasses = superClasses;
     }
 
     public List<JavaConstructorMeta> getConstructors() {
@@ -346,5 +347,73 @@ public class JavaClassMeta  implements Serializable {
 
     public void setRelativePath(String relativePath) {
         this.relativePath = relativePath;
+    }
+
+    public String getDeclarationStructure() {
+        return declarationStructure;
+    }
+
+    public void setDeclarationStructure(String declarationStructure) {
+        this.declarationStructure = declarationStructure;
+    }
+
+    public String parseDeclarationStructure(){
+        StringBuilder sb = new StringBuilder();
+        if(this.publicClass != null && this.publicClass){
+            sb.append("public ");
+        }else if(this.protectedClass != null && this.protectedClass){
+            sb.append("protected ");
+        }else if(this.privateClass != null && this.privateClass){
+            sb.append("private ");
+        }
+        if(this.staticClass != null && this.staticClass){
+            sb.append("static ");
+        }
+        if(this.finalClass != null && this.finalClass){
+            sb.append("final ");
+        }
+        if(this.abstractClass != null && this.abstractClass){
+            sb.append("abstract class ");
+        }else if(this.interfaceClass != null && this.interfaceClass){
+            sb.append("interface ");
+        }else{
+            sb.append("class ");
+        }
+        sb.append(this.className);
+        if(this.typeParameters != null && this.typeParameters.size() > 0){
+            sb.append("<");
+            for (int i = 0; i < this.typeParameters.size(); i++) {
+                String typeParameter = typeParameters.get(i);
+                sb.append(typeParameter);
+                if(this.typeParameters.size() != (i+1)){
+                    sb.append(",");
+                }
+            }
+            sb.append(">");
+        }
+
+        if(this.superClasses != null && this.superClasses.size() > 0){
+            sb.append(" extends ");
+            for (int i = 0; i < this.superClasses.size(); i++) {
+                JavaClassMeta javaClassMeta = this.superClasses.get(i);
+                sb.append(javaClassMeta.getFullClassName());
+                if(this.superClasses.size() != (i+1)){
+                    sb.append(",");
+                }
+            }
+        }
+
+        if(this.interfaces != null && this.interfaces.size() > 0){
+            sb.append(" implements ");
+            for (int i = 0; i < this.interfaces.size(); i++) {
+                JavaClassMeta javaClassMeta = this.interfaces.get(i);
+                sb.append(javaClassMeta.getFullClassName());
+                if(this.interfaces.size() != (i+1)){
+                    sb.append(",");
+                }
+            }
+
+        }
+        return sb.toString();
     }
 }

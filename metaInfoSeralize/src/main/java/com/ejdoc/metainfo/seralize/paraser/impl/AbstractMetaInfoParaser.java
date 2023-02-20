@@ -38,19 +38,20 @@ public abstract class AbstractMetaInfoParaser implements MetaInfoParaser {
         String name = dict.get("name", "");
         Boolean open = dict.get("open", false);
         String title = dict.get("title", "");
-        String contact = dict.get("contact", "");
+        String contract = dict.get("contract", "");
+        String author = dict.get("author", "");
         String email = dict.get("email", "");
         String host = dict.get("host", "");
         String basePath = dict.get("basePath", "");
         String description = dict.get("description", "");
         String version = dict.get("version", "");
-        String licenseName = dict.get("license.name", "");
-        String licenseUrl = dict.get("license.url", "");
-
+        String licenseName = dict.getByPath("license.name",String.class);
+        String licenseUrl = dict.getByPath("license.url", String.class);
         javaProjectMeta.setName(name);
         javaProjectMeta.setOpen(open);
         javaProjectMeta.setTitle(title);
-        javaProjectMeta.setContact(contact);
+        javaProjectMeta.setContract(contract);
+        javaProjectMeta.setAuthor(author);
         javaProjectMeta.setEmail(email);
         javaProjectMeta.setHost(host);
         javaProjectMeta.setBasePath(basePath);
@@ -64,6 +65,7 @@ public abstract class AbstractMetaInfoParaser implements MetaInfoParaser {
         if(StrUtil.isNotBlank(licenseUrl)){
             licenseMap.put("url",licenseUrl);
         }
+        javaProjectMeta.setLicense(licenseMap);
         return javaProjectMeta;
     }
 

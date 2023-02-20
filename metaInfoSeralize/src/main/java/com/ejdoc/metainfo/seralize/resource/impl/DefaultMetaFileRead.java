@@ -129,10 +129,7 @@ public class DefaultMetaFileRead implements MetaFileRead {
         List<MetaFileInfoDto> resultFile = new ArrayList<>();
         String projectRootPath = this.metaEnvironment.getProjectRootPath();
         File projectRootFile = new File(projectRootPath);
-        String sourceDir = this.metaEnvironment.getProp("project.sourceDir");
-        if(StrUtil.isBlank(sourceDir)){
-            sourceDir = "/src/main/java";
-        }
+        String sourceDir = this.metaEnvironment.getProjectSourceDir();
         if(this.metaEnvironment.isIncludeSubProject()){
             List<ModuleInfoDto> subProjectInfo = this.metaEnvironment.getSubProjectInfo();
             if(CollectionUtil.isNotEmpty(subProjectInfo)){

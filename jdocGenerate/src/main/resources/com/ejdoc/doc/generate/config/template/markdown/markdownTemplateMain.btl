@@ -1,9 +1,10 @@
-mainfile.name=文档名称
-mainfile.host=网址
-mainfile.description=描述
-${i18n.mainfile.name!} : ${prop.name!}
-${i18n.mainfile.host!} | ${prop.host!}
-${i18n.mainfile.description!} | ${prop.description!}
+# ${prop.title!}${i18n.mainfile.title!}
+* ${i18n.mainfile.name!} : ${prop.name!"无"}
+* ${i18n.mainfile.host!} : ${prop.host!"无"}
+* ${i18n.mainfile.contract!} : ${prop.contract!"无"}
+* ${i18n.mainfile.description!} : ${prop.description!"无"}
+* ${i18n.mainfile.version!} : ${prop.version!"无"}
+* ${i18n.mainfile.licenseName!} : ${prop.license.name!"无"}
+* ${i18n.mainfile.licenseUrl!} : ${prop.license.url!"无"}
 
-测试
 

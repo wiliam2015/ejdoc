@@ -1,7 +1,12 @@
 [mainfile]
+title=API参考文档
 name=文档名称
 host=网址
 description=描述
+contract=联系人
+version=版本信息
+licenseName=协议名称
+licenseUrl=协议地址
 [childfile]
 projectName=项目名称
 moduleName=模块名称

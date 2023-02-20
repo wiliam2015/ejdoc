@@ -1,51 +1,21 @@
 package com.ejdoc.metainfo.seralize.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class JavaTypeMeta implements Serializable {
 
-
-    private String binaryName;
-
-    private String canonicalName;
-
-    private String genericCanonicalName;
-
     private String fullyQualifiedName;
 
-    private String genericFullyQualifiedName;
-
-    private String value;
-
-    private String genericValue;
-
-    private String genericString;
+    private String name;
 
 
+    private List<String> typeParameters;
 
-    public String getBinaryName() {
-        return binaryName;
-    }
+    private String dependencyRelativePath;
 
-    public void setBinaryName(String binaryName) {
-        this.binaryName = binaryName;
-    }
+    private String dependencyAbsolutePath;
 
-    public String getCanonicalName() {
-        return canonicalName;
-    }
-
-    public void setCanonicalName(String canonicalName) {
-        this.canonicalName = canonicalName;
-    }
-
-    public String getGenericCanonicalName() {
-        return genericCanonicalName;
-    }
-
-    public void setGenericCanonicalName(String genericCanonicalName) {
-        this.genericCanonicalName = genericCanonicalName;
-    }
 
     public String getFullyQualifiedName() {
         return fullyQualifiedName;
@@ -55,36 +25,35 @@ public class JavaTypeMeta implements Serializable {
         this.fullyQualifiedName = fullyQualifiedName;
     }
 
-    public String getGenericFullyQualifiedName() {
-        return genericFullyQualifiedName;
+    public String getName() {
+        return name;
     }
 
-    public void setGenericFullyQualifiedName(String genericFullyQualifiedName) {
-        this.genericFullyQualifiedName = genericFullyQualifiedName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getValue() {
-        return value;
+    public List<String> getTypeParameters() {
+        return typeParameters;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setTypeParameters(List<String> typeParameters) {
+        this.typeParameters = typeParameters;
     }
 
-    public String getGenericValue() {
-        return genericValue;
+    public String getDependencyRelativePath() {
+        return dependencyRelativePath;
     }
 
-    public void setGenericValue(String genericValue) {
-        this.genericValue = genericValue;
+    public void setDependencyRelativePath(String dependencyRelativePath) {
+        this.dependencyRelativePath = dependencyRelativePath;
     }
 
-    public String getGenericString() {
-        return genericString;
+    public String getDependencyAbsolutePath() {
+        return dependencyAbsolutePath;
     }
 
-    public void setGenericString(String genericString) {
-        this.genericString = genericString;
+    public void setDependencyAbsolutePath(String dependencyAbsolutePath) {
+        this.dependencyAbsolutePath = dependencyAbsolutePath;
     }
-
 }

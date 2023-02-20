@@ -215,14 +215,14 @@ public class QdoxMetaInfoParaser extends AbstractMetaInfoParaser {
     private void paraseSuperJavaClass(JavaClassMeta javaClassMeta, JavaClass javaClass) {
         JavaClass superJavaClass = javaClass.getSuperJavaClass();
         if(superJavaClass != null){
-            javaClassMeta.setSuperJavaClass(convertByJavaClass(superJavaClass));
+//            javaClassMeta.setSuperJavaClass(convertByJavaClass(superJavaClass));
         }
     }
 
     private void paraseSuperClass(JavaClassMeta javaClassMeta, JavaClass javaClass) {
         JavaType superClass = javaClass.getSuperClass();
         if(superClass != null){
-            javaClassMeta.setSuperClass(convertByJavaType(superClass));
+//            javaClassMeta.setSuperClass(convertByJavaType(superClass));
         }
 
     }
@@ -367,13 +367,13 @@ public class QdoxMetaInfoParaser extends AbstractMetaInfoParaser {
             try{
                 for (JavaParameter parameter : parameters) {
                     javaParameterMeta = new JavaParameterMeta();
-                    javaParameterMeta.setCanonicalName(parameter.getCanonicalName());
+//                    javaParameterMeta.setCanonicalName(parameter.getCanonicalName());
                     javaParameterMeta.setName(parameter.getName());
-                    javaParameterMeta.setValue(parameter.getValue());
-                    javaParameterMeta.setFullyQualifiedName(parameter.getFullyQualifiedName());
-                    javaParameterMeta.setResolvedFullyQualifiedName(parameter.getResolvedFullyQualifiedName());
-                    javaParameterMeta.setResolvedGenericValue(parameter.getResolvedGenericValue());
-                    javaParameterMeta.setVarArgs(parameter.isVarArgs());
+//                    javaParameterMeta.setValue(parameter.getValue());
+//                    javaParameterMeta.setFullyQualifiedName(parameter.getFullyQualifiedName());
+//                    javaParameterMeta.setResolvedFullyQualifiedName(parameter.getResolvedFullyQualifiedName());
+//                    javaParameterMeta.setResolvedGenericValue(parameter.getResolvedGenericValue());
+//                    javaParameterMeta.setVarArgs(parameter.isVarArgs());
 
                     JavaType type = parameter.getType();
                     if(type != null){
@@ -465,13 +465,8 @@ public class QdoxMetaInfoParaser extends AbstractMetaInfoParaser {
             return null;
         }
         JavaTypeMeta javaTypeMeta = new JavaTypeMeta();
-        javaTypeMeta.setBinaryName(javaType.getBinaryName());
-        javaTypeMeta.setCanonicalName(javaType.getCanonicalName());
         javaTypeMeta.setFullyQualifiedName(javaType.getFullyQualifiedName());
-        javaTypeMeta.setGenericString(javaType.toGenericString());
-        javaTypeMeta.setGenericValue(javaType.getGenericValue());
-        javaTypeMeta.setValue(javaType.getValue());
-        javaTypeMeta.setGenericCanonicalName(javaType.getGenericCanonicalName());
+        javaTypeMeta.setName(javaType.getValue());
         return javaTypeMeta;
     }
 

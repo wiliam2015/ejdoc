@@ -14,6 +14,11 @@ public class JavaFieldMeta implements Serializable {
 
     private JavaModelMeta javaModelMeta;
 
+    private String dependencyRelativePath;
+
+    private String dependencyAbsolutePath;
+
+
     public JavaClassMeta getType() {
         return type;
     }
@@ -52,5 +57,21 @@ public class JavaFieldMeta implements Serializable {
 
     public void setJavaModelMeta(JavaModelMeta javaModelMeta) {
         this.javaModelMeta = javaModelMeta;
+    }
+
+    public String getDependencyRelativePath() {
+        return dependencyRelativePath;
+    }
+
+    public void setDependencyRelativePath(String dependencyRelativePath) {
+        this.dependencyRelativePath = dependencyRelativePath;
+    }
+
+    public String getDependencyAbsolutePath() {
+        return dependencyAbsolutePath;
+    }
+
+    public void setDependencyAbsolutePath(String dependencyAbsolutePath) {
+        this.dependencyAbsolutePath = dependencyAbsolutePath;
     }
 }

@@ -6,13 +6,13 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.ejdoc.metainfo.seralize.env.MetaEnvironment;
+import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
 import com.ejdoc.metainfo.seralize.model.JavaModuleMeta;
 import com.ejdoc.metainfo.seralize.model.JavaProjectMeta;
-import com.ejdoc.metainfo.seralize.paraser.impl.qdox.QdoxMetaInfoParaser;
+import com.ejdoc.metainfo.seralize.paraser.MetaInfoParaser;
+import com.ejdoc.metainfo.seralize.paraser.impl.javaparaser.JavaParaserMetaInfoParaser;
 import com.ejdoc.metainfo.seralize.seralize.JavaMetaJsonSeralize;
 import com.ejdoc.metainfo.seralize.seralize.config.SeralizeConfig;
-import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
-import com.ejdoc.metainfo.seralize.paraser.MetaInfoParaser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +25,7 @@ public class JavaMetaJsonSeralizeImpl implements JavaMetaJsonSeralize {
     private static final String FILE_OUT_PATH_KEY = "project.meta.seralize.out";
 
     public JavaMetaJsonSeralizeImpl(){
-        this(new QdoxMetaInfoParaser());
+        this(new JavaParaserMetaInfoParaser());
     }
 
     public JavaMetaJsonSeralizeImpl(MetaInfoParaser metaInfoParaser){
