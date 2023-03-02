@@ -1,4 +1,4 @@
-package com.ejdoc.metainfo.seralize.paraser.impl;
+package com.ejdoc.metainfo.seralize.parser.impl;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Dict;
@@ -8,21 +8,21 @@ import com.ejdoc.metainfo.seralize.env.MetaEnvironment;
 import com.ejdoc.metainfo.seralize.model.JavaProjectMeta;
 import com.ejdoc.metainfo.seralize.resource.MetaFileRead;
 import com.ejdoc.metainfo.seralize.resource.impl.DefaultMetaFileRead;
-import com.ejdoc.metainfo.seralize.paraser.MetaInfoParaser;
+import com.ejdoc.metainfo.seralize.parser.MetaInfoParser;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractMetaInfoParaser implements MetaInfoParaser {
+public abstract class AbstractMetaInfoParser implements MetaInfoParser {
 
     protected MetaFileRead metaFileRead;
 
 
-    public AbstractMetaInfoParaser(){
+    public AbstractMetaInfoParser(){
         this(new DefaultMetaFileRead());
     }
-    public AbstractMetaInfoParaser(MetaFileRead metaFileRead){
+    public AbstractMetaInfoParser(MetaFileRead metaFileRead){
         this.metaFileRead = metaFileRead;
     }
 

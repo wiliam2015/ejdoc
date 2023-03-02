@@ -16,7 +16,20 @@ public class JavaClassMeta  implements Serializable {
 
     private String fullClassName;
 
+    /**
+     * 数组类全名称
+     */
+    private String arrayFullClassName;
+
+    /**
+     * 类型注解参数
+     */
     private List<String> typeParameters;
+
+    /**
+     * 类型参数
+     */
+    private List<JavaClassMeta> typeArguments;
 
     private String classNamePrefix;
 
@@ -28,10 +41,13 @@ public class JavaClassMeta  implements Serializable {
 
     private String relativePath;
 
-    private JavaPackageMeta javaPackageMeta;
+    private String absolutePath;
+
+    private String dependencyRelativePath;
+
+    private String dependencyAbsolutePath;
 
     private List<String> imports;
-
 
     /**
      * 注释注解等
@@ -61,8 +77,6 @@ public class JavaClassMeta  implements Serializable {
     private Boolean staticClass;
 
     private Boolean voidClass;
-    private JavaClassMeta declaringClass;
-
 
     private List<JavaClassMeta> superClasses;
 
@@ -72,18 +86,19 @@ public class JavaClassMeta  implements Serializable {
 
     private List<JavaFieldMeta> fields;
 
+    /**
+     * 枚举信息
+     */
     private List<JavaFieldMeta> enumConstants;
 
     private List<JavaClassMeta> interfaces;
 
+    /**
+     * 嵌套类 即内部类
+     */
     private List<JavaClassMeta> nestedClasses;
 
     private  List<JavaConstructorMeta> constructors;
-
-//    private JavaSourceMeta javaSourceMeta;
-
-
-
 
     public String getProjectName() {
         return projectName;
@@ -173,17 +188,10 @@ public class JavaClassMeta  implements Serializable {
         this.fields = fields;
     }
 
-    public JavaClassMeta getDeclaringClass() {
-        return declaringClass;
-    }
-
-    public void setDeclaringClass(JavaClassMeta declaringClass) {
-        this.declaringClass = declaringClass;
-    }
-
     public List<String> getTypeParameters() {
         return typeParameters;
     }
+
 
     public void setTypeParameters(List<String> typeParameters) {
         this.typeParameters = typeParameters;
@@ -325,14 +333,6 @@ public class JavaClassMeta  implements Serializable {
         this.url = url;
     }
 
-    public JavaPackageMeta getJavaPackageMeta() {
-        return javaPackageMeta;
-    }
-
-    public void setJavaPackageMeta(JavaPackageMeta javaPackageMeta) {
-        this.javaPackageMeta = javaPackageMeta;
-    }
-
     public List<String> getImports() {
         return imports;
     }
@@ -355,6 +355,46 @@ public class JavaClassMeta  implements Serializable {
 
     public void setDeclarationStructure(String declarationStructure) {
         this.declarationStructure = declarationStructure;
+    }
+
+    public String getAbsolutePath() {
+        return absolutePath;
+    }
+
+    public void setAbsolutePath(String absolutePath) {
+        this.absolutePath = absolutePath;
+    }
+
+    public String getDependencyRelativePath() {
+        return dependencyRelativePath;
+    }
+
+    public void setDependencyRelativePath(String dependencyRelativePath) {
+        this.dependencyRelativePath = dependencyRelativePath;
+    }
+
+    public String getDependencyAbsolutePath() {
+        return dependencyAbsolutePath;
+    }
+
+    public void setDependencyAbsolutePath(String dependencyAbsolutePath) {
+        this.dependencyAbsolutePath = dependencyAbsolutePath;
+    }
+
+    public List<JavaClassMeta> getTypeArguments() {
+        return typeArguments;
+    }
+
+    public void setTypeArguments(List<JavaClassMeta> typeArguments) {
+        this.typeArguments = typeArguments;
+    }
+
+    public String getArrayFullClassName() {
+        return arrayFullClassName;
+    }
+
+    public void setArrayFullClassName(String arrayFullClassName) {
+        this.arrayFullClassName = arrayFullClassName;
     }
 
     public String parseDeclarationStructure(){

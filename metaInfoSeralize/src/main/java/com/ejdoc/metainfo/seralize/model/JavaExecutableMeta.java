@@ -8,12 +8,7 @@ public class JavaExecutableMeta {
 
     private List<JavaClassMeta> exceptions;
 
-    private List<JavaTypeMeta> exceptionTypes;
-
-
     List<JavaParameterMeta> parameters;
-
-    List<JavaTypeMeta> parameterTypes;
 
     private String sourceCode;
 
@@ -37,28 +32,12 @@ public class JavaExecutableMeta {
         this.exceptions = exceptions;
     }
 
-    public List<JavaTypeMeta> getExceptionTypes() {
-        return exceptionTypes;
-    }
-
-    public void setExceptionTypes(List<JavaTypeMeta> exceptionTypes) {
-        this.exceptionTypes = exceptionTypes;
-    }
-
     public List<JavaParameterMeta> getParameters() {
         return parameters;
     }
 
     public void setParameters(List<JavaParameterMeta> parameters) {
         this.parameters = parameters;
-    }
-
-    public List<JavaTypeMeta> getParameterTypes() {
-        return parameterTypes;
-    }
-
-    public void setParameterTypes(List<JavaTypeMeta> parameterTypes) {
-        this.parameterTypes = parameterTypes;
     }
 
     public String getSourceCode() {

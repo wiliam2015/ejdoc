@@ -13,9 +13,8 @@ import com.ejdoc.doc.generate.out.config.JavaDocGenerateConfig;
 import com.ejdoc.doc.generate.template.DocOutTemplate;
 import com.ejdoc.doc.generate.template.html.HtmlDocOutTemplate;
 import com.ejdoc.doc.generate.template.markdown.MarkdownDocOutTemplate;
-import com.ejdoc.metainfo.seralize.paraser.MetaInfoParaser;
-import com.ejdoc.metainfo.seralize.paraser.impl.javaparaser.JavaParaserMetaInfoParaser;
-import com.ejdoc.metainfo.seralize.paraser.impl.qdox.QdoxMetaInfoParaser;
+import com.ejdoc.metainfo.seralize.parser.MetaInfoParser;
+import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaInfoParser;
 import com.ejdoc.metainfo.seralize.seralize.JavaMetaSeralize;
 import com.ejdoc.metainfo.seralize.seralize.config.SeralizeConfig;
 import com.ejdoc.metainfo.seralize.seralize.impl.JavaMetaJsonSeralizeImpl;
@@ -77,12 +76,11 @@ public class JavaDocGenerate {
 
     public void printJavaDoc(){
         String docOutRootPath = this.environment.getDocOutRootPath();
-        MetaInfoParaser metaInfoParaser = new JavaParaserMetaInfoParaser();
-//        MetaInfoParaser metaInfoParaser = new QdoxMetaInfoParaser();
-        log.info("start meta");
+        MetaInfoParser metaInfoParser = new JavaParserMetaInfoParser();
+        log.info("start printJavaDoc");
         SeralizeConfig seralizeConfig = new SeralizeConfig();
         seralizeConfig.setPrettyFormat(true);
-        JavaMetaSeralize javaMetaSeralize = new JavaMetaJsonSeralizeImpl(metaInfoParaser);
+        JavaMetaSeralize javaMetaSeralize = new JavaMetaJsonSeralizeImpl(metaInfoParser);
         String jsonFilePath = javaMetaSeralize.exeJavaMetaSeralize(seralizeConfig);
         File mainJsonFile = new File(jsonFilePath+"/"+MAIN_JSON_FILE);
         resolveFile(docOutRootPath,jsonFilePath,mainJsonFile,true);

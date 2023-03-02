@@ -9,8 +9,8 @@ import com.ejdoc.metainfo.seralize.env.MetaEnvironment;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
 import com.ejdoc.metainfo.seralize.model.JavaModuleMeta;
 import com.ejdoc.metainfo.seralize.model.JavaProjectMeta;
-import com.ejdoc.metainfo.seralize.paraser.MetaInfoParaser;
-import com.ejdoc.metainfo.seralize.paraser.impl.javaparaser.JavaParaserMetaInfoParaser;
+import com.ejdoc.metainfo.seralize.parser.MetaInfoParser;
+import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaInfoParser;
 import com.ejdoc.metainfo.seralize.seralize.JavaMetaJsonSeralize;
 import com.ejdoc.metainfo.seralize.seralize.config.SeralizeConfig;
 import org.slf4j.Logger;
@@ -20,17 +20,17 @@ import java.util.List;
 
 public class JavaMetaJsonSeralizeImpl implements JavaMetaJsonSeralize {
     private static final Logger log = LoggerFactory.getLogger(JavaMetaJsonSeralizeImpl.class);
-    private MetaInfoParaser metaInfoParaser;
+    private MetaInfoParser metaInfoParser;
 
     private static final String FILE_OUT_PATH_KEY = "project.meta.seralize.out";
 
     public JavaMetaJsonSeralizeImpl(){
-        this(new JavaParaserMetaInfoParaser());
+        this(new JavaParserMetaInfoParser());
     }
 
-    public JavaMetaJsonSeralizeImpl(MetaInfoParaser metaInfoParaser){
-        Assert.notNull(metaInfoParaser, "MetaInfoParaser can not be null !");
-        this.metaInfoParaser = metaInfoParaser;
+    public JavaMetaJsonSeralizeImpl(MetaInfoParser metaInfoParser){
+        Assert.notNull(metaInfoParser, "MetaInfoParaser can not be null !");
+        this.metaInfoParser = metaInfoParser;
 
     }
     @Override
@@ -46,9 +46,9 @@ public class JavaMetaJsonSeralizeImpl implements JavaMetaJsonSeralize {
     public String doJavaMetaSeralize(SeralizeConfig seralizeConfig) {
         Assert.notNull(seralizeConfig,"SeralizeConfig object can not be null!");
 
-        MetaEnvironment metaEnvironment = metaInfoParaser.getMetaEnvironment();
-        JavaProjectMeta javaProjectMeta = metaInfoParaser.parseJavaProjectMeta();
-        List<JavaModuleMeta> javaModuleMetas = metaInfoParaser.parseAllJavaModuletMeta();
+        MetaEnvironment metaEnvironment = metaInfoParser.getMetaEnvironment();
+        JavaProjectMeta javaProjectMeta = metaInfoParser.parseJavaProjectMeta();
+        List<JavaModuleMeta> javaModuleMetas = metaInfoParser.parseAllJavaModuletMeta();
 
         String javaProjectMetaJson;
         if(seralizeConfig.isPrettyFormat()){

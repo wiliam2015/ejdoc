@@ -1,31 +1,58 @@
 package com.ejdoc.metainfo.seralize.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class JavaMethodMeta implements Serializable {
 
     private String name;
     private String callSignature;
 
-    private JavaClassMeta returns;
-
-    private Boolean propertyAccessor;
-
-    private JavaTypeMeta propertyType;
-
-
-    private String propertyName;
-
-    private JavaTypeMeta returnType;
-
-    private Boolean defaultMethod;
+    private List<String> modifiers;
 
     private JavaModelMeta javaModelMeta;
 
-    private JavaMemberMeta javaMemberMeta;
+    private JavaClassMeta returns;
 
+    List<JavaParameterMeta> parameters;
 
-    private JavaExecutableMeta javaExecutableMeta;
+    private List<JavaClassMeta> exceptions;
+
+    private Boolean defaultMethod;
+
+    private String sourceCode;
+
+    private Boolean varArgs;
+
+    private Boolean abstracts;
+
+    private Boolean finals;
+
+    private Boolean natives;
+
+    private Boolean privates;
+
+    private Boolean protecteds;
+
+    private Boolean publics;
+
+    private Boolean statics;
+
+    private Boolean strictfps;
+
+    private Boolean synchronizeds;
+
+    private Boolean transients;
+
+    private Boolean volatiles;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getCallSignature() {
         return callSignature;
@@ -35,52 +62,12 @@ public class JavaMethodMeta implements Serializable {
         this.callSignature = callSignature;
     }
 
-    public JavaClassMeta getReturns() {
-        return returns;
+    public List<String> getModifiers() {
+        return modifiers;
     }
 
-    public void setReturns(JavaClassMeta returns) {
-        this.returns = returns;
-    }
-
-    public Boolean getPropertyAccessor() {
-        return propertyAccessor;
-    }
-
-    public void setPropertyAccessor(Boolean propertyAccessor) {
-        this.propertyAccessor = propertyAccessor;
-    }
-
-    public JavaTypeMeta getPropertyType() {
-        return propertyType;
-    }
-
-    public void setPropertyType(JavaTypeMeta propertyType) {
-        this.propertyType = propertyType;
-    }
-
-    public String getPropertyName() {
-        return propertyName;
-    }
-
-    public void setPropertyName(String propertyName) {
-        this.propertyName = propertyName;
-    }
-
-    public JavaTypeMeta getReturnType() {
-        return returnType;
-    }
-
-    public void setReturnType(JavaTypeMeta returnType) {
-        this.returnType = returnType;
-    }
-
-    public Boolean getDefaultMethod() {
-        return defaultMethod;
-    }
-
-    public void setDefaultMethod(Boolean defaultMethod) {
-        this.defaultMethod = defaultMethod;
+    public void setModifiers(List<String> modifiers) {
+        this.modifiers = modifiers;
     }
 
     public JavaModelMeta getJavaModelMeta() {
@@ -91,27 +78,139 @@ public class JavaMethodMeta implements Serializable {
         this.javaModelMeta = javaModelMeta;
     }
 
-    public JavaMemberMeta getJavaMemberMeta() {
-        return javaMemberMeta;
+    public JavaClassMeta getReturns() {
+        return returns;
     }
 
-    public void setJavaMemberMeta(JavaMemberMeta javaMemberMeta) {
-        this.javaMemberMeta = javaMemberMeta;
+    public void setReturns(JavaClassMeta returns) {
+        this.returns = returns;
     }
 
-    public String getName() {
-        return name;
+    public List<JavaParameterMeta> getParameters() {
+        return parameters;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setParameters(List<JavaParameterMeta> parameters) {
+        this.parameters = parameters;
     }
 
-    public JavaExecutableMeta getJavaExecutableMeta() {
-        return javaExecutableMeta;
+    public List<JavaClassMeta> getExceptions() {
+        return exceptions;
     }
 
-    public void setJavaExecutableMeta(JavaExecutableMeta javaExecutableMeta) {
-        this.javaExecutableMeta = javaExecutableMeta;
+    public void setExceptions(List<JavaClassMeta> exceptions) {
+        this.exceptions = exceptions;
+    }
+
+    public Boolean getDefaultMethod() {
+        return defaultMethod;
+    }
+
+    public void setDefaultMethod(Boolean defaultMethod) {
+        this.defaultMethod = defaultMethod;
+    }
+
+    public String getSourceCode() {
+        return sourceCode;
+    }
+
+    public void setSourceCode(String sourceCode) {
+        this.sourceCode = sourceCode;
+    }
+
+    public Boolean getVarArgs() {
+        return varArgs;
+    }
+
+    public void setVarArgs(Boolean varArgs) {
+        this.varArgs = varArgs;
+    }
+
+    public Boolean getAbstracts() {
+        return abstracts;
+    }
+
+    public void setAbstracts(Boolean abstracts) {
+        this.abstracts = abstracts;
+    }
+
+    public Boolean getFinals() {
+        return finals;
+    }
+
+    public void setFinals(Boolean finals) {
+        this.finals = finals;
+    }
+
+    public Boolean getNatives() {
+        return natives;
+    }
+
+    public void setNatives(Boolean natives) {
+        this.natives = natives;
+    }
+
+    public Boolean getPrivates() {
+        return privates;
+    }
+
+    public void setPrivates(Boolean privates) {
+        this.privates = privates;
+    }
+
+    public Boolean getProtecteds() {
+        return protecteds;
+    }
+
+    public void setProtecteds(Boolean protecteds) {
+        this.protecteds = protecteds;
+    }
+
+    public Boolean getPublics() {
+        return publics;
+    }
+
+    public void setPublics(Boolean publics) {
+        this.publics = publics;
+    }
+
+    public Boolean getStatics() {
+        return statics;
+    }
+
+    public void setStatics(Boolean statics) {
+        this.statics = statics;
+    }
+
+    public Boolean getStrictfps() {
+        return strictfps;
+    }
+
+    public void setStrictfps(Boolean strictfps) {
+        this.strictfps = strictfps;
+    }
+
+    public Boolean getSynchronizeds() {
+        return synchronizeds;
+    }
+
+    public void setSynchronizeds(Boolean synchronizeds) {
+        this.synchronizeds = synchronizeds;
+    }
+
+    public Boolean getTransients() {
+        return transients;
+    }
+
+    public void setTransients(Boolean transients) {
+        this.transients = transients;
+    }
+
+    public Boolean getVolatiles() {
+        return volatiles;
+    }
+
+    public void setVolatiles(Boolean volatiles) {
+        this.volatiles = volatiles;
     }
 }

@@ -1,4 +1,4 @@
-package com.ejdoc.metainfo.seralize.paraser.impl.qdox;
+package com.ejdoc.metainfo.seralize.parser.impl.qdox;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
@@ -6,7 +6,7 @@ import com.ejdoc.metainfo.seralize.dto.MetaJavaClassInfoDto;
 import com.ejdoc.metainfo.seralize.model.*;
 import com.thoughtworks.qdox.JavaProjectBuilder;
 import com.thoughtworks.qdox.model.*;
-import com.ejdoc.metainfo.seralize.paraser.impl.AbstractMetaInfoParaser;
+import com.ejdoc.metainfo.seralize.parser.impl.AbstractMetaInfoParser;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class QdoxMetaInfoParaser extends AbstractMetaInfoParaser {
+public class QdoxMetaInfoParser extends AbstractMetaInfoParser {
 
 
 
@@ -172,7 +172,7 @@ public class QdoxMetaInfoParaser extends AbstractMetaInfoParaser {
     private JavaFieldMeta convertByJavaField(JavaField javaField){
         JavaFieldMeta javaFieldMeta = new JavaFieldMeta();
         javaFieldMeta.setType(convertByJavaClass(javaField.getType()));
-        javaFieldMeta.setEnumConstantClass(convertByJavaClass(javaField.getEnumConstantClass()));
+//        javaFieldMeta.setEnumConstantClass(convertByJavaClass(javaField.getEnumConstantClass()));
         javaFieldMeta.setEnumConstant(javaField.isEnumConstant());
         javaFieldMeta.setJavaModelMeta(convertByJavaModel(javaField));
         javaFieldMeta.setInitializationExpression(javaField.getInitializationExpression());
@@ -302,17 +302,10 @@ public class QdoxMetaInfoParaser extends AbstractMetaInfoParaser {
                 javaModelMeta.setAnnotations(annotationMetas);
                 javaMethodMeta.setJavaModelMeta(javaModelMeta);
 
-                javaMethodMeta.setPropertyName(method.getPropertyName());
-
-
-                JavaType propertyType = method.getPropertyType();
-                if(propertyType != null){
-                    javaMethodMeta.setPropertyType(convertByJavaType(propertyType));
-                }
 
                 JavaType returnType = method.getReturnType();
                 if(returnType != null){
-                    javaMethodMeta.setReturnType(convertByJavaType(returnType));
+//                    javaMethodMeta.setReturnType(convertByJavaType(returnType));
                 }
 
                 JavaClass returns = method.getReturns();
@@ -323,9 +316,9 @@ public class QdoxMetaInfoParaser extends AbstractMetaInfoParaser {
 //                JavaExecutable javaExecutable = (JavaExecutable)method;
                 JavaExecutableMeta javaExecutableMeta = convertByJavaExecutable(method);
 
-                javaMethodMeta.setJavaExecutableMeta(javaExecutableMeta);
+//                javaMethodMeta.setJavaExecutableMeta(javaExecutableMeta);
 
-                javaMethodMeta.setJavaMemberMeta(convertByJavaMember(method));
+//                javaMethodMeta.setJavaMemberMeta(convertByJavaMember(method));
 
                 javaMethodMetas.add(javaMethodMeta);
             }
@@ -357,7 +350,7 @@ public class QdoxMetaInfoParaser extends AbstractMetaInfoParaser {
             for (JavaType exceptionType : exceptionTypes) {
                 javaTypeMetaList.add(convertByJavaType(exceptionType));
             }
-            javaExecutableMeta.setExceptionTypes(javaTypeMetaList);
+//            javaExecutableMeta.setExceptionTypes(javaTypeMetaList);
         }
 
         List<JavaParameter> parameters = method.getParameters();
@@ -377,7 +370,7 @@ public class QdoxMetaInfoParaser extends AbstractMetaInfoParaser {
 
                     JavaType type = parameter.getType();
                     if(type != null){
-                        javaParameterMeta.setType(convertByJavaType(type));
+//                        javaParameterMeta.setType(convertByJavaType(type));
                     }
                     JavaClass parameterJavaClass = parameter.getJavaClass();
                     if(parameterJavaClass != null){
@@ -391,7 +384,7 @@ public class QdoxMetaInfoParaser extends AbstractMetaInfoParaser {
 
                     JavaClass declaringClass1 = parameter.getDeclaringClass();
                     if(declaringClass1 != null){
-                        javaParameterMeta.setDeclaringClass(convertByJavaClass(declaringClass1));
+//                        javaParameterMeta.setDeclaringClass(convertByJavaClass(declaringClass1));
                     }
 
 
@@ -413,7 +406,7 @@ public class QdoxMetaInfoParaser extends AbstractMetaInfoParaser {
             for (JavaType parameterType : parameterTypes) {
                 javaTypeMetaList.add(convertByJavaType(parameterType));
             }
-            javaExecutableMeta.setParameterTypes(javaTypeMetaList);
+//            javaExecutableMeta.setParameterTypes(javaTypeMetaList);
         }
 
         javaExecutableMeta.setSourceCode(method.getSourceCode());
@@ -482,7 +475,7 @@ public class QdoxMetaInfoParaser extends AbstractMetaInfoParaser {
 
 
     private void paraseDeclaringClass(JavaClassMeta javaClassMeta, JavaClass javaClass) {
-        javaClassMeta.setDeclaringClass(convertByJavaClass(javaClass.getDeclaringClass()));
+//        javaClassMeta.setDeclaringClass(convertByJavaClass(javaClass.getDeclaringClass()));
 
     }
 
@@ -573,7 +566,7 @@ public class QdoxMetaInfoParaser extends AbstractMetaInfoParaser {
 //        List<JavaPackageMeta> subPackageList = new ArrayList<>();
 
 
-        javaClassMeta.setJavaPackageMeta(javaPackageMeta);
+//        javaClassMeta.setJavaPackageMeta(javaPackageMeta);
 
 //        javaClassMeta.setJavaSourceMeta(javaSourceMeta);
 

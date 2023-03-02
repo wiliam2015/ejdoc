@@ -61,7 +61,16 @@ ${prop.declarationStructure!}
             print("|");
             print(interfaceObjLP.index);
             print("|");
-            print(interfaceObj.className);
+            if(isNotEmpty(interfaceObj.dependencyRelativePath)){
+                print("[");
+                print(interfaceObj.className);
+                print("](");
+                print(interfaceObj.dependencyRelativePath);
+                print(".md");
+                print(")");
+            }else{
+                print(interfaceObj.className);
+            }
             print("|");
             print(interfaceObj.fullClassName);
             println("|");
@@ -71,7 +80,16 @@ ${prop.declarationStructure!}
         println("## 继承类");
         for(supperClassObj in prop.superClasses){
             print("* 继承类简称:");
-            println(supperClassObj.className);
+            if(isNotEmpty(supperClassObj.dependencyRelativePath)){
+                print("[");
+                print(supperClassObj.className);
+                print("](");
+                print(supperClassObj.dependencyRelativePath);
+                print(".md");
+                print(")");
+            }else{
+                print(supperClassObj.className);
+            }
             print("* 继承类全称:");
             println(supperClassObj.fullClassName);
         }
@@ -88,7 +106,16 @@ ${prop.declarationStructure!}
         print("|");
         print(interfaceObjLP.index);
         print("|");
-        print(interfaceObj.className);
+        if(isNotEmpty(interfaceObj.dependencyRelativePath)){
+            print("[");
+            print(interfaceObj.className);
+            print("](");
+            print(interfaceObj.dependencyRelativePath);
+            print(".md");
+            print(")");
+        }else{
+            print(interfaceObj.className);
+        }
         print("|");
         print(interfaceObj.fullClassName);
         println("|");
@@ -99,7 +126,7 @@ ${prop.declarationStructure!}
 <% if(isNotEmpty(prop.fields)){
     println("## 成员变量汇总");
     println("");
-    println("|   索引  |   修饰符  |    类型  |   字段与描述   |");
+    println("|   索引  |   修饰符  |    类型简称  |   类型全称  |   字段与描述   |");
     println("| ---- | ---- | ---- | ---- |");
     for(fieldsObj in prop.fields){
         print("|");
@@ -110,7 +137,18 @@ ${prop.declarationStructure!}
             print(" ");
         }
         print("|");
-        print(fieldsObj.type.className);
+        if(isNotEmpty(fieldsObj.type.dependencyRelativePath)){
+            print("[");
+            print(fieldsObj.type.className);
+            print("](");
+            print(fieldsObj.type.dependencyRelativePath);
+            print(".md");
+            print(")");
+        }else{
+            print(fieldsObj.type.className);
+        }
+        print("|");
+        print(fieldsObj.type.fullClassName);
         print("|");
         print(fieldsObj.initializationExpression);print("<br/>");
         var metaComment = fieldsObj.javaModelMeta.comment;

@@ -1,4 +1,4 @@
-package com.ejdoc.metainfo.seralize.paraser;
+package com.ejdoc.metainfo.seralize.parser;
 
 import com.ejdoc.metainfo.seralize.model.JavaProjectMeta;
 
@@ -9,7 +9,7 @@ import com.ejdoc.metainfo.seralize.model.JavaProjectMeta;
  * @author wiliam.hu
  * @since 0.1.0
  */
-public interface MetaProjectMetaInfoParaser {
+public interface MetaProjectMetaInfoParser {
 
     JavaProjectMeta parseJavaProjectMeta();
 }

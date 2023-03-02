@@ -4,19 +4,17 @@ import java.io.Serializable;
 
 public class JavaFieldMeta implements Serializable {
 
+    private String name;
+
+    private String initializer;
+
     private JavaClassMeta type;
 
     private String initializationExpression;
 
     private boolean enumConstant;
 
-    private JavaClassMeta enumConstantClass;
-
     private JavaModelMeta javaModelMeta;
-
-    private String dependencyRelativePath;
-
-    private String dependencyAbsolutePath;
 
 
     public JavaClassMeta getType() {
@@ -43,14 +41,6 @@ public class JavaFieldMeta implements Serializable {
         this.enumConstant = enumConstant;
     }
 
-    public JavaClassMeta getEnumConstantClass() {
-        return enumConstantClass;
-    }
-
-    public void setEnumConstantClass(JavaClassMeta enumConstantClass) {
-        this.enumConstantClass = enumConstantClass;
-    }
-
     public JavaModelMeta getJavaModelMeta() {
         return javaModelMeta;
     }
@@ -59,19 +49,21 @@ public class JavaFieldMeta implements Serializable {
         this.javaModelMeta = javaModelMeta;
     }
 
-    public String getDependencyRelativePath() {
-        return dependencyRelativePath;
+    public String getName() {
+        return name;
     }
 
-    public void setDependencyRelativePath(String dependencyRelativePath) {
-        this.dependencyRelativePath = dependencyRelativePath;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDependencyAbsolutePath() {
-        return dependencyAbsolutePath;
+    public String getInitializer() {
+        return initializer;
     }
 
-    public void setDependencyAbsolutePath(String dependencyAbsolutePath) {
-        this.dependencyAbsolutePath = dependencyAbsolutePath;
+    public void setInitializer(String initializer) {
+        this.initializer = initializer;
     }
+
+
 }
