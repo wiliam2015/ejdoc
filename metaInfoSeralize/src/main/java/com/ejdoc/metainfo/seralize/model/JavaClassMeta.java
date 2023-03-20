@@ -10,7 +10,10 @@ public class JavaClassMeta  implements Serializable {
 
     private String moduleName;
 
+    private String moduleDesc;
+
     private String packageName;
+    private String packageDesc;
 
     private String className;
 
@@ -75,6 +78,7 @@ public class JavaClassMeta  implements Serializable {
     private Boolean annotationClass;
 
     private Boolean staticClass;
+    private Boolean innerClass;
 
     private Boolean voidClass;
 
@@ -86,17 +90,19 @@ public class JavaClassMeta  implements Serializable {
 
     private List<JavaFieldMeta> fields;
 
+    private List<JavaAnnotationMeta> annotationFields;
+
     /**
      * 枚举信息
      */
-    private List<JavaFieldMeta> enumConstants;
+    private List<JavaClassMeta> enumConstants;
 
     private List<JavaClassMeta> interfaces;
 
     /**
      * 嵌套类 即内部类
      */
-    private List<JavaClassMeta> nestedClasses;
+    private List<JavaClassMeta> innerClasses;
 
     private  List<JavaConstructorMeta> constructors;
 
@@ -213,20 +219,20 @@ public class JavaClassMeta  implements Serializable {
         this.constructors = constructors;
     }
 
-    public List<JavaFieldMeta> getEnumConstants() {
+    public List<JavaClassMeta> getEnumConstants() {
         return enumConstants;
     }
 
-    public void setEnumConstants(List<JavaFieldMeta> enumConstants) {
+    public void setEnumConstants(List<JavaClassMeta> enumConstants) {
         this.enumConstants = enumConstants;
     }
 
-    public List<JavaClassMeta> getNestedClasses() {
-        return nestedClasses;
+    public List<JavaClassMeta> getInnerClasses() {
+        return innerClasses;
     }
 
-    public void setNestedClasses(List<JavaClassMeta> nestedClasses) {
-        this.nestedClasses = nestedClasses;
+    public void setInnerClasses(List<JavaClassMeta> innerClasses) {
+        this.innerClasses = innerClasses;
     }
 
     public Boolean getAbstractClass() {
@@ -395,6 +401,40 @@ public class JavaClassMeta  implements Serializable {
 
     public void setArrayFullClassName(String arrayFullClassName) {
         this.arrayFullClassName = arrayFullClassName;
+    }
+
+    public Boolean getInnerClass() {
+        return innerClass;
+    }
+
+
+    public List<JavaAnnotationMeta> getAnnotationFields() {
+        return annotationFields;
+    }
+
+    public void setAnnotationFields(List<JavaAnnotationMeta> annotationFields) {
+        this.annotationFields = annotationFields;
+    }
+
+    public void setInnerClass(Boolean innerClass) {
+        this.innerClass = innerClass;
+    }
+
+    public String getModuleDesc() {
+        return moduleDesc;
+    }
+
+    public void setModuleDesc(String moduleDesc) {
+        this.moduleDesc = moduleDesc;
+    }
+
+
+    public String getPackageDesc() {
+        return packageDesc;
+    }
+
+    public void setPackageDesc(String packageDesc) {
+        this.packageDesc = packageDesc;
     }
 
     public String parseDeclarationStructure(){

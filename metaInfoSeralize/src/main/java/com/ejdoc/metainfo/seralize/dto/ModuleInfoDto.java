@@ -10,6 +10,8 @@ public class ModuleInfoDto {
 
     private String modulePath;
 
+    private String moduleDesc;
+
     public String getModuleName() {
         return moduleName;
     }
@@ -40,5 +42,13 @@ public class ModuleInfoDto {
 
     public void setProjectPath(String projectPath) {
         this.projectPath = projectPath;
+    }
+
+    public String getModuleDesc() {
+        return moduleDesc;
+    }
+
+    public void setModuleDesc(String moduleDesc) {
+        this.moduleDesc = moduleDesc;
     }
 }

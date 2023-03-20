@@ -18,6 +18,9 @@ public class JavaMethodMeta implements Serializable {
 
     private List<JavaClassMeta> exceptions;
 
+    /**默认值,枚举类型使用*/
+    private JavaClassMeta defaultValue;
+
     private Boolean defaultMethod;
 
     private String sourceCode;
@@ -212,5 +215,13 @@ public class JavaMethodMeta implements Serializable {
 
     public void setVolatiles(Boolean volatiles) {
         this.volatiles = volatiles;
+    }
+
+    public JavaClassMeta getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(JavaClassMeta defaultValue) {
+        this.defaultValue = defaultValue;
     }
 }

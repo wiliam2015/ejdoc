@@ -4,7 +4,7 @@ import com.ejdoc.doc.generate.enums.TemplateTypeEnum;
 
 import java.util.Locale;
 
-public class JavaDocGenerateConfig {
+public class DocGenerateConfig {
 
     /**
      * 国际化local
@@ -25,6 +25,11 @@ public class JavaDocGenerateConfig {
      * 模板类型
      */
     private TemplateTypeEnum templateType;
+
+    /**
+     * 模板主题 {@link com.ejdoc.doc.generate.enums.TemplateThemeEnum}
+     */
+    private String templateTheme;
 
     public Locale getLocale() {
         return locale;
@@ -56,5 +61,13 @@ public class JavaDocGenerateConfig {
 
     public void setTemplateType(TemplateTypeEnum templateType) {
         this.templateType = templateType;
+    }
+
+    public String getTemplateTheme() {
+        return templateTheme;
+    }
+
+    public void setTemplateTheme(String templateTheme) {
+        this.templateTheme = templateTheme;
     }
 }

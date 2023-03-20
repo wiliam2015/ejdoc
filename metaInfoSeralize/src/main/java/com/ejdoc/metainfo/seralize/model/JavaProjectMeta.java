@@ -16,7 +16,15 @@ public class JavaProjectMeta implements Serializable {
 
     private String email;
 
+    /**
+     * 网址
+     */
     private String host;
+
+    /**
+     * 代码库地址
+     */
+    private String repo;
 
     private String basePath;
 
@@ -123,5 +131,13 @@ public class JavaProjectMeta implements Serializable {
 
     public void setAllProp(Map<String, Object> allProp) {
         this.allProp = allProp;
+    }
+
+    public String getRepo() {
+        return repo;
+    }
+
+    public void setRepo(String repo) {
+        this.repo = repo;
     }
 }

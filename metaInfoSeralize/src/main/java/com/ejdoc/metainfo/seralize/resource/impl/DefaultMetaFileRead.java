@@ -149,6 +149,7 @@ public class DefaultMetaFileRead implements MetaFileRead {
 
                             defaultMetaFile.setModuleName(moduleInfoDto.getModuleName());
                             defaultMetaFile.setModulePath(moduleInfoDto.getModulePath());
+                            defaultMetaFile.setModuleDesc(moduleInfoDto.getModuleDesc());
 
                             resultFile.add(defaultMetaFile);
                         }

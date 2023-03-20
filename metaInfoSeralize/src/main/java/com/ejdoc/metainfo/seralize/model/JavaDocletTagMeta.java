@@ -18,7 +18,7 @@ public class JavaDocletTagMeta implements Serializable {
 
     private Map<String, String> namedParameterMap;
 
-    private int lineNumber;
+    private Integer lineNumber;
 
     public String getName() {
         return name;
@@ -52,11 +52,11 @@ public class JavaDocletTagMeta implements Serializable {
         this.namedParameterMap = namedParameterMap;
     }
 
-    public int getLineNumber() {
+    public Integer getLineNumber() {
         return lineNumber;
     }
 
-    public void setLineNumber(int lineNumber) {
+    public void setLineNumber(Integer lineNumber) {
         this.lineNumber = lineNumber;
     }
 

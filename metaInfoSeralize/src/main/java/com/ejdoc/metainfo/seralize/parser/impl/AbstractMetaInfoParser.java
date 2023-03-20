@@ -32,6 +32,7 @@ public abstract class AbstractMetaInfoParser implements MetaInfoParser {
     public JavaProjectMeta parseJavaProjectMeta() {
         JavaProjectMeta javaProjectMeta = new JavaProjectMeta();
         File file = metaFileRead.readProjectMetaFile();
+        MetaEnvironment metaEnvironment = metaFileRead.getMetaEnvironment();
         Assert.notNull(file,"read projectMeta.yml file is null");
         Dict dict = YamlUtil.loadByPath(file.getPath());
         Assert.notEmpty(dict,"projectMeta.yml  content is empty");
@@ -66,6 +67,20 @@ public abstract class AbstractMetaInfoParser implements MetaInfoParser {
             licenseMap.put("url",licenseUrl);
         }
         javaProjectMeta.setLicense(licenseMap);
+        if(StrUtil.isBlank(version)){
+            String versionEnv = metaEnvironment.getProp("version", "");
+            javaProjectMeta.setVersion(versionEnv);
+        }
+        if(StrUtil.isBlank(description)){
+            description = metaEnvironment.getProp("description", "");
+            javaProjectMeta.setDescription(description);
+        }
+
+        if(StrUtil.isBlank(javaProjectMeta.getRepo())){
+            String url = metaEnvironment.getProp("url", "");
+            javaProjectMeta.setRepo(url);
+        }
+
         return javaProjectMeta;
     }
 

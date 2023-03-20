@@ -1,0 +1,39 @@
+<% if(prop.sideType == "allClass"){
+ println(prop.title);
+ println();
+ for(obj in prop.tableList){
+    var linkPath = obj.moduleName+"/"+ obj.packageNamePath+"/"+obj.className+".md";
+    print("	- ");println(docClassFn.createCommonLinkMd(obj.className,linkPath));
+ }
+}
+%>
+
+<% if(prop.sideType == "allPackage"){
+  println(prop.title);
+  println();
+  for(obj in prop.tableList){
+     var linkPath = "/route/allpackage/" + obj.packageNamePath+"/README.md";
+     print("	- ");println(docClassFn.createCommonLinkMd(obj.packageName,linkPath));
+  }
+}
+%>
+
+<% if(prop.sideType == "allModule"){
+  println(prop.title);
+  println();
+  for(obj in prop.tableList){
+     var linkPath ="/route/allmodule/"+obj.moduleName+".md";
+     print("	- ");println(docClassFn.createCommonLinkMd(obj.moduleName,linkPath));
+  }
+}
+%>
+
+<% if(prop.sideType == "packageDetail"){
+  println(prop.title);
+  println();
+  for(obj in prop.tableList){
+     var linkPath = obj.moduleName+"/"+ obj.packageNamePath+"/"+obj.className+".md";
+     print("	- ");println(docClassFn.createCommonLinkMd(obj.className,linkPath));
+  }
+}
+%>

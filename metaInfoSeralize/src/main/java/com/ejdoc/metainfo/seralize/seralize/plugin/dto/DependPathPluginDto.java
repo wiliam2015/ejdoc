@@ -1,6 +1,6 @@
-package com.ejdoc.metainfo.seralize.parser.impl.javaparser;
+package com.ejdoc.metainfo.seralize.seralize.plugin.dto;
 
-public class JavaParserDependPath {
+public class DependPathPluginDto {
 
     private String fileName;
 

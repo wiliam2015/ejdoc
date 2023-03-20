@@ -1,6 +1,7 @@
 package com.ejdoc.doc.generate.model;
 
 import com.ejdoc.doc.generate.enums.TemplateTypeEnum;
+import com.ejdoc.metainfo.seralize.seralize.config.SeralizeConfig;
 
 import java.io.File;
 import java.util.Locale;
@@ -15,6 +16,10 @@ public class DocOutFileInfo {
     private String fileName;
 
     private String relativeRootPath;
+    /**
+     * 序列化文档的跟目录
+     */
+    private String jsonFileRootPath;
 
     private String fullFilePath;
 
@@ -25,6 +30,8 @@ public class DocOutFileInfo {
     private TemplateTypeEnum templateType;
 
     private boolean mainFile;
+
+    private SeralizeConfig seralizeConfig;
 
     public String getFileName() {
         return fileName;
@@ -88,5 +95,21 @@ public class DocOutFileInfo {
 
     public void setMainFile(boolean mainFile) {
         this.mainFile = mainFile;
+    }
+
+    public String getJsonFileRootPath() {
+        return jsonFileRootPath;
+    }
+
+    public void setJsonFileRootPath(String jsonFileRootPath) {
+        this.jsonFileRootPath = jsonFileRootPath;
+    }
+
+    public SeralizeConfig getSeralizeConfig() {
+        return seralizeConfig;
+    }
+
+    public void setSeralizeConfig(SeralizeConfig seralizeConfig) {
+        this.seralizeConfig = seralizeConfig;
     }
 }

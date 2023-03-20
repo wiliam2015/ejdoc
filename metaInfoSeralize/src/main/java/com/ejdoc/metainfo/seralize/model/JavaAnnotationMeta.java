@@ -1,7 +1,6 @@
 package com.ejdoc.metainfo.seralize.model;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 public class JavaAnnotationMeta implements Serializable {
@@ -11,32 +10,14 @@ public class JavaAnnotationMeta implements Serializable {
     private String value;
 
     private JavaClassMeta type;
-    private List<String> parameters;
 
-    private Map<String, Object>  namedParameterMap;
+    private Map<String, Object> properties;
 
-    private int lineNumber;
-
-    private JavaAnnotationElementMeta javaAnnotatedElement;
+    private Integer lineNumber;
 
     private String codeBlock;
 
-    public String getCodeBlock() {
-        return codeBlock;
-    }
-
-
-    public JavaClassMeta getType() {
-        return type;
-    }
-
-    public void setType(JavaClassMeta type) {
-        this.type = type;
-    }
-
-    public void setCodeBlock(String codeBlock) {
-        this.codeBlock = codeBlock;
-    }
+    private Boolean annoField;
 
     public String getName() {
         return name;
@@ -54,35 +35,43 @@ public class JavaAnnotationMeta implements Serializable {
         this.value = value;
     }
 
-    public List<String> getParameters() {
-        return parameters;
+    public JavaClassMeta getType() {
+        return type;
     }
 
-    public void setParameters(List<String> parameters) {
-        this.parameters = parameters;
+    public void setType(JavaClassMeta type) {
+        this.type = type;
     }
 
-    public Map<String, Object> getNamedParameterMap() {
-        return namedParameterMap;
+    public Map<String, Object> getProperties() {
+        return properties;
     }
 
-    public void setNamedParameterMap(Map<String, Object> namedParameterMap) {
-        this.namedParameterMap = namedParameterMap;
+    public void setProperties(Map<String, Object> properties) {
+        this.properties = properties;
     }
 
-    public int getLineNumber() {
+    public Integer getLineNumber() {
         return lineNumber;
     }
 
-    public void setLineNumber(int lineNumber) {
+    public void setLineNumber(Integer lineNumber) {
         this.lineNumber = lineNumber;
     }
 
-    public JavaAnnotationElementMeta getJavaAnnotatedElement() {
-        return javaAnnotatedElement;
+    public String getCodeBlock() {
+        return codeBlock;
     }
 
-    public void setJavaAnnotatedElement(JavaAnnotationElementMeta javaAnnotatedElement) {
-        this.javaAnnotatedElement = javaAnnotatedElement;
+    public void setCodeBlock(String codeBlock) {
+        this.codeBlock = codeBlock;
+    }
+
+    public Boolean getAnnoField() {
+        return annoField;
+    }
+
+    public void setAnnoField(Boolean annoField) {
+        this.annoField = annoField;
     }
 }

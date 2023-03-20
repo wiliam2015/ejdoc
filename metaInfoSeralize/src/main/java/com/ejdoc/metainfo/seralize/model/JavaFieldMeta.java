@@ -1,6 +1,7 @@
 package com.ejdoc.metainfo.seralize.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class JavaFieldMeta implements Serializable {
 
@@ -10,9 +11,15 @@ public class JavaFieldMeta implements Serializable {
 
     private JavaClassMeta type;
 
+    private List<String> modifiers;
+
+    private JavaClassMeta annoDefaultVal;
+
     private String initializationExpression;
 
-    private boolean enumConstant;
+    private Boolean enumField;
+
+    private Boolean annoField;
 
     private JavaModelMeta javaModelMeta;
 
@@ -33,12 +40,28 @@ public class JavaFieldMeta implements Serializable {
         this.initializationExpression = initializationExpression;
     }
 
-    public boolean isEnumConstant() {
-        return enumConstant;
+    public JavaClassMeta getAnnoDefaultVal() {
+        return annoDefaultVal;
     }
 
-    public void setEnumConstant(boolean enumConstant) {
-        this.enumConstant = enumConstant;
+    public void setAnnoDefaultVal(JavaClassMeta annoDefaultVal) {
+        this.annoDefaultVal = annoDefaultVal;
+    }
+
+    public Boolean getEnumField() {
+        return enumField;
+    }
+
+    public void setEnumField(Boolean enumField) {
+        this.enumField = enumField;
+    }
+
+    public Boolean getAnnoField() {
+        return annoField;
+    }
+
+    public void setAnnoField(Boolean annoField) {
+        this.annoField = annoField;
     }
 
     public JavaModelMeta getJavaModelMeta() {
@@ -65,5 +88,11 @@ public class JavaFieldMeta implements Serializable {
         this.initializer = initializer;
     }
 
+    public List<String> getModifiers() {
+        return modifiers;
+    }
 
+    public void setModifiers(List<String> modifiers) {
+        this.modifiers = modifiers;
+    }
 }

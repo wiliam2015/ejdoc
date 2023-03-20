@@ -12,6 +12,7 @@ public class MetaFileInfoDto {
     private String moduleName;
 
     private String modulePath;
+    private String moduleDesc;
 
     private String metaFileName;
 
@@ -74,5 +75,13 @@ public class MetaFileInfoDto {
 
     public void setMetaFile(File metaFile) {
         this.metaFile = metaFile;
+    }
+
+    public String getModuleDesc() {
+        return moduleDesc;
+    }
+
+    public void setModuleDesc(String moduleDesc) {
+        this.moduleDesc = moduleDesc;
     }
 }

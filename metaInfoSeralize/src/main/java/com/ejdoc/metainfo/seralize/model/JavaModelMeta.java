@@ -5,7 +5,7 @@ import java.util.List;
 public class JavaModelMeta {
     private String codeBlock;
 
-    private int lineNumber;
+    private Integer lineNumber;
 
     private String comment;
 
@@ -17,7 +17,7 @@ public class JavaModelMeta {
         this.codeBlock = codeBlock;
     }
 
-    public void setLineNumber(int lineNumber) {
+    public void setLineNumber(Integer lineNumber) {
         this.lineNumber = lineNumber;
     }
 
@@ -25,7 +25,7 @@ public class JavaModelMeta {
         return codeBlock;
     }
 
-    public int getLineNumber() {
+    public Integer getLineNumber() {
         return lineNumber;
     }
 

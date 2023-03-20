@@ -20,6 +20,7 @@ public interface MetaEnvironment {
     List<ModuleInfoDto> getSubProjectInfo();
 
     String getProp(String propKey);
+    String getProp(String propKey,String defaultVal);
 
     Map<String,String> getAllProp();
 

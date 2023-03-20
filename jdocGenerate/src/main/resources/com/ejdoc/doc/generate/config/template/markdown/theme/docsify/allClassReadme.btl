@@ -1,0 +1,30 @@
+<% if(prop.classType == "allClass"){
+println("**所有类信息**");
+println();
+for(obj in prop.tableList){
+    var classFilePath = obj.moduleName+"/"+ obj.packageNamePath+"/"+obj.className+".md";
+    print("- ");print(docClassFn.createCommonLinkMd(obj.className,classFilePath));println("  ");
+}
+}
+%>
+
+<% if(prop.classType == "allPackage"){
+println("**所有类信息**");
+println();
+for(obj in prop.tableList){
+    var classFilePath = obj.moduleName+"/"+ obj.packageNamePath+"/"+obj.className+".md";
+    print("- ");print(docClassFn.createCommonLinkMd(obj.className,classFilePath));println("  ");
+}
+}
+%>
+
+
+<% if(prop.classType == "packageDetail"){
+println("**所有类信息**");
+println();
+for(obj in prop.tableList){
+    var classFilePath = obj.moduleName+"/"+ obj.packageNamePath+"/"+obj.className+".md";
+    print("- ");print(docClassFn.createCommonLinkMd(obj.className,classFilePath));println("  ");
+}
+}
+%>

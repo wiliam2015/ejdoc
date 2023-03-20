@@ -1,0 +1,29 @@
+<% if(prop.packageType == "allPackage"){%>
+<% if(isNotEmpty(prop.tableList)){%>
+**所有包信息**
+
+|   包信息  |    描述   |
+| ---- | ---- |
+<%   for(obj in prop.tableList){
+    var linkPath = "/route/allpackage/" + obj.packageNamePath+"/README.md";
+    print("|");print(docClassFn.createCommonLinkMd(obj.packageName,linkPath));print("|");print(obj.packageDesc);print("|");println();
+}
+%>
+<% }%>
+<% }%>
+
+
+<% if(prop.packageType == "allModule"){%>
+<% if(isNotEmpty(prop.tableList)){%>
+${prop.title!}
+
+|   包信息  |    描述   |
+| ---- | ---- |
+<%   for(obj in prop.tableList){
+    var linkPath = "/route/allpackage/" + obj.packageNamePath+"/README.md";
+    print("|");print(docClassFn.createCommonLinkMd(obj.packageName,linkPath));print("|");print(obj.packageDesc);print("|");println();
+}
+%>
+<% }%>
+<% }%>
+

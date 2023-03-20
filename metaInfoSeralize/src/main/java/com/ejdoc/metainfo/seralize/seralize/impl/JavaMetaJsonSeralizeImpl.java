@@ -1,9 +1,12 @@
 package com.ejdoc.metainfo.seralize.seralize.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.ejdoc.metainfo.seralize.env.MetaEnvironment;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
@@ -12,35 +15,116 @@ import com.ejdoc.metainfo.seralize.model.JavaProjectMeta;
 import com.ejdoc.metainfo.seralize.parser.MetaInfoParser;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaInfoParser;
 import com.ejdoc.metainfo.seralize.seralize.JavaMetaJsonSeralize;
+import com.ejdoc.metainfo.seralize.seralize.JavaMetaSeralizePlugin;
 import com.ejdoc.metainfo.seralize.seralize.config.SeralizeConfig;
+import com.ejdoc.metainfo.seralize.seralize.plugin.dto.JavaMetaSeralizePluginData;
+import com.ejdoc.metainfo.seralize.seralize.plugin.dto.JavaMetaServalizePluginContextDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JavaMetaJsonSeralizeImpl implements JavaMetaJsonSeralize {
     private static final Logger log = LoggerFactory.getLogger(JavaMetaJsonSeralizeImpl.class);
     private MetaInfoParser metaInfoParser;
 
+    private List<JavaMetaSeralizePlugin> metaSeralizePlugins;
     private static final String FILE_OUT_PATH_KEY = "project.meta.seralize.out";
 
     public JavaMetaJsonSeralizeImpl(){
         this(new JavaParserMetaInfoParser());
+        this.metaSeralizePlugins = new ArrayList<>();
     }
 
     public JavaMetaJsonSeralizeImpl(MetaInfoParser metaInfoParser){
         Assert.notNull(metaInfoParser, "MetaInfoParaser can not be null !");
         this.metaInfoParser = metaInfoParser;
+        this.metaSeralizePlugins = new ArrayList<>();
 
     }
     @Override
-    public void exeJavaMetaSeralize() {
-        doJavaMetaSeralize(new SeralizeConfig());
+    public String exeJavaMetaSeralize() {
+        SeralizeConfig seralizeConfig = new SeralizeConfig();
+        String outFilePath = doJavaMetaSeralize(seralizeConfig);
+        doJavaMetaPlugin(outFilePath,seralizeConfig);
+        return outFilePath;
     }
 
     @Override
     public String exeJavaMetaSeralize(SeralizeConfig seralizeConfig) {
-        return doJavaMetaSeralize(seralizeConfig);
+        String outFilePath = doJavaMetaSeralize(seralizeConfig);
+        doJavaMetaPlugin(outFilePath,seralizeConfig);
+        return outFilePath;
+    }
+
+    private void doJavaMetaPlugin(String outFilePath, SeralizeConfig seralizeConfig) {
+        if(CollectionUtil.isNotEmpty(metaSeralizePlugins)){
+            JavaMetaServalizePluginContextDto javaMetaServalizePluginContextDto = new JavaMetaServalizePluginContextDto();
+            Map<String,JavaMetaSeralizePluginData> metaSeralizeFileIndex = new HashMap<>();
+            List<JavaMetaSeralizePluginData> allJavaMetaSeralizeClassList = new ArrayList<>();
+            readyPluginData(outFilePath,allJavaMetaSeralizeClassList,metaSeralizeFileIndex);
+            javaMetaServalizePluginContextDto.setAllJavaMetaSeralizeClassList(allJavaMetaSeralizeClassList);
+            javaMetaServalizePluginContextDto.setMetaSeralizeFileIndex(metaSeralizeFileIndex);
+            javaMetaServalizePluginContextDto.setSeralizeConfig(seralizeConfig);
+            javaMetaServalizePluginContextDto.setSeralizeOutPath(outFilePath);
+
+            log.info("JavaMetaSeralizePlugin ready data finish");
+            //自定义实现插件，向插件中的数据对象jsonObject写入属性即可
+            for (JavaMetaSeralizePlugin metaSeralizePlugin : metaSeralizePlugins) {
+                log.info("JavaMetaSeralizePlugin ready exe start name:{}",metaSeralizePlugin.getClass().getSimpleName());
+                metaSeralizePlugin.exePostJavaMetaSeralize(javaMetaServalizePluginContextDto);
+                log.info("JavaMetaSeralizePlugin ready exe finish name:{}",metaSeralizePlugin.getClass().getSimpleName());
+            }
+
+            log.info("JavaMetaSeralizePlugin ready reWriteJsonFile start");
+            reWriteJsonFile(seralizeConfig,allJavaMetaSeralizeClassList);
+            log.info("JavaMetaSeralizePlugin ready reWriteJsonFile finish");
+        }
+    }
+
+    /**
+     * 准备插件执行数据
+     * @param outFilePath
+     * @return
+     */
+    private List<JavaMetaSeralizePluginData> readyPluginData(String outFilePath,List<JavaMetaSeralizePluginData> allJavaMetaSeralizeClassList,Map<String,JavaMetaSeralizePluginData> metaSeralizeFileIndex) {
+        List<File> jsonFiles = FileUtil.loopFiles(outFilePath, subFile -> FileTypeUtil.getType(subFile).equals("json"));
+        for (File jsonFile : jsonFiles) {
+            JavaMetaSeralizePluginData javaMetaSeralizePluginData = new JavaMetaSeralizePluginData();
+            JSONObject jsonObject = JSONUtil.readJSONObject(jsonFile, CharsetUtil.CHARSET_UTF_8);
+            javaMetaSeralizePluginData.setFile(jsonFile);
+            javaMetaSeralizePluginData.setJsonObject(jsonObject);
+            javaMetaSeralizePluginData.setJsonFilePath(jsonFile.getPath());
+            allJavaMetaSeralizeClassList.add(javaMetaSeralizePluginData);
+            metaSeralizeFileIndex.put(jsonObject.getStr("fullClassName"),javaMetaSeralizePluginData);
+        }
+        return allJavaMetaSeralizeClassList;
+    }
+
+    /**
+     * 重新生成json文件
+     * @param seralizeConfig
+     * @param allJavaClassList
+     */
+    private  void reWriteJsonFile(SeralizeConfig seralizeConfig, List<JavaMetaSeralizePluginData> allJavaClassList) {
+        for (JavaMetaSeralizePluginData javaClassMeta : allJavaClassList) {
+            String jsonStr ="";
+            if(seralizeConfig.isPrettyFormat()){
+                jsonStr = javaClassMeta.getJsonObject().toStringPretty();
+            }else{
+                jsonStr = javaClassMeta.getJsonObject().toString();
+            }
+            FileUtil.writeString(jsonStr,javaClassMeta.getJsonFilePath(),CharsetUtil.CHARSET_UTF_8);
+        }
+    }
+
+    @Override
+    public boolean addMetaSeralizePlugins(JavaMetaSeralizePlugin metaSeralizePlugin) {
+       return this.metaSeralizePlugins.add(metaSeralizePlugin);
     }
 
     public String doJavaMetaSeralize(SeralizeConfig seralizeConfig) {
@@ -84,4 +168,18 @@ public class JavaMetaJsonSeralizeImpl implements JavaMetaJsonSeralize {
         }
         return configFilePath+"/doc";
     }
+
+    public MetaInfoParser getMetaInfoParser() {
+        return metaInfoParser;
+    }
+
+    public void setMetaInfoParser(MetaInfoParser metaInfoParser) {
+        this.metaInfoParser = metaInfoParser;
+    }
+
+    @Override
+    public List<JavaMetaSeralizePlugin> getMetaSeralizePlugins() {
+        return metaSeralizePlugins;
+    }
+
 }

@@ -56,6 +56,53 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
 
         checkRequiredAttribute();
 
+        autoLoadProjectTypeEnv();
+
+    }
+
+
+    /**
+     * 自动获取对应项目类型的环境熟悉信息，maven项目从跟pom上获取
+     */
+    private void autoLoadProjectTypeEnv() {
+        ProjectCompileEnum projectCompileType = getProjectCompileType();
+        if(ProjectCompileEnum.Maven.equals(projectCompileType)){
+            String gradleSettingsFilePath = getProjectRootPath() + "/pom.xml";
+            Document document = XmlUtil.readXML(gradleSettingsFilePath);
+            if(document != null){
+                String version = readXmlEleText(document,"version");
+                String name = readXmlEleText(document,"name");
+                String description =readXmlEleText(document,"description");
+                String url = readXmlEleText(document,"url");
+
+                if(StrUtil.isNotBlank(version)){
+                    PROPS.put("version",version);
+                }
+                if(StrUtil.isNotBlank(name)){
+                    PROPS.put("name",name);
+                }
+                if(StrUtil.isNotBlank(description)){
+                    PROPS.put("description",description);
+                }
+                if(StrUtil.isNotBlank(url)){
+                    PROPS.put("url",url);
+                }
+
+            }
+        }
+    }
+
+    private String readXmlEleText( Document document,String tagName){
+        try {
+            NodeList elementsByTagName = document.getElementsByTagName(tagName);
+            if(elementsByTagName != null){
+                Node item = elementsByTagName.item(0);
+                return item.getTextContent();
+            }
+            return "";
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     /**
@@ -263,6 +310,17 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
                 }
             }
         }
+        //设置module的描述
+        for (ModuleInfoDto moduleInfoDto : subProjectRootDir) {
+            String modulePomFile = moduleInfoDto.getModulePath()+ "/pom.xml";
+            Document moduleDocument = XmlUtil.readXML(modulePomFile);
+            if(moduleDocument != null){
+                NodeList element = moduleDocument.getElementsByTagName("description");
+                if(element != null && element.getLength() > 0){
+                    moduleInfoDto.setModuleDesc(element.item(0).getTextContent());
+                }
+            }
+        }
         return subProjectRootDir;
     }
 
@@ -270,6 +328,12 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
     public String getProp(String propKey) {
         Assert.notBlank(propKey, "propKey not Blank properties !");
         return this.PROPS.get(propKey);
+    }
+
+    @Override
+    public String getProp(String propKey, String defaultVal) {
+        String prop = getProp(propKey);
+        return  prop == null ? defaultVal:prop;
     }
 
     @Override

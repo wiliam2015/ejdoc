@@ -11,17 +11,17 @@ public class JavaParserMetaContext {
     /**
      * 依赖路径类map
      */
-    private Map<String, JavaParserDependPath> dependPathMap = new HashMap<>();
+    private Map<String, String> contextMap = new HashMap<>();
 
-    public Map<String, JavaParserDependPath> getDependPathMap() {
-        return dependPathMap;
+    public Map<String, String> getContextMap() {
+        return contextMap;
     }
 
-    public JavaParserDependPath getDependPathByKey(String key) {
-        return dependPathMap.get(key);
+    public String getContextVal(String key) {
+        return contextMap.get(key);
     }
 
-    public void addDependPath(String key, JavaParserDependPath javaParserDependPath){
-        dependPathMap.put(key, javaParserDependPath);
+    public void addContext(String key, String val){
+        contextMap.put(key, val);
     }
 }

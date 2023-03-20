@@ -2,6 +2,10 @@
      print("# 接口名称:");
 }else if(isNotEmpty(prop.abstractClass) && prop.abstractClass){
     print("# 抽象类:");
+}else if(isNotEmpty(prop.annotationClass) && prop.annotationClass){
+    print("# 注解类型:");
+}else if(isNotEmpty(prop.enumClass) && prop.enumClass){
+    print("# 枚举类型:");
 }else{
     print("# 类名称:");
 }
@@ -15,172 +19,168 @@ ${prop.className!}
 * **${i18n.childfile.projectName!}:** ${prop.projectName!}
 * **${i18n.childfile.moduleName!}:** ${prop.moduleName!}
 
-<%if(isNotEmpty(prop.javaModelMeta.tags)){
-    var paramStr = "";
-    var authorStr = "";
-    for(tagObj in prop.javaModelMeta.tags){
-       if(tagObj.type == "TYPEPARAM"){
-         paramStr+="  ";
-         paramStr+=tagObj.name;
-         paramStr+=" - ";
-         paramStr+=tagObj.value+"\n\n";
-       }else if(tagObj.type == "AUTHOR"){
-         authorStr+="  ";
-         authorStr+=tagObj.value+"\n\n";
-       }
-    }
+${docClassFn.calCommentTagsMd(prop,"TYPEPARAM","* **类型参数描述：** ")}
 
-    if(isNotEmpty(paramStr)){
-        println("* **类型参数描述：** ");
-        println();
-        println(paramStr);
-    }
-    if(isNotEmpty(paramStr)){
-        println("* **作者：** ");
-        println();
-        println(authorStr);
-    }
-}%>
+
+${docClassFn.calCommentTagsMd(prop,"AUTHOR","* **作者：** ")}
+${docClassFn.calAllClassesMd(prop.allSupperClasses,"* **所有父类：**  \n")}
+${docClassFn.calAllClassesMd(prop.allInterfaceClasses,"* **所有父级接口：**  \n")}
+${docClassFn.calAllClassesMd(prop.allSubClasses,"* **所有子类：**  \n")}
+${docClassFn.calAllClassesMd(prop.allSubInterfaceClasses,"* **所有子接口：**  \n")}
 ---
 
-```java
-${prop.declarationStructure!}
-```
+### 声明信息
+> ${docClassFn.calClassNameStructure(prop)}
 
-<% if(isNotEmpty(prop.javaModelMeta) && isNotEmpty(prop.javaModelMeta.comment)){
-           println(prop.javaModelMeta.comment);
-}%>
 
-<% if(isNotEmpty(prop.superClasses)){
-    if(isNotEmpty(prop.interfaceClass) && prop.interfaceClass){
-        println("## 继承接口");
-        println("");
-        println("|    索引  |    接口名字  |   接口全称   |");
-        println("| ---- | ---- | ---- |");
-        for(interfaceObj in prop.superClasses){
-            print("|");
-            print(interfaceObjLP.index);
-            print("|");
-            if(isNotEmpty(interfaceObj.dependencyRelativePath)){
-                print("[");
-                print(interfaceObj.className);
-                print("](");
-                print(interfaceObj.dependencyRelativePath);
-                print(".md");
-                print(")");
-            }else{
-                print(interfaceObj.className);
-            }
-            print("|");
-            print(interfaceObj.fullClassName);
-            println("|");
-        }
-
-    }else{
-        println("## 继承类");
-        for(supperClassObj in prop.superClasses){
-            print("* 继承类简称:");
-            if(isNotEmpty(supperClassObj.dependencyRelativePath)){
-                print("[");
-                print(supperClassObj.className);
-                print("](");
-                print(supperClassObj.dependencyRelativePath);
-                print(".md");
-                print(")");
-            }else{
-                print(supperClassObj.className);
-            }
-            print("* 继承类全称:");
-            println(supperClassObj.fullClassName);
-        }
-    }
-}
-%>
-
-<% if(isNotEmpty(prop.interfaces)){
-    println("## 实现接口");
-    println("");
-    println("|    索引  |    接口名字  |   接口全称   |");
-    println("| ---- | ---- | ---- |");
-    for(interfaceObj in prop.interfaces){
-        print("|");
-        print(interfaceObjLP.index);
-        print("|");
-        if(isNotEmpty(interfaceObj.dependencyRelativePath)){
-            print("[");
-            print(interfaceObj.className);
-            print("](");
-            print(interfaceObj.dependencyRelativePath);
-            print(".md");
-            print(")");
-        }else{
-            print(interfaceObj.className);
-        }
-        print("|");
-        print(interfaceObj.fullClassName);
-        println("|");
-      }
-    }
-%>
+${docClassFn.calCommentMd(prop,"* **描述：** ")}
 
 <% if(isNotEmpty(prop.fields)){
     println("## 成员变量汇总");
     println("");
-    println("|   索引  |   修饰符  |    类型简称  |   类型全称  |   字段与描述   |");
-    println("| ---- | ---- | ---- | ---- |");
+    println("|   索引  |   修饰符  |    类型简称  |   字段与描述   |   初始值   |");
+    println("| ---- | ---- | ---- | ---- | ---- |");
     for(fieldsObj in prop.fields){
         print("|");
         print(fieldsObjLP.index);
-         print("|");
-        for(modifierObj in fieldsObj.type.modifiers!){
-            print(modifierObj);
-            print(" ");
-        }
         print("|");
-        if(isNotEmpty(fieldsObj.type.dependencyRelativePath)){
-            print("[");
-            print(fieldsObj.type.className);
-            print("](");
-            print(fieldsObj.type.dependencyRelativePath);
-            print(".md");
-            print(")");
-        }else{
-            print(fieldsObj.type.className);
-        }
+        print(docClassFn.calModifer(fieldsObj.modifiers));
         print("|");
-        print(fieldsObj.type.fullClassName);
+        print(docClassFn.createClassNameLinkMd(fieldsObj.type));
         print("|");
-        print(fieldsObj.initializationExpression);print("<br/>");
-        var metaComment = fieldsObj.javaModelMeta.comment;
-         if(isNotEmpty(metaComment)){
-             print(strutil.replace(metaComment,"\n",""));
+        print(memberFn.createInnerLinkIdMd(fieldsObj.name,"",fieldsObj.name));print("<br/>");
+        print(docClassFn.calCommentNoEnterMd(fieldsObj));
+        print("|");
+         if(isNotEmpty(fieldsObj.initializer)){
+           print(fieldsObj.initializer);
          }else{
-            print("无");
+           print("无");
          }
         println("|");
       }
     }
 %>
+<% if(isNotEmpty(prop.allSupperClassDetailProp)){
+    for(allSupperClassObj in prop.allSupperClassDetailProp){
+        if(isNotEmpty(allSupperClassObj.fields)){
+            println("---");
+            print("### ");print(allSupperClassObjLP.index);print(".继承类的所有成员变量:");println(docClassFn.calLinkClassNameMd(allSupperClassObj));
+            println(docClassFn.calAllClassesDetailFieldMd(allSupperClassObj.fields,"",allSupperClassObj.dependencyRelativePath));
+        }
+      }
+    }
+%>
 
+
+<% if(isNotEmpty(prop.allInterfaceClassDetailProp)){
+    for(allSupperInterfaceClassObj in prop.allInterfaceClassDetailProp){
+        if(isNotEmpty(allSupperInterfaceClassObj.fields)){
+            println("---");
+            print("### ");print(allSupperInterfaceClassObjLP.index);print(".继承接口的所有成员变量:");println(docClassFn.calLinkClassNameMd(allSupperInterfaceClassObj));
+            println(docClassFn.calAllClassesDetailFieldMd(allSupperInterfaceClassObj.fields,"",allSupperInterfaceClassObj.dependencyRelativePath));
+        }
+      }
+    }
+%>
+
+
+<% if(isNotEmpty(prop.constructors)){
+    println("## 构造方法汇总");
+    println("");
+    println("|   索引  |    方法体和描述   |");
+    println("| ---- | ---- |");
+    for(methodObj in prop.constructors){
+        print("|");
+        print(methodObjLP.index);
+         print("|");
+         print(memberFn.calMethodStructureInnerLinkMd(methodObj,""));
+         print("<br/>");
+         print(docClassFn.calCommentNoEnterMd(methodObj));
+        println("|");
+
+      }
+    }
+%>
 
 <% if(isNotEmpty(prop.methods)){
     println("## 方法汇总");
     println("");
     println("|   索引  |    方法体和描述   |");
-    println("| ---- | ---- | ");
+    println("| ---- | ---- |");
     for(methodObj in prop.methods){
         print("|");
         print(methodObjLP.index);
          print("|");
-         print(methodObj.callSignature);
+         print(memberFn.calMethodStructureInnerLinkMd(methodObj,""));
          print("<br/>");
-         var metaComment = methodObj.javaModelMeta.comment;
-         if(isNotEmpty(metaComment)){
-             print(strutil.replace(metaComment,"\n",""));
-         }else{
-            print("无");
-         }
+        print(docClassFn.calCommentNoEnterMd(methodObj));
         println("|");
+
+      }
+    }
+%>
+
+
+<% if(isNotEmpty(prop.allSupperClassDetailProp)){
+    for(allSupperClassObj in prop.allSupperClassDetailProp){
+        println("---");
+        print("### ");print(allSupperClassObjLP.index);print(".继承类方法:");println(docClassFn.createClassNameLinkMd(allSupperClassObj));
+        println();print("全路径信息");println(docClassFn.calLinkClassNameMd(allSupperClassObj));
+        println(docClassFn.calAllClassesDetailMethodMd(allSupperClassObj.methods,"",allSupperClassObj.dependencyRelativePath));
+      }
+    }
+%>
+
+
+<% if(isNotEmpty(prop.allInterfaceClassDetailProp)){
+    for(allSupperInterfaceClassObj in prop.allInterfaceClassDetailProp){
+        println("---");
+        print("### ");print(allSupperInterfaceClassObjLP.index);print(".继承接口方法:");println(docClassFn.createClassNameLinkMd(allSupperInterfaceClassObj));
+        println();print("全路径信息");println(docClassFn.calLinkClassNameMd(allSupperInterfaceClassObj));
+        println(docClassFn.calAllClassesDetailMethodMd(allSupperInterfaceClassObj.methods,"",allSupperInterfaceClassObj.dependencyRelativePath));
+      }
+    }
+%>
+
+<% if(isNotEmpty(prop.fields)){
+    println("## 成员变量详细信息");
+    println("");
+    for(fieldsObj in prop.fields){
+        println("---");
+        print("> **");print(fieldsObjLP.index);print(".");print(memberFn.createHrefIdHtml(fieldsObj.name,"",fieldsObj.name));println("**");
+        println();
+        print("* **签名信息：** ");
+        println();
+        println();
+        print("  ");println(docClassFn.calFieldStructureMd(fieldsObj));
+        println();
+        println();
+        println(docClassFn.calCommentMd(fieldsObj,"* **描述：** "));
+
+      }
+    }
+%>
+
+
+<% if(isNotEmpty(prop.constructors)){
+    println("## 构造方法详细信息");
+    println("");
+
+    for(methodObj in prop.constructors){
+        println("---");
+        print("> **");print(methodObjLP.index);print(".");print(memberFn.createHrefIdHtml(methodObj.name,"",memberFn.calUniqueMethodName(methodObj)));println("**");
+        println();
+        print("* **构造方法签名：** ");
+        println();
+        println();
+        print("  ");println(memberFn.calMethodStructureMd(methodObj));
+        println();
+        println();
+
+        println(docClassFn.calCommentMd(methodObj,"* **描述：** "));
+        println(docClassFn.calCommentTagsMd(methodObj,"PARAM","* **参数描述：** "));
+        println(docClassFn.calCommentTagsMd(methodObj,"THROWS","* **异常信息：** "));
+        println(docClassFn.calCommentTagsMd(methodObj,"SINCE","* **来源版本：** "));
 
       }
     }
@@ -192,47 +192,19 @@ ${prop.declarationStructure!}
 
     for(methodObj in prop.methods){
         println("---");
-        print("### ");print(methodObjLP.index);print(".");println(methodObj.name);
+        print("> **");print(methodObjLP.index);print(".");print(memberFn.createHrefIdHtml(methodObj.name,"",memberFn.calUniqueMethodName(methodObj)));println("**");
+        println();
         print("* **方法签名：** ");
         println();
-        println("  ```java");
-        print("  ");println(methodObj.callSignature);
-        println("  ```");
-
-        if(isNotEmpty(methodObj.javaModelMeta.comment)){
-            print("* **描述：** ");println(methodObj.javaModelMeta.comment!);
-        }
-        if(isNotEmpty(methodObj.javaModelMeta.tags)){
-            var paramStr = "";
-            var returnStr = "";
-            for(tagObj in methodObj.javaModelMeta.tags){
-               if(tagObj.type == "PARAM"){
-                 paramStr+="  ";
-                 paramStr+=tagObj.name;
-                 paramStr+=" - ";
-                 paramStr+=tagObj.value+"\n\n";
-               }else if(tagObj.type == "RETURN"){
-                    returnStr+="  ";
-                    returnStr+=tagObj.value+"\n\n";
-               }
-            }
-            println("* **参数描述：** ");
-            if(isEmpty(paramStr)){
-                println("无");
-            }else{
-                println();
-                println(paramStr);
-            }
-            println("* **返回值描述：** ");
-            if(isEmpty(returnStr)){
-                println("无");
-            }else{
-                println();
-                println(returnStr);
-            }
-
-        }
-
+        println();
+        print("  ");println(memberFn.calMethodStructureMd(methodObj));
+        println();
+        println();
+        println(docClassFn.calCommentMd(methodObj,"* **描述：** "));
+        println(docClassFn.calCommentTagsMd(methodObj,"PARAM","* **参数描述：** "));
+        println(docClassFn.calCommentTagsMd(methodObj,"RETURN","* **返回值描述：** "));
+        println(docClassFn.calCommentTagsMd(methodObj,"THROWS","* **异常信息：** "));
+        println(docClassFn.calCommentTagsMd(methodObj,"SINCE","* **来源版本：** "));
       }
     }
 %>
