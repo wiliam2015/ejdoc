@@ -45,7 +45,7 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
         try {
             defaultMetaEnvSetting.addSetting(new Setting(CONFIG_FILE_NAME,CharsetUtil.CHARSET_UTF_8, true));
         } catch (NoResourceException e) {
-            log.warn("not found default classpath config file:[metaDir.properties]");
+            log.debug("not found default classpath config file:[metaDir.properties]");
         }
 
         if(StrUtil.isNotBlank(configFilePath)){
@@ -120,6 +120,7 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
 
         String projectRootDir = PROPS.getStr("project.root.dir", "");
         Assert.notBlank(projectRootDir, "[project.root.dir] properties is require,please config in metaDir.properties !");
+        log.info("project root dir:{}",projectRootDir);
         return projectRootDir;
     }
 
@@ -127,6 +128,7 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
     public String getProjectSourceDir() {
         String projectSourceDir = PROPS.getStr("project.source.dir", "");
         Assert.notBlank(projectSourceDir, "[project.source.dir] properties is require,please config in metaDir.properties !");
+        log.info("project source dir:{}",projectSourceDir);
         return projectSourceDir;
     }
 
@@ -167,6 +169,7 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
         Assert.notBlank(projectCompileType, "the compile type not detect,please config in metaDir.properties.the porp name is [project.compile.type] !");
         ProjectCompileEnum projectCompileEnum = ProjectCompileEnum.convertToEnumByName(projectCompileType);
         Assert.notNull(projectCompileEnum, "not support the compile type ["+projectCompileType+"]!");
+        log.info("project compile type:{}",projectCompileType);
         return projectCompileEnum;
     }
 

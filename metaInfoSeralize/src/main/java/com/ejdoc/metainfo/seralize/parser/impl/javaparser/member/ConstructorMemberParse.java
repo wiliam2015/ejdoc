@@ -1,9 +1,11 @@
 package com.ejdoc.metainfo.seralize.parser.impl.javaparser.member;
 
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
+import com.ejdoc.metainfo.seralize.enums.EnvPropEnum;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
 import com.ejdoc.metainfo.seralize.model.JavaConstructorMeta;
 import com.ejdoc.metainfo.seralize.model.JavaMethodMeta;
+import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
@@ -22,27 +24,35 @@ public class ConstructorMemberParse extends MethodMemberParse{
     private static final Logger log = LoggerFactory.getLogger(ConstructorMemberParse.class);
 
     @Override
-    protected void parseBodyDeclarationToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, NodeList<BodyDeclaration<?>> members, TypeDeclaration<?> typeDeclaration) {
+    protected void parseBodyDeclarationToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, NodeList<BodyDeclaration<?>> members, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
         List<JavaConstructorMeta> constructorMetas = new ArrayList<>();
+        String compileIncludePrivate = javaParserMetaContext.getEnvPropVal(EnvPropEnum.compile_include_private.getCode(), "");
         for (BodyDeclaration<?> member : members) {
             if(accept(member)){
-                JavaConstructorMeta javaConstructorMeta = new JavaConstructorMeta();
-                JavaMethodMeta javaMethodMeta = parseConstructorsMember(member);
-                javaConstructorMeta.setName(javaMethodMeta.getName());
-                javaConstructorMeta.setJavaModelMeta(javaMethodMeta.getJavaModelMeta());
-                javaConstructorMeta.setModifiers(javaMethodMeta.getModifiers());
-                javaConstructorMeta.setParameters(javaMethodMeta.getParameters());
-                javaConstructorMeta.setExceptions(javaMethodMeta.getExceptions());
-                javaConstructorMeta.setCallSignature(javaMethodMeta.getCallSignature());
-                javaConstructorMeta.setPrivates(javaMethodMeta.getPrivates());
-                javaConstructorMeta.setPublics(javaMethodMeta.getPublics());
-                javaConstructorMeta.setProtecteds(javaMethodMeta.getProtecteds());
-                javaConstructorMeta.setSourceCode(javaMethodMeta.getSourceCode());
-                javaConstructorMeta.setVarArgs(javaMethodMeta.getVarArgs());
-                constructorMetas.add(javaConstructorMeta);
+                JavaConstructorMeta javaConstructorMeta = parseContructorMember(member);
+                if(filterModifier(compileIncludePrivate,javaConstructorMeta.getModifiers())){
+                    constructorMetas.add(javaConstructorMeta);
+                }
             }
         }
         javaClassMeta.setConstructors(constructorMetas);
+    }
+
+    private JavaConstructorMeta parseContructorMember(BodyDeclaration<?> member) {
+        JavaConstructorMeta javaConstructorMeta = new JavaConstructorMeta();
+        JavaMethodMeta javaMethodMeta = parseConstructorsMember(member);
+        javaConstructorMeta.setName(javaMethodMeta.getName());
+        javaConstructorMeta.setJavaModelMeta(javaMethodMeta.getJavaModelMeta());
+        javaConstructorMeta.setModifiers(javaMethodMeta.getModifiers());
+        javaConstructorMeta.setParameters(javaMethodMeta.getParameters());
+        javaConstructorMeta.setExceptions(javaMethodMeta.getExceptions());
+        javaConstructorMeta.setCallSignature(javaMethodMeta.getCallSignature());
+        javaConstructorMeta.setPrivates(javaMethodMeta.getPrivates());
+        javaConstructorMeta.setPublics(javaMethodMeta.getPublics());
+        javaConstructorMeta.setProtecteds(javaMethodMeta.getProtecteds());
+        javaConstructorMeta.setSourceCode(javaMethodMeta.getSourceCode());
+        javaConstructorMeta.setVarArgs(javaMethodMeta.getVarArgs());
+        return javaConstructorMeta;
     }
 
 

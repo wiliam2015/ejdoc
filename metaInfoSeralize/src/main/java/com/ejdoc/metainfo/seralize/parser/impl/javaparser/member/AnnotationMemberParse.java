@@ -2,14 +2,15 @@ package com.ejdoc.metainfo.seralize.parser.impl.javaparser.member;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
+import com.ejdoc.metainfo.seralize.enums.EnvPropEnum;
 import com.ejdoc.metainfo.seralize.model.*;
+import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.AnnotationMemberDeclaration;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.expr.*;
-import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.javadoc.Javadoc;
 
 import java.util.ArrayList;
@@ -20,11 +21,15 @@ import java.util.stream.Collectors;
 public class AnnotationMemberParse extends AbstractJavaParseMemberParse{
 
     @Override
-    protected void parseBodyDeclarationToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, NodeList<BodyDeclaration<?>> members, TypeDeclaration<?> typeDeclaration) {
+    protected void parseBodyDeclarationToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, NodeList<BodyDeclaration<?>> members, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
         List<JavaMethodMeta> javaFieldMetas = initJavaFieldMetas(javaClassMeta);
+        String compileIncludePrivate = javaParserMetaContext.getEnvPropVal(EnvPropEnum.compile_include_private.getCode(), "");
         for (BodyDeclaration<?> member : members) {
             if(accept(member)){
-                javaFieldMetas.add(parseMember(member,metaFileInfo,typeDeclaration));
+                JavaMethodMeta parseAnnoMember = parseAnnoMember(member, metaFileInfo, typeDeclaration);
+                if(filterModifier(compileIncludePrivate,parseAnnoMember.getModifiers())){
+                    javaFieldMetas.add(parseAnnoMember);
+                }
             }
         }
         javaClassMeta.setMethods(javaFieldMetas);
@@ -36,7 +41,7 @@ public class AnnotationMemberParse extends AbstractJavaParseMemberParse{
         }
         return javaClassMeta.getMethods();
     }
-    private JavaMethodMeta parseMember(BodyDeclaration<?> member, MetaFileInfoDto metaFileInfo, TypeDeclaration<?> typeDeclaration) {
+    private JavaMethodMeta parseAnnoMember(BodyDeclaration<?> member, MetaFileInfoDto metaFileInfo, TypeDeclaration<?> typeDeclaration) {
         AnnotationMemberDeclaration annotationMemberDeclaration = (AnnotationMemberDeclaration) member;
         JavaMethodMeta javaFieldMeta = new JavaMethodMeta();
         javaFieldMeta.setName(annotationMemberDeclaration.getNameAsString());

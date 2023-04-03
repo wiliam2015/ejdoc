@@ -2,10 +2,8 @@ package com.ejdoc.metainfo.seralize.parser.impl.javaparser;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.collection.ListUtil;
-import com.ejdoc.metainfo.seralize.model.JavaAnnotationMeta;
-import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
-import com.ejdoc.metainfo.seralize.model.JavaDocletTagMeta;
-import com.ejdoc.metainfo.seralize.model.JavaModelMeta;
+import com.ejdoc.metainfo.seralize.enums.JavaDocCommentTypeEnum;
+import com.ejdoc.metainfo.seralize.model.*;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.Type;
@@ -13,6 +11,8 @@ import com.github.javaparser.javadoc.Javadoc;
 import com.github.javaparser.javadoc.JavadocBlockTag;
 import com.github.javaparser.javadoc.description.JavadocDescription;
 import com.github.javaparser.javadoc.description.JavadocDescriptionElement;
+import com.github.javaparser.javadoc.description.JavadocInlineTag;
+import com.github.javaparser.javadoc.description.JavadocSnippet;
 import com.github.javaparser.resolution.UnsolvedSymbolException;
 import com.github.javaparser.resolution.declarations.ResolvedAnnotationDeclaration;
 import com.github.javaparser.resolution.types.*;
@@ -150,8 +150,14 @@ public class BaseJavaParse {
         if(javadoc.isPresent()){
             JavadocDescription description = javadoc.get().getDescription();
             List<JavadocDescriptionElement> elements = description.getElements();
+
+
             if(CollectionUtil.isNotEmpty(elements)){
-                javaModelMeta.setComment(elements.get(0).toText());
+                List<JavaDocCommentElementMeta> commentMetas = getJavaDocCommentElementMetas(elements);
+                JavaDocCommentMeta javaDocCommentMeta = new JavaDocCommentMeta();
+                javaDocCommentMeta.setJavaDocCommentElementMetas(commentMetas);
+                javaModelMeta.setComment(javaDocCommentMeta.getJavaDocComment());
+                javaModelMeta.setJavaDocComment(javaDocCommentMeta);
             }
             List<JavadocBlockTag> blockTags = javadoc.get().getBlockTags();
             if(CollectionUtil.isNotEmpty(blockTags)){
@@ -163,6 +169,12 @@ public class BaseJavaParse {
                     docletTagMeta.setType(blockTag.getType().name());
                     docletTagMeta.setName(typeName.orElse(""));
                     docletTagMeta.setTagName(blockTag.getTagName());
+                    List<JavadocDescriptionElement> docTags = blockTag.getContent().getElements();
+
+                    if(CollectionUtil.size(docTags) > 1){
+                        docletTagMeta.setValues(getJavaDocCommentElementMetas(docTags));
+                    }
+
                     docletTagMeta.setValue(blockTag.getContent().toText());
                     if(typeVal.equals("PARAM") && typeName.isPresent()){
                         if(typeName.get().matches("<.*>")){
@@ -180,6 +192,29 @@ public class BaseJavaParse {
                 javaModelMeta.setTags(tags);
             }
         }
+    }
+
+    private  List<JavaDocCommentElementMeta> getJavaDocCommentElementMetas(List<JavadocDescriptionElement> elements) {
+        List<JavaDocCommentElementMeta> commentMetas = new ArrayList<>();
+        JavaDocCommentElementMeta javaDocCommentElementMeta = null;
+        for (JavadocDescriptionElement element : elements) {
+            if(element instanceof JavadocInlineTag){
+                javaDocCommentElementMeta = new JavaDocCommentElementMeta();
+                JavadocInlineTag inlineTag = (JavadocInlineTag)element;
+                javaDocCommentElementMeta.setContent(inlineTag.getContent());
+                javaDocCommentElementMeta.setType(inlineTag.getType().name());
+                javaDocCommentElementMeta.setTagName(inlineTag.getName());
+                commentMetas.add(javaDocCommentElementMeta);
+            }else if(element instanceof JavadocSnippet){
+                javaDocCommentElementMeta = new JavaDocCommentElementMeta();
+                JavadocSnippet javadocSnippet = (JavadocSnippet)element;
+                javaDocCommentElementMeta.setContent(javadocSnippet.toText());
+                javaDocCommentElementMeta.setType(JavaDocCommentTypeEnum.TEXT.getName());
+                javaDocCommentElementMeta.setTagName(JavaDocCommentTypeEnum.TEXT.getCode());
+                commentMetas.add(javaDocCommentElementMeta);
+            }
+        }
+        return commentMetas;
     }
 
 

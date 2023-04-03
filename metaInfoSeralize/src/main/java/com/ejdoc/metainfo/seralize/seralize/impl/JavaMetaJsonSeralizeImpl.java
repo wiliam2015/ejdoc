@@ -40,6 +40,11 @@ public class JavaMetaJsonSeralizeImpl implements JavaMetaJsonSeralize {
         this.metaSeralizePlugins = new ArrayList<>();
     }
 
+    public JavaMetaJsonSeralizeImpl(String configFilePath){
+        this(new JavaParserMetaInfoParser(configFilePath));
+        this.metaSeralizePlugins = new ArrayList<>();
+    }
+
     public JavaMetaJsonSeralizeImpl(MetaInfoParser metaInfoParser){
         Assert.notNull(metaInfoParser, "MetaInfoParaser can not be null !");
         this.metaInfoParser = metaInfoParser;

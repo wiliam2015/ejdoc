@@ -1,10 +1,15 @@
 package com.ejdoc.metainfo.seralize.parser.impl.javaparser.member;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.BooleanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
+import com.ejdoc.metainfo.seralize.enums.EnvPropEnum;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
 import com.ejdoc.metainfo.seralize.model.JavaFieldMeta;
 import com.ejdoc.metainfo.seralize.model.JavaModelMeta;
+import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
@@ -22,17 +27,24 @@ import java.util.stream.Collectors;
 public class FieldMemberParse extends AbstractJavaParseMemberParse{
 
     @Override
-    protected void parseBodyDeclarationToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, NodeList<BodyDeclaration<?>> members, TypeDeclaration<?> typeDeclaration) {
+    protected void parseBodyDeclarationToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, NodeList<BodyDeclaration<?>> members, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
         List<JavaFieldMeta> javaFieldMetas = initJavaFieldMetas(javaClassMeta);
+        String compileIncludePrivate = javaParserMetaContext.getEnvPropVal(EnvPropEnum.compile_include_private.getCode(), "");
         for (BodyDeclaration<?> member : members) {
             if(accept(member)){
-                javaFieldMetas.add(parseFieldMember(member,metaFileInfo,typeDeclaration));
+                JavaFieldMeta javaFieldMeta = parseFieldMember(member, metaFileInfo, typeDeclaration);
+                if(filterModifier(compileIncludePrivate,javaFieldMeta.getModifiers())){
+                    javaFieldMetas.add(javaFieldMeta);
+                }
             }
         }
-        javaClassMeta.setFields(javaFieldMetas);
+        List<JavaFieldMeta> fieldMetas = CollectionUtil.sortByProperty(javaFieldMetas, "name");
+        javaClassMeta.setFields(fieldMetas);
     }
 
+
     private JavaFieldMeta parseFieldMember(BodyDeclaration<?> member, MetaFileInfoDto metaFileInfo, TypeDeclaration<?> typeDeclaration) {
+
         JavaFieldMeta fieldMeta = new JavaFieldMeta();
 
         FieldDeclaration fieldDeclaration = (FieldDeclaration)member;

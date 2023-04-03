@@ -7,7 +7,15 @@ public class JavaModelMeta {
 
     private Integer lineNumber;
 
+    /**
+     * 去除内置标签后的文本内容
+     */
     private String comment;
+
+    /**
+     * 包含内容标签的文本内容
+     */
+    private JavaDocCommentMeta javaDocComment;
 
     private List<JavaDocletTagMeta>  tags;
 
@@ -51,5 +59,13 @@ public class JavaModelMeta {
 
     public void setAnnotations(List<JavaAnnotationMeta> annotations) {
         this.annotations = annotations;
+    }
+
+    public JavaDocCommentMeta getJavaDocComment() {
+        return javaDocComment;
+    }
+
+    public void setJavaDocComment(JavaDocCommentMeta javaDocComment) {
+        this.javaDocComment = javaDocComment;
     }
 }

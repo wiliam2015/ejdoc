@@ -2,7 +2,9 @@ package com.ejdoc.metainfo.seralize.parser.impl.javaparser.member;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
+import com.ejdoc.metainfo.seralize.enums.EnvPropEnum;
 import com.ejdoc.metainfo.seralize.model.*;
+import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaInfoParser;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.UnSolvedSymbolTool;
 import com.github.javaparser.ast.Modifier;
@@ -32,14 +34,19 @@ public class MethodMemberParse extends AbstractJavaParseMemberParse{
     private static final Logger log = LoggerFactory.getLogger(MethodMemberParse.class);
 
     @Override
-    protected void parseBodyDeclarationToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, NodeList<BodyDeclaration<?>> members, TypeDeclaration<?> typeDeclaration) {
+    protected void parseBodyDeclarationToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, NodeList<BodyDeclaration<?>> members, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
         List<JavaMethodMeta> javaMethodMetas =initJavaMethodMeta(javaClassMeta);
+        String compileIncludePrivate = javaParserMetaContext.getEnvPropVal(EnvPropEnum.compile_include_private.getCode(), "");
         for (BodyDeclaration<?> member : members) {
             if(accept(member)){
-                javaMethodMetas.add(parseMethodMember(member,metaFileInfo,typeDeclaration));
+                JavaMethodMeta javaMethodMeta = parseMethodMember(member, metaFileInfo, typeDeclaration);
+                if(filterModifier(compileIncludePrivate,javaMethodMeta.getModifiers())){
+                    javaMethodMetas.add(javaMethodMeta);
+                }
             }
         }
-        javaClassMeta.setMethods(javaMethodMetas);
+        List<JavaMethodMeta> methodMetas = CollectionUtil.sortByProperty(javaMethodMetas, "name");
+        javaClassMeta.setMethods(methodMetas);
     }
     private List<JavaMethodMeta> initJavaMethodMeta(JavaClassMeta javaClassMeta) {
         if(CollectionUtil.isEmpty(javaClassMeta.getMethods())){

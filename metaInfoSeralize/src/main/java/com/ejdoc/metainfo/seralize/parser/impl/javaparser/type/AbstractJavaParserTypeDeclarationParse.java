@@ -6,6 +6,7 @@ import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
 import com.ejdoc.metainfo.seralize.model.JavaModelMeta;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.BaseJavaParse;
+import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaInfoParser;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.UnSolvedSymbolTool;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.member.JavaParserMemberParse;
@@ -44,48 +45,48 @@ public abstract class AbstractJavaParserTypeDeclarationParse extends BaseJavaPar
         this.javaParserMemberParseList = javaParserMemberParseList;
     }
     @Override
-    public JavaClassMeta parseTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration) {
+    public JavaClassMeta parseTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
         JavaClassMeta javaClassMeta = new JavaClassMeta();
-        parseClassMetaProp(javaClassMeta, metaFileInfo, typeDeclaration);
-        parseJavaSouce(javaClassMeta, rootAst);
-        parseDocAndAnnotation(javaClassMeta, typeDeclaration, rootAst);
-        parseNestedJavaClass(javaClassMeta, typeDeclaration, rootAst);
-        parseModifiers(javaClassMeta, typeDeclaration);
-        parseMembers(javaClassMeta, metaFileInfo, typeDeclaration);
-        parseChildTypeToJavaClassMeta(metaFileInfo,javaClassMeta,rootAst,typeDeclaration);
-        parseClassDeclaration(javaClassMeta);
+        parseClassMetaProp(javaClassMeta, metaFileInfo, typeDeclaration,javaParserMetaContext);
+        parseJavaSouce(javaClassMeta, rootAst,javaParserMetaContext);
+        parseDocAndAnnotation(javaClassMeta, typeDeclaration, rootAst,javaParserMetaContext);
+        parseNestedJavaClass(javaClassMeta, typeDeclaration, rootAst,javaParserMetaContext);
+        parseModifiers(javaClassMeta, typeDeclaration,javaParserMetaContext);
+        parseMembers(javaClassMeta, metaFileInfo, typeDeclaration,javaParserMetaContext);
+        parseChildTypeToJavaClassMeta(metaFileInfo,javaClassMeta,rootAst,typeDeclaration,javaParserMetaContext);
+        parseClassDeclaration(javaClassMeta,javaParserMetaContext);
         return javaClassMeta;
     }
 
-    private void parseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration) {
+    private void parseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration,JavaParserMetaContext javaParserMetaContext) {
         if(accept(typeDeclaration,metaFileInfo)){
-            doParseChildTypeToJavaClassMeta(metaFileInfo,javaClassMeta,rootAst,typeDeclaration);
+            doParseChildTypeToJavaClassMeta(metaFileInfo,javaClassMeta,rootAst,typeDeclaration,javaParserMetaContext);
         }
     }
 
-    protected  void parseMembers(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, TypeDeclaration<?> typeDeclaration){
+    protected  void parseMembers(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, TypeDeclaration<?> typeDeclaration,JavaParserMetaContext javaParserMetaContext){
         List<JavaParserMemberParse> memberParseList = getJavaParserMemberParseList();
         if(CollectionUtil.isNotEmpty(memberParseList)){
             for (JavaParserMemberParse javaParserMemberParse : memberParseList) {
-                javaParserMemberParse.parseMemberToJavaClassMeta(javaClassMeta,metaFileInfo,typeDeclaration);
+                javaParserMemberParse.parseMemberToJavaClassMeta(javaClassMeta,metaFileInfo,typeDeclaration,javaParserMetaContext);
             }
         }
     }
 
 
 
-    protected abstract void doParseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration);
+    protected abstract void doParseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration,JavaParserMetaContext javaParserMetaContext);
 
     /**
      * 解析类声明结构
      * @param javaClassMeta
      */
-    protected void parseClassDeclaration(JavaClassMeta javaClassMeta) {
+    protected void parseClassDeclaration(JavaClassMeta javaClassMeta,JavaParserMetaContext javaParserMetaContext) {
         javaClassMeta.setDeclarationStructure(javaClassMeta.parseDeclarationStructure());
     }
 
 
-    protected void parseModifiers(JavaClassMeta javaClassMeta, TypeDeclaration<?> typeDeclaration) {
+    protected void parseModifiers(JavaClassMeta javaClassMeta, TypeDeclaration<?> typeDeclaration,JavaParserMetaContext javaParserMetaContext) {
         NodeList<Modifier> modifiers = ObjectUtil.isNull(typeDeclaration) ?null:typeDeclaration.getModifiers();
         if(CollectionUtil.isNotEmpty(modifiers)){
             List<String> collect = modifiers.stream().map(modifier -> modifier.getKeyword().asString()).collect(Collectors.toList());
@@ -99,7 +100,7 @@ public abstract class AbstractJavaParserTypeDeclarationParse extends BaseJavaPar
      * @param typeDeclaration
      * @param rootAst
      */
-    protected void parseNestedJavaClass(JavaClassMeta javaClassMeta, TypeDeclaration<?> typeDeclaration, CompilationUnit rootAst) {
+    protected void parseNestedJavaClass(JavaClassMeta javaClassMeta, TypeDeclaration<?> typeDeclaration, CompilationUnit rootAst,JavaParserMetaContext javaParserMetaContext) {
         if(ObjectUtil.isNotNull(typeDeclaration)){
 
         }
@@ -154,7 +155,7 @@ public abstract class AbstractJavaParserTypeDeclarationParse extends BaseJavaPar
         }
     }
 
-    protected void parseJavaSouce(JavaClassMeta javaClassMeta, CompilationUnit rootAst) {
+    protected void parseJavaSouce(JavaClassMeta javaClassMeta, CompilationUnit rootAst,JavaParserMetaContext javaParserMetaContext) {
         Optional<PackageDeclaration> packageDeclarationOptional = rootAst.getPackageDeclaration();
         if(packageDeclarationOptional.isPresent()){
             PackageDeclaration packageDeclaration = rootAst.getPackageDeclaration().get();
@@ -176,7 +177,7 @@ public abstract class AbstractJavaParserTypeDeclarationParse extends BaseJavaPar
             javaClassMeta.setPackageName(packageDeclaration.getNameAsString());
         }
     }
-    protected void parseDocAndAnnotation(JavaClassMeta javaClassMeta, TypeDeclaration<?> typeDeclaration, CompilationUnit rootAst) {
+    protected void parseDocAndAnnotation(JavaClassMeta javaClassMeta, TypeDeclaration<?> typeDeclaration, CompilationUnit rootAst,JavaParserMetaContext javaParserMetaContext) {
         if(typeDeclaration != null){
             Optional<Javadoc> javadoc = typeDeclaration.getJavadoc();
             NodeList<AnnotationExpr> annotations = typeDeclaration.getAnnotations();
@@ -205,7 +206,7 @@ public abstract class AbstractJavaParserTypeDeclarationParse extends BaseJavaPar
      * @param metaFileInfoDto
      * @param typeDeclaration
      */
-    protected void parseClassMetaProp(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfoDto,TypeDeclaration<?> typeDeclaration) {
+    protected void parseClassMetaProp(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfoDto,TypeDeclaration<?> typeDeclaration,JavaParserMetaContext javaParserMetaContext) {
         javaClassMeta.setModuleName(metaFileInfoDto.getModuleName());
         javaClassMeta.setModuleDesc(metaFileInfoDto.getModuleDesc());
         javaClassMeta.setProjectName(metaFileInfoDto.getProjectName());

@@ -2,6 +2,7 @@ package com.ejdoc.metainfo.seralize.parser.impl.javaparser.type;
 
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
+import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.TypeDeclaration;
 
@@ -25,5 +26,5 @@ public interface JavaParserTypeDeclarationParse {
      * @param typeDeclaration
      * @return
      */
-    JavaClassMeta parseTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo,CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration);
+    JavaClassMeta parseTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext);
 }

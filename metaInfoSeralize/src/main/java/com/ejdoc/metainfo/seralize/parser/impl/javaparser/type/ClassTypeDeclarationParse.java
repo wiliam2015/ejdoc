@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
+import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.member.JavaParserMemberParse;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.NodeList;
@@ -25,7 +26,7 @@ public class ClassTypeDeclarationParse extends AbstractJavaParserTypeDeclaration
     }
 
     @Override
-    protected void doParseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo,JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration) {
+    protected void doParseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
         parseSuperJavaClass(javaClassMeta, typeDeclaration);
         parseInterfaces(javaClassMeta, typeDeclaration);
     }

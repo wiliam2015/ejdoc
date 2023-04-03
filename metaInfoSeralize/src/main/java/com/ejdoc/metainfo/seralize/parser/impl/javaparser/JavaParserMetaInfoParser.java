@@ -37,6 +37,14 @@ public class JavaParserMetaInfoParser extends AbstractMetaInfoParser {
         this.javaParserTypeDeclarationParseList = initJavaParserTypeDeclarationParseList();
     }
 
+    public JavaParserMetaInfoParser(String configFilePath) {
+        super(configFilePath);
+
+        this.javaParser = JavaParserCreateFactory.createJavaParser(metaFileRead);
+
+        this.javaParserTypeDeclarationParseList = initJavaParserTypeDeclarationParseList();
+    }
+
     public JavaParserMetaInfoParser(MetaFileRead metaFileRead) {
         super(metaFileRead);
 
@@ -65,6 +73,7 @@ public class JavaParserMetaInfoParser extends AbstractMetaInfoParser {
         List<JavaModuleMeta> javaModuleMetas = new ArrayList<>();
         JavaParserMetaContext javaParserMetaContext = new JavaParserMetaContext();
         List<MetaFileInfoDto> metaFileInfos = metaFileRead.readAllMetaFile();
+        javaParserMetaContext.addEnvProp(metaFileRead.getMetaEnvironment().getAllProp());
         try {
             List<JavaClassMeta> javaClassMetaList = new ArrayList<>();
 
@@ -136,13 +145,13 @@ public class JavaParserMetaInfoParser extends AbstractMetaInfoParser {
                 if(CollectionUtil.isNotEmpty(classTypeDataList)){
                     for (TypeDeclaration<?> typeDeclaration : classTypeDataList) {
                         if(javaParserTypeDeclarationParse.accept(typeDeclaration,metaFileInfo)){
-                            JavaClassMeta javaClassMeta = javaParserTypeDeclarationParse.parseTypeToJavaClassMeta(metaFileInfo, rootAst, typeDeclaration);
+                            JavaClassMeta javaClassMeta = javaParserTypeDeclarationParse.parseTypeToJavaClassMeta(metaFileInfo, rootAst, typeDeclaration,javaParserMetaContext);
                             javaClassMetaList.add(javaClassMeta);
                         }
                     }
                 }else{
                     if(javaParserTypeDeclarationParse.accept(null,metaFileInfo)){
-                        JavaClassMeta javaClassMeta = javaParserTypeDeclarationParse.parseTypeToJavaClassMeta(metaFileInfo, rootAst, null);
+                        JavaClassMeta javaClassMeta = javaParserTypeDeclarationParse.parseTypeToJavaClassMeta(metaFileInfo, rootAst, null,javaParserMetaContext);
                         javaClassMetaList.add(javaClassMeta);
                     }
                 }

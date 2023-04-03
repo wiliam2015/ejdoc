@@ -37,5 +37,8 @@ public interface MetaFileRead {
     MetaEnvironment getMetaEnvironment();
 
 
+    String getProp(String propKey);
+
+    String getProp(String propKey,String defaultVal);
 
 }

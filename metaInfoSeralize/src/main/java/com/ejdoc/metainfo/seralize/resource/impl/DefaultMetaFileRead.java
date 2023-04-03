@@ -27,6 +27,10 @@ public class DefaultMetaFileRead implements MetaFileRead {
         this(new DefaultMetaEnvironment());
     };
 
+    public DefaultMetaFileRead(String configFilePath){
+        this(new DefaultMetaEnvironment(configFilePath));
+    };
+
     public DefaultMetaFileRead(MetaEnvironment metaEnvironment){
         Assert.notNull(metaEnvironment, "MetaEnvironment can not be null !");
         this.metaEnvironment = metaEnvironment;
@@ -184,6 +188,16 @@ public class DefaultMetaFileRead implements MetaFileRead {
     @Override
     public MetaEnvironment getMetaEnvironment() {
         return metaEnvironment;
+    }
+
+    @Override
+    public String getProp(String propKey) {
+        return metaEnvironment.getProp(propKey);
+    }
+
+    @Override
+    public String getProp(String propKey, String defaultVal) {
+        return metaEnvironment.getProp(propKey,defaultVal);
     }
 
     public void setMetaEnvironment(MetaEnvironment metaEnvironment) {

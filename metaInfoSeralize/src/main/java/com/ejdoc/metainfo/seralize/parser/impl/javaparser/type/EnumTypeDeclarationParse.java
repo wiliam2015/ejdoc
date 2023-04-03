@@ -6,6 +6,7 @@ import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
 import com.ejdoc.metainfo.seralize.model.JavaFieldMeta;
 import com.ejdoc.metainfo.seralize.model.JavaModelMeta;
+import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.member.JavaParserMemberParse;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.NodeList;
@@ -30,7 +31,7 @@ public class EnumTypeDeclarationParse extends AbstractJavaParserTypeDeclarationP
     }
 
     @Override
-    protected void doParseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo,JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration) {
+    protected void doParseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
         if(typeDeclaration.isEnumDeclaration()){
             parseInterfaces(javaClassMeta, typeDeclaration);
 

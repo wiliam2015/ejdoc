@@ -1,13 +1,16 @@
 package com.ejdoc.metainfo.seralize.parser.impl.javaparser.member;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
 import com.ejdoc.metainfo.seralize.model.JavaFieldMeta;
 import com.ejdoc.metainfo.seralize.model.JavaMethodMeta;
 import com.ejdoc.metainfo.seralize.model.JavaParameterMeta;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.BaseJavaParse;
+import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
@@ -32,11 +35,11 @@ public abstract class AbstractJavaParseMemberParse extends BaseJavaParse impleme
     private static final Logger log = LoggerFactory.getLogger(AbstractJavaParseMemberParse.class);
 
     @Override
-    public void parseMemberToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, TypeDeclaration<?> typeDeclaration) {
-        doParseMembers(javaClassMeta,metaFileInfo,typeDeclaration);
+    public void parseMemberToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
+        doParseMembers(javaClassMeta,metaFileInfo,typeDeclaration,javaParserMetaContext);
     }
 
-    public void doParseMembers(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, TypeDeclaration<?> typeDeclaration) {
+    public void doParseMembers(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, TypeDeclaration<?> typeDeclaration,JavaParserMetaContext javaParserMetaContext) {
         if(ObjectUtil.isNull(typeDeclaration)){
             return;
         }
@@ -44,7 +47,7 @@ public abstract class AbstractJavaParseMemberParse extends BaseJavaParse impleme
         NodeList<BodyDeclaration<?>> members= typeDeclaration.getMembers();
 
         if(CollectionUtil.isNotEmpty(members)){
-            parseBodyDeclarationToJavaClassMeta(javaClassMeta, metaFileInfo, members, typeDeclaration);
+            parseBodyDeclarationToJavaClassMeta(javaClassMeta, metaFileInfo, members, typeDeclaration,javaParserMetaContext);
 //            log.warn("not support BodyDeclaration");
         }
 
@@ -75,7 +78,29 @@ public abstract class AbstractJavaParseMemberParse extends BaseJavaParse impleme
 
     }
 
-    protected abstract void parseBodyDeclarationToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, NodeList<BodyDeclaration<?>> members, TypeDeclaration<?> typeDeclaration);
+
+    /**
+     * 过滤修饰符
+     * @param compileIncludePrivate 是否包含私有属性
+     * @param modifiers
+     * @return
+     */
+    protected boolean filterModifier(String compileIncludePrivate, List<String> modifiers) {
+        if(CollectionUtil.isEmpty(modifiers)){
+            return true;
+        }
+        if(!BooleanUtil.toBoolean(compileIncludePrivate)){
+            long noneModifierCount = modifiers.stream().filter(modifier ->
+                    (StrUtil.equals(modifier, "private")
+                            || StrUtil.equals(modifier, "protected"))).count();
+            if(noneModifierCount > 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    protected abstract void parseBodyDeclarationToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, NodeList<BodyDeclaration<?>> members, TypeDeclaration<?> typeDeclaration,JavaParserMetaContext javaParserMetaContext);
 
 
 

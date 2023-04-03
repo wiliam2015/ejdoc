@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DocsifyThemeDto {
+public class JavaDocDocsifyThemeDto {
 
     private String projectName;
 
@@ -21,7 +21,7 @@ public class DocsifyThemeDto {
 
     private String packageNamePath;
 
-    private List<DocsifyThemeDto> childList;
+    private List<JavaDocDocsifyThemeDto> childList;
 
     public String getProjectName() {
         return projectName;
@@ -66,15 +66,15 @@ public class DocsifyThemeDto {
         this.packageNamePath = packageNamePath;
     }
 
-    public List<DocsifyThemeDto> getChildList() {
+    public List<JavaDocDocsifyThemeDto> getChildList() {
         return childList;
     }
 
-    public void setChildList(List<DocsifyThemeDto> childList) {
+    public void setChildList(List<JavaDocDocsifyThemeDto> childList) {
         this.childList = childList;
     }
 
-    public boolean addChild(DocsifyThemeDto childDto){
+    public boolean addChild(JavaDocDocsifyThemeDto childDto){
         if(this.childList == null){
             this.childList = new ArrayList<>();
         }

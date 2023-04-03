@@ -1,5 +1,8 @@
 package com.ejdoc.metainfo.seralize.parser.impl.javaparser;
 
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,20 +11,31 @@ import java.util.Map;
  */
 public class JavaParserMetaContext {
 
+
     /**
-     * 依赖路径类map
+     * 配置的环境变量属性
      */
-    private Map<String, String> contextMap = new HashMap<>();
+    private Map<String, String> envProp = new HashMap<>();
 
-    public Map<String, String> getContextMap() {
-        return contextMap;
+    public String getEnvPropVal(String key) {
+        return envProp.get(key);
     }
 
-    public String getContextVal(String key) {
-        return contextMap.get(key);
+    public String getEnvPropVal(String key,String defaultVal) {
+       return  StrUtil.isBlank(envProp.get(key)) ? defaultVal : envProp.get(key);
     }
 
-    public void addContext(String key, String val){
-        contextMap.put(key, val);
+    public Map<String, String> getEnvProp() {
+        return envProp;
+    }
+
+    public void addEnvProp(Map<String, String> envProp) {
+        if(CollectionUtil.isNotEmpty(envProp)){
+            this.envProp.putAll(envProp);
+        }
+    }
+
+    public void addEnvProp(String key ,String val) {
+        this.envProp.put(key,val);
     }
 }

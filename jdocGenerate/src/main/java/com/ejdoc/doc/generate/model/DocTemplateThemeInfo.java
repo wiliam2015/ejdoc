@@ -17,6 +17,11 @@ public class DocTemplateThemeInfo {
 
     private SeralizeConfig seralizeConfig;
 
+    /**
+     * 项目根目录
+     */
+    private String projectRootPath;
+
     public String getDocOutRootPath() {
         return docOutRootPath;
     }
@@ -55,5 +60,13 @@ public class DocTemplateThemeInfo {
 
     public void setSeralizeConfig(SeralizeConfig seralizeConfig) {
         this.seralizeConfig = seralizeConfig;
+    }
+
+    public String getProjectRootPath() {
+        return projectRootPath;
+    }
+
+    public void setProjectRootPath(String projectRootPath) {
+        this.projectRootPath = projectRootPath;
     }
 }

@@ -2,6 +2,7 @@ package com.ejdoc.metainfo.seralize.parser.impl.javaparser.type;
 
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
+import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.member.JavaParserMemberParse;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.TypeDeclaration;
@@ -20,9 +21,9 @@ public class PackageInfoTypeDeclarationParse extends AbstractJavaParserTypeDecla
     }
 
     @Override
-    protected void doParseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo,JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration) {
-        parseJavaSouce(javaClassMeta, rootAst);
-        parseDocAndAnnotation(javaClassMeta, null, rootAst);
+    protected void doParseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
+        parseJavaSouce(javaClassMeta, rootAst,javaParserMetaContext);
+        parseDocAndAnnotation(javaClassMeta, null, rootAst,javaParserMetaContext);
         javaClassMeta.setModuleName(metaFileInfo.getModuleName());
         javaClassMeta.setProjectName(metaFileInfo.getProjectName());
         javaClassMeta.setClassName(PACKAGE_INFO);

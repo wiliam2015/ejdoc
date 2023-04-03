@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserCreateFactory;
+import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.type.ClassTypeDeclarationParse;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
@@ -19,11 +20,11 @@ public class InnerClassMemberParse extends AbstractJavaParseMemberParse{
     public InnerClassMemberParse(){
     }
     @Override
-    protected void parseBodyDeclarationToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, NodeList<BodyDeclaration<?>> members, TypeDeclaration<?> typeDeclaration) {
+    protected void parseBodyDeclarationToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, NodeList<BodyDeclaration<?>> members, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
         List<JavaClassMeta> innerClassList = initJavaClassList(javaClassMeta);
         for (BodyDeclaration<?> member : members) {
             if(accept(member)){
-                innerClassList.add(parseFieldMember(member,metaFileInfo));
+                innerClassList.add(parseFieldMember(member,metaFileInfo,javaParserMetaContext));
             }
         }
         if(CollectionUtil.isNotEmpty(innerClassList)){
@@ -39,10 +40,10 @@ public class InnerClassMemberParse extends AbstractJavaParseMemberParse{
         return javaClassMeta.getInnerClasses();
     }
 
-    private JavaClassMeta parseFieldMember(BodyDeclaration<?> member, MetaFileInfoDto metaFileInfo) {
+    private JavaClassMeta parseFieldMember(BodyDeclaration<?> member, MetaFileInfoDto metaFileInfo,JavaParserMetaContext javaParserMetaContext) {
         ClassOrInterfaceDeclaration innerClass = (ClassOrInterfaceDeclaration)member;
         ClassTypeDeclarationParse classTypeDeclarationParse = JavaParserCreateFactory.createDefaultClassTypeDeclarationParse();
-        return classTypeDeclarationParse.parseTypeToJavaClassMeta(metaFileInfo,innerClass.findCompilationUnit().get(),innerClass);
+        return classTypeDeclarationParse.parseTypeToJavaClassMeta(metaFileInfo,innerClass.findCompilationUnit().get(),innerClass,javaParserMetaContext);
     }
 
     private boolean accept(BodyDeclaration<?> member) {

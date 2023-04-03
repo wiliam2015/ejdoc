@@ -44,6 +44,7 @@ public abstract class AbstractDocGenerate implements DocGenerate{
     private DocTemplateTheme docTemplateTheme;
     private DocGenerateConfig docGenerateConfig;
 
+
     ClassPathResource logoFile = new ClassPathResource("com/ejdoc/doc/generate/config/logoInfo.properties");
 
     public AbstractDocGenerate(DocGenerateConfig docGenerateConfig,DocOutTemplate docOutTemplate,DocTemplateTheme docTemplateTheme){
@@ -66,7 +67,9 @@ public abstract class AbstractDocGenerate implements DocGenerate{
     public Set<String> printDoc(){
         log.info("start printDoc");
         log.info("environment ready start");
-        MetaInfoParser metaInfoParser = new JavaParserMetaInfoParser();
+        String javaDocOutConfigFilePath = this.environment.getJavaDocOutConfigFilePath();
+        log.info("load javaDocOutConfigFile:{}",javaDocOutConfigFilePath);
+        MetaInfoParser metaInfoParser = new JavaParserMetaInfoParser(javaDocOutConfigFilePath);
         SeralizeConfig seralizeConfig = new SeralizeConfig();
         seralizeConfig.setPrettyFormat(true);
         seralizeConfig.setUseAbsPath(true);
@@ -104,6 +107,7 @@ public abstract class AbstractDocGenerate implements DocGenerate{
         docTemplateThemeInfo.setTemplateType(docGenerateConfig.getTemplateType());
         docTemplateThemeInfo.setRenderFilePath(renderFilePath);
         docTemplateThemeInfo.setDocOutRootPath(environment.getDocOutRootPath());
+        docTemplateThemeInfo.setProjectRootPath(environment.getProjectRootPath());
         docTemplateTheme.writeTemplateThemeFile(docTemplateThemeInfo);
     }
 

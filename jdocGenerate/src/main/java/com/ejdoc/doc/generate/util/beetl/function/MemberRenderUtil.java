@@ -248,7 +248,7 @@ public class MemberRenderUtil {
     private void createTypeArgMd(JSONObject javaClass, StringBuilder typeArgumentStr) {
         if(javaClass.containsKey("typeArguments")){
             JSONArray typeArguments = javaClass.getJSONArray("typeArguments");
-            typeArgumentStr.append("<");
+            typeArgumentStr.append("< ");
             StringBuilder typeArgumentObjStr = new StringBuilder();
             for (Object typeArgument : typeArguments) {
                 typeArgumentObjStr.append(",");
@@ -257,7 +257,7 @@ public class MemberRenderUtil {
                 createTypeArgMd(typeJsonObj,typeArgumentStr);
             }
             typeArgumentStr.append(typeArgumentObjStr.substring(1));
-            typeArgumentStr.append(">");
+            typeArgumentStr.append(" >");
         }
     }
 

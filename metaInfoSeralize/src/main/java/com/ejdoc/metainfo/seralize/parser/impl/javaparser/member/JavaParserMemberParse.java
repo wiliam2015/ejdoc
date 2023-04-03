@@ -2,6 +2,7 @@ package com.ejdoc.metainfo.seralize.parser.impl.javaparser.member;
 
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
+import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
 import com.github.javaparser.ast.body.TypeDeclaration;
 
 /**
@@ -17,5 +18,5 @@ public interface JavaParserMemberParse {
      * @param typeDeclaration
      * @return
      */
-    void parseMemberToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, TypeDeclaration<?> typeDeclaration);
+    void parseMemberToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext);
 }

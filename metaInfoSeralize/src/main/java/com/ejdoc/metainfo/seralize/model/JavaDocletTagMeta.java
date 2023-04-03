@@ -13,6 +13,8 @@ public class JavaDocletTagMeta implements Serializable {
 
     private String value;
 
+    private List<JavaDocCommentElementMeta> values;
+
     private List<String> parameters;
 
 
@@ -74,5 +76,13 @@ public class JavaDocletTagMeta implements Serializable {
 
     public void setTagName(String tagName) {
         this.tagName = tagName;
+    }
+
+    public List<JavaDocCommentElementMeta> getValues() {
+        return values;
+    }
+
+    public void setValues(List<JavaDocCommentElementMeta> values) {
+        this.values = values;
     }
 }
