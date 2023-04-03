@@ -1,0 +1,8 @@
+name: "ejdoc"
+title: "ejdoc"
+contract: "wiliam"
+description: "ejdoc自动生成代码文档,提供多种主题，高度定制化，生成漂亮的javadoc文档"
+host: "https://ejdoc.com"
+license:
+  - name: "Mulan Permissive Software License，Version 2"
+  - url: "https://license.coscl.org.cn/MulanPSL2"
