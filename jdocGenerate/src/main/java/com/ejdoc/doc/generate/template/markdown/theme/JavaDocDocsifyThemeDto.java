@@ -19,9 +19,17 @@ public class JavaDocDocsifyThemeDto {
 
     private String className;
 
+    private String fullClassName;
+
     private String packageNamePath;
+    /**
+     * 层级
+     */
+    private int hierarchy;
 
     private List<JavaDocDocsifyThemeDto> childList;
+
+    private List<JavaDocDocsifyThemeDto> interfaceList;
 
     public String getProjectName() {
         return projectName;
@@ -95,5 +103,35 @@ public class JavaDocDocsifyThemeDto {
 
     public void setPackageDesc(String packageDesc) {
         this.packageDesc = packageDesc;
+    }
+
+    public String getFullClassName() {
+        return fullClassName;
+    }
+
+    public void setFullClassName(String fullClassName) {
+        this.fullClassName = fullClassName;
+    }
+
+    public int getHierarchy() {
+        return hierarchy;
+    }
+
+    public void setHierarchy(int hierarchy) {
+        this.hierarchy = hierarchy;
+    }
+
+    public boolean addInterface(JavaDocDocsifyThemeDto interfaceDto){
+        if(this.interfaceList == null){
+            this.interfaceList = new ArrayList<>();
+        }
+        return this.interfaceList.add(interfaceDto);
+    }
+    public List<JavaDocDocsifyThemeDto> getInterfaceList() {
+        return interfaceList;
+    }
+
+    public void setInterfaceList(List<JavaDocDocsifyThemeDto> interfaceList) {
+        this.interfaceList = interfaceList;
     }
 }

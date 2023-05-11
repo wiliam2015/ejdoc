@@ -4,9 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ClassPathResource;
-import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.core.util.ZipUtil;
+import cn.hutool.core.util.*;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.ejdoc.doc.generate.model.DocTemplateThemeInfo;
@@ -14,6 +12,9 @@ import com.ejdoc.doc.generate.out.config.DocGenerateConfig;
 import com.ejdoc.doc.generate.template.BaseOutTemplate;
 import com.ejdoc.doc.generate.template.DocTemplateTheme;
 import com.ejdoc.doc.generate.template.markdown.JavaDocMarkdownDocOutTemplate;
+import com.ejdoc.metainfo.seralize.index.MetaIndexContext;
+import com.ejdoc.metainfo.seralize.index.TreeIndexClassMeta;
+import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.Template;
 import org.slf4j.Logger;
@@ -92,6 +93,7 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
             JavaDocDocsifyThemeDto javaDocDocsifyThemeDto = new JavaDocDocsifyThemeDto();
             JSONObject jsonObject = JSONUtil.readJSONObject(jsonFile, CharsetUtil.CHARSET_UTF_8);
             String className = jsonObject.getStr("className");
+            String fullClassName = jsonObject.getStr("fullClassName");
             String moduleName = jsonObject.getStr("moduleName");
             String moduleDesc = jsonObject.getStr("moduleDesc");
             String packageName = jsonObject.getStr("packageName");
@@ -107,7 +109,8 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
                 javaDocDocsifyThemeDto.setProjectName(jsonObject.getStr("projectName"));
                 javaDocDocsifyThemeDto.setModuleName(moduleName);
                 javaDocDocsifyThemeDto.setModuleDesc(moduleDesc);
-                javaDocDocsifyThemeDto.setClassName(jsonObject.getStr("className"));
+                javaDocDocsifyThemeDto.setClassName(className);
+                javaDocDocsifyThemeDto.setFullClassName(fullClassName);
                 javaDocDocsifyThemeDto.setPackageName(packageName);
                 javaDocDocsifyThemeDtos.add(javaDocDocsifyThemeDto);
             }
@@ -122,7 +125,7 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
     }
 
     /**
-     * 创建路由信息 所有模块  所有包  所有类
+     * 创建路由信息 所有模块  所有包  所有类 所有树级类索引
      * @param docTemplateThemeInfo
      * @param javaDocDocsifyThemeDtos
      */
@@ -135,6 +138,233 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
 
         createAllModuleRoute(renderFilePath, javaDocDocsifyThemeDtos);
 
+        createAllClassTreeIndexRoute(renderFilePath, javaDocDocsifyThemeDtos);
+
+    }
+
+    /**
+     * 创建所有类的层次结构
+     * @param renderFilePath
+     * @param allClassList
+     */
+    private void createAllClassTreeIndexRoute(String renderFilePath, List<JavaDocDocsifyThemeDto> allClassList) {
+        CollectionUtil.sortByProperty(allClassList,"fullClassName");
+
+        List<JavaDocDocsifyThemeDto> allClassHierarchyList = new ArrayList<>();
+        JavaDocDocsifyThemeDto javaLangObject = createJavaLangObject();
+        allClassHierarchyList.add(javaLangObject);
+
+        List<JavaDocDocsifyThemeDto> interfaceClassHierarchyList = new ArrayList<>();
+        JavaDocDocsifyThemeDto interfaceJavaLangObject = createJavaLangObject();
+        interfaceClassHierarchyList.add(interfaceJavaLangObject);
+
+
+
+        List<JavaDocDocsifyThemeDto> enumClassHierarchyList = new ArrayList<>();
+        JavaDocDocsifyThemeDto enumJavaLangObject = createJavaLangObject();
+        JavaDocDocsifyThemeDto enumBase = new JavaDocDocsifyThemeDto();
+        enumBase.setFullClassName("java.lang.Enum");
+        enumBase.setClassName("Enum");
+        enumBase.setPackageName("java.lang");
+        enumBase.setHierarchy(2);
+        enumJavaLangObject.addChild(enumBase);
+        enumClassHierarchyList.add(enumJavaLangObject);
+
+        List<JavaDocDocsifyThemeDto> exceptionClassHierarchyList = new ArrayList<>();
+        JavaDocDocsifyThemeDto exceptionJavaLangObject = createJavaLangObject();
+        JavaDocDocsifyThemeDto throwBase = new JavaDocDocsifyThemeDto();
+        throwBase.setFullClassName("java.lang.Throwable");
+        throwBase.setClassName("Throwable");
+        throwBase.setPackageName("java.lang");
+        throwBase.setHierarchy(2);
+        exceptionJavaLangObject.addChild(throwBase);
+        exceptionClassHierarchyList.add(exceptionJavaLangObject);
+
+        List<JavaDocDocsifyThemeDto> allChildClassHierarchyList = new ArrayList<>();
+        List<JavaDocDocsifyThemeDto> allInterfaceClassHierarchyList = new ArrayList<>();
+        List<JavaDocDocsifyThemeDto> allEnumClassHierarchyList = new ArrayList<>();
+        List<JavaDocDocsifyThemeDto> allExceptionClassHierarchyList = new ArrayList<>();
+        for (JavaDocDocsifyThemeDto javaDocDocsifyThemeDto : allClassList) {
+            String fullClassName = javaDocDocsifyThemeDto.getFullClassName();
+            TreeIndexClassMeta treeIndexClassMeta = MetaIndexContext.getTreeIndexClassMetaByFullName(fullClassName);
+            JavaClassMeta javaClassMeta = MetaIndexContext.getClassMetaByFullName(fullClassName);
+            boolean isEnum = BooleanUtil.isTrue(javaClassMeta.getEnumClass());
+            if(treeIndexClassMeta != null){
+                boolean isClass = !BooleanUtil.isTrue(javaClassMeta.getInterfaceClass());
+                if(isClass){
+                    if(CollectionUtil.isEmpty(treeIndexClassMeta.getSupperClassList())){
+                        javaDocDocsifyThemeDto.setHierarchy(2);
+                        allChildClassHierarchyList.add(javaDocDocsifyThemeDto);
+                    }else{
+                        boolean isExceptionClass = false;
+                        for (JavaClassMeta classMeta : treeIndexClassMeta.getSupperClassList()) {
+                            String className = classMeta.getClassName();
+                            if("Exception".equals(className)){
+                                javaDocDocsifyThemeDto.setHierarchy(4);
+                                isExceptionClass = true;
+                            }
+                            if("RuntimeException".equals(className)){
+                                javaDocDocsifyThemeDto.setHierarchy(5);
+                                isExceptionClass = true;
+                            }
+                        }
+                        if(isExceptionClass){
+                            allExceptionClassHierarchyList.add(javaDocDocsifyThemeDto);
+                        }
+
+                    }
+
+                }
+                if(!isClass && CollectionUtil.isEmpty(treeIndexClassMeta.getInterfaceList())){
+                    javaDocDocsifyThemeDto.setHierarchy(2);
+                    allInterfaceClassHierarchyList.add(javaDocDocsifyThemeDto);
+
+                }
+                if(isEnum && CollectionUtil.isEmpty(treeIndexClassMeta.getSupperClassList())){
+                    javaDocDocsifyThemeDto.setHierarchy(3);
+                    allEnumClassHierarchyList.add(javaDocDocsifyThemeDto);
+                }
+            }
+        }
+        javaLangObject.setChildList(allChildClassHierarchyList);
+        interfaceJavaLangObject.setChildList(allInterfaceClassHierarchyList);
+        enumBase.setChildList(allEnumClassHierarchyList);
+
+
+        for (JavaDocDocsifyThemeDto javaDocDocsifyThemeDto : allChildClassHierarchyList) {
+            String fullClassName = javaDocDocsifyThemeDto.getFullClassName();
+            TreeIndexClassMeta treeIndexClass = MetaIndexContext.getTreeIndexClassMetaByFullName(fullClassName);
+            addAllSubClass(treeIndexClass,treeIndexClass,3,javaDocDocsifyThemeDto);
+        }
+
+        for (JavaDocDocsifyThemeDto javaDocDocsifyThemeDto : allInterfaceClassHierarchyList) {
+            String fullClassName = javaDocDocsifyThemeDto.getFullClassName();
+            TreeIndexClassMeta treeIndexClass = MetaIndexContext.getTreeIndexClassMetaByFullName(fullClassName);
+            addAllInterfaceSubClass(treeIndexClass,treeIndexClass,3,javaDocDocsifyThemeDto);
+        }
+
+        for (JavaDocDocsifyThemeDto javaDocDocsifyThemeDto : allEnumClassHierarchyList) {
+            String fullClassName = javaDocDocsifyThemeDto.getFullClassName();
+            TreeIndexClassMeta treeIndexClass = MetaIndexContext.getTreeIndexClassMetaByFullName(fullClassName);
+            addAllSubClass(treeIndexClass,treeIndexClass,4,javaDocDocsifyThemeDto);
+        }
+
+        JavaDocDocsifyThemeDto exceptionBase = new JavaDocDocsifyThemeDto();
+        exceptionBase.setFullClassName("java.lang.Exception");
+        exceptionBase.setClassName("Exception");
+        exceptionBase.setPackageName("java.lang");
+        exceptionBase.setHierarchy(3);
+        throwBase.addChild(exceptionBase);
+
+
+        JavaDocDocsifyThemeDto runtimeExceptionBase = new JavaDocDocsifyThemeDto();
+        runtimeExceptionBase.setFullClassName("java.lang.RuntimeException");
+        runtimeExceptionBase.setClassName("RuntimeException");
+        runtimeExceptionBase.setPackageName("java.lang");
+        runtimeExceptionBase.setHierarchy(4);
+        exceptionBase.addChild(runtimeExceptionBase);
+
+        for (JavaDocDocsifyThemeDto javaDocDocsifyThemeDto : allExceptionClassHierarchyList) {
+            String fullClassName = javaDocDocsifyThemeDto.getFullClassName();
+            int hierarchy = javaDocDocsifyThemeDto.getHierarchy();
+            if(hierarchy == 4){
+                exceptionBase.addChild(javaDocDocsifyThemeDto);
+            }
+            if(hierarchy == 5){
+                runtimeExceptionBase.addChild(javaDocDocsifyThemeDto);
+            }
+            TreeIndexClassMeta treeIndexClass = MetaIndexContext.getTreeIndexClassMetaByFullName(fullClassName);
+            addAllSubClass(treeIndexClass,treeIndexClass,hierarchy+1,javaDocDocsifyThemeDto);
+        }
+
+        Map<String,Object> prop = new HashMap<>();
+        prop.put("tableList",allClassHierarchyList);
+        prop.put("interfaceTableList",interfaceClassHierarchyList);
+        prop.put("enumTableList",enumClassHierarchyList);
+        prop.put("exceptionTableList",exceptionClassHierarchyList);
+        prop.put("title","所有类层次结构");
+        prop.put("sideType","allClasstree");
+        prop.put("classType","allClasstree");
+
+        String readMeFile = "/route/allclasstree/README.md";
+        writeThemeTemplateFile(renderFilePath, prop,"allClassTreeReadme.btl",readMeFile);
+
+        String sideBarFile = "/route/allclasstree/_sidebar.md";
+        writeThemeTemplateFile(renderFilePath, prop,"sidebar.btl",sideBarFile);
+    }
+
+    private JavaDocDocsifyThemeDto createJavaLangObject() {
+        JavaDocDocsifyThemeDto javaLangObject = new JavaDocDocsifyThemeDto();
+        javaLangObject.setFullClassName("java.lang.Object");
+        javaLangObject.setClassName("Object");
+        javaLangObject.setPackageName("java.lang");
+        javaLangObject.setHierarchy(1);
+        return javaLangObject;
+    }
+
+    private void addAllSubClass(TreeIndexClassMeta treeIndexClass, TreeIndexClassMeta rootTreeIndexClass,int hierarchy,JavaDocDocsifyThemeDto javaDocDocsifyThemeDto) {
+        if(ObjectUtil.isNotNull(treeIndexClass)){
+            List<JavaClassMeta> childClassList = treeIndexClass.getChildClassList();
+            List<JavaClassMeta> interfaceList = treeIndexClass.getInterfaceList();
+            if(CollectionUtil.isNotEmpty(interfaceList)){
+                for (JavaClassMeta classMeta : interfaceList) {
+                    JavaClassMeta classMetaByFullName = MetaIndexContext.getClassMetaByFullName(classMeta.getFullClassName());
+                    if(classMetaByFullName != null){
+                        javaDocDocsifyThemeDto.addInterface(createJavaDocDocsifyThemeDtoFromMeta(classMetaByFullName,2));
+                    }
+                }
+            }
+            if(CollectionUtil.isNotEmpty(childClassList)){
+                for (JavaClassMeta classMeta : childClassList) {
+                    String fullClassName = classMeta.getFullClassName();
+                    JavaClassMeta classMetaIndex = MetaIndexContext.getClassMetaByFullName(fullClassName);
+                    JavaDocDocsifyThemeDto javaDocDocsifyThemeDtoFromMeta = createJavaDocDocsifyThemeDtoFromMeta(classMetaIndex, hierarchy);
+                    javaDocDocsifyThemeDto.addChild(javaDocDocsifyThemeDtoFromMeta);
+
+
+                    TreeIndexClassMeta superTreeIndexClass = MetaIndexContext.getTreeIndexClassMetaByFullName(fullClassName);
+                    addAllSubClass(superTreeIndexClass,rootTreeIndexClass,hierarchy+1,javaDocDocsifyThemeDtoFromMeta);
+                }
+            }
+        }
+    }
+
+    private void addAllInterfaceSubClass(TreeIndexClassMeta treeIndexClass, TreeIndexClassMeta rootTreeIndexClass,int hierarchy,JavaDocDocsifyThemeDto javaDocDocsifyThemeDto) {
+        if(ObjectUtil.isNotNull(treeIndexClass)){
+            List<JavaClassMeta> childInterfaceList = treeIndexClass.getChildInterfaceList();
+            List<JavaClassMeta> interfaceList = treeIndexClass.getInterfaceList();
+            if(CollectionUtil.isNotEmpty(interfaceList)){
+                for (JavaClassMeta classMeta : interfaceList) {
+                    JavaClassMeta classMetaByFullName = MetaIndexContext.getClassMetaByFullName(classMeta.getFullClassName());
+                    if(classMetaByFullName != null){
+                        javaDocDocsifyThemeDto.addInterface(createJavaDocDocsifyThemeDtoFromMeta(classMetaByFullName,2));
+                    }
+                }
+            }
+            if(CollectionUtil.isNotEmpty(childInterfaceList)){
+                for (JavaClassMeta classMeta : childInterfaceList) {
+                    String fullClassName = classMeta.getFullClassName();
+                    JavaClassMeta classMetaIndex = MetaIndexContext.getClassMetaByFullName(fullClassName);
+                    JavaDocDocsifyThemeDto javaDocDocsifyThemeDtoFromMeta = createJavaDocDocsifyThemeDtoFromMeta(classMetaIndex, hierarchy);
+                    javaDocDocsifyThemeDto.addChild(javaDocDocsifyThemeDtoFromMeta);
+
+                    TreeIndexClassMeta superTreeIndexClass = MetaIndexContext.getTreeIndexClassMetaByFullName(fullClassName);
+                    addAllInterfaceSubClass(superTreeIndexClass,rootTreeIndexClass,hierarchy+1,javaDocDocsifyThemeDtoFromMeta);
+                }
+            }
+        }
+    }
+
+    private JavaDocDocsifyThemeDto createJavaDocDocsifyThemeDtoFromMeta(JavaClassMeta classMeta,int hierarchy) {
+        JavaDocDocsifyThemeDto javaDocDocsifyThemeDto = new JavaDocDocsifyThemeDto();
+        javaDocDocsifyThemeDto.setProjectName(classMeta.getProjectName());
+        javaDocDocsifyThemeDto.setModuleName(classMeta.getModuleName());
+        javaDocDocsifyThemeDto.setModuleDesc(classMeta.getModuleDesc());
+        javaDocDocsifyThemeDto.setClassName(classMeta.getClassName());
+        javaDocDocsifyThemeDto.setFullClassName(classMeta.getFullClassName());
+        javaDocDocsifyThemeDto.setHierarchy(hierarchy);
+        javaDocDocsifyThemeDto.setPackageName(classMeta.getPackageName());
+        return javaDocDocsifyThemeDto;
     }
 
     /**

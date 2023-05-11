@@ -3,134 +3,153 @@ package com.ejdoc.metainfo.seralize.seralize.plugin;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.ejdoc.metainfo.seralize.index.JavaMetaFileInfo;
+import com.ejdoc.metainfo.seralize.index.MetaIndexContext;
 import com.ejdoc.metainfo.seralize.model.*;
 import com.ejdoc.metainfo.seralize.seralize.JavaMetaSeralizePlugin;
 import com.ejdoc.metainfo.seralize.seralize.config.SeralizeConfig;
-import com.ejdoc.metainfo.seralize.seralize.plugin.dto.JavaMetaSeralizePluginData;
 import com.ejdoc.metainfo.seralize.seralize.plugin.dto.JavaMetaServalizePluginContextDto;
 
 import java.util.List;
-import java.util.Map;
 
 public class JavaMetaSeralizeDependPathPlugin extends AbstractJavaMetaSeralizePlugin implements JavaMetaSeralizePlugin {
 
 
     @Override
     public void exePostJavaMetaSeralize(JavaMetaServalizePluginContextDto javaMetaServalizePluginContextDto) {
-        List<JavaMetaSeralizePluginData> allJavaMetaSeralizeClassList = javaMetaServalizePluginContextDto.getAllJavaMetaSeralizeClassList();
-        if(CollectionUtil.isNotEmpty(allJavaMetaSeralizeClassList)){
-            for (JavaMetaSeralizePluginData javaMetaSeralizePluginData : allJavaMetaSeralizeClassList) {
-                parseDependPath(javaMetaSeralizePluginData, javaMetaServalizePluginContextDto);
+
+        List<JavaClassMeta> javaClassMetaList = MetaIndexContext.getJavaClassMetaList();
+        if(CollectionUtil.isNotEmpty(javaClassMetaList)){
+            for (JavaClassMeta javaClassMeta : javaClassMetaList) {
+                parseDependPath(javaClassMeta,javaMetaServalizePluginContextDto.getSeralizeConfig());
             }
+
         }
     }
 
-    private void parseDependPath(JavaMetaSeralizePluginData javaMetaSeralizePluginData,JavaMetaServalizePluginContextDto javaMetaServalizePluginContextDto) {
-        Map<String, JavaMetaSeralizePluginData> dependPathMap = javaMetaServalizePluginContextDto.getMetaSeralizeFileIndex();
-        JavaClassMeta javaClassMeta = JSONUtil.toBean(javaMetaSeralizePluginData.getJsonObject(),JavaClassMeta.class);
+    private void parseDependPath(JavaClassMeta javaClassMeta,SeralizeConfig seralizeConfig) {
 
-        parseSupperClassDependPath(javaMetaServalizePluginContextDto,javaClassMeta,javaMetaSeralizePluginData, dependPathMap);
+        parseSupperClassDependPath(javaClassMeta,seralizeConfig);
 
-        parseInterfaceDependPath(javaMetaServalizePluginContextDto,javaClassMeta,javaMetaSeralizePluginData, dependPathMap);
+        parseInterfaceDependPath(javaClassMeta,seralizeConfig);
 
-        parseContructorDependPath(javaMetaServalizePluginContextDto,javaClassMeta, javaMetaSeralizePluginData,dependPathMap);
+        parseContructorDependPath(javaClassMeta,seralizeConfig);
 
-        parseFieldDependPath(javaMetaServalizePluginContextDto,javaClassMeta, javaMetaSeralizePluginData,dependPathMap);
+        parseFieldDependPath(javaClassMeta,seralizeConfig);
 
-        parseMethodDependPath(javaMetaServalizePluginContextDto,javaClassMeta,javaMetaSeralizePluginData, dependPathMap);
+        parseMethodDependPath(javaClassMeta,seralizeConfig);
+
     }
 
 
 
 
 
-    private void parseMethodDependPath(JavaMetaServalizePluginContextDto javaMetaServalizePluginContextDto,JavaClassMeta javaClassMeta,JavaMetaSeralizePluginData javaMetaSeralizePluginData,  Map<String, JavaMetaSeralizePluginData> dependPathMap) {
+    private void parseMethodDependPath(JavaClassMeta javaClassMeta,SeralizeConfig seralizeConfig) {
         List<JavaMethodMeta> methods = javaClassMeta.getMethods();
-        String jsonFilePath = javaMetaSeralizePluginData.getJsonFilePath();
+
+        String fullClassName = javaClassMeta.getFullClassName();
+        JavaMetaFileInfo javaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(fullClassName);
+        String jsonFilePath = javaMetaFileInfo.getJsonFilePath();
+
         if(CollectionUtil.isNotEmpty(methods)){
             for (JavaMethodMeta method : methods) {
                 JavaClassMeta returns = method.getReturns();
-                setRelativePath(javaMetaServalizePluginContextDto,dependPathMap, jsonFilePath, returns);
+                JavaMetaFileInfo returnJavaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(returns.getFullClassName());
+                setRelativePath(seralizeConfig,returnJavaMetaFileInfo,jsonFilePath, returns);
                 List<JavaParameterMeta> parameters = method.getParameters();
                 if(CollectionUtil.isNotEmpty(parameters)){
                     for (JavaParameterMeta parameter : parameters) {
                         JavaClassMeta javaClass = parameter.getJavaClass();
-                        setRelativePath(javaMetaServalizePluginContextDto,dependPathMap, jsonFilePath, javaClass);
+                        JavaMetaFileInfo paramJavaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(javaClass.getFullClassName());
+                        setRelativePath(seralizeConfig,paramJavaMetaFileInfo,jsonFilePath, javaClass);
                     }
                 }
-                parseBaseClassDependPath(javaMetaServalizePluginContextDto,method.getExceptions(),jsonFilePath, dependPathMap);
+                parseBaseClassDependPath(seralizeConfig,method.getExceptions(),jsonFilePath,MetaIndexContext.getAllJavaMetaFileIndexMap());
             }
 
-            JSONObject jsonObject = javaMetaSeralizePluginData.getJsonObject();
-            jsonObject.putOpt("methods",JSONUtil.parseArray(methods));
+            reSetJsonProp(methods, javaMetaFileInfo, "methods");
         }
     }
 
-    private void parseFieldDependPath(JavaMetaServalizePluginContextDto javaMetaServalizePluginContextDto,JavaClassMeta javaClassMeta,JavaMetaSeralizePluginData javaMetaSeralizePluginData,  Map<String, JavaMetaSeralizePluginData> dependPathMap) {
+    private void parseFieldDependPath(JavaClassMeta javaClassMeta,SeralizeConfig seralizeConfig) {
+        String fullClassName = javaClassMeta.getFullClassName();
+        JavaMetaFileInfo javaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(fullClassName);
+        String jsonFilePath = javaMetaFileInfo.getJsonFilePath();
+
         List<JavaFieldMeta> fields = javaClassMeta.getFields();
-        String jsonFilePath = javaMetaSeralizePluginData.getJsonFilePath();
         if(CollectionUtil.isNotEmpty(fields)){
             for (JavaFieldMeta field : fields) {
                 JavaClassMeta type = field.getType();
-                setRelativePath(javaMetaServalizePluginContextDto,dependPathMap,jsonFilePath, type);
+                JavaMetaFileInfo fieldJavaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(type.getFullClassName());
+                setRelativePath(seralizeConfig,fieldJavaMetaFileInfo,jsonFilePath, type);
             }
 
-            JSONObject jsonObject = javaMetaSeralizePluginData.getJsonObject();
-            jsonObject.putOpt("fields",JSONUtil.parseArray(fields));
+            reSetJsonProp(fields, javaMetaFileInfo, "fields");
         }
     }
 
-    private void parseContructorDependPath(JavaMetaServalizePluginContextDto javaMetaServalizePluginContextDto,JavaClassMeta javaClassMeta,JavaMetaSeralizePluginData javaMetaSeralizePluginData,  Map<String, JavaMetaSeralizePluginData> dependPathMap) {
+    private void parseContructorDependPath(JavaClassMeta javaClassMeta,SeralizeConfig seralizeConfig) {
         List<JavaConstructorMeta> constructors = javaClassMeta.getConstructors();
-        String jsonFilePath = javaMetaSeralizePluginData.getJsonFilePath();
+
+        String fullClassName = javaClassMeta.getFullClassName();
+        JavaMetaFileInfo javaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(fullClassName);
+        String jsonFilePath = javaMetaFileInfo.getJsonFilePath();
+
         if(CollectionUtil.isNotEmpty(constructors)){
             for (JavaConstructorMeta constructor : constructors) {
                 List<JavaParameterMeta> parameters = constructor.getParameters();
                 if(CollectionUtil.isNotEmpty(parameters)){
                     for (JavaParameterMeta parameter : parameters) {
                         JavaClassMeta javaClass = parameter.getJavaClass();
-                        setRelativePath(javaMetaServalizePluginContextDto,dependPathMap,jsonFilePath, javaClass);
+                        JavaMetaFileInfo contructorJavaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(javaClass.getFullClassName());
+                        setRelativePath(seralizeConfig,contructorJavaMetaFileInfo,jsonFilePath, javaClass);
                     }
                 }
-                parseBaseClassDependPath(javaMetaServalizePluginContextDto,constructor.getExceptions(),jsonFilePath, dependPathMap);
+                parseBaseClassDependPath(seralizeConfig,constructor.getExceptions(),jsonFilePath,MetaIndexContext.getAllJavaMetaFileIndexMap());
             }
 
-            JSONObject jsonObject = javaMetaSeralizePluginData.getJsonObject();
-            jsonObject.putOpt("constructors",JSONUtil.parseArray(constructors));
+            reSetJsonProp(constructors, javaMetaFileInfo, "constructors");
         }
 
     }
 
-    private void parseInterfaceDependPath(JavaMetaServalizePluginContextDto javaMetaServalizePluginContextDto,JavaClassMeta javaClassMeta,JavaMetaSeralizePluginData javaMetaSeralizePluginData,  Map<String, JavaMetaSeralizePluginData> dependPathMap) {
+    private void parseInterfaceDependPath(JavaClassMeta javaClassMeta,SeralizeConfig seralizeConfig) {
         List<JavaClassMeta> javaClassMetaList =javaClassMeta.getInterfaces();
-        String jsonFilePath = javaMetaSeralizePluginData.getJsonFilePath();
-        parseBaseClassDependPath(javaMetaServalizePluginContextDto,javaClassMetaList,jsonFilePath,dependPathMap);
 
-        reSetJsonProp(javaClassMetaList, javaMetaSeralizePluginData, "interfaces");
+        String fullClassName = javaClassMeta.getFullClassName();
+        JavaMetaFileInfo javaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(fullClassName);
+        String jsonFilePath = javaMetaFileInfo.getJsonFilePath();
+
+        parseBaseClassDependPath(seralizeConfig,javaClassMetaList,jsonFilePath,MetaIndexContext.getAllJavaMetaFileIndexMap());
+
+        reSetJsonProp(javaClassMetaList, javaMetaFileInfo, "interfaces");
     }
 
 
 
-    private  void parseSupperClassDependPath(JavaMetaServalizePluginContextDto javaMetaServalizePluginContextDto,JavaClassMeta javaClassMeta, JavaMetaSeralizePluginData javaMetaSeralizePluginData, Map<String, JavaMetaSeralizePluginData> dependPathMap) {
+    private  void parseSupperClassDependPath(JavaClassMeta javaClassMeta,SeralizeConfig seralizeConfig) {
         List<JavaClassMeta> javaClassMetaList =javaClassMeta.getSuperClasses();
-        String jsonFilePath = javaMetaSeralizePluginData.getJsonFilePath();
+        String fullClassName = javaClassMeta.getFullClassName();
+        JavaMetaFileInfo javaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(fullClassName);
+        String jsonFilePath = javaMetaFileInfo.getJsonFilePath();
 
-        parseBaseClassDependPath(javaMetaServalizePluginContextDto,javaClassMetaList,jsonFilePath,dependPathMap);
+        parseBaseClassDependPath(seralizeConfig,javaClassMetaList,jsonFilePath,MetaIndexContext.getAllJavaMetaFileIndexMap());
 
-        reSetJsonProp(javaClassMetaList, javaMetaSeralizePluginData, "superClasses");
+        reSetJsonProp(javaClassMetaList, javaMetaFileInfo, "superClasses");
 
     }
 
     /**
      * 重新设置json对象的属性
      * @param javaClassMetaList
-     * @param javaMetaSeralizePluginData
-     * @param interfaces
+     * @param javaMetaFileInfo
+     * @param keyName
      */
-    private void reSetJsonProp(List<JavaClassMeta> javaClassMetaList, JavaMetaSeralizePluginData javaMetaSeralizePluginData, String interfaces) {
+    private void reSetJsonProp(List javaClassMetaList, JavaMetaFileInfo javaMetaFileInfo, String keyName) {
         if(CollectionUtil.isNotEmpty(javaClassMetaList)){
-            JSONObject jsonObject = javaMetaSeralizePluginData.getJsonObject();
-            jsonObject.putOpt(interfaces,JSONUtil.parseArray(javaClassMetaList));
+            JSONObject jsonObject = javaMetaFileInfo.getJsonObject();
+            jsonObject.putOpt(keyName,JSONUtil.parseArray(javaClassMetaList));
         }
     }
 }

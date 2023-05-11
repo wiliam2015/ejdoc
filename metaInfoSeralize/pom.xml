@@ -5,11 +5,13 @@
     <parent>
         <artifactId>ejdoc</artifactId>
         <groupId>com.ejdoc</groupId>
-        <version>0.5.0-SNAPSHOT</version>
+        <version>0.5.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>metaInfoSeralize</artifactId>
+    <name>${project.artifactId}</name>
+    <description>java类文件元数据生成组件</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

@@ -21,9 +21,6 @@ public class MemberRenderUtil {
             result.append(calReturnMd(methodObj.getJSONObject("returns"),ctx));
             String methodName = methodObj.getStr("name");
             String methodNameMd = calUniqueMethodName(paras, ctx);
-            if(StrUtil.isBlank(prex)){
-                prex = "innerLink-";
-            }
             result.append(createLinkIdMd(methodName,prex+methodNameMd,ctx));
             result.append(calParamMd(methodObj.getJSONArray("parameters"),ctx));
             result.append(calExceptionMd(methodObj.getJSONArray("exceptions"),ctx));
@@ -68,9 +65,6 @@ public class MemberRenderUtil {
             result.append("[");
             result.append(paras);
             result.append("](#");
-            if(StrUtil.isBlank(prex)){
-                prex = "innerLink-";
-            }
             if(StrUtil.isNotBlank(uniqueName)){
                 result.append(replaceSpecChars(prex+uniqueName));
             }else{
@@ -107,9 +101,6 @@ public class MemberRenderUtil {
         StringBuilder result = new StringBuilder();
         if(paras instanceof String){
             result.append("<span id=\"");
-            if(StrUtil.isBlank(prex)){
-                prex = "innerLink-";
-            }
             if(StrUtil.isNotBlank(uniqueName)){
                 result.append(replaceSpecChars(prex+uniqueName));
             }else{
@@ -146,7 +137,7 @@ public class MemberRenderUtil {
 
     private String replaceSpecChars(String replaceStr){
         if(StrUtil.isNotBlank(replaceStr)){
-            return StrUtil.replaceChars(replaceStr,"()<>,","-").replace(".","").toLowerCase();
+            return StrUtil.replaceChars(replaceStr,"()<>,?","-").replace(".","").toLowerCase();
         }
         return "";
     }

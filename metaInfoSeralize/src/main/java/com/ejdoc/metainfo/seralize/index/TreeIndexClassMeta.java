@@ -1,21 +1,17 @@
-package com.ejdoc.doc.generate.out.javadoc;
+package com.ejdoc.metainfo.seralize.index;
 
-import cn.hutool.json.JSONObject;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
-import com.ejdoc.metainfo.seralize.seralize.plugin.dto.JavaMetaSeralizePluginData;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class JavaDocClassMeta  {
+/**
+ * 索引信息类包含父子类
+ */
+public class TreeIndexClassMeta {
 
     private JavaClassMeta javaClassMeta;
 
-    private JSONObject javaClassMetaJsonObject;
-
-    private JavaMetaSeralizePluginData javaMetaSeralizePluginData;
-
-    private String jsonFilePath;
     private List<JavaClassMeta> allSupperClasses;
 
     private List<JavaClassMeta> allInterfaceClasses;
@@ -28,11 +24,18 @@ public class JavaDocClassMeta  {
 
     private List<JavaClassMeta> childClassList;
 
+    private List<JavaClassMeta> interfaceList;
+
+    private List<JavaClassMeta> childInterfaceList;
+
     public List<JavaClassMeta> getAllSupperClasses() {
         return allSupperClasses;
     }
 
     public boolean addAllSupperClasses(JavaClassMeta javaClassMeta){
+        if(javaClassMeta == null){
+            return false;
+        }
         if(allSupperClasses == null){
             allSupperClasses = new ArrayList<>();
         }
@@ -54,6 +57,9 @@ public class JavaDocClassMeta  {
     }
 
     public boolean addAllInterfaceClasses(JavaClassMeta javaClassMeta){
+        if(javaClassMeta == null){
+            return false;
+        }
         if(allInterfaceClasses == null){
             allInterfaceClasses = new ArrayList<>();
         }
@@ -69,12 +75,21 @@ public class JavaDocClassMeta  {
         }
         return false;
     }
+    public boolean addAllInterfaceClasses(List<JavaClassMeta> javaClassMetaList){
+        if(this.allInterfaceClasses == null){
+            this.allInterfaceClasses = new ArrayList<>();
+        }
+        return this.allInterfaceClasses.addAll(javaClassMetaList);
+    }
 
     public List<JavaClassMeta> getAllSubClasses() {
         return allSubClasses;
     }
 
     public boolean addAllSubClasses(JavaClassMeta javaClassMeta){
+        if(javaClassMeta == null){
+            return false;
+        }
         if(allSubClasses == null){
             allSubClasses = new ArrayList<>();
         }
@@ -91,11 +106,21 @@ public class JavaDocClassMeta  {
         return false;
     }
 
+    public boolean addAllSubClasses(List<JavaClassMeta> javaClassMetaList){
+        if(this.allSubClasses == null){
+            this.allSubClasses = new ArrayList<>();
+        }
+        return this.allSubClasses.addAll(javaClassMetaList);
+    }
+
     public List<JavaClassMeta> getAllSubInterfaceClasses() {
         return allSubInterfaceClasses;
     }
 
     public boolean addAllSubInterfaceClasses(JavaClassMeta javaClassMeta){
+        if(javaClassMeta == null){
+            return false;
+        }
         if(allSubInterfaceClasses == null){
             allSubInterfaceClasses = new ArrayList<>();
         }
@@ -112,6 +137,13 @@ public class JavaDocClassMeta  {
         return false;
     }
 
+    public boolean addAllSubInterfaceClasses(List<JavaClassMeta> javaClassMetaList){
+        if(this.allSubInterfaceClasses == null){
+            this.allSubInterfaceClasses = new ArrayList<>();
+        }
+        return this.allSubInterfaceClasses.addAll(javaClassMetaList);
+    }
+
     public JavaClassMeta getJavaClassMeta() {
         return javaClassMeta;
     }
@@ -120,29 +152,6 @@ public class JavaDocClassMeta  {
         this.javaClassMeta = javaClassMeta;
     }
 
-    public JSONObject getJavaClassMetaJsonObject() {
-        return javaClassMetaJsonObject;
-    }
-
-    public void setJavaClassMetaJsonObject(JSONObject javaClassMetaJsonObject) {
-        this.javaClassMetaJsonObject = javaClassMetaJsonObject;
-    }
-
-    public String getJsonFilePath() {
-        return jsonFilePath;
-    }
-
-    public void setJsonFilePath(String jsonFilePath) {
-        this.jsonFilePath = jsonFilePath;
-    }
-
-    public JavaMetaSeralizePluginData getJavaMetaSeralizePluginData() {
-        return javaMetaSeralizePluginData;
-    }
-
-    public void setJavaMetaSeralizePluginData(JavaMetaSeralizePluginData javaMetaSeralizePluginData) {
-        this.javaMetaSeralizePluginData = javaMetaSeralizePluginData;
-    }
 
     public List<JavaClassMeta> getSupperClassList() {
         return supperClassList;
@@ -201,5 +210,56 @@ public class JavaDocClassMeta  {
             }
             this.supperClassList.addAll(supperClassList);
         }
+    }
+
+    public void addInterfaceList(List<JavaClassMeta> classList) {
+        if(classList != null && classList.size() != 0){
+            if(this.interfaceList == null){
+                this.interfaceList = new ArrayList<>();
+            }
+            this.interfaceList.addAll(classList);
+        }
+    }
+
+    public List<JavaClassMeta> getInterfaceList() {
+        return interfaceList;
+    }
+
+    public void setInterfaceList(List<JavaClassMeta> interfaceList) {
+        this.interfaceList = interfaceList;
+    }
+
+    public void addChildInterfaceList(List<JavaClassMeta> classList) {
+        if(classList != null && classList.size() != 0){
+            if(this.childInterfaceList == null){
+                this.childInterfaceList = new ArrayList<>();
+            }
+            this.childInterfaceList.addAll(classList);
+        }
+    }
+
+    public boolean addChildInterface(JavaClassMeta javaClassMeta){
+        if(childInterfaceList == null){
+            childInterfaceList = new ArrayList<>();
+        }
+        boolean exist = false;
+        for (JavaClassMeta classMeta : childInterfaceList) {
+            if(classMeta.getFullClassName().equals(javaClassMeta.getFullClassName())){
+                exist = true;
+                break;
+            }
+        }
+        if(!exist){
+            return childInterfaceList.add(javaClassMeta);
+        }
+        return false;
+    }
+
+    public List<JavaClassMeta> getChildInterfaceList() {
+        return childInterfaceList;
+    }
+
+    public void setChildInterfaceList(List<JavaClassMeta> childInterfaceList) {
+        this.childInterfaceList = childInterfaceList;
     }
 }

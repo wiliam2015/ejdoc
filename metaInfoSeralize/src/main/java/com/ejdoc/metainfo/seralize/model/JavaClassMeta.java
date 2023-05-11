@@ -106,6 +106,12 @@ public class JavaClassMeta  implements Serializable {
 
     private  List<JavaConstructorMeta> constructors;
 
+    public JavaClassMeta(){}
+
+    public JavaClassMeta(String className,String fullClassName){
+        this.className = className;
+        this.fullClassName = fullClassName;
+    }
     public String getProjectName() {
         return projectName;
     }

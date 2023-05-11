@@ -1,10 +1,12 @@
 package com.ejdoc.doc.generate.util.beetl.function;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.ejdoc.doc.generate.comment.CommentSerialize;
 import com.ejdoc.doc.generate.comment.CommentSerializeFactory;
+import com.ejdoc.doc.generate.template.markdown.theme.JavaDocDocsifyThemeDto;
 import org.beetl.core.Context;
 
 import java.util.List;
@@ -41,10 +43,14 @@ public class DocClassRenderUtil {
             JSONArray allClasses =( JSONArray)paras;
             if(allClasses != null && allClasses.size() > 0){
                 StringBuilder innerLoopSb = new StringBuilder();
+                int i = 1;
                 for (Object allClass : allClasses) {
                     JSONObject allClassObj =( JSONObject)allClass;
                     innerLoopSb.append(",");
                     innerLoopSb.append(createClassNameLinkMd(allClassObj));
+                    if((i++)%5 == 0 ){
+                        innerLoopSb.append("\n");
+                    }
                 }
                 if(StrUtil.isNotBlank(appendBefore)){
                     result.append(appendBefore);
@@ -99,6 +105,61 @@ public class DocClassRenderUtil {
             }
         }
         return result.toString();
+    }
+
+    public String calAllClassesHierarchyMd(Object paras,Context ctx){
+        StringBuilder result = new StringBuilder();
+        if(paras != null && paras instanceof JavaDocDocsifyThemeDto){
+            JavaDocDocsifyThemeDto javaDocDocsifyThemeDto = (JavaDocDocsifyThemeDto)paras;
+            calClassesHierarchyMd(javaDocDocsifyThemeDto,result);
+        }
+        return result.toString();
+    }
+
+    private void calClassesHierarchyMd(JavaDocDocsifyThemeDto javaDocDocsifyThemeDto,StringBuilder result){
+        StringBuilder blankSb = new StringBuilder();
+        int hierarchy = javaDocDocsifyThemeDto.getHierarchy();
+        String fullClassName = javaDocDocsifyThemeDto.getFullClassName();
+        for (int i = 1; i < hierarchy; i++) {
+            blankSb.append("|....");
+        }
+        if(hierarchy > 1){
+            blankSb.append("└─");
+        }
+        result.append(blankSb);
+        if("java.lang.Object".equals(fullClassName) || "java.lang.Enum".equals(fullClassName)
+                || "java.lang.Exception".equals(fullClassName) || "java.lang.RuntimeException".equals(fullClassName)
+                || "java.lang.Throwable".equals(fullClassName) ){
+            result.append("["+hierarchy+"]");
+            result.append(fullClassName);
+        }else{
+            String classFilePath = javaDocDocsifyThemeDto.getModuleName()+"/"+ javaDocDocsifyThemeDto.getPackageNamePath()+"/"+javaDocDocsifyThemeDto.getClassName()+".md";
+            result.append("["+hierarchy+"]");
+            result.append(javaDocDocsifyThemeDto.getPackageName()+".");
+            result.append(createCommonLinkMd(javaDocDocsifyThemeDto.getClassName(),classFilePath));
+
+            List<JavaDocDocsifyThemeDto> interfaceList = javaDocDocsifyThemeDto.getInterfaceList();
+            if(CollectionUtil.isNotEmpty(interfaceList)){
+                StringBuilder interfaceSb = new StringBuilder();
+                interfaceSb.append("( implements ");
+                int i = 1;
+                for (JavaDocDocsifyThemeDto docDocsifyThemeDto : interfaceList) {
+                    if(i++ > 1){
+                        interfaceSb.append(",");
+                    }
+                    String interfaceClassFilePath = docDocsifyThemeDto.getModuleName()+"/"+ docDocsifyThemeDto.getPackageNamePath()+"/"+docDocsifyThemeDto.getClassName()+".md";
+                    interfaceSb.append(createCommonLinkMd(docDocsifyThemeDto.getClassName(),interfaceClassFilePath));
+                }
+                interfaceSb.append(")");
+                result.append(interfaceSb);
+            }
+        }
+        result.append("  \n");
+        if(CollectionUtil.isNotEmpty(javaDocDocsifyThemeDto.getChildList())){
+            for (JavaDocDocsifyThemeDto docDocsifyThemeDto : javaDocDocsifyThemeDto.getChildList()) {
+                calClassesHierarchyMd(docDocsifyThemeDto,result);
+            }
+        }
     }
 
     /**

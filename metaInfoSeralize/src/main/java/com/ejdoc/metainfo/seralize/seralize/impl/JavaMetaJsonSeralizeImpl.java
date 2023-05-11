@@ -9,6 +9,9 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.ejdoc.metainfo.seralize.env.MetaEnvironment;
+import com.ejdoc.metainfo.seralize.index.JavaMetaFileInfo;
+import com.ejdoc.metainfo.seralize.index.MetaIndexContext;
+import com.ejdoc.metainfo.seralize.index.MetaIndexContextBuilder;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
 import com.ejdoc.metainfo.seralize.model.JavaModuleMeta;
 import com.ejdoc.metainfo.seralize.model.JavaProjectMeta;
@@ -24,7 +27,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,12 +70,8 @@ public class JavaMetaJsonSeralizeImpl implements JavaMetaJsonSeralize {
 
     private void doJavaMetaPlugin(String outFilePath, SeralizeConfig seralizeConfig) {
         if(CollectionUtil.isNotEmpty(metaSeralizePlugins)){
+            MetaIndexContextBuilder.instance().createMetaIndexContext(outFilePath);
             JavaMetaServalizePluginContextDto javaMetaServalizePluginContextDto = new JavaMetaServalizePluginContextDto();
-            Map<String,JavaMetaSeralizePluginData> metaSeralizeFileIndex = new HashMap<>();
-            List<JavaMetaSeralizePluginData> allJavaMetaSeralizeClassList = new ArrayList<>();
-            readyPluginData(outFilePath,allJavaMetaSeralizeClassList,metaSeralizeFileIndex);
-            javaMetaServalizePluginContextDto.setAllJavaMetaSeralizeClassList(allJavaMetaSeralizeClassList);
-            javaMetaServalizePluginContextDto.setMetaSeralizeFileIndex(metaSeralizeFileIndex);
             javaMetaServalizePluginContextDto.setSeralizeConfig(seralizeConfig);
             javaMetaServalizePluginContextDto.setSeralizeOutPath(outFilePath);
 
@@ -86,7 +84,7 @@ public class JavaMetaJsonSeralizeImpl implements JavaMetaJsonSeralize {
             }
 
             log.info("JavaMetaSeralizePlugin ready reWriteJsonFile start");
-            reWriteJsonFile(seralizeConfig,allJavaMetaSeralizeClassList);
+            reWriteJsonFile(seralizeConfig);
             log.info("JavaMetaSeralizePlugin ready reWriteJsonFile finish");
         }
     }
@@ -113,17 +111,17 @@ public class JavaMetaJsonSeralizeImpl implements JavaMetaJsonSeralize {
     /**
      * 重新生成json文件
      * @param seralizeConfig
-     * @param allJavaClassList
      */
-    private  void reWriteJsonFile(SeralizeConfig seralizeConfig, List<JavaMetaSeralizePluginData> allJavaClassList) {
-        for (JavaMetaSeralizePluginData javaClassMeta : allJavaClassList) {
+    private  void reWriteJsonFile(SeralizeConfig seralizeConfig) {
+
+        for (JavaMetaFileInfo javaMetaFileInfo : MetaIndexContext.getJavaMetaFileInfos()) {
             String jsonStr ="";
             if(seralizeConfig.isPrettyFormat()){
-                jsonStr = javaClassMeta.getJsonObject().toStringPretty();
+                jsonStr = javaMetaFileInfo.getJsonObject().toStringPretty();
             }else{
-                jsonStr = javaClassMeta.getJsonObject().toString();
+                jsonStr = javaMetaFileInfo.getJsonObject().toString();
             }
-            FileUtil.writeString(jsonStr,javaClassMeta.getJsonFilePath(),CharsetUtil.CHARSET_UTF_8);
+            FileUtil.writeString(jsonStr,javaMetaFileInfo.getJsonFilePath(),CharsetUtil.CHARSET_UTF_8);
         }
     }
 

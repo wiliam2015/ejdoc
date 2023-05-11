@@ -31,7 +31,7 @@ ejdoc简单快速生成doc文档，不只是javadoc，让开发更专注，写�
 <dependency>
    <groupId>com.ejdoc</groupId>
    <artifactId>jdocGenerate</artifactId>
-   <version>1.0.0</version>
+   <version>0.5.0</version>
 </dependency>
 ```
 

@@ -8,6 +8,15 @@
 }
 %>
 
+
+<% if(prop.sideType == "allClasstree"){
+ println("<!-- _sidebar.md -->");
+ println("<!-- 空文件 -->");
+ println();
+
+}
+%>
+
 <% if(prop.sideType == "allPackage"){
   println("- **"+prop.title+"目录**");
   println();

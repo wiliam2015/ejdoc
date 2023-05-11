@@ -30,6 +30,7 @@ ${docClassFn.calAllClassesMd(prop.allInterfaceClasses,"**所有父级接口：**
 ${docClassFn.calAllClassesMd(prop.allSubClasses,"**所有子类：**  \n")}
 
 ${docClassFn.calAllClassesMd(prop.allSubInterfaceClasses,"**所有子接口：**  \n")}
+
 ---
 
 ## 声明信息
@@ -66,7 +67,7 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
 <% if(isNotEmpty(prop.allSupperClassDetailProp)){
     for(allSupperClassObj in prop.allSupperClassDetailProp){
         if(isNotEmpty(allSupperClassObj.fields)){
-            println("---");
+            println("");println("---");println("");
             print("### ");print(allSupperClassObjLP.index);print(".继承类的所有成员变量:");println(docClassFn.calLinkClassNameMd(allSupperClassObj));
             println(docClassFn.calAllClassesDetailFieldMd(allSupperClassObj.fields,"",allSupperClassObj.dependencyRelativePath));
         }
@@ -78,7 +79,7 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
 <% if(isNotEmpty(prop.allInterfaceClassDetailProp)){
     for(allSupperInterfaceClassObj in prop.allInterfaceClassDetailProp){
         if(isNotEmpty(allSupperInterfaceClassObj.fields)){
-            println("---");
+            println("");println("---");println("");
             print("### ");print(allSupperInterfaceClassObjLP.index);print(".继承接口的所有成员变量:");println(docClassFn.calLinkClassNameMd(allSupperInterfaceClassObj));
             println(docClassFn.calAllClassesDetailFieldMd(allSupperInterfaceClassObj.fields,"",allSupperInterfaceClassObj.dependencyRelativePath));
         }
@@ -127,7 +128,7 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
 
 <% if(isNotEmpty(prop.allSupperClassDetailProp)){
     for(allSupperClassObj in prop.allSupperClassDetailProp){
-        println("---");
+        println("");println("---");println("");
         print("### ");print("继承类方法:");println(allSupperClassObj.className);
         println();print("全路径信息");print(docClassFn.calLinkClassNameMd(allSupperClassObj));println("  ");
         println(docClassFn.calAllClassesDetailMethodMd(allSupperClassObj.methods,"",allSupperClassObj.dependencyRelativePath));
@@ -138,7 +139,7 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
 
 <% if(isNotEmpty(prop.allInterfaceClassDetailProp)){
     for(allSupperInterfaceClassObj in prop.allInterfaceClassDetailProp){
-        println("---");
+        println("");println("---");println("");
         print("### ");print("继承接口方法:");println(allSupperInterfaceClassObj.className);
         println();print("全路径信息");print(docClassFn.calLinkClassNameMd(allSupperInterfaceClassObj));println("  ");
         println(docClassFn.calAllClassesDetailMethodMd(allSupperInterfaceClassObj.methods,"",allSupperInterfaceClassObj.dependencyRelativePath));
@@ -150,7 +151,7 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
     println("## 成员变量详细信息");
     println("");
     for(fieldsObj in prop.fields){
-        println("---");
+        println("");println("---");println("");
         print("> **");print(fieldsObjLP.index);print(".");print(memberFn.createHrefIdHtml(fieldsObj.name,"",fieldsObj.name));println("**");
         println();
         print("**签名信息：** ");
@@ -171,7 +172,7 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
     println("");
 
     for(methodObj in prop.constructors){
-        println("---");
+        println("");println("---");println("");
         print("> **");print(methodObjLP.index);print(".");print(memberFn.createHrefIdHtml(methodObj.name,"",memberFn.calUniqueMethodName(methodObj)));println("**");
         println();
         print("**构造方法签名：** ");
@@ -195,7 +196,7 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
     println("");
 
     for(methodObj in prop.methods){
-        println("---");
+        println("");println("---");println("");
         print("> **");print(methodObjLP.index);print(".");print(memberFn.createHrefIdHtml(methodObj.name,"",memberFn.calUniqueMethodName(methodObj)));println("**");
         println();
         print("**方法签名：** ");
