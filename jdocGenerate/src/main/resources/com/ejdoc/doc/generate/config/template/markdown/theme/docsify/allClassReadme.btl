@@ -4,14 +4,37 @@ println("**"+prop.title+"信息**");
 %>
 
 <% if(prop.classType == "allPackage" || prop.classType == "packageDetail"){
-println("**"+prop.title+"包下类信息**");
+println("# "+prop.title+"包下类信息");
+if(isNotEmpty(prop.firstComment)){
+  println("简述："+prop.firstComment);
+}
 }
 %>
 
 <%
 println();
-for(obj in prop.tableList!){
+if(isNotEmpty(prop.tableList)){
+%>
+
+<%   for(obj in prop.tableList){
+    if(obj.firstHead){
+           println("");
+           print("## ");print(obj.head);println("  ");
+           print("|   类信息  |    描述   |");println("  ");
+           print("| ---- | ---- |");println("  ");
+    }else{
     var classFilePath = obj.moduleName+"/"+ obj.packageNamePath+"/"+obj.className+".md";
-    print("- ");print(docClassFn.createCommonLinkMd(obj.className,classFilePath));println("  ");
+        print("|");print(docClassFn.createCommonLinkMd(obj.className,classFilePath));print("|");print(obj.classDesc);print("|");println();
+    }
+}
+%>
+
+<% }%>
+
+<% if(prop.classType == "allPackage" || prop.classType == "packageDetail"){
+if(isNotEmpty(prop.allComment)){
+println("## 详细描述");
+  println(prop.allComment);
+}
 }
 %>

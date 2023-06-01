@@ -1,0 +1,44 @@
+<% if(isNotEmpty(prop.allDeprecatedClasses)){%>
+## 所有deprecated classes
+
+|   类信息  |    描述   |
+| ---- | ---- |
+<%   for(obj in prop.allDeprecatedClasses){
+    var linkPath =obj.deprecatedNamePath+".md";
+    print("|");print(docClassFn.createCommonLinkMd(obj.deprecatedName,linkPath));print("|");print(obj.deprecatedDesc);print("|");println();
+}
+%>
+
+<% }%>
+
+
+<% if(isNotEmpty(prop.allDeprecatedMethods)){%>
+## 所有deprecated methods
+
+|   方法信息  |    描述   |
+| ---- | ---- |
+<%   for(obj in prop.allDeprecatedMethods){
+    var uniqueName = memberFn.calUniqueMethodName(obj.methodDetail);
+    var linkPath =obj.deprecatedNamePath+".md#";
+    var fullPath =linkPath+uniqueName;
+    print("|");print(docClassFn.createCommonLinkMd(obj.deprecatedName,fullPath));print("|");print(obj.deprecatedDesc);print("|");println();
+}
+%>
+
+<% }%>
+
+
+<% if(isNotEmpty(prop.allDeprecatedContructors)){%>
+## 所有deprecated constructors
+
+|   构造方法信息  |    描述   |
+| ---- | ---- |
+<%   for(obj in prop.allDeprecatedContructors){
+        var uniqueName = memberFn.calUniqueMethodName(obj.constructorDetail);
+        var linkPath =obj.deprecatedNamePath+".md#";
+        var fullPath =linkPath+uniqueName;
+        print("|");print(docClassFn.createCommonLinkMd(obj.deprecatedName,fullPath));print("|");print(obj.deprecatedDesc);print("|");println();
+}
+%>
+
+<% }%>

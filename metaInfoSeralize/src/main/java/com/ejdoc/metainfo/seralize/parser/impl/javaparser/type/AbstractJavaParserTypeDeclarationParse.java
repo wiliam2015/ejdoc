@@ -4,12 +4,14 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
+import com.ejdoc.metainfo.seralize.model.JavaDocCommentMeta;
 import com.ejdoc.metainfo.seralize.model.JavaModelMeta;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.BaseJavaParse;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaInfoParser;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.UnSolvedSymbolTool;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.member.JavaParserMemberParse;
+import com.ejdoc.metainfo.seralize.util.EjdocStrUtil;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.NodeList;
@@ -17,6 +19,7 @@ import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.Comment;
+import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
@@ -29,8 +32,6 @@ import com.github.javaparser.resolution.types.ResolvedType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -185,18 +186,42 @@ public abstract class AbstractJavaParserTypeDeclarationParse extends BaseJavaPar
             createJavaDocTag(javadoc,javaModelMeta);
             setAnnotations(annotations, javaModelMeta);
             javaClassMeta.setJavaModelMeta(javaModelMeta);
+            javaClassMeta.setClassDesc(getClassDesc(javaModelMeta));
+
         }else{
             if(ObjectUtil.isNotNull(rootAst)){
                 Optional<Comment> comment = rootAst.getComment();
                 if(comment.isPresent()){
-                    JavaModelMeta javaModelMeta = new JavaModelMeta();
-                    javaModelMeta.setComment(comment.get().getContent());
-                    javaClassMeta.setJavaModelMeta(javaModelMeta);
+                    Comment docComment = comment.get();
+                    if(docComment instanceof JavadocComment){
+                        JavadocComment javadocComment =(JavadocComment)docComment;
+                        Javadoc javadoc = javadocComment.parse();
+                        JavaModelMeta javaModelMeta = new JavaModelMeta();
+                        createJavaDocTag(Optional.ofNullable(javadoc),javaModelMeta);
+                        javaClassMeta.setJavaModelMeta(javaModelMeta);
+                        javaClassMeta.setClassDesc(getClassDesc(javaModelMeta));
+                    }else{
+                        JavaModelMeta javaModelMeta = new JavaModelMeta();
+                        javaModelMeta.setComment(comment.get().getContent());
+                        javaClassMeta.setJavaModelMeta(javaModelMeta);
+                        javaClassMeta.setClassDesc(getClassDesc(javaModelMeta));
+                    }
                 }
             }
         }
     }
 
+    private String getClassDesc(JavaModelMeta javaModelMeta) {
+        String classDesc = "";
+        JavaDocCommentMeta javaDocComment = javaModelMeta.getJavaDocComment();
+        if(javaDocComment != null){
+            String javaDocData = javaDocComment.getJavaDocComment();
+            if(javaDocData.length() > 0){
+                classDesc = EjdocStrUtil.getFirstComment(javaDocData);
+            }
+        }
+        return classDesc.replace("\n","");
+    }
 
 
     /**

@@ -1,6 +1,7 @@
 package com.ejdoc.doc.generate.template.markdown.theme;
 
 import cn.hutool.core.util.StrUtil;
+import com.ejdoc.doc.generate.out.javadoc.dto.JavaDocDeprecatedDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,12 @@ public class JavaDocDocsifyThemeDto {
 
     private String className;
 
+    private String classDesc;
+
+    private String head;
+
+    private boolean firstHead;
+
     private String fullClassName;
 
     private String packageNamePath;
@@ -26,6 +33,15 @@ public class JavaDocDocsifyThemeDto {
      * 层级
      */
     private int hierarchy;
+
+    /**
+     * 是否有deprecated注解修饰
+     */
+    private boolean deprecatedModify;
+    /**
+     * 当deprecatedModify为true时有值
+     */
+    private JavaDocDeprecatedDto docDeprecatedDto;
 
     private List<JavaDocDocsifyThemeDto> childList;
 
@@ -133,5 +149,45 @@ public class JavaDocDocsifyThemeDto {
 
     public void setInterfaceList(List<JavaDocDocsifyThemeDto> interfaceList) {
         this.interfaceList = interfaceList;
+    }
+
+    public String getHead() {
+        return head;
+    }
+
+    public void setHead(String head) {
+        this.head = head;
+    }
+
+    public boolean isFirstHead() {
+        return firstHead;
+    }
+
+    public void setFirstHead(boolean firstHead) {
+        this.firstHead = firstHead;
+    }
+
+    public String getClassDesc() {
+        return classDesc;
+    }
+
+    public void setClassDesc(String classDesc) {
+        this.classDesc = classDesc;
+    }
+
+    public boolean isDeprecatedModify() {
+        return deprecatedModify;
+    }
+
+    public void setDeprecatedModify(boolean deprecatedModify) {
+        this.deprecatedModify = deprecatedModify;
+    }
+
+    public JavaDocDeprecatedDto getDocDeprecatedDto() {
+        return docDeprecatedDto;
+    }
+
+    public void setDocDeprecatedDto(JavaDocDeprecatedDto docDeprecatedDto) {
+        this.docDeprecatedDto = docDeprecatedDto;
     }
 }

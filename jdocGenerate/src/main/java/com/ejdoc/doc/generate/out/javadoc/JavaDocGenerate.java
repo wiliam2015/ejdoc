@@ -24,6 +24,7 @@ public class JavaDocGenerate extends AbstractDocGenerate {
     protected void doLoadJavaMetaSeralizePlugin(JavaMetaSeralize javaMetaSeralize) {
         javaMetaSeralize.addMetaSeralizePlugins(new JavaMetaSeralizeDependPathPlugin());
         javaMetaSeralize.addMetaSeralizePlugins(new JavaDocDeepDependParsePlugin());
+        javaMetaSeralize.addMetaSeralizePlugins(new JavaDocDeprecatedParsePlugin());
         doLoadCustomPlugin(javaMetaSeralize);
     }
 

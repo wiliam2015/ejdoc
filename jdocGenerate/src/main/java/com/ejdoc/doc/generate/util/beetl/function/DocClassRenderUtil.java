@@ -7,12 +7,12 @@ import cn.hutool.json.JSONObject;
 import com.ejdoc.doc.generate.comment.CommentSerialize;
 import com.ejdoc.doc.generate.comment.CommentSerializeFactory;
 import com.ejdoc.doc.generate.template.markdown.theme.JavaDocDocsifyThemeDto;
+import com.ejdoc.metainfo.seralize.util.EjdocStrUtil;
 import org.beetl.core.Context;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.StringTokenizer;
 
 public class DocClassRenderUtil {
 
@@ -384,16 +384,11 @@ public class DocClassRenderUtil {
 
     public String calCommentNoEnterDocMd(Object paras,Object propObj,String appendBefore, Context ctx) {
         String content = calCommentDocMd(paras, propObj, appendBefore, ctx);
-        StringBuilder result = new StringBuilder("");
+        String result = "";
         if(content.length() > 0){
-            StringTokenizer stringTokenizer = new StringTokenizer(content,".。");
-            while (stringTokenizer.hasMoreTokens()) {
-                //分割得到的字符串
-                result.append(stringTokenizer.nextToken()).append(".");
-                break;
-            }
+            result = EjdocStrUtil.getFirstComment(content);
         }
-        return result.toString().replace("\n","");
+        return result.replace("\n","");
     }
 
     public String calCommentSeeTagsMd(Object paras,String type,String appendBefore, Context ctx) {
@@ -532,6 +527,48 @@ public class DocClassRenderUtil {
 
         if(result.length() > 0 ){
             return appendBefore +result;
+        }
+        return "";
+    }
+
+
+    public boolean calIsDeprecated(Object paras, Context ctx) {
+        if(paras instanceof JSONObject){
+            JSONObject deprecatedJsonObj =( JSONObject)paras;
+            if(deprecatedJsonObj.containsKey("javaModelMeta")){
+                JSONObject javaModelMeta = deprecatedJsonObj.getJSONObject("javaModelMeta");
+                if(javaModelMeta.containsKey("annotations")){
+                    JSONArray annotations = javaModelMeta.getJSONArray("annotations");
+                    for (Object annotation : annotations) {
+                        JSONObject jsonObject = (JSONObject) annotation;
+                        String name = jsonObject.getStr("name", "");
+                        if("Deprecated".equals(name)){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public String printDeprecatedDesc(Object paras, Context ctx) {
+        if(paras instanceof JSONObject){
+            JSONObject deprecatedJsonObj =( JSONObject)paras;
+            if(deprecatedJsonObj.containsKey("javaModelMeta")){
+                JSONObject javaModelMeta = deprecatedJsonObj.getJSONObject("javaModelMeta");
+                if(javaModelMeta.containsKey("tags")){
+                    JSONArray tags = javaModelMeta.getJSONArray("tags");
+                    for (Object tagObj : tags) {
+                        JSONObject jsonObject = (JSONObject) tagObj;
+                        String type = jsonObject.getStr("type", "");
+                        if("DEPRECATED".equals(type)){
+                            return jsonObject.getStr("value","");
+                        }
+                    }
+                }
+            }
+
         }
         return "";
     }

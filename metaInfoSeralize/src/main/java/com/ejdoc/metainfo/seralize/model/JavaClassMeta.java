@@ -17,6 +17,11 @@ public class JavaClassMeta  implements Serializable {
 
     private String className;
 
+    /**
+     * 类描述
+     */
+    private String classDesc;
+
     private String fullClassName;
 
     /**
@@ -441,6 +446,14 @@ public class JavaClassMeta  implements Serializable {
 
     public void setPackageDesc(String packageDesc) {
         this.packageDesc = packageDesc;
+    }
+
+    public String getClassDesc() {
+        return classDesc;
+    }
+
+    public void setClassDesc(String classDesc) {
+        this.classDesc = classDesc;
     }
 
     public String parseDeclarationStructure(){

@@ -32,8 +32,18 @@ ${docClassFn.calAllClassesMd(prop.allSubClasses,"**所有子类：**  \n")}
 ${docClassFn.calAllClassesMd(prop.allSubInterfaceClasses,"**所有子接口：**  \n")}
 
 ---
+<% if(docClassFn.calIsDeprecated(prop)){
+     println("<strong>Deprecated</strong><br/>");
+     println(docClassFn.printDeprecatedDesc(prop));
+}
+%>
+
 
 ## 声明信息
+<% if(docClassFn.calIsDeprecated(prop)){
+     println("> @Deprecated  ");
+}
+%>
 > ${docClassFn.calClassNameStructure(prop)}
 
 
@@ -68,7 +78,7 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
     for(allSupperClassObj in prop.allSupperClassDetailProp){
         if(isNotEmpty(allSupperClassObj.fields)){
             println("");println("---");println("");
-            print("### ");print(allSupperClassObjLP.index);print(".继承类的所有成员变量:");println(docClassFn.calLinkClassNameMd(allSupperClassObj));
+            print("### ");print(allSupperClassObjLP.index);print(".从:");print(docClassFn.calLinkClassNameMd(allSupperClassObj));println(".类继承的所有成员变量:");
             println(docClassFn.calAllClassesDetailFieldMd(allSupperClassObj.fields,"",allSupperClassObj.dependencyRelativePath));
         }
       }
@@ -80,7 +90,7 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
     for(allSupperInterfaceClassObj in prop.allInterfaceClassDetailProp){
         if(isNotEmpty(allSupperInterfaceClassObj.fields)){
             println("");println("---");println("");
-            print("### ");print(allSupperInterfaceClassObjLP.index);print(".继承接口的所有成员变量:");println(docClassFn.calLinkClassNameMd(allSupperInterfaceClassObj));
+            print("### ");print(allSupperInterfaceClassObjLP.index);print(".从:");print(docClassFn.calLinkClassNameMd(allSupperInterfaceClassObj));println(".接口继承的所有成员变量:");
             println(docClassFn.calAllClassesDetailFieldMd(allSupperInterfaceClassObj.fields,"",allSupperInterfaceClassObj.dependencyRelativePath));
         }
       }
@@ -98,6 +108,11 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
         print(methodObjLP.index);
          print("|");
          print(memberFn.calMethodStructureInnerLinkMd(methodObj,""));
+         if(docClassFn.calIsDeprecated(methodObj)){
+                print("<br/>");
+               print("<strong>Deprecated</strong><br/>");
+               print(docClassFn.printDeprecatedDesc(prop));
+          }
          print("<br/>");
          print("<br/>");
          print(docClassFn.calCommentNoEnterDocMd(methodObj,prop,""));
@@ -117,6 +132,11 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
         print(methodObjLP.index);
          print("|");
          print(memberFn.calMethodStructureInnerLinkMd(methodObj,""));
+         if(docClassFn.calIsDeprecated(methodObj)){
+          print("<br/>");
+            print("<strong>Deprecated</strong><br/>");
+            print(docClassFn.printDeprecatedDesc(prop));
+          }
          print("<br/><br/>");
         print(docClassFn.calCommentNoEnterDocMd(methodObj,prop,""));
         println("|");
@@ -129,7 +149,7 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
 <% if(isNotEmpty(prop.allSupperClassDetailProp)){
     for(allSupperClassObj in prop.allSupperClassDetailProp){
         println("");println("---");println("");
-        print("### ");print("继承类方法:");println(allSupperClassObj.className);
+        print("### ");print("从");print(allSupperClassObj.className);println("类继承方法:");
         println();print("全路径信息");print(docClassFn.calLinkClassNameMd(allSupperClassObj));println("  ");
         println(docClassFn.calAllClassesDetailMethodMd(allSupperClassObj.methods,"",allSupperClassObj.dependencyRelativePath));
       }
@@ -140,7 +160,7 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
 <% if(isNotEmpty(prop.allInterfaceClassDetailProp)){
     for(allSupperInterfaceClassObj in prop.allInterfaceClassDetailProp){
         println("");println("---");println("");
-        print("### ");print("继承接口方法:");println(allSupperInterfaceClassObj.className);
+        print("### ");print("从");print(allSupperInterfaceClassObj.className);println("接口继承方法:");
         println();print("全路径信息");print(docClassFn.calLinkClassNameMd(allSupperInterfaceClassObj));println("  ");
         println(docClassFn.calAllClassesDetailMethodMd(allSupperInterfaceClassObj.methods,"",allSupperInterfaceClassObj.dependencyRelativePath));
       }
@@ -178,11 +198,18 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
         print("**构造方法签名：** ");
         println();
         println();
+        if(docClassFn.calIsDeprecated(methodObj)){
+           println("@Deprecated  ");
+        }
         print("  ");println(memberFn.calMethodStructureMd(methodObj));
         println();
         println();
 
         println(docClassFn.calCommentDocMd(methodObj,prop,"**描述：** \n\n"));
+        if(docClassFn.calIsDeprecated(methodObj)){
+           println("<strong>Deprecated</strong> \n\n");
+           println(docClassFn.printDeprecatedDesc(prop));
+         }
         println(docClassFn.calCommentTagsMd(methodObj,prop,"PARAM","**参数描述：** \n\n"));
         println(docClassFn.calCommentTagsMd(methodObj,prop,"THROWS","**异常信息：** \n\n"));
         println(docClassFn.calCommentTagsMd(methodObj,prop,"SINCE","**来源版本：** "));
@@ -202,10 +229,17 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
         print("**方法签名：** ");
         println();
         println();
+        if(docClassFn.calIsDeprecated(methodObj)){
+           println("@Deprecated  ");
+        }
         print("  ");println(memberFn.calMethodStructureMd(methodObj));
         println();
         println();
         println(docClassFn.calCommentDocMd(methodObj,prop,"**描述：** \n\n"));
+        if(docClassFn.calIsDeprecated(methodObj)){
+           println("<strong>Deprecated</strong> \n\n");
+           println(docClassFn.printDeprecatedDesc(prop));
+         }
         println(docClassFn.calCommentTagsMd(methodObj,prop,"PARAM","**参数描述：** \n\n"));
         println(docClassFn.calCommentTagsMd(methodObj,prop,"RETURN","**返回值描述：** "));
         println(docClassFn.calCommentTagsMd(methodObj,prop,"THROWS","**异常信息：** \n\n"));

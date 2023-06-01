@@ -1,15 +1,20 @@
 <% if(prop.sideType == "allClass"){
- println("- **"+prop.title+"目录**");
- println();
- for(obj in prop.tableList){
-    var linkPath = obj.moduleName+"/"+ obj.packageNamePath+"/"+obj.className+".md";
-    print("	- ");println(docClassFn.createCommonLinkMd(obj.className,linkPath));
- }
+  println("<!-- _sidebar.md -->");
+  println("<!-- 空文件 -->");
+  println();
 }
 %>
 
 
 <% if(prop.sideType == "allClasstree"){
+ println("<!-- _sidebar.md -->");
+ println("<!-- 空文件 -->");
+ println();
+
+}
+%>
+
+<% if(prop.sideType == "allDeprecated"){
  println("<!-- _sidebar.md -->");
  println("<!-- 空文件 -->");
  println();
@@ -41,8 +46,11 @@
   println("- **"+prop.title+"目录**");
   println();
   for(obj in prop.tableList){
-     var linkPath = obj.moduleName+"/"+ obj.packageNamePath+"/"+obj.className+".md";
-     print("	- ");println(docClassFn.createCommonLinkMd(obj.className,linkPath));
+      if(!obj.firstHead){
+           var linkPath = obj.moduleName+"/"+ obj.packageNamePath+"/"+obj.className+".md";
+           print("	- ");println(docClassFn.createCommonLinkMd(obj.className,linkPath));
+      }
   }
 }
+
 %>

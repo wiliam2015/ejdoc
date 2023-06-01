@@ -9,12 +9,14 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.ejdoc.doc.generate.model.DocTemplateThemeInfo;
 import com.ejdoc.doc.generate.out.config.DocGenerateConfig;
+import com.ejdoc.doc.generate.out.javadoc.dto.JavaDocDeprecatedDto;
 import com.ejdoc.doc.generate.template.BaseOutTemplate;
 import com.ejdoc.doc.generate.template.DocTemplateTheme;
 import com.ejdoc.doc.generate.template.markdown.JavaDocMarkdownDocOutTemplate;
 import com.ejdoc.metainfo.seralize.index.MetaIndexContext;
 import com.ejdoc.metainfo.seralize.index.TreeIndexClassMeta;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
+import com.ejdoc.metainfo.seralize.util.EjdocStrUtil;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.Template;
 import org.slf4j.Logger;
@@ -93,16 +95,18 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
             JavaDocDocsifyThemeDto javaDocDocsifyThemeDto = new JavaDocDocsifyThemeDto();
             JSONObject jsonObject = JSONUtil.readJSONObject(jsonFile, CharsetUtil.CHARSET_UTF_8);
             String className = jsonObject.getStr("className");
+            String classDesc = jsonObject.getStr("classDesc");
             String fullClassName = jsonObject.getStr("fullClassName");
             String moduleName = jsonObject.getStr("moduleName");
             String moduleDesc = jsonObject.getStr("moduleDesc");
             String packageName = jsonObject.getStr("packageName");
+            JSONObject javaDocDeprecatedInfo = jsonObject.getJSONObject("javaDocDeprecatedInfo");
             if(StrUtil.equals(className,"package-info")){
                 JSONObject javaModelMeta = jsonObject.getJSONObject("javaModelMeta");
                 if(javaModelMeta != null){
                     String comment = javaModelMeta.getStr("comment", "");
                     if(StrUtil.isNotBlank(comment) && StrUtil.isNotBlank(packageName)){
-                        packageDecsMap.put(packageName,replacePackageDesc(comment));
+                        packageDecsMap.put(packageName, replacePackageDesc(comment));
                     }
                 }
             }else if(StrUtil.isNotBlank(moduleName) && StrUtil.isNotBlank(packageName)){
@@ -110,10 +114,24 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
                 javaDocDocsifyThemeDto.setModuleName(moduleName);
                 javaDocDocsifyThemeDto.setModuleDesc(moduleDesc);
                 javaDocDocsifyThemeDto.setClassName(className);
+                javaDocDocsifyThemeDto.setClassDesc(classDesc);
+                javaDocDocsifyThemeDto.setHead(className.substring(0,1).toUpperCase());
                 javaDocDocsifyThemeDto.setFullClassName(fullClassName);
                 javaDocDocsifyThemeDto.setPackageName(packageName);
+                if(javaDocDeprecatedInfo != null){
+                    Boolean deprecatedMethod = javaDocDeprecatedInfo.getBool("deprecatedMethod", false);
+                    Boolean deprecatedContructor = javaDocDeprecatedInfo.getBool("deprecatedContructor", false);
+                    Boolean deprecatedClass = javaDocDeprecatedInfo.getBool("deprecatedClass", false);
+                    if(deprecatedMethod || deprecatedContructor || deprecatedClass){
+                        javaDocDocsifyThemeDto.setDeprecatedModify(true);
+                        JavaDocDeprecatedDto javaDocDeprecatedDto = JSONUtil.toBean(javaDocDeprecatedInfo, JavaDocDeprecatedDto.class);
+                        javaDocDocsifyThemeDto.setDocDeprecatedDto(javaDocDeprecatedDto);
+                    }
+                }
+
                 javaDocDocsifyThemeDtos.add(javaDocDocsifyThemeDto);
             }
+
         }
 
         for (JavaDocDocsifyThemeDto javaDocDocsifyThemeDto : javaDocDocsifyThemeDtos) {
@@ -140,6 +158,49 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
 
         createAllClassTreeIndexRoute(renderFilePath, javaDocDocsifyThemeDtos);
 
+        createAllDeprecatedClassIndexRoute(renderFilePath, javaDocDocsifyThemeDtos);
+
+    }
+
+    /**
+     * 创建所有Deprecated类信息索引
+     * @param renderFilePath
+     * @param javaDocDocsifyThemeDtos
+     */
+    private void createAllDeprecatedClassIndexRoute(String renderFilePath, List<JavaDocDocsifyThemeDto> javaDocDocsifyThemeDtos) {
+        if(CollectionUtil.isNotEmpty(javaDocDocsifyThemeDtos)){
+            List<JavaDocDeprecatedDto> docDeprecatedDtos = javaDocDocsifyThemeDtos.stream().filter(JavaDocDocsifyThemeDto::isDeprecatedModify)
+                    .map(JavaDocDocsifyThemeDto::getDocDeprecatedDto)
+                    .collect(Collectors.toList());
+            if(CollectionUtil.isNotEmpty(docDeprecatedDtos)){
+                List<JavaDocDeprecatedDto> allDeprecatedClasses = new ArrayList<>();
+                List<JavaDocDeprecatedDto> allDeprecatedMethods = new ArrayList<>();
+                List<JavaDocDeprecatedDto> allDeprecatedContructors = new ArrayList<>();
+                for (JavaDocDeprecatedDto docDeprecatedDto : docDeprecatedDtos) {
+                    if(BooleanUtil.isTrue(docDeprecatedDto.getDeprecatedClass())){
+                        allDeprecatedClasses.add(docDeprecatedDto.getDeprecatedClasses());
+                    }
+                    if(BooleanUtil.isTrue(docDeprecatedDto.getDeprecatedMethod())){
+                        allDeprecatedMethods.addAll(docDeprecatedDto.getDeprecatedMethods());
+                    }
+                    if(BooleanUtil.isTrue(docDeprecatedDto.getDeprecatedContructor())){
+                        allDeprecatedContructors.addAll(docDeprecatedDto.getDeprecatedConstructors());
+                    }
+                }
+
+                Map<String,Object> prop = new HashMap<>();
+                prop.put("allDeprecatedClasses",JSONUtil.parseArray(allDeprecatedClasses));
+                prop.put("allDeprecatedMethods",JSONUtil.parseArray(allDeprecatedMethods));
+                prop.put("allDeprecatedContructors",JSONUtil.parseArray(allDeprecatedContructors));
+                String allModuleReadmeFile = "/route/alldeprecated/README.md";
+                writeThemeTemplateFile(renderFilePath, prop,"allDeprecatedReadme.btl",allModuleReadmeFile);
+
+                prop.put("sideType","allDeprecated");
+                prop.put("title","所有Deprecated");
+                String sideBarFile = "/route/alldeprecated/_sidebar.md";
+                writeThemeTemplateFile(renderFilePath, prop,"sidebar.btl",sideBarFile);
+            }
+        }
     }
 
     /**
@@ -373,10 +434,10 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
      * @param allClassList
      */
     private void createAllClassRoute(String renderFilePath, List<JavaDocDocsifyThemeDto> allClassList) {
-        CollectionUtil.sortByProperty(allClassList,"className");
+        List<JavaDocDocsifyThemeDto> allClassInfoList = getIndexClassList(allClassList);
 
         Map<String,Object> prop = new HashMap<>();
-        prop.put("tableList",allClassList);
+        prop.put("tableList",allClassInfoList);
         prop.put("title","所有类");
         prop.put("sideType","allClass");
         prop.put("classType","allClass");
@@ -386,6 +447,31 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
 
         String sideBarFile = "/route/allclass/_sidebar.md";
         writeThemeTemplateFile(renderFilePath, prop,"sidebar.btl",sideBarFile);
+    }
+
+    /**
+     * 获取有索引信息的类列表
+     * @param allClassList 所有类信息
+     * @return
+     */
+    private  List<JavaDocDocsifyThemeDto> getIndexClassList(List<JavaDocDocsifyThemeDto> allClassList) {
+        CollectionUtil.sortByProperty(allClassList,"className");
+
+        List<JavaDocDocsifyThemeDto> allClassInfoList = new ArrayList<>();
+        String firstHeadStr = "";
+        for (JavaDocDocsifyThemeDto javaDocDocsifyThemeDto : allClassList) {
+            String head = javaDocDocsifyThemeDto.getHead();
+            if(!firstHeadStr.equals(head)){
+                firstHeadStr = head;
+                JavaDocDocsifyThemeDto headTitle = new JavaDocDocsifyThemeDto();
+                headTitle.setFirstHead(true);
+                headTitle.setHead(javaDocDocsifyThemeDto.getHead());
+                headTitle.setClassName(javaDocDocsifyThemeDto.getClassName());
+                allClassInfoList.add(headTitle);
+            }
+            allClassInfoList.add(javaDocDocsifyThemeDto);
+        }
+        return allClassInfoList;
     }
 
     /**
@@ -431,11 +517,21 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
 
             List<JavaDocDocsifyThemeDto> packageChildList = javaDocDocsifyThemeDto.getChildList();
 
+            List<JavaDocDocsifyThemeDto> indexClassList = getIndexClassList(packageChildList);
+
+            JavaDocDocsifyThemeDto packageDesc = packageChildList.get(0);
+            String firstComment = "";
+            if(StrUtil.isNotBlank(packageDesc.getPackageDesc())){
+                firstComment = EjdocStrUtil.getFirstComment(packageDesc.getPackageDesc());
+            }
+
             if(CollectionUtil.isNotEmpty(packageChildList)){
                 Map<String,Object> childProp = new HashMap<>();
-                childProp.put("tableList",packageChildList);
+                childProp.put("tableList",indexClassList);
                 childProp.put("title", javaDocDocsifyThemeDto.getPackageName());
                 childProp.put("classType","allPackage");
+                childProp.put("firstComment",firstComment);
+                childProp.put("allComment",packageDesc.getPackageDesc());
 
                 String packageRouteReadmeFile = "/route/allpackage/" + javaDocDocsifyThemeDto.getPackageNamePath()+"/README.md";
                 writeThemeTemplateFile(renderFilePath, childProp,"allClassReadme.btl",packageRouteReadmeFile);
@@ -452,7 +548,11 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
             packageDocsify.setPackageName(packageName);
             packageDocsify.setChildList(packageClassList);
             if(CollectionUtil.isNotEmpty(packageClassList)){
-                packageDocsify.setPackageDesc(packageClassList.get(0).getPackageDesc());
+                String firstCompent = "";
+                if(StrUtil.isNotBlank(packageClassList.get(0).getPackageDesc())){
+                    firstCompent = EjdocStrUtil.getFirstComment(packageClassList.get(0).getPackageDesc());
+                }
+                packageDocsify.setPackageDesc(firstCompent);
             }
             packageDocsify.setPackageNamePath(packageName.replace(".","/"));
             packageFileList.add(packageDocsify);
@@ -484,6 +584,8 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
 
             List<JavaDocDocsifyThemeDto> packageChildList = javaDocDocsifyThemeDto.getChildList();
 
+            CollectionUtil.sortByProperty(packageChildList,"packageName");
+
             if(CollectionUtil.isNotEmpty(packageChildList)){
 
                 Map<String,Object> childProp = new HashMap<>();
@@ -497,10 +599,12 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
 
                     List<JavaDocDocsifyThemeDto> classDtoList = packageDto.getChildList();
 
+                    List<JavaDocDocsifyThemeDto> indexClassList = getIndexClassList(classDtoList);
+
                     if(CollectionUtil.isNotEmpty(classDtoList)){
                         String moduleName = packageDto.getModuleName();
                         Map<String,Object> moduleClassProp = new HashMap<>();
-                        moduleClassProp.put("tableList",classDtoList);
+                        moduleClassProp.put("tableList",indexClassList);
                         moduleClassProp.put("classType","packageDetail");
                         moduleClassProp.put("title",packageDto.getPackageName());
                         String packageReadMeFile = "/" +moduleName + "/" + packageDto.getPackageNamePath()+"/README.md";

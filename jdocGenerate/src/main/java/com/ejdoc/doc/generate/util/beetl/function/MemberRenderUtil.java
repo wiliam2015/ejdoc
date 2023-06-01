@@ -215,6 +215,7 @@ public class MemberRenderUtil {
         return resultStr.toString();
     }
 
+
     public String calExceptionMd(Object paras, Context ctx) {
         StringBuilder resultStr = new StringBuilder();
         if(paras instanceof JSONArray){
@@ -305,5 +306,7 @@ public class MemberRenderUtil {
         }
         return result.toString();
     }
+
+
 
 }
