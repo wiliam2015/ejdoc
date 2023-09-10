@@ -171,7 +171,7 @@ public class BaseJavaParse {
                     docletTagMeta.setTagName(blockTag.getTagName());
                     List<JavadocDescriptionElement> docTags = blockTag.getContent().getElements();
 
-                    if(CollectionUtil.size(docTags) > 1){
+                    if(CollectionUtil.size(docTags) > 0){
                         docletTagMeta.setValues(getJavaDocCommentElementMetas(docTags));
                     }
 

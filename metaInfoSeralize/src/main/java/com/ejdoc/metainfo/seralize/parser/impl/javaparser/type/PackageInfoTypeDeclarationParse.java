@@ -21,7 +21,7 @@ public class PackageInfoTypeDeclarationParse extends AbstractJavaParserTypeDecla
     }
 
     @Override
-    protected void doParseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
+    protected List<JavaClassMeta> doParseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
         parseJavaSouce(javaClassMeta, rootAst,javaParserMetaContext);
         parseDocAndAnnotation(javaClassMeta, null, rootAst,javaParserMetaContext);
         javaClassMeta.setModuleName(metaFileInfo.getModuleName());
@@ -29,6 +29,7 @@ public class PackageInfoTypeDeclarationParse extends AbstractJavaParserTypeDecla
         javaClassMeta.setClassName(PACKAGE_INFO);
         javaClassMeta.setValue(PACKAGE_INFO);
         javaClassMeta.setFullClassName(javaClassMeta.getClassNamePrefix()+PACKAGE_INFO);
+        return null;
     }
 
 

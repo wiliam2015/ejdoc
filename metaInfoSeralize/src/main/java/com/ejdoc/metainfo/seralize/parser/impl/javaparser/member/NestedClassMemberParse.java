@@ -14,26 +14,29 @@ import com.github.javaparser.ast.body.TypeDeclaration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InnerClassMemberParse extends AbstractJavaParseMemberParse{
+/**
+ * 嵌套类解析
+ */
+public class NestedClassMemberParse extends AbstractJavaParseMemberParse{
 
 
-    public InnerClassMemberParse(){
+    public NestedClassMemberParse(){
     }
     @Override
     protected void parseBodyDeclarationToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, NodeList<BodyDeclaration<?>> members, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
-        List<JavaClassMeta> innerClassList = initJavaClassList(javaClassMeta);
+        List<JavaClassMeta> nestedClasses = initJavaClassList(javaClassMeta);
         for (BodyDeclaration<?> member : members) {
             if(accept(member)){
-                innerClassList.addAll(parseFieldMember(member,metaFileInfo,javaParserMetaContext));
+                nestedClasses.addAll(parseFieldMember(member,metaFileInfo,javaParserMetaContext));
             }
         }
-        if(CollectionUtil.isNotEmpty(innerClassList)){
-            parseInnerClassInfo(innerClassList);
-            javaClassMeta.setInnerClasses(innerClassList);
+        if(CollectionUtil.isNotEmpty(nestedClasses)){
+            parseNestedClassInfo(nestedClasses);
+            javaClassMeta.setNestedClasses(nestedClasses);
         }
     }
 
-    private void parseInnerClassInfo(List<JavaClassMeta> innerClassList) {
+    private void parseNestedClassInfo(List<JavaClassMeta> innerClassList) {
         //设置className
         for (JavaClassMeta javaClassMeta : innerClassList) {
             String fullClassName = javaClassMeta.getFullClassName();
@@ -42,13 +45,12 @@ public class InnerClassMemberParse extends AbstractJavaParseMemberParse{
             javaClassMeta.setClassName(className);
         }
     }
-
     private List<JavaClassMeta> initJavaClassList(JavaClassMeta javaClassMeta) {
-        List<JavaClassMeta> innerClasses = javaClassMeta.getInnerClasses();
-        if(CollectionUtil.isEmpty(innerClasses)){
+        List<JavaClassMeta> nestedClasses = javaClassMeta.getNestedClasses();
+        if(CollectionUtil.isEmpty(nestedClasses)){
             return new ArrayList<>();
         }
-        return javaClassMeta.getInnerClasses();
+        return javaClassMeta.getNestedClasses();
     }
 
     private List<JavaClassMeta> parseFieldMember(BodyDeclaration<?> member, MetaFileInfoDto metaFileInfo,JavaParserMetaContext javaParserMetaContext) {
@@ -61,7 +63,7 @@ public class InnerClassMemberParse extends AbstractJavaParseMemberParse{
         boolean classOrInterfaceDeclaration = member.isClassOrInterfaceDeclaration();
         if(classOrInterfaceDeclaration){
             ClassOrInterfaceDeclaration innerClass = (ClassOrInterfaceDeclaration)member;
-            return innerClass.isInnerClass();
+            return innerClass.isNestedType() && !innerClass.isInnerClass();
         }
         return false;
     }

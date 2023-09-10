@@ -3,9 +3,7 @@ package com.ejdoc.metainfo.seralize.parser.impl.javaparser.type;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
-import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
-import com.ejdoc.metainfo.seralize.model.JavaDocCommentMeta;
-import com.ejdoc.metainfo.seralize.model.JavaModelMeta;
+import com.ejdoc.metainfo.seralize.model.*;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.BaseJavaParse;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaInfoParser;
@@ -32,9 +30,7 @@ import com.github.javaparser.resolution.types.ResolvedType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class AbstractJavaParserTypeDeclarationParse extends BaseJavaParse implements JavaParserTypeDeclarationParse {
@@ -46,7 +42,8 @@ public abstract class AbstractJavaParserTypeDeclarationParse extends BaseJavaPar
         this.javaParserMemberParseList = javaParserMemberParseList;
     }
     @Override
-    public JavaClassMeta parseTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
+    public List<JavaClassMeta> parseTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
+        List<JavaClassMeta> result = new ArrayList<>();
         JavaClassMeta javaClassMeta = new JavaClassMeta();
         parseClassMetaProp(javaClassMeta, metaFileInfo, typeDeclaration,javaParserMetaContext);
         parseJavaSouce(javaClassMeta, rootAst,javaParserMetaContext);
@@ -54,15 +51,52 @@ public abstract class AbstractJavaParserTypeDeclarationParse extends BaseJavaPar
         parseNestedJavaClass(javaClassMeta, typeDeclaration, rootAst,javaParserMetaContext);
         parseModifiers(javaClassMeta, typeDeclaration,javaParserMetaContext);
         parseMembers(javaClassMeta, metaFileInfo, typeDeclaration,javaParserMetaContext);
-        parseChildTypeToJavaClassMeta(metaFileInfo,javaClassMeta,rootAst,typeDeclaration,javaParserMetaContext);
+        List<JavaClassMeta> childJavaClassMetas = parseChildTypeToJavaClassMeta(metaFileInfo,javaClassMeta,rootAst,typeDeclaration,javaParserMetaContext);
         parseClassDeclaration(javaClassMeta,javaParserMetaContext);
-        return javaClassMeta;
+        parseClassInnerIndex(javaClassMeta);
+        result.add(javaClassMeta);
+        if(CollectionUtil.isNotEmpty(childJavaClassMetas)){
+            result.addAll(childJavaClassMetas);
+        }
+        return result;
     }
 
-    private void parseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration,JavaParserMetaContext javaParserMetaContext) {
-        if(accept(typeDeclaration,metaFileInfo)){
-            doParseChildTypeToJavaClassMeta(metaFileInfo,javaClassMeta,rootAst,typeDeclaration,javaParserMetaContext);
+    /**
+     * 创建类内部索引
+     * @param javaClassMeta 类信息
+     */
+    private void parseClassInnerIndex(JavaClassMeta javaClassMeta) {
+        List<JavaFieldMeta> fields = javaClassMeta.getFields();
+        if(CollectionUtil.isNotEmpty(fields)){
+            Map<String,String> fieldMetaIndex = new HashMap<>();
+            for (JavaFieldMeta meta : fields) {
+                fieldMetaIndex.put(meta.getUniqueId(),"true");
+            }
+            javaClassMeta.setFieldMetaIndex(fieldMetaIndex);
         }
+        List<JavaMethodMeta> methods = javaClassMeta.getMethods();
+        if(CollectionUtil.isNotEmpty(methods)){
+            Map<String,String> methodMetaIndex = new HashMap<>();
+            for (JavaMethodMeta meta : methods) {
+                methodMetaIndex.put(meta.getUniqueId(),"true");
+            }
+            javaClassMeta.setMethodMetaIndex(methodMetaIndex);
+        }
+        List<JavaConstructorMeta> constructors = javaClassMeta.getConstructors();
+        if(CollectionUtil.isNotEmpty(constructors)){
+            Map<String,String> constructMetaIndex = new HashMap<>();
+            for (JavaConstructorMeta meta : constructors) {
+                constructMetaIndex.put(meta.getUniqueId(),"true");
+            }
+            javaClassMeta.setConstructorMetaIndex(constructMetaIndex);
+        }
+    }
+
+    private  List<JavaClassMeta>  parseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration,JavaParserMetaContext javaParserMetaContext) {
+        if(accept(typeDeclaration,metaFileInfo)){
+            return doParseChildTypeToJavaClassMeta(metaFileInfo,javaClassMeta,rootAst,typeDeclaration,javaParserMetaContext);
+        }
+        return null;
     }
 
     protected  void parseMembers(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, TypeDeclaration<?> typeDeclaration,JavaParserMetaContext javaParserMetaContext){
@@ -76,7 +110,7 @@ public abstract class AbstractJavaParserTypeDeclarationParse extends BaseJavaPar
 
 
 
-    protected abstract void doParseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration,JavaParserMetaContext javaParserMetaContext);
+    protected abstract List<JavaClassMeta> doParseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration,JavaParserMetaContext javaParserMetaContext);
 
     /**
      * 解析类声明结构
@@ -240,6 +274,7 @@ public abstract class AbstractJavaParserTypeDeclarationParse extends BaseJavaPar
             javaClassMeta.setClassName(simpleName.getIdentifier());
             javaClassMeta.setFullClassName(typeDeclaration.getFullyQualifiedName().get());
             javaClassMeta.setValue(simpleName.getIdentifier());
+            javaClassMeta.setNestedClass(typeDeclaration.isNestedType());
 
 
             if(typeDeclaration.isPrivate()){

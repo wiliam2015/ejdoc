@@ -1,10 +1,12 @@
 package com.ejdoc.metainfo.seralize.parser.impl.javaparser.member;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.enums.EnvPropEnum;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
 import com.ejdoc.metainfo.seralize.model.JavaConstructorMeta;
 import com.ejdoc.metainfo.seralize.model.JavaMethodMeta;
+import com.ejdoc.metainfo.seralize.model.JavaParameterMeta;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
@@ -52,6 +54,7 @@ public class ConstructorMemberParse extends MethodMemberParse{
         javaConstructorMeta.setProtecteds(javaMethodMeta.getProtecteds());
         javaConstructorMeta.setSourceCode(javaMethodMeta.getSourceCode());
         javaConstructorMeta.setVarArgs(javaMethodMeta.getVarArgs());
+        javaConstructorMeta.setUniqueId(javaMethodMeta.getUniqueId());
         return javaConstructorMeta;
     }
 
@@ -73,8 +76,29 @@ public class ConstructorMemberParse extends MethodMemberParse{
         parseMethodDocTag(javaMethodMeta, javadoc,annotations);
         //入参与异常
         parseMethodParamAndException(javaMethodMeta, methodDeclaration, resolve);
+        //方法唯一ID解析
+        parseMethodUniqueId(javaMethodMeta);
 
         return javaMethodMeta;
+    }
+
+    /**
+     * 方法唯一ID解析
+     * @param javaMethodMeta
+     */
+    private  void parseMethodUniqueId(JavaMethodMeta javaMethodMeta) {
+        StringBuilder uniqueId = new StringBuilder(javaMethodMeta.getName());
+        List<JavaParameterMeta> parameters = javaMethodMeta.getParameters();
+        if(CollectionUtil.isNotEmpty(parameters)){
+            for (JavaParameterMeta parameter : parameters) {
+                JavaClassMeta javaClass = parameter.getJavaClass();
+                if(javaClass != null){
+                    uniqueId.append("-");
+                    uniqueId.append(javaClass.getClassName());
+                }
+            }
+        }
+        javaMethodMeta.setUniqueId(uniqueId.toString().toLowerCase());
     }
 
     private boolean accept(BodyDeclaration<?> member) {

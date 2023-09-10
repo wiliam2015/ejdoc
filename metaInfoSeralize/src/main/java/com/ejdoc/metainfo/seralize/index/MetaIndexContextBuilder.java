@@ -46,6 +46,8 @@ public class MetaIndexContextBuilder {
 
         List<TreeIndexClassMeta> treeIndexClassMetas = createTreeIndexClassIndex(treeIndexClassIndex, allJavaMetaSeralizeClassList,metaSeralizeFileIndex);
 
+        Map<String, List<JavaClassMeta>> packageNameIndexMap =createpackageNameIndexMap(allJavaMetaSeralizeClassList);
+
         MetaIndexContext.setOutFilePath(outFilePath);
 
         MetaIndexContext.setJavaMetaFileInfos(javaMetaFileInfos);
@@ -60,7 +62,26 @@ public class MetaIndexContextBuilder {
 
         MetaIndexContext.setTreeIndexClassMetas(treeIndexClassMetas);
 
+        MetaIndexContext.setPackageNameIndexMap(packageNameIndexMap);
+
         log.info("MetaIndexContextBuilder create all class index finish");
+    }
+
+    private Map<String, List<JavaClassMeta>> createpackageNameIndexMap(List<JavaClassMeta> allJavaMetaSeralizeClassList) {
+        Map<String, List<JavaClassMeta>> packageNameIndexMap = new HashMap<>();
+        if(CollectionUtil.isNotEmpty(allJavaMetaSeralizeClassList)){
+            for (JavaClassMeta javaClassMeta : allJavaMetaSeralizeClassList) {
+                String packageName = javaClassMeta.getPackageName();
+                List<JavaClassMeta> javaClassMetaList = packageNameIndexMap.get(packageName);
+                if(javaClassMetaList == null){
+                    javaClassMetaList = new ArrayList<>();
+                }
+                javaClassMetaList.add(javaClassMeta);
+                packageNameIndexMap.put(packageName,javaClassMetaList);
+            }
+        }
+        return packageNameIndexMap;
+
     }
 
     private List<JavaMetaFileInfo> createJavaMetaFileIndex(String outFilePath, Map<String, JavaMetaFileInfo> javaMetaFileIndex) {

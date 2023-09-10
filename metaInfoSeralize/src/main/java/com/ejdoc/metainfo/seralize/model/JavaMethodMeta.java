@@ -6,6 +6,8 @@ import java.util.List;
 public class JavaMethodMeta implements Serializable {
 
     private String name;
+    /**方法内部唯一ID*/
+    private String uniqueId;
     private String callSignature;
 
     private List<String> modifiers;
@@ -223,5 +225,14 @@ public class JavaMethodMeta implements Serializable {
 
     public void setDefaultValue(JavaClassMeta defaultValue) {
         this.defaultValue = defaultValue;
+    }
+
+
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
     }
 }

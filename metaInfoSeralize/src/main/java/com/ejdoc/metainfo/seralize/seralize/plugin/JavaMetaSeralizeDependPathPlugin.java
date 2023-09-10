@@ -57,6 +57,13 @@ public class JavaMetaSeralizeDependPathPlugin extends AbstractJavaMetaSeralizePl
                 JavaClassMeta returns = method.getReturns();
                 JavaMetaFileInfo returnJavaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(returns.getFullClassName());
                 setRelativePath(seralizeConfig,returnJavaMetaFileInfo,jsonFilePath, returns);
+                List<JavaClassMeta> typeArguments = returns.getTypeArguments();
+                if(CollectionUtil.isNotEmpty(typeArguments)){
+                    for (JavaClassMeta typeArgument : typeArguments) {
+                        JavaMetaFileInfo typeArgumentJavaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(typeArgument.getFullClassName());
+                        setRelativePath(seralizeConfig,typeArgumentJavaMetaFileInfo,jsonFilePath, typeArgument);
+                    }
+                }
                 List<JavaParameterMeta> parameters = method.getParameters();
                 if(CollectionUtil.isNotEmpty(parameters)){
                     for (JavaParameterMeta parameter : parameters) {

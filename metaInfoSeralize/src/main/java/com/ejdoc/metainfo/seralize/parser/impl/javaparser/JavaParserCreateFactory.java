@@ -69,7 +69,7 @@ public class JavaParserCreateFactory {
 
     public static ClassTypeDeclarationParse createDefaultClassTypeDeclarationParse(){
         if(classTypeDeclarationParse == null){
-            List<JavaParserMemberParse> javaParserMemberParseList = ListUtil.of(new FieldMemberParse(),new InnerClassMemberParse(),new MethodMemberParse(),new ConstructorMemberParse(),new AnnotationMemberParse(),new EnumMemberParse());
+            List<JavaParserMemberParse> javaParserMemberParseList = ListUtil.of(new FieldMemberParse(),new InnerClassMemberParse(),new NestedClassMemberParse(),new MethodMemberParse(),new ConstructorMemberParse(),new AnnotationMemberParse(),new EnumMemberParse());
             classTypeDeclarationParse = new ClassTypeDeclarationParse(javaParserMemberParseList);
         }
         return classTypeDeclarationParse;
@@ -78,7 +78,7 @@ public class JavaParserCreateFactory {
 
     public static EnumTypeDeclarationParse createDefaultEnumTypeDeclarationParse(){
         if(enumTypeDeclarationParse == null){
-            List<JavaParserMemberParse> javaParserMemberParseList = ListUtil.of(new FieldMemberParse(),new InnerClassMemberParse(),new MethodMemberParse(),new ConstructorMemberParse(),new AnnotationMemberParse(),new EnumMemberParse());
+            List<JavaParserMemberParse> javaParserMemberParseList = ListUtil.of(new FieldMemberParse(),new InnerClassMemberParse(),new NestedClassMemberParse(),new MethodMemberParse(),new ConstructorMemberParse(),new AnnotationMemberParse(),new EnumMemberParse());
             enumTypeDeclarationParse = new EnumTypeDeclarationParse(javaParserMemberParseList);
         }
         return enumTypeDeclarationParse;

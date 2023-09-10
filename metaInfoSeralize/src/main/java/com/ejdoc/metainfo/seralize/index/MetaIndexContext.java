@@ -27,6 +27,10 @@ public class MetaIndexContext {
      */
     private static Map<String,JavaMetaFileInfo> allJavaMetaFileIndexMap = new HashMap<>();
     /**
+     * 存储当前包下的类
+     */
+    private static Map<String,List<JavaClassMeta>> packageNameIndexMap = new HashMap<>();
+    /**
      * 存储所有类的元数据信息索引
      */
     private static Map<String,JavaClassMeta> allClassIndexMap = new HashMap<>();
@@ -43,6 +47,10 @@ public class MetaIndexContext {
 
     public static JavaClassMeta getClassMetaByFullName(String fullClassName){
         return allClassIndexMap.get(fullClassName);
+    }
+
+    public static List<JavaClassMeta> getClassMetaByPackage(String packageName){
+        return packageNameIndexMap.get(packageName);
     }
 
     public static TreeIndexClassMeta getTreeIndexClassMetaByFullName(String fullClassName){
@@ -103,5 +111,13 @@ public class MetaIndexContext {
 
     public static void setTreeIndexClassMetas(List<TreeIndexClassMeta> treeIndexClassMetas) {
         MetaIndexContext.treeIndexClassMetas = treeIndexClassMetas;
+    }
+
+    public static Map<String, List<JavaClassMeta>> getPackageNameIndexMap() {
+        return packageNameIndexMap;
+    }
+
+    public static void setPackageNameIndexMap(Map<String, List<JavaClassMeta>> packageNameIndexMap) {
+        MetaIndexContext.packageNameIndexMap = packageNameIndexMap;
     }
 }

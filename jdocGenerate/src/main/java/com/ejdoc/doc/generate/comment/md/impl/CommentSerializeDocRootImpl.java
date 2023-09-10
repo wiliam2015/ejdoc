@@ -1,6 +1,7 @@
 package com.ejdoc.doc.generate.comment.md.impl;
 
 import com.ejdoc.doc.generate.comment.CommentSerialize;
+import com.ejdoc.doc.generate.comment.dto.CommentSerializeRootDocDto;
 import com.ejdoc.metainfo.seralize.enums.JavaDocCommentTypeEnum;
 
 public class CommentSerializeDocRootImpl implements CommentSerialize {
@@ -15,7 +16,7 @@ public class CommentSerializeDocRootImpl implements CommentSerialize {
     }
 
     @Override
-    public String toSerialize(String content,String projectName,String moduleName,String curPackage) {
+    public String toSerialize(String content, CommentSerializeRootDocDto serializeRootDocDto) {
         return "https://docs.oracle.com/javase/8/docs/api/";
     }
 }

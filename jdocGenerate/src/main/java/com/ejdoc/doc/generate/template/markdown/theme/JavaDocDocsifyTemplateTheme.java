@@ -1,8 +1,10 @@
 package com.ejdoc.doc.generate.template.markdown.theme;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.io.FastByteArrayOutputStream;
 import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.util.*;
 import cn.hutool.json.JSONObject;
@@ -23,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.InputStream;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -665,7 +668,9 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
         }
 
         ClassPathResource staticResource = new ClassPathResource("com/ejdoc/doc/generate/config/template/markdown/theme/docsify/static.zip");
-        FileUtil.copyFile(staticResource.getFile().getAbsolutePath(), renderFilePath +"/static.zip", StandardCopyOption.REPLACE_EXISTING);
+        InputStream stream = staticResource.getStream();
+        FastByteArrayOutputStream read = IoUtil.read(stream);
+        FileUtil.writeBytes(read.toByteArray(), renderFilePath +"/static.zip");
         ZipUtil.unzip(renderFilePath +"/static.zip", renderFilePath);
         FileUtil.del(renderFilePath +"/static.zip");
     }

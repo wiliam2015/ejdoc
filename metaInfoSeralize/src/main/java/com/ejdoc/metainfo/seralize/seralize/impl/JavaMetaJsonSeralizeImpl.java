@@ -165,7 +165,8 @@ public class JavaMetaJsonSeralizeImpl implements JavaMetaJsonSeralize {
                     if(StrUtil.isNotBlank(packageName)){
                         packageDir = packageName.replace(".","/");
                     }
-                    FileUtil.writeString(javaClassMetaJson, configFilePath + "/doc/"+moduleName+"/"+packageDir+"/"+javaClassMeta.getClassName()+".json", "UTF-8");
+                    String outFilePath = configFilePath + "/doc/" + moduleName + "/" + packageDir + "/" + javaClassMeta.getClassName() + ".json";
+                    FileUtil.writeString(javaClassMetaJson, outFilePath, "UTF-8");
                 }
             }
         }

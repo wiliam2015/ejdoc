@@ -75,6 +75,7 @@ public class FieldMemberParse extends AbstractJavaParseMemberParse{
         initializer.ifPresent(expression -> fieldMeta.setInitializer(expression.toString()));
         fieldMeta.setName(variable.getNameAsString());
         fieldMeta.setInitializationExpression(variable.getTokenRange().get().toString());
+        fieldMeta.setUniqueId(fieldMeta.getName().toLowerCase());
         return fieldMeta;
     }
 

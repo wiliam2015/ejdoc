@@ -25,10 +25,11 @@ public class AnnotationTypeDeclarationParse extends AbstractJavaParserTypeDeclar
     }
 
     @Override
-    protected void doParseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
+    protected List<JavaClassMeta> doParseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
 //        parseSuperJavaClass(javaClassMeta, typeDeclaration);
 //        parseInterfaces(javaClassMeta, typeDeclaration);
 //        System.out.println("doParseChildTypeToJavaClassMeta");
+        return null;
     }
 
     protected void parseInterfaces(JavaClassMeta javaClassMeta, TypeDeclaration<?> typeDeclaration) {

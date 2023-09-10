@@ -82,7 +82,7 @@ public abstract class AbstractJavaParseMemberParse extends BaseJavaParse impleme
     /**
      * 过滤修饰符
      * @param compileIncludePrivate 是否包含私有属性
-     * @param modifiers
+     * @param modifiers 修饰符
      * @return
      */
     protected boolean filterModifier(String compileIncludePrivate, List<String> modifiers) {
@@ -91,8 +91,7 @@ public abstract class AbstractJavaParseMemberParse extends BaseJavaParse impleme
         }
         if(!BooleanUtil.toBoolean(compileIncludePrivate)){
             long noneModifierCount = modifiers.stream().filter(modifier ->
-                    (StrUtil.equals(modifier, "private")
-                            || StrUtil.equals(modifier, "protected"))).count();
+                    StrUtil.equals(modifier, "private")).count();
             if(noneModifierCount > 0){
                 return false;
             }

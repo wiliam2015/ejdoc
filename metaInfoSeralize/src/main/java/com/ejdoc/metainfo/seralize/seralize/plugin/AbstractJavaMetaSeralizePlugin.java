@@ -3,6 +3,7 @@ package com.ejdoc.metainfo.seralize.seralize.plugin;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ejdoc.metainfo.seralize.index.JavaMetaFileInfo;
+import com.ejdoc.metainfo.seralize.index.MetaIndexContext;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
 import com.ejdoc.metainfo.seralize.seralize.config.SeralizeConfig;
 import com.ejdoc.metainfo.seralize.util.MetaPathUtil;
@@ -36,6 +37,12 @@ public abstract class AbstractJavaMetaSeralizePlugin {
             return;
         }
 
+        //嵌套类更改类名称
+        JavaClassMeta typeClassMeta = MetaIndexContext.getClassMetaByFullName(dependClassMeta.getFullClassName());
+        if(typeClassMeta != null && typeClassMeta.getNestedClass() != null && typeClassMeta.getNestedClass()){
+            dependClassMeta.setClassName(typeClassMeta.getClassName());
+        }
+
         String seralizeOutPath = dependJavaMetaFileInfo.getOutFileBasePath();
 
         String dependAbsolutePath = dependJavaMetaFileInfo.getJsonFilePath();
@@ -56,5 +63,7 @@ public abstract class AbstractJavaMetaSeralizePlugin {
             relativePath = relativePath.replace(".json","");
             dependClassMeta.setDependencyRelativePath(relativePath);
         }
+
+
     }
 }

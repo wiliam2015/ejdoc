@@ -7,6 +7,9 @@ public class JavaConstructorMeta implements Serializable {
 
 
     private String name;
+
+    /**方法内部唯一ID*/
+    private String uniqueId;
     private String callSignature;
 
     private List<String> modifiers;
@@ -114,5 +117,13 @@ public class JavaConstructorMeta implements Serializable {
 
     public void setPublics(Boolean publics) {
         this.publics = publics;
+    }
+
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
     }
 }

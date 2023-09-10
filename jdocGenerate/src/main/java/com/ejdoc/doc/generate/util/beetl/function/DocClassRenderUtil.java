@@ -6,10 +6,17 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.ejdoc.doc.generate.comment.CommentSerialize;
 import com.ejdoc.doc.generate.comment.CommentSerializeFactory;
+import com.ejdoc.doc.generate.comment.dto.CommentSerializeRootDocDto;
+import com.ejdoc.doc.generate.tagtype.TagTypeSerialize;
+import com.ejdoc.doc.generate.tagtype.TagTypeSerializeFactory;
+import com.ejdoc.doc.generate.tagtype.dto.TagTypeSerializeRootDocDto;
 import com.ejdoc.doc.generate.template.markdown.theme.JavaDocDocsifyThemeDto;
+import com.ejdoc.doc.generate.util.DocParseUtil;
+import com.ejdoc.metainfo.seralize.enums.JavaDocTagTypeEnum;
 import com.ejdoc.metainfo.seralize.util.EjdocStrUtil;
 import org.beetl.core.Context;
 
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -216,7 +223,7 @@ public class DocClassRenderUtil {
     private void createTypeParametersMd(JSONObject javaClass, StringBuilder typeArgumentStr) {
         if(javaClass.containsKey("typeParameters")){
             JSONArray typeArguments = javaClass.getJSONArray("typeParameters");
-            typeArgumentStr.append("<");
+            typeArgumentStr.append("< ");
             StringBuilder typeArgumentObjStr = new StringBuilder();
             for (Object typeArgument : typeArguments) {
                 typeArgumentObjStr.append(",");
@@ -230,7 +237,7 @@ public class DocClassRenderUtil {
 
             }
             typeArgumentStr.append(typeArgumentObjStr.substring(1));
-            typeArgumentStr.append(">");
+            typeArgumentStr.append(" >");
         }
     }
 
@@ -302,6 +309,21 @@ public class DocClassRenderUtil {
         return result.toString();
     }
 
+    public  String createNestedClassNameLinkMd(JSONObject classJson) {
+        StringBuilder result = new StringBuilder();
+        result.append("[");
+//        result.append(classJson.getStr("nestedClassName"));
+//        result.append(".");
+        result.append(classJson.getStr("className"));
+        result.append("](");
+        String moduleName = classJson.getStr("moduleName");
+        String packageName = classJson.getStr("packageName");
+        String className = classJson.getStr("className");
+        result.append(StrUtil.join("/",moduleName, packageName.replace(".","/"), className));
+        result.append(".md");
+        result.append(")");
+        return result.toString();
+    }
 
     public String calClassType(Object paras, Context ctx){
         String result = "class ";
@@ -391,47 +413,13 @@ public class DocClassRenderUtil {
         return result.replace("\n","");
     }
 
-    public String calCommentSeeTagsMd(Object paras,String type,String appendBefore, Context ctx) {
-        StringBuilder result = new StringBuilder();
-        if(paras instanceof JSONObject) {
-            JSONObject jsonObject = (JSONObject) paras;
-            if(jsonObject.containsKey("javaModelMeta")){
-                JSONObject javaModelMeta = jsonObject.getJSONObject("javaModelMeta");
-                if(javaModelMeta.containsKey("tags")){
-                    JSONArray tags = javaModelMeta.getJSONArray("tags");
-                    StringBuilder tagSb = new StringBuilder();
-                    for (Object tag : tags) {
-                        if(tag instanceof JSONObject){
-                            JSONObject tagJsonObj = (JSONObject)tag;
-                            String tagType = tagJsonObj.getStr("type", "");
-                            if("SEE".equals(tagType)){
-                                String name = tagJsonObj.getStr("name", "");
-                                String value = tagJsonObj.getStr("value", "");
-                                tagSb.append("  ");
-                                tagSb.append(name);
-                                tagSb.append(" - ");
-                                tagSb.append(value);
-                                tagSb.append("\n\n");
-                            }
-                        }
-                    }
-                    result.append(tagSb);
-                }
-            }
-        }
-        if(result.length() > 0 ){
-            return appendBefore +"\n\n"+ result;
-        }
-        return "";
-    }
-
     public String calCommentDocMd(Object paras,Object propObj,String appendBefore, Context ctx) {
         StringBuilder result = new StringBuilder();
         if(paras instanceof JSONObject && propObj instanceof JSONObject) {
             JSONObject rootJsonObj = (JSONObject) propObj;
             Optional<JSONArray> javaDocCommentOptional = getDocCommentElements(paras);
             if(javaDocCommentOptional.isPresent()){
-                result.append(parseCommentMd(javaDocCommentOptional.get(),rootJsonObj));
+                result.append(DocParseUtil.parseCommentMd(javaDocCommentOptional.get(),rootJsonObj));
                 result.append("\n");
             }
         }
@@ -439,31 +427,6 @@ public class DocClassRenderUtil {
             return appendBefore + result;
         }
         return "";
-    }
-
-    /**
-     * 解析comment注释，包含内联标签
-     * @param objects
-     */
-    private  String parseCommentMd(JSONArray objects,JSONObject rootJsonObj) {
-        String packageName = rootJsonObj.getStr("packageName", "");
-        String moduleName = rootJsonObj.getStr("moduleName", "");
-        String projectName = rootJsonObj.getStr("projectName", "");
-        StringBuilder result = new StringBuilder();
-        Map<String, CommentSerialize> mdCommentSerializeMap = CommentSerializeFactory.createMdCommentSerializeMap();
-        for (Object object : objects) {
-            JSONObject commentJsonObj = (JSONObject)object;
-            String commentType = commentJsonObj.getStr("type");
-            String tagName = commentJsonObj.getStr("tagName");
-            String content = commentJsonObj.getStr("content");
-            CommentSerialize commentSerialize = mdCommentSerializeMap.get(commentType);
-            if(commentSerialize != null){
-                if(commentSerialize.accept(commentType)){
-                    result.append(commentSerialize.toSerialize(content,projectName,moduleName,packageName));
-                }
-            }
-        }
-        return result.toString();
     }
 
     private Optional<JSONArray> getDocCommentElements(Object paras) {
@@ -493,31 +456,56 @@ public class DocClassRenderUtil {
             if(jsonObject.containsKey("javaModelMeta")){
                 JSONObject javaModelMeta = jsonObject.getJSONObject("javaModelMeta");
                 if(javaModelMeta.containsKey("tags")){
+
+
+                    Map<String, TagTypeSerialize> mdTagTypeSerializeMap = TagTypeSerializeFactory.createMdTagTypeSerializeMap();
+
                     JSONArray tags = javaModelMeta.getJSONArray("tags");
                     StringBuilder tagSb = new StringBuilder();
                     for (Object tag : tags) {
                         if(tag instanceof JSONObject){
                             JSONObject tagJsonObj = (JSONObject)tag;
+
                             String tagType = tagJsonObj.getStr("type", "");
-                            if(type.equals(tagType)){
-                                String name = tagJsonObj.getStr("name", "");
-                                String value = "";
-                                boolean values = tagJsonObj.containsKey("values");
-                                if(values){
-                                    value = parseCommentMd(tagJsonObj.getJSONArray("values"),rootPropObj);
-                                }else{
-                                    value = tagJsonObj.getStr("value", "");
-//                                    value = value.trim().replace("\n","").replaceAll(" {2,}","");
-                                    value = value.trim().replaceAll(" {2,}","");
-                                }
-                                tagSb.append("  ");
-                                if(StrUtil.isNotBlank(name)){
-                                    tagSb.append(name);
-                                    tagSb.append(" - ");
-                                }
-                                tagSb.append(value);
-                                tagSb.append("\n\n");
+                            if(!type.equals(tagType)){
+                                continue;
                             }
+                            TagTypeSerialize tagTypeSerialize = mdTagTypeSerializeMap.get(tagType);
+                            if(tagTypeSerialize == null){
+                                tagTypeSerialize = mdTagTypeSerializeMap.get(JavaDocTagTypeEnum.DEFAULT.getName());
+                            }
+                            if(tagTypeSerialize != null){
+                                TagTypeSerializeRootDocDto tagTypeSerializeRootDocDto = new TagTypeSerializeRootDocDto();
+                                tagTypeSerializeRootDocDto.setRootPropObj(rootPropObj);
+                                tagTypeSerializeRootDocDto.setTagJsonObj(tagJsonObj);
+                                String tagVal =tagTypeSerialize.toSerialize(type,tagTypeSerializeRootDocDto);
+                                if(StrUtil.isNotBlank(tagVal)){
+                                    tagSb.append(tagVal);
+                                    tagSb.append("\n\n");
+                                }
+                            }
+//                            if(type.equals(tagType)){
+//                                if(type.equals("SEE")){
+//                                    System.out.println("sss");
+//                                }
+//                                String name = tagJsonObj.getStr("name", "");
+//                                String value = "";
+//                                boolean values = tagJsonObj.containsKey("values");
+//                                if(values){
+//                                    value = parseCommentMd(tagJsonObj.getJSONArray("values"),rootPropObj);
+//                                }else{
+//                                    value = tagJsonObj.getStr("value", "");
+////                                    value = value.trim().replace("\n","").replaceAll(" {2,}","");
+//                                    value = value.trim().replaceAll(" {2,}","");
+//                                }
+//                                tagSb.append("  ");
+//                                if(StrUtil.isNotBlank(name)){
+//                                    tagSb.append(name);
+//                                    tagSb.append(" - ");
+//                                }
+//                                tagSb.append(value);
+//                                tagSb.append("\n\n");
+//                            }
                         }
                     }
                     result.append(tagSb);

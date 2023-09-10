@@ -7,6 +7,8 @@ public class JavaFieldMeta implements Serializable {
 
     private String name;
 
+    /**内部唯一ID*/
+    private String uniqueId;
     private String initializer;
 
     private JavaClassMeta type;
@@ -94,5 +96,13 @@ public class JavaFieldMeta implements Serializable {
 
     public void setModifiers(List<String> modifiers) {
         this.modifiers = modifiers;
+    }
+
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
     }
 }

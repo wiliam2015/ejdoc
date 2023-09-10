@@ -262,4 +262,5 @@ public class TreeIndexClassMeta {
     public void setChildInterfaceList(List<JavaClassMeta> childInterfaceList) {
         this.childInterfaceList = childInterfaceList;
     }
+
 }

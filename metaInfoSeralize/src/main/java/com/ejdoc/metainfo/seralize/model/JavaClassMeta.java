@@ -3,6 +3,7 @@ package com.ejdoc.metainfo.seralize.model;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 public class JavaClassMeta  implements Serializable {
 
@@ -28,6 +29,12 @@ public class JavaClassMeta  implements Serializable {
      * 数组类全名称
      */
     private String arrayFullClassName;
+
+    /**嵌套类全名称*/
+    private String nestedClassFullClassName;
+
+    /**嵌套类*/
+    private String nestedClassName;
 
     /**
      * 类型注解参数
@@ -84,6 +91,7 @@ public class JavaClassMeta  implements Serializable {
 
     private Boolean staticClass;
     private Boolean innerClass;
+    private Boolean nestedClass;
 
     private Boolean voidClass;
 
@@ -105,11 +113,26 @@ public class JavaClassMeta  implements Serializable {
     private List<JavaClassMeta> interfaces;
 
     /**
-     * 嵌套类 即内部类
+     * 即内部类
      */
     private List<JavaClassMeta> innerClasses;
 
+    /**嵌套类*/
+    private List<JavaClassMeta> nestedClasses;
+
     private  List<JavaConstructorMeta> constructors;
+    /**
+     * 字段内部索引
+     */
+    private Map<String,String> fieldMetaIndex;
+    /**
+     * 方法内部索引
+     */
+    private Map<String,String> methodMetaIndex;
+    /**
+     * 构造函数内部索引
+     */
+    private Map<String,String> constructorMetaIndex;
 
     public JavaClassMeta(){}
 
@@ -454,6 +477,62 @@ public class JavaClassMeta  implements Serializable {
 
     public void setClassDesc(String classDesc) {
         this.classDesc = classDesc;
+    }
+
+    public Map<String, String> getFieldMetaIndex() {
+        return fieldMetaIndex;
+    }
+
+    public void setFieldMetaIndex(Map<String, String> fieldMetaIndex) {
+        this.fieldMetaIndex = fieldMetaIndex;
+    }
+
+    public Map<String, String> getMethodMetaIndex() {
+        return methodMetaIndex;
+    }
+
+    public void setMethodMetaIndex(Map<String, String> methodMetaIndex) {
+        this.methodMetaIndex = methodMetaIndex;
+    }
+
+    public Map<String, String> getConstructorMetaIndex() {
+        return constructorMetaIndex;
+    }
+
+    public void setConstructorMetaIndex(Map<String, String> constructorMetaIndex) {
+        this.constructorMetaIndex = constructorMetaIndex;
+    }
+
+    public Boolean getNestedClass() {
+        return nestedClass;
+    }
+
+    public void setNestedClass(Boolean nestedClass) {
+        this.nestedClass = nestedClass;
+    }
+
+    public List<JavaClassMeta> getNestedClasses() {
+        return nestedClasses;
+    }
+
+    public void setNestedClasses(List<JavaClassMeta> nestedClasses) {
+        this.nestedClasses = nestedClasses;
+    }
+
+    public String getNestedClassFullClassName() {
+        return nestedClassFullClassName;
+    }
+
+    public void setNestedClassFullClassName(String nestedClassFullClassName) {
+        this.nestedClassFullClassName = nestedClassFullClassName;
+    }
+
+    public String getNestedClassName() {
+        return nestedClassName;
+    }
+
+    public void setNestedClassName(String nestedClassName) {
+        this.nestedClassName = nestedClassName;
     }
 
     public String parseDeclarationStructure(){

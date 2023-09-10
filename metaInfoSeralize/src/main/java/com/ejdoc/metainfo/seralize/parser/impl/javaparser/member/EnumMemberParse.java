@@ -27,7 +27,7 @@ public class EnumMemberParse extends AbstractJavaParseMemberParse{
         List<JavaClassMeta> javaFieldMetas = initJavaFieldMetas(javaClassMeta);
         for (BodyDeclaration<?> member : members) {
             if(accept(member)){
-                javaFieldMetas.add(parseFieldMember(member,metaFileInfo,typeDeclaration,javaParserMetaContext));
+                javaFieldMetas.addAll(parseFieldMember(member,metaFileInfo,typeDeclaration,javaParserMetaContext));
             }
         }
         List<JavaClassMeta> javaClassMetaList = CollectionUtil.sortByProperty(javaFieldMetas, "className");
@@ -41,7 +41,7 @@ public class EnumMemberParse extends AbstractJavaParseMemberParse{
         return javaClassMeta.getEnumConstants();
     }
 
-    private JavaClassMeta parseFieldMember(BodyDeclaration<?> member, MetaFileInfoDto metaFileInfo, TypeDeclaration<?> typeDeclaration,JavaParserMetaContext javaParserMetaContext) {
+    private List<JavaClassMeta> parseFieldMember(BodyDeclaration<?> member, MetaFileInfoDto metaFileInfo, TypeDeclaration<?> typeDeclaration,JavaParserMetaContext javaParserMetaContext) {
         EnumDeclaration enumDeclaration = (EnumDeclaration) member;
         CompilationUnit compilationUnit = (CompilationUnit)typeDeclaration.getParentNode().get();
         EnumTypeDeclarationParse enumTypeDeclarationParse = JavaParserCreateFactory.createDefaultEnumTypeDeclarationParse();

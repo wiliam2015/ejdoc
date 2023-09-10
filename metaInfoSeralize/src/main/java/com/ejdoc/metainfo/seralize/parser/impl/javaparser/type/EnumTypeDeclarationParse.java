@@ -31,12 +31,13 @@ public class EnumTypeDeclarationParse extends AbstractJavaParserTypeDeclarationP
     }
 
     @Override
-    protected void doParseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
+    protected List<JavaClassMeta> doParseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
         if(typeDeclaration.isEnumDeclaration()){
             parseInterfaces(javaClassMeta, typeDeclaration);
 
             parseEnumEntry(javaClassMeta, (EnumDeclaration) typeDeclaration);
         }
+        return null;
     }
 
     private void parseEnumEntry(JavaClassMeta javaClassMeta, EnumDeclaration typeDeclaration) {

@@ -74,8 +74,28 @@ public class MethodMemberParse extends AbstractJavaParseMemberParse{
         parseMethodDocTag(javaMethodMeta, javadoc,annotations);
         //入参与异常
         parseMethodParamAndException(javaMethodMeta, methodDeclaration, resolve);
-
+        //方法唯一ID解析
+        parseMethodUniqueId(javaMethodMeta);
         return javaMethodMeta;
+    }
+
+    /**
+     * 方法唯一ID解析
+     * @param javaMethodMeta
+     */
+    private  void parseMethodUniqueId(JavaMethodMeta javaMethodMeta) {
+        StringBuilder uniqueId = new StringBuilder(javaMethodMeta.getName());
+        List<JavaParameterMeta> parameters = javaMethodMeta.getParameters();
+        if(CollectionUtil.isNotEmpty(parameters)){
+            for (JavaParameterMeta parameter : parameters) {
+                JavaClassMeta javaClass = parameter.getJavaClass();
+                if(javaClass != null){
+                    uniqueId.append("-");
+                    uniqueId.append(javaClass.getClassName());
+                }
+            }
+        }
+        javaMethodMeta.setUniqueId(uniqueId.toString().toLowerCase());
     }
 
     private boolean accept(BodyDeclaration<?> member) {

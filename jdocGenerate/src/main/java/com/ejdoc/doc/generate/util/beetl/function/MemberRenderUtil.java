@@ -1,9 +1,13 @@
 package com.ejdoc.doc.generate.util.beetl.function;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import org.beetl.core.Context;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MemberRenderUtil {
 
@@ -113,6 +117,21 @@ public class MemberRenderUtil {
         return result.toString();
     }
 
+    public String createALinkHrefIdHtml(Object name,String prex,String uniqueName, Context ctx) {
+        StringBuilder result = new StringBuilder();
+        if(name instanceof String){
+            result.append("<a href=\"#");
+            if(StrUtil.isNotBlank(uniqueName)){
+                result.append(prex+uniqueName);
+            }else{
+                result.append(prex+name);
+            }
+            result.append("\">");
+            result.append(name);
+            result.append("</a>");
+        }
+        return result.toString();
+    }
 
     public String calUniqueMethodName(Object paras, Context ctx) {
         StringBuilder result = new StringBuilder();
@@ -121,16 +140,32 @@ public class MemberRenderUtil {
             result.append(methodObj.getStr("name"));
             JSONArray parameters = methodObj.getJSONArray("parameters");
             if(parameters != null && parameters.size()>0){
+                List<String> params = new ArrayList<>();
                 for (Object obj : parameters) {
-                    result.append("-");
                     JSONObject param = (JSONObject)obj;
                     JSONObject javaClass = param.getJSONObject("javaClass");
-                    String fullClassName = javaClass.getStr("fullClassName");
-                    fullClassName = fullClassName.replace(" ","");
-                    result.append(replaceSpecChars(fullClassName));
-
+                    String className = javaClass.getStr("className");
+                    params.add(className);
+//                    result.append("-");
+//                    String fullClassName = javaClass.getStr("fullClassName");
+//                    fullClassName = fullClassName.replace(" ","");
+//                    result.append(replaceSpecChars(fullClassName));
+//                    result.append(replaceSpecChars(className));
                 }
+                result.append(catUniqueMethodParamName(params));
             }
+        }
+        return result.toString();
+    }
+
+    public String catUniqueMethodParamName(List<String> params){
+        if(CollectionUtil.isEmpty(params)){
+            return "";
+        }
+        StringBuilder result = new StringBuilder();
+        for (String param : params) {
+            result.append("-");
+            result.append(param.toLowerCase());
         }
         return result.toString();
     }
