@@ -629,17 +629,19 @@ public class DocClassRenderUtil {
                     for (Object annotation : annotations) {
                         JSONObject jsonObject = (JSONObject) annotation;
                         JSONObject typeJsonObj = jsonObject.getJSONObject("type");
-                        String className = typeJsonObj.getStr("className");
-                        String fullClassName = typeJsonObj.getStr("fullClassName");
-                        String metaAnno = StrUtil.join("", "java.lang.annotation", className);
-                        //标准注解
-                        String builtInAnno = StrUtil.join("", "java.lang.", className);
-                        if(metaAnno.equals(fullClassName)){
-                            return true;
-                        }
-                        //自定义注解
-                        if(!builtInAnno.equals(fullClassName)){
-                            return true;
+                        if(typeJsonObj != null){
+                            String className = typeJsonObj.getStr("className");
+                            String fullClassName = typeJsonObj.getStr("fullClassName");
+                            String metaAnno = StrUtil.join("", "java.lang.annotation", className);
+                            //标准注解
+                            String builtInAnno = StrUtil.join("", "java.lang.", className);
+                            if(metaAnno.equals(fullClassName)){
+                                return true;
+                            }
+                            //自定义注解
+                            if(!builtInAnno.equals(fullClassName)){
+                                return true;
+                            }
                         }
                     }
                 }
@@ -659,33 +661,35 @@ public class DocClassRenderUtil {
                     for (Object annotation : annotations) {
                         JSONObject jsonObject = (JSONObject) annotation;
                         JSONObject typeJsonObj = jsonObject.getJSONObject("type");
-                        JSONObject propertiesJsonObj = jsonObject.getJSONObject("properties");
-                        String className = typeJsonObj.getStr("className");
-                        String fullClassName = typeJsonObj.getStr("fullClassName");
-                        //标准注解
-                        String builtInAnno = StrUtil.join("", "java.lang.", className);
-                        //自定义注解
-                        if(!builtInAnno.equals(fullClassName)){
-                            result.append("@").append(className);
-                            if(propertiesJsonObj.containsKey("value")){
-                                result.append("(value=");
-                                Object value = propertiesJsonObj.get("value");
-                                if(value instanceof JSONArray){
-                                    StringBuilder inner = new StringBuilder();
-                                    JSONArray vals = (JSONArray)value;
-                                    for (Object val : vals) {
-                                        inner.append(",");
-                                        inner.append(val.toString());
+                        if(typeJsonObj != null){
+                            JSONObject propertiesJsonObj = jsonObject.getJSONObject("properties");
+                            String className = typeJsonObj.getStr("className");
+                            String fullClassName = typeJsonObj.getStr("fullClassName");
+                            //标准注解
+                            String builtInAnno = StrUtil.join("", "java.lang.", className);
+                            //自定义注解
+                            if(!builtInAnno.equals(fullClassName)){
+                                result.append("@").append(className);
+                                if(propertiesJsonObj.containsKey("value")){
+                                    result.append("(value=");
+                                    Object value = propertiesJsonObj.get("value");
+                                    if(value instanceof JSONArray){
+                                        StringBuilder inner = new StringBuilder();
+                                        JSONArray vals = (JSONArray)value;
+                                        for (Object val : vals) {
+                                            inner.append(",");
+                                            inner.append(val.toString());
+                                        }
+                                        result.append("{");
+                                        result.append(inner.substring(1));
+                                        result.append("}");
+                                    }else{
+                                        result.append(value.toString());
                                     }
-                                    result.append("{");
-                                    result.append(inner.substring(1));
-                                    result.append("}");
-                                }else{
-                                    result.append(value.toString());
+                                    result.append(")");
                                 }
-                                result.append(")");
+                                result.append("<br/>");
                             }
-                            result.append("<br/>");
                         }
                     }
                 }
