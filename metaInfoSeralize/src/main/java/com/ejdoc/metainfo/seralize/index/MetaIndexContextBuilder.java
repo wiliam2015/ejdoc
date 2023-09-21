@@ -41,13 +41,13 @@ public class MetaIndexContextBuilder {
 
 
         List<JavaMetaFileInfo> javaMetaFileInfos = createJavaMetaFileIndex(outFilePath,javaMetaFileIndex);
-
+        log.info("MetaIndexContextBuilder create all class index process 20%");
         List<JavaClassMeta> allJavaMetaSeralizeClassList  = createMetaSeralizeFileIndex(javaMetaFileInfos,metaSeralizeFileIndex);
-
+        log.info("MetaIndexContextBuilder create all class index process 40%");
         List<TreeIndexClassMeta> treeIndexClassMetas = createTreeIndexClassIndex(treeIndexClassIndex, allJavaMetaSeralizeClassList,metaSeralizeFileIndex);
-
+        log.info("MetaIndexContextBuilder create all class index process 60%");
         Map<String, List<JavaClassMeta>> packageNameIndexMap =createpackageNameIndexMap(allJavaMetaSeralizeClassList);
-
+        log.info("MetaIndexContextBuilder create all class index process 80%");
         MetaIndexContext.setOutFilePath(outFilePath);
 
         MetaIndexContext.setJavaMetaFileInfos(javaMetaFileInfos);

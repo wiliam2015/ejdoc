@@ -1,5 +1,6 @@
 package com.ejdoc.doc.generate.util;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.ejdoc.doc.generate.comment.CommentSerialize;
@@ -38,6 +39,30 @@ public class DocParseUtil {
                     result.append(commentSerialize.toSerialize(content,serializeRootDocDto));
                 }
             }
+        }
+        return result.toString();
+    }
+
+    /**
+     * 解析jdk类链接
+     * @param className
+     * @param fullClassName
+     * @return
+     */
+    public static String parseJdkClassLink(String className,String fullClassName){
+        StringBuilder result = new StringBuilder();
+        if(StrUtil.startWith(fullClassName,"java.") || StrUtil.startWith(fullClassName,"javax.")){
+            String replacefullClassPath = fullClassName.replace(".", "/");
+            //https://docs.oracle.com/javase/8/docs/api/java/nio/charset/Charset.html?is-external=true
+            result.append("[");
+            result.append(className);
+            result.append("](");
+            result.append("https://docs.oracle.com/javase/8/docs/api/");
+            result.append(replacefullClassPath);
+            result.append(".html?is-external=true");
+            result.append(")");
+        }else{
+            result.append(className);
         }
         return result.toString();
     }

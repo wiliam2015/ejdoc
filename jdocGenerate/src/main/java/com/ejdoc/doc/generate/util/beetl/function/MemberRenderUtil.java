@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
+import com.ejdoc.doc.generate.util.DocParseUtil;
 import org.beetl.core.Context;
 
 import java.util.ArrayList;
@@ -337,7 +338,9 @@ public class MemberRenderUtil {
             result.append(".md");
             result.append(")");
         }else{
-            result.append(classJson.getStr("className"));
+            String fullClassName = classJson.getStr("fullClassName");
+            String className = classJson.getStr("className");
+            result.append(DocParseUtil.parseJdkClassLink(className,fullClassName));
         }
         return result.toString();
     }

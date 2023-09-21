@@ -138,7 +138,10 @@ public class JavaParserMetaInfoParser extends AbstractMetaInfoParser {
 
     }
 
+
+
     private List<JavaClassMeta> parseJavaClassInfo(MetaFileInfoDto metaFileInfo, List<JavaClassMeta> javaClassMetaList, JavaParserMetaContext javaParserMetaContext, CompilationUnit rootAst) {
+        List<JavaClassMeta> currentParseJavaClassMetas = new ArrayList<>();
         NodeList<TypeDeclaration<?>> classTypeDataList = rootAst.getTypes();
         if(CollectionUtil.isNotEmpty(javaParserTypeDeclarationParseList)){
             for (JavaParserTypeDeclarationParse javaParserTypeDeclarationParse : javaParserTypeDeclarationParseList) {
@@ -147,6 +150,7 @@ public class JavaParserMetaInfoParser extends AbstractMetaInfoParser {
                         if(javaParserTypeDeclarationParse.accept(typeDeclaration,metaFileInfo)){
                             List<JavaClassMeta> javaClassMetas = javaParserTypeDeclarationParse.parseTypeToJavaClassMeta(metaFileInfo, rootAst, typeDeclaration,javaParserMetaContext);
                             javaClassMetaList.addAll(javaClassMetas);
+                            currentParseJavaClassMetas.addAll(javaClassMetas);
 
                         }
                     }
@@ -154,6 +158,7 @@ public class JavaParserMetaInfoParser extends AbstractMetaInfoParser {
                     if(javaParserTypeDeclarationParse.accept(null,metaFileInfo)){
                         List<JavaClassMeta> javaClassMetas = javaParserTypeDeclarationParse.parseTypeToJavaClassMeta(metaFileInfo, rootAst, null,javaParserMetaContext);
                         javaClassMetaList.addAll(javaClassMetas);
+                        currentParseJavaClassMetas.addAll(javaClassMetas);
                     }
                 }
 
@@ -164,7 +169,7 @@ public class JavaParserMetaInfoParser extends AbstractMetaInfoParser {
 
 
 
-        return javaClassMetaList;
+        return currentParseJavaClassMetas;
     }
 
 

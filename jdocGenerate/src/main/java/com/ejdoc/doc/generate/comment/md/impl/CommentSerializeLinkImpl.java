@@ -9,6 +9,7 @@ import com.ejdoc.doc.generate.util.beetl.function.MemberRenderUtil;
 import com.ejdoc.metainfo.seralize.enums.JavaDocCommentTypeEnum;
 import com.ejdoc.metainfo.seralize.index.MetaIndexContext;
 import com.ejdoc.metainfo.seralize.index.TreeIndexClassMeta;
+import com.ejdoc.metainfo.seralize.model.JavaClassImportMeta;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
 import com.ejdoc.metainfo.seralize.model.JavaFieldMeta;
 import com.ejdoc.metainfo.seralize.model.JavaMethodMeta;
@@ -118,25 +119,22 @@ public class CommentSerializeLinkImpl implements CommentSerialize {
                     imports.add(javaClassMeta.getFullClassName());
                 }
             }
-            List<String> importsClass = classMeta.getImports();
+            List<JavaClassImportMeta> importsClass = classMeta.getImports();
             //导入子包引入
-            for (String importInfo : importsClass) {
-                if(!importInfo.startsWith("java")){
-                    if(importInfo.contains("*")){
-                        String packageNameImport = importInfo.substring(0,importInfo.indexOf("*")-1);
-                        List<JavaClassMeta> packageClassList = MetaIndexContext.getClassMetaByPackage(packageNameImport);
+            for (JavaClassImportMeta importInfo : importsClass) {
+                if(!importInfo.getName().startsWith("java")){
+                    if(importInfo.isAsteriskImport() && !importInfo.isStaticImport()){
+                        List<JavaClassMeta> packageClassList = MetaIndexContext.getClassMetaByPackage(importInfo.getName());
                         if(CollectionUtil.isNotEmpty(packageClassList)){
                             for (JavaClassMeta javaClassMeta : packageClassList) {
                                 imports.add(javaClassMeta.getFullClassName());
                             }
                         }
                     }else{
-                        imports.add(importInfo);
+                        imports.add(importInfo.getName());
                     }
                 }
             }
-
-            imports.addAll(importsClass);
         }
 
         commentLinkDto.setImports(imports);

@@ -12,7 +12,6 @@
 %>
 ${prop.className!}
 
-
 |  **${i18n.childfile.projectName!}:**    |  ${prop.projectName!}    |   **${i18n.childfile.moduleName!}:**   |${prop.moduleName!}|
 | ----: | :---- | ----: |:---- |
 |   **${i18n.childfile.packageName!}:**   |  ${prop.packageName!}    |   **全路径信息:**   |${prop.fullClassName!}|
@@ -33,6 +32,8 @@ ${docClassFn.calAllClassesMd(prop.allSubClasses,"**所有子类：**  \n")}
 
 ${docClassFn.calAllClassesMd(prop.allSubInterfaceClasses,"**所有子接口：**  \n")}
 
+${docClassFn.calFunctionInterfaceInfoMd(prop,"**Functional Interface：**  \n")}
+
 ---
 <% if(docClassFn.calIsDeprecated(prop)){
      println("<strong>Deprecated</strong><br/>");
@@ -40,10 +41,18 @@ ${docClassFn.calAllClassesMd(prop.allSubInterfaceClasses,"**所有子接口：**
 }
 %>
 
-
 ## 声明信息
 <% if(docClassFn.calIsDeprecated(prop)){
      println("> @Deprecated  ");
+}
+%>
+<% if(docClassFn.calIncludeMetaAndCustomAnnotation(prop)){
+     print("> ");print(docClassFn.printMetaAndCustomAnnotation(prop));
+}
+%>
+
+<% if(docClassFn.calIsFunctionalInterface(prop)){
+     println("> @FunctionalInterface  ");
 }
 %>
 > ${docClassFn.calClassNameStructure(prop)}
@@ -181,29 +190,57 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
     }
 %>
 
-<% if(isNotEmpty(prop.methods)){
-    println("## 方法汇总");
-    println("");
-    println("|   索引  |    方法体和描述   |");
-    println("| ---- | ---- |");
-    for(methodObj in prop.methods){
-        print("|");
-        print(methodObjLP.index);
-         print("|");
-         print(memberFn.calMethodStructureInnerLinkMd(methodObj,""));
-         if(docClassFn.calIsDeprecated(methodObj)){
-          print("<br/>");
-            print("<strong>Deprecated</strong><br/>");
-            print(docClassFn.printDeprecatedDesc(prop));
-          }
-         print("<br/><br/>");
-        print(docClassFn.calCommentNoEnterDocMd(methodObj,prop,""));
-        println("|");
-
-      }
-    }
+<%
 %>
 
+<% if(isNotEmpty(prop.annotationClass) && prop.annotationClass){
+    if(isNotEmpty(prop.methods)){
+            println("## 元素汇总");
+            println("");
+            println("|   索引  |    元素和描述   |是否必须|");
+            println("| ---- | ---- | ---- |");
+            for(methodObj in prop.methods){
+                print("|");
+                print(methodObjLP.index);
+                 print("|");
+                 print(memberFn.calMethodStructureInnerLinkMd(methodObj,""));
+                 if(docClassFn.calIsDeprecated(methodObj)){
+                  print("<br/>");
+                    print("<strong>Deprecated</strong><br/>");
+                    print(docClassFn.printDeprecatedDesc(prop));
+                  }
+                 print("<br/><br/>");
+                print(docClassFn.calCommentNoEnterDocMd(methodObj,prop,""));
+                print("|");
+                print(docClassFn.calAnnoHaveDefaultVal(methodObj));
+                println("|");
+
+              }
+            }
+}else{
+    if(isNotEmpty(prop.methods)){
+        println("## 方法汇总");
+        println("");
+        println("|   索引  |    方法体和描述   |");
+        println("| ---- | ---- |");
+        for(methodObj in prop.methods){
+            print("|");
+            print(methodObjLP.index);
+             print("|");
+             print(memberFn.calMethodStructureInnerLinkMd(methodObj,""));
+             if(docClassFn.calIsDeprecated(methodObj)){
+              print("<br/>");
+                print("<strong>Deprecated</strong><br/>");
+                print(docClassFn.printDeprecatedDesc(prop));
+              }
+             print("<br/><br/>");
+            print(docClassFn.calCommentNoEnterDocMd(methodObj,prop,""));
+            println("|");
+
+          }
+    }
+}
+%>
 
 <% if(isNotEmpty(prop.allSupperClassDetailProp)){
     for(allSupperClassObj in prop.allSupperClassDetailProp){
@@ -239,6 +276,12 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
         print("  ");println(docClassFn.calFieldStructureMd(fieldsObj));
         println();
         println();
+        if(docClassFn.calIsDeprecated(fieldsObj)){
+           println("@Deprecated  ");
+        }
+        if(docClassFn.calIncludeMetaAndCustomAnnotation(fieldsObj)){
+             print("> ");print(docClassFn.printMetaAndCustomAnnotation(fieldsObj));
+        }
         println(docClassFn.calCommentDocMd(fieldsObj,prop,"**描述：** "));
         println(docClassFn.calCommentTagsMd(fieldsObj,prop,"SEE","**另请参阅：** \n\n"));
       }
@@ -260,6 +303,9 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
         if(docClassFn.calIsDeprecated(methodObj)){
            println("@Deprecated  ");
         }
+        if(docClassFn.calIncludeMetaAndCustomAnnotation(methodObj)){
+             print("> ");print(docClassFn.printMetaAndCustomAnnotation(methodObj));
+        }
         print("  ");println(memberFn.calMethodStructureMd(methodObj));
         println();
         println();
@@ -279,7 +325,11 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
 %>
 
 <% if(isNotEmpty(prop.methods)){
-    println("## 方法详细信息");
+    if(isNotEmpty(prop.annotationClass) && prop.annotationClass){
+        println("## 元素详细信息");
+    }else{
+        println("## 方法详细信息");
+    }
     println("");
 
     for(methodObj in prop.methods){
@@ -291,6 +341,9 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
         println();
         if(docClassFn.calIsDeprecated(methodObj)){
            println("@Deprecated  ");
+        }
+        if(docClassFn.calIncludeMetaAndCustomAnnotation(methodObj)){
+             print("> ");print(docClassFn.printMetaAndCustomAnnotation(methodObj));
         }
         print("  ");println(memberFn.calMethodStructureMd(methodObj));
         println();

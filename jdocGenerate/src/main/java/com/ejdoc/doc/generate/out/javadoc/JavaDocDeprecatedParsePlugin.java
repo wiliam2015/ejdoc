@@ -46,6 +46,7 @@ public class JavaDocDeprecatedParsePlugin extends AbstractJavaMetaSeralizePlugin
 
     private void parseDeprecatedClassMetaInfo(JavaClassMeta javaClassMeta, JavaDocDeprecatedDto javaDocDeprecatedDto) {
         JavaModelMeta javaModelMeta = javaClassMeta.getJavaModelMeta();
+        boolean haveDeprecatedInfo = false;
         if(javaModelMeta != null && CollectionUtil.isNotEmpty(javaModelMeta.getAnnotations())){
             for (JavaAnnotationMeta annotation : javaModelMeta.getAnnotations()) {
                 if("Deprecated".equals(annotation.getName())){
@@ -53,7 +54,9 @@ public class JavaDocDeprecatedParsePlugin extends AbstractJavaMetaSeralizePlugin
                     javaDocDeprecatedDto.setDeprecatedClass(true);
                     String namePath =(javaClassMeta.getModuleName()+"/"+javaClassMeta.getFullClassName()).replace(".","/");
                     JavaDocDeprecatedDto deprecatedClass = new JavaDocDeprecatedDto(javaClassMeta.getFullClassName(),deprecatedTag.getValue(),namePath);
+                    deprecatedClass.setDeprecateTag(deprecatedTag);
                     javaDocDeprecatedDto.addJavaDocDeprecatedClass(deprecatedClass);
+                    haveDeprecatedInfo = true;
                     break;
                 }
             }
@@ -74,7 +77,9 @@ public class JavaDocDeprecatedParsePlugin extends AbstractJavaMetaSeralizePlugin
                             String namePath =(javaClassMeta.getModuleName()+"/"+javaClassMeta.getFullClassName()).replace(".","/");
                             JavaDocDeprecatedDto deprecatedClass = new JavaDocDeprecatedDto(fullMethodName,deprecatedTag.getValue(),namePath);
                             deprecatedClass.setMethodDetail(method);
+                            deprecatedClass.setDeprecateTag(deprecatedTag);
                             javaDocDeprecatedDto.addJavaDocDeprecatedMethods(deprecatedClass);
+                            haveDeprecatedInfo = true;
                             break;
                         }
                     }
@@ -96,12 +101,22 @@ public class JavaDocDeprecatedParsePlugin extends AbstractJavaMetaSeralizePlugin
                             String namePath =(javaClassMeta.getModuleName()+"/"+javaClassMeta.getFullClassName()).replace(".","/");
                             JavaDocDeprecatedDto deprecatedClass = new JavaDocDeprecatedDto(fullMethodName,deprecatedTag.getValue(),namePath);
                             deprecatedClass.setConstructorDetail(constructor);
+                            deprecatedClass.setDeprecateTag(deprecatedTag);
                             javaDocDeprecatedDto.addJavaDocDeprecatedConstructors(deprecatedClass);
+                            haveDeprecatedInfo = true;
                             break;
                         }
                     }
                 }
             }
+        }
+
+        if(haveDeprecatedInfo){
+            javaDocDeprecatedDto.setClassName(javaClassMeta.getClassName());
+            javaDocDeprecatedDto.setProjectName(javaClassMeta.getProjectName());
+            javaDocDeprecatedDto.setModuleName(javaClassMeta.getModuleName());
+            javaDocDeprecatedDto.setPackageName(javaClassMeta.getPackageName());
+            javaDocDeprecatedDto.setFullClassName(javaClassMeta.getFullClassName());
         }
     }
 

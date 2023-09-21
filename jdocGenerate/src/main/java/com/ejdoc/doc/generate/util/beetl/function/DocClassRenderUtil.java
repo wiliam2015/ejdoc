@@ -4,9 +4,6 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
-import com.ejdoc.doc.generate.comment.CommentSerialize;
-import com.ejdoc.doc.generate.comment.CommentSerializeFactory;
-import com.ejdoc.doc.generate.comment.dto.CommentSerializeRootDocDto;
 import com.ejdoc.doc.generate.tagtype.TagTypeSerialize;
 import com.ejdoc.doc.generate.tagtype.TagTypeSerializeFactory;
 import com.ejdoc.doc.generate.tagtype.dto.TagTypeSerializeRootDocDto;
@@ -15,8 +12,6 @@ import com.ejdoc.doc.generate.util.DocParseUtil;
 import com.ejdoc.metainfo.seralize.enums.JavaDocTagTypeEnum;
 import com.ejdoc.metainfo.seralize.util.EjdocStrUtil;
 import org.beetl.core.Context;
-
-import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -65,6 +60,33 @@ public class DocClassRenderUtil {
                 result.append(innerLoopSb.substring(1));
             }
         }
+        return result.toString();
+    }
+
+    public String calFunctionInterfaceInfoMd(Object paras, String appendBefore,Context ctx){
+        StringBuilder result = new StringBuilder();
+        if(paras instanceof JSONObject){
+            JSONObject deprecatedJsonObj =( JSONObject)paras;
+            if(deprecatedJsonObj.containsKey("javaModelMeta")){
+                JSONObject javaModelMeta = deprecatedJsonObj.getJSONObject("javaModelMeta");
+                if(javaModelMeta.containsKey("annotations")){
+                    JSONArray annotations = javaModelMeta.getJSONArray("annotations");
+                    for (Object annotation : annotations) {
+                        JSONObject jsonObject = (JSONObject) annotation;
+                        String name = jsonObject.getStr("name", "");
+                        if("FunctionalInterface".equals(name)){
+                            if(StrUtil.isNotBlank(appendBefore)){
+                                result.append(appendBefore);
+                            }
+                            result.append("这是一个函数接口，因此可以用作lambda表达式或方法引用的赋值目标。");
+                            result.append("<br/>");
+                            result.append("This is a functional interface and can therefore be used as the assignment target for a lambda expression or method reference.");
+                        }
+                    }
+                }
+            }
+        }
+
         return result.toString();
     }
 
@@ -304,7 +326,11 @@ public class DocClassRenderUtil {
             result.append(".md");
             result.append(")");
         }else{
-            result.append(classJson.getStr("className"));
+
+            String fullClassName = classJson.getStr("fullClassName");
+            String className = classJson.getStr("className");
+            result.append(DocParseUtil.parseJdkClassLink(className,fullClassName));
+
         }
         return result.toString();
     }
@@ -413,6 +439,22 @@ public class DocClassRenderUtil {
         return result.replace("\n","");
     }
 
+    /**
+     * 注解类型是否有默认值
+     * @param paras
+     * @param ctx
+     * @return
+     */
+    public String calAnnoHaveDefaultVal(Object paras, Context ctx) {
+        if(paras instanceof JSONObject){
+            JSONObject methodJsonObj =( JSONObject)paras;
+            if(methodJsonObj.containsKey("defaultValue")){
+                return "否";
+            }
+        }
+        return "是";
+    }
+
     public String calCommentDocMd(Object paras,Object propObj,String appendBefore, Context ctx) {
         StringBuilder result = new StringBuilder();
         if(paras instanceof JSONObject && propObj instanceof JSONObject) {
@@ -421,6 +463,30 @@ public class DocClassRenderUtil {
             if(javaDocCommentOptional.isPresent()){
                 result.append(DocParseUtil.parseCommentMd(javaDocCommentOptional.get(),rootJsonObj));
                 result.append("\n");
+            }
+        }
+        if(result.length() > 0 ){
+            return appendBefore + result;
+        }
+        return "";
+    }
+    public String calDeprecatedCommentDocMd(Object paras,Object propObj,String appendBefore, Context ctx) {
+        StringBuilder result = new StringBuilder();
+        if(paras instanceof JSONObject && propObj instanceof JSONObject) {
+            JSONObject rootJsonObj = (JSONObject) propObj;
+            JSONObject jsonObject = (JSONObject) paras;
+            if(jsonObject.containsKey("deprecateTag")){
+                JSONObject deprecateTagJsonObj = jsonObject.getJSONObject("deprecateTag");
+                if(deprecateTagJsonObj.containsKey("values")){
+                    JSONArray javaDocCommentElementMetas = deprecateTagJsonObj.getJSONArray("values");
+                    Optional<JSONArray> javaDocCommentOptional = Optional.ofNullable(javaDocCommentElementMetas);
+                    if(javaDocCommentOptional.isPresent()){
+                        result.append(DocParseUtil.parseCommentMd(javaDocCommentOptional.get(),rootJsonObj));
+                    }
+                }
+            }
+            if(StrUtil.isBlank(result)){
+                result.append(jsonObject.getStr("deprecatedDesc",""));
             }
         }
         if(result.length() > 0 ){
@@ -520,6 +586,12 @@ public class DocClassRenderUtil {
     }
 
 
+    /**
+     * 是否有Deprecated注解
+     * @param paras
+     * @param ctx
+     * @return
+     */
     public boolean calIsDeprecated(Object paras, Context ctx) {
         if(paras instanceof JSONObject){
             JSONObject deprecatedJsonObj =( JSONObject)paras;
@@ -531,6 +603,108 @@ public class DocClassRenderUtil {
                         JSONObject jsonObject = (JSONObject) annotation;
                         String name = jsonObject.getStr("name", "");
                         if("Deprecated".equals(name)){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * 是否包含元注解和自定义注解
+     * @param paras
+     * @param ctx
+     * @return
+     */
+    public boolean calIncludeMetaAndCustomAnnotation(Object paras, Context ctx) {
+        if(paras instanceof JSONObject){
+            JSONObject deprecatedJsonObj =( JSONObject)paras;
+            if(deprecatedJsonObj.containsKey("javaModelMeta")){
+                JSONObject javaModelMeta = deprecatedJsonObj.getJSONObject("javaModelMeta");
+                if(javaModelMeta.containsKey("annotations")){
+                    JSONArray annotations = javaModelMeta.getJSONArray("annotations");
+                    for (Object annotation : annotations) {
+                        JSONObject jsonObject = (JSONObject) annotation;
+                        JSONObject typeJsonObj = jsonObject.getJSONObject("type");
+                        String className = typeJsonObj.getStr("className");
+                        String fullClassName = typeJsonObj.getStr("fullClassName");
+                        String metaAnno = StrUtil.join("", "java.lang.annotation", className);
+                        //标准注解
+                        String builtInAnno = StrUtil.join("", "java.lang.", className);
+                        if(metaAnno.equals(fullClassName)){
+                            return true;
+                        }
+                        //自定义注解
+                        if(!builtInAnno.equals(fullClassName)){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public String printMetaAndCustomAnnotation(Object paras, Context ctx) {
+        StringBuilder result = new StringBuilder();
+        if(paras instanceof JSONObject){
+            JSONObject deprecatedJsonObj =( JSONObject)paras;
+            if(deprecatedJsonObj.containsKey("javaModelMeta")){
+                JSONObject javaModelMeta = deprecatedJsonObj.getJSONObject("javaModelMeta");
+                if(javaModelMeta.containsKey("annotations")){
+                    JSONArray annotations = javaModelMeta.getJSONArray("annotations");
+                    for (Object annotation : annotations) {
+                        JSONObject jsonObject = (JSONObject) annotation;
+                        JSONObject typeJsonObj = jsonObject.getJSONObject("type");
+                        JSONObject propertiesJsonObj = jsonObject.getJSONObject("properties");
+                        String className = typeJsonObj.getStr("className");
+                        String fullClassName = typeJsonObj.getStr("fullClassName");
+                        //标准注解
+                        String builtInAnno = StrUtil.join("", "java.lang.", className);
+                        //自定义注解
+                        if(!builtInAnno.equals(fullClassName)){
+                            result.append("@").append(className);
+                            if(propertiesJsonObj.containsKey("value")){
+                                result.append("(value=");
+                                Object value = propertiesJsonObj.get("value");
+                                if(value instanceof JSONArray){
+                                    StringBuilder inner = new StringBuilder();
+                                    JSONArray vals = (JSONArray)value;
+                                    for (Object val : vals) {
+                                        inner.append(",");
+                                        inner.append(val.toString());
+                                    }
+                                    result.append("{");
+                                    result.append(inner.substring(1));
+                                    result.append("}");
+                                }else{
+                                    result.append(value.toString());
+                                }
+                                result.append(")");
+                            }
+                            result.append("<br/>");
+                        }
+                    }
+                }
+            }
+        }
+        return result.toString();
+    }
+
+    public boolean calIsFunctionalInterface(Object paras, Context ctx) {
+        if(paras instanceof JSONObject){
+            JSONObject deprecatedJsonObj =( JSONObject)paras;
+            if(deprecatedJsonObj.containsKey("javaModelMeta")){
+                JSONObject javaModelMeta = deprecatedJsonObj.getJSONObject("javaModelMeta");
+                if(javaModelMeta.containsKey("annotations")){
+                    JSONArray annotations = javaModelMeta.getJSONArray("annotations");
+                    for (Object annotation : annotations) {
+                        JSONObject jsonObject = (JSONObject) annotation;
+                        String name = jsonObject.getStr("name", "");
+                        if("FunctionalInterface".equals(name)){
                             return true;
                         }
                     }

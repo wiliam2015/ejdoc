@@ -10,10 +10,7 @@ import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaInfoPars
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.UnSolvedSymbolTool;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.member.JavaParserMemberParse;
 import com.ejdoc.metainfo.seralize.util.EjdocStrUtil;
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Modifier;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.PackageDeclaration;
+import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.Comment;
@@ -196,8 +193,20 @@ public abstract class AbstractJavaParserTypeDeclarationParse extends BaseJavaPar
             PackageDeclaration packageDeclaration = rootAst.getPackageDeclaration().get();
 
             CompilationUnit node = rootAst;
-            List<String> importList = node.getImports().stream().map(NodeWithName::getNameAsString).collect(Collectors.toList());
-            javaClassMeta.setImports(importList);
+            List<JavaClassImportMeta> javaClassImportMetas = new ArrayList<>();
+            NodeList<ImportDeclaration> imports = node.getImports();
+            if(CollectionUtil.isNotEmpty(imports)){
+                JavaClassImportMeta importMeta = null;
+                for (ImportDeclaration anImport : imports) {
+                    importMeta = new JavaClassImportMeta();
+                    importMeta.setName(anImport.getNameAsString());
+                    importMeta.setAsteriskImport(anImport.isAsterisk());
+                    importMeta.setStaticImport(anImport.isStatic());
+                    importMeta.setPhantom(anImport.isPhantom());
+                    javaClassImportMetas.add(importMeta);
+                }
+            }
+            javaClassMeta.setImports(javaClassImportMetas);
 
 //            try {
 //                URL url = node.getStorage().get().getPath().toUri().toURL();

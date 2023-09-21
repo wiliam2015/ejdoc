@@ -62,7 +62,7 @@ public class JavaClassMeta  implements Serializable {
 
     private String dependencyAbsolutePath;
 
-    private List<String> imports;
+    private List<JavaClassImportMeta> imports;
 
     /**
      * 注释注解等
@@ -373,11 +373,11 @@ public class JavaClassMeta  implements Serializable {
         this.url = url;
     }
 
-    public List<String> getImports() {
+    public List<JavaClassImportMeta> getImports() {
         return imports;
     }
 
-    public void setImports(List<String> imports) {
+    public void setImports(List<JavaClassImportMeta> imports) {
         this.imports = imports;
     }
 

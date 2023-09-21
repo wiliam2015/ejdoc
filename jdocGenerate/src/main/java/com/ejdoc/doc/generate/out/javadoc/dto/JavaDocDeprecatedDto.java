@@ -1,6 +1,7 @@
 package com.ejdoc.doc.generate.out.javadoc.dto;
 
 import com.ejdoc.metainfo.seralize.model.JavaConstructorMeta;
+import com.ejdoc.metainfo.seralize.model.JavaDocletTagMeta;
 import com.ejdoc.metainfo.seralize.model.JavaMethodMeta;
 
 import java.util.ArrayList;
@@ -8,6 +9,15 @@ import java.util.List;
 
 public class JavaDocDeprecatedDto {
 
+    private String projectName;
+
+    private String moduleName;
+
+    private String moduleDesc;
+
+    private String packageName;
+    private String className;
+    private String fullClassName;
     private Boolean deprecatedClass;
     private Boolean deprecatedMethod;
     private Boolean deprecatedContructor;
@@ -19,6 +29,8 @@ public class JavaDocDeprecatedDto {
     private JavaMethodMeta methodDetail;
 
     private JavaConstructorMeta constructorDetail;
+
+    private JavaDocletTagMeta  deprecateTag;
 
     public JavaDocDeprecatedDto(){}
 
@@ -138,5 +150,61 @@ public class JavaDocDeprecatedDto {
 
     public void setConstructorDetail(JavaConstructorMeta constructorDetail) {
         this.constructorDetail = constructorDetail;
+    }
+
+    public JavaDocletTagMeta getDeprecateTag() {
+        return deprecateTag;
+    }
+
+    public void setDeprecateTag(JavaDocletTagMeta deprecateTag) {
+        this.deprecateTag = deprecateTag;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getModuleName() {
+        return moduleName;
+    }
+
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
+
+    public String getModuleDesc() {
+        return moduleDesc;
+    }
+
+    public void setModuleDesc(String moduleDesc) {
+        this.moduleDesc = moduleDesc;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getFullClassName() {
+        return fullClassName;
+    }
+
+    public void setFullClassName(String fullClassName) {
+        this.fullClassName = fullClassName;
     }
 }

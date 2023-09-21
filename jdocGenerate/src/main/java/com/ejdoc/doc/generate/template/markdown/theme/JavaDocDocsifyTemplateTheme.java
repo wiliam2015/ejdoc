@@ -171,39 +171,65 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
      * @param javaDocDocsifyThemeDtos
      */
     private void createAllDeprecatedClassIndexRoute(String renderFilePath, List<JavaDocDocsifyThemeDto> javaDocDocsifyThemeDtos) {
+        List<JavaDocDeprecatedDto> allDeprecatedClasses = new ArrayList<>();
+        List<JavaDocDeprecatedDto> allDeprecatedMethods = new ArrayList<>();
+        List<JavaDocDeprecatedDto> allDeprecatedContructors = new ArrayList<>();
         if(CollectionUtil.isNotEmpty(javaDocDocsifyThemeDtos)){
             List<JavaDocDeprecatedDto> docDeprecatedDtos = javaDocDocsifyThemeDtos.stream().filter(JavaDocDocsifyThemeDto::isDeprecatedModify)
                     .map(JavaDocDocsifyThemeDto::getDocDeprecatedDto)
                     .collect(Collectors.toList());
             if(CollectionUtil.isNotEmpty(docDeprecatedDtos)){
-                List<JavaDocDeprecatedDto> allDeprecatedClasses = new ArrayList<>();
-                List<JavaDocDeprecatedDto> allDeprecatedMethods = new ArrayList<>();
-                List<JavaDocDeprecatedDto> allDeprecatedContructors = new ArrayList<>();
+
                 for (JavaDocDeprecatedDto docDeprecatedDto : docDeprecatedDtos) {
                     if(BooleanUtil.isTrue(docDeprecatedDto.getDeprecatedClass())){
-                        allDeprecatedClasses.add(docDeprecatedDto.getDeprecatedClasses());
+                        JavaDocDeprecatedDto deprecatedClasses = docDeprecatedDto.getDeprecatedClasses();
+                        deprecatedClasses.setProjectName(docDeprecatedDto.getProjectName());
+                        deprecatedClasses.setModuleName(docDeprecatedDto.getModuleName());
+                        deprecatedClasses.setPackageName(docDeprecatedDto.getPackageName());
+                        deprecatedClasses.setClassName(docDeprecatedDto.getClassName());
+                        deprecatedClasses.setFullClassName(docDeprecatedDto.getFullClassName());
+                        allDeprecatedClasses.add(deprecatedClasses);
                     }
                     if(BooleanUtil.isTrue(docDeprecatedDto.getDeprecatedMethod())){
+                        for (JavaDocDeprecatedDto deprecatedMethod : docDeprecatedDto.getDeprecatedMethods()) {
+                            deprecatedMethod.setProjectName(docDeprecatedDto.getProjectName());
+                            deprecatedMethod.setModuleName(docDeprecatedDto.getModuleName());
+                            deprecatedMethod.setPackageName(docDeprecatedDto.getPackageName());
+                            deprecatedMethod.setClassName(docDeprecatedDto.getClassName());
+                            deprecatedMethod.setFullClassName(docDeprecatedDto.getFullClassName());
+                        }
                         allDeprecatedMethods.addAll(docDeprecatedDto.getDeprecatedMethods());
                     }
                     if(BooleanUtil.isTrue(docDeprecatedDto.getDeprecatedContructor())){
+                        for (JavaDocDeprecatedDto deprecatedMethod : docDeprecatedDto.getDeprecatedConstructors()) {
+                            deprecatedMethod.setProjectName(docDeprecatedDto.getProjectName());
+                            deprecatedMethod.setModuleName(docDeprecatedDto.getModuleName());
+                            deprecatedMethod.setPackageName(docDeprecatedDto.getPackageName());
+                            deprecatedMethod.setClassName(docDeprecatedDto.getClassName());
+                            deprecatedMethod.setFullClassName(docDeprecatedDto.getFullClassName());
+                        }
                         allDeprecatedContructors.addAll(docDeprecatedDto.getDeprecatedConstructors());
                     }
                 }
-
-                Map<String,Object> prop = new HashMap<>();
-                prop.put("allDeprecatedClasses",JSONUtil.parseArray(allDeprecatedClasses));
-                prop.put("allDeprecatedMethods",JSONUtil.parseArray(allDeprecatedMethods));
-                prop.put("allDeprecatedContructors",JSONUtil.parseArray(allDeprecatedContructors));
-                String allModuleReadmeFile = "/route/alldeprecated/README.md";
-                writeThemeTemplateFile(renderFilePath, prop,"allDeprecatedReadme.btl",allModuleReadmeFile);
-
-                prop.put("sideType","allDeprecated");
-                prop.put("title","所有Deprecated");
-                String sideBarFile = "/route/alldeprecated/_sidebar.md";
-                writeThemeTemplateFile(renderFilePath, prop,"sidebar.btl",sideBarFile);
             }
         }
+        Map<String,Object> prop = new HashMap<>();
+        prop.put("haveDeprecatedData",true);
+        if(CollectionUtil.isEmpty(allDeprecatedClasses)
+                && CollectionUtil.isEmpty(allDeprecatedMethods)
+                && CollectionUtil.isEmpty(allDeprecatedContructors)){
+            prop.put("haveDeprecatedData",false);
+        }
+        prop.put("allDeprecatedClasses",JSONUtil.parseArray(allDeprecatedClasses));
+        prop.put("allDeprecatedMethods",JSONUtil.parseArray(allDeprecatedMethods));
+        prop.put("allDeprecatedContructors",JSONUtil.parseArray(allDeprecatedContructors));
+        String allModuleReadmeFile = "/route/alldeprecated/README.md";
+        writeThemeTemplateFile(renderFilePath, prop,"allDeprecatedReadme.btl",allModuleReadmeFile);
+
+        prop.put("sideType","allDeprecated");
+        prop.put("title","所有Deprecated");
+        String sideBarFile = "/route/alldeprecated/_sidebar.md";
+        writeThemeTemplateFile(renderFilePath, prop,"sidebar.btl",sideBarFile);
     }
 
     /**

@@ -1,3 +1,7 @@
+<% if(isNotEmpty(prop.haveDeprecatedData) && !prop.haveDeprecatedData){%>
+无Deprecated信息
+<% } else{%>
+
 <% if(isNotEmpty(prop.allDeprecatedClasses)){%>
 ## 所有deprecated classes
 
@@ -21,7 +25,8 @@
     var uniqueName = memberFn.calUniqueMethodName(obj.methodDetail);
     var linkPath =obj.deprecatedNamePath+".md#";
     var fullPath =linkPath+uniqueName;
-    print("|");print(docClassFn.createCommonLinkMd(obj.deprecatedName,fullPath));print("|");print(obj.deprecatedDesc);print("|");println();
+
+    print("|");print(docClassFn.createCommonLinkMd(obj.deprecatedName,fullPath));print("|");print(docClassFn.calDeprecatedCommentDocMd(obj,obj,""));print("|");println();
 }
 %>
 
@@ -40,5 +45,7 @@
         print("|");print(docClassFn.createCommonLinkMd(obj.deprecatedName,fullPath));print("|");print(obj.deprecatedDesc);print("|");println();
 }
 %>
+
+<% }%>
 
 <% }%>

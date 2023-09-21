@@ -15,6 +15,7 @@ import com.github.javaparser.javadoc.description.JavadocInlineTag;
 import com.github.javaparser.javadoc.description.JavadocSnippet;
 import com.github.javaparser.resolution.UnsolvedSymbolException;
 import com.github.javaparser.resolution.declarations.ResolvedAnnotationDeclaration;
+import com.github.javaparser.resolution.declarations.ResolvedValueDeclaration;
 import com.github.javaparser.resolution.types.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,13 +112,15 @@ public class BaseJavaParse {
             parseExpression(annotationExpr.getMemberValue(),list);
             if(CollectionUtil.size(list) > 1){
                 List<String> expressionValList = list.stream().map(JavaClassMeta::getValue).collect(Collectors.toList());
-                namedParameterMap.put("value",expressionValList);
+//                namedParameterMap.put("value",expressionValList);
+                namedParameterMap.put("value",list);
             }else if(CollectionUtil.size(list) == 1){
-                namedParameterMap.put("value",list.get(0).getValue());
+//                namedParameterMap.put("value",list.get(0).getValue());
+                namedParameterMap.put("value",list.get(0));
             }
         }else if(annotation.isMarkerAnnotationExpr()){
             MarkerAnnotationExpr annotationExpr =(MarkerAnnotationExpr) annotation;
-
+            String nameAsString = annotationExpr.getNameAsString();
         }else if(annotation.isNormalAnnotationExpr()){
             NormalAnnotationExpr annotationExpr =(NormalAnnotationExpr) annotation;
             NodeList<MemberValuePair> pairs = annotationExpr.getPairs();
@@ -128,9 +131,11 @@ public class BaseJavaParse {
                     parseExpression(pair.getValue(),list);
                     if(CollectionUtil.size(list) > 1){
                         List<String> expressionValList = list.stream().map(JavaClassMeta::getValue).collect(Collectors.toList());
-                        namedParameterMap.put(pair.getNameAsString(),expressionValList);
+//                        namedParameterMap.put(pair.getNameAsString(),expressionValList);
+                        namedParameterMap.put(pair.getNameAsString(),list);
                     }else if(CollectionUtil.size(list) == 1){
-                        namedParameterMap.put(pair.getNameAsString(),list.get(0).getValue());
+//                        namedParameterMap.put(pair.getNameAsString(),list.get(0).getValue());
+                        namedParameterMap.put(pair.getNameAsString(),list.get(0));
                     }
                 }
             }
@@ -243,6 +248,19 @@ public class BaseJavaParse {
             javaClassMeta.setClassName(expr.getScope().toString());
             javaClassMeta.setFullClassName(expr.getScope().toString());
             javaClassMeta.setValue(expr.getNameAsString());
+
+
+            try {
+                ResolvedValueDeclaration resolve = expr.resolve();
+                ResolvedType type = resolve.getType();
+                setFullClassNameFromResolvedType(javaClassMeta,type);
+            }catch(UnsolvedSymbolException ue) {
+                log.debug("parseExpression UnsolvedSymbolException error",ue);
+                UnSolvedSymbolTool.addUnSolveTOCache(ue.getMessage());
+            } catch (Exception e) {
+                log.error("parseExpression set type error",e);
+            }
+
             result.add(javaClassMeta);
         }else if(expression.isNameExpr()){
             NameExpr expr =(NameExpr) expression;
