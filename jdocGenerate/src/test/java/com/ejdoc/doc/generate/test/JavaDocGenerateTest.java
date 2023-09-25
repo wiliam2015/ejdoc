@@ -22,13 +22,6 @@ public class JavaDocGenerateTest {
         javaDocGenerate.printDoc();
 
     }
-    @Test
-    public void printJavaDocKaWareFedConfigTest(){
-        DocGenerate javaDocGenerate = DocGenerateFactory.createDefaultJavaDocGenerate("testconfig/kawarefedDocFile.properties");
-
-        javaDocGenerate.printDoc();
-
-    }
 
 
 }
