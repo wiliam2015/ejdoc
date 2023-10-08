@@ -10,6 +10,7 @@
 <div id="app"></div>
 <script>
     window.$docsify = {
+       basePath: location.pathname.substr(0, location.pathname.lastIndexOf('/') + 1), // 自动计算项目名字
        coverpage: true
     }
   </script>

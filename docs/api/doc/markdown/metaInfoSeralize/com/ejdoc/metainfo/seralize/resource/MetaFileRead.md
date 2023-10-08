@@ -1,39 +1,47 @@
 # 接口名称:MetaFileRead
 
-## 基本信息
-
-* **全路径信息:** com.ejdoc.metainfo.seralize.resource.MetaFileRead
-* **包名称:** com.ejdoc.metainfo.seralize.resource
-* **项目名称:** ejdoc
-* **模块名称:** metaInfoSeralize
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |metaInfoSeralize|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.metainfo.seralize.resource    |   **全路径信息:**   |com.ejdoc.metainfo.seralize.resource.MetaFileRead|
 
 
 
 
-* **作者：** 
 
-   - wiliam.me
+**作者：** 
+
+  wiliam.me
 
 
 
 
-* **所有子类：**  
+
+
+
+
+
+**所有子类：**  
 [DefaultMetaFileRead](/metaInfoSeralize/com/ejdoc/metainfo/seralize/resource/impl/DefaultMetaFileRead.md)
+
+
+
+
 
 ---
 
 ## 声明信息
+
 > public interface MetaFileRead     
 
 
-* **描述：** 
-
-  元数据读取接口<br>
+**描述：** 元数据读取接口<br>
 <p>读取jar文件或单个文件内容。</p>
 
-* **描述：** 
 
-元数据读取接口<br><p>读取jar文件或单个文件内容。</p>
+
+
+
+
 
 
 
@@ -44,18 +52,17 @@
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|[MetaEnvironment](/metaInfoSeralize/com/ejdoc/metainfo/seralize/env/MetaEnvironment.md) [getMetaEnvironment](#innerlink-getmetaenvironment)()   <br/>|
-|2|String [getProp](#innerlink-getprop-javalangstring)(String propKey)   <br/>|
-|3|String [getProp](#innerlink-getprop-javalangstring-javalangstring)(String propKey,String defaultVal)   <br/>|
-|4|List< MetaFileInfoDto > [readAllMetaFile](#innerlink-readallmetafile)()   <br/>|
-|5|Map< < MetaFileInfoDto >String,List > [readModuleMetaFile](#innerlink-readmodulemetafile)()   <br/>|
-|6|List< MetaFileInfoDto > [readModuleMetaFileByName](#innerlink-readmodulemetafilebyname-javalangstring)(String moduleName)   <br/>|
-|7|List< File > [readModuleProjectMetaFile](#innerlink-readmoduleprojectmetafile)()   <br/>|
-|8|List< File > [readModuleProjectMetaFileByModuleName](#innerlink-readmoduleprojectmetafilebymodulename-javalangstring)(String moduleName)   <br/>|
-|9|List< MetaFileInfoDto > [readProjectFileByClasspath](#innerlink-readprojectfilebyclasspath-javalangstring)(String classpath)   <br/>|
-|10|List< MetaFileInfoDto > [readProjectFileByPath](#innerlink-readprojectfilebypath-javalangstring)(String path)   <br/>|
-|11|File [readProjectMetaFile](#innerlink-readprojectmetafile)()   <br/>|
-
+|1|[MetaEnvironment](/metaInfoSeralize/com/ejdoc/metainfo/seralize/env/MetaEnvironment.md) [getMetaEnvironment](#getmetaenvironment)()   <br/><br/>|
+|2|[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getProp](#getprop-string-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) propKey,[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) defaultVal)   <br/><br/>|
+|3|[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getProp](#getprop-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) propKey)   <br/><br/>|
+|4|[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [MetaFileInfoDto](/metaInfoSeralize/com/ejdoc/metainfo/seralize/dto/MetaFileInfoDto.md) > [readAllMetaFile](#readallmetafile)()   <br/><br/>|
+|5|[Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< < MetaFileInfoDto >[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true) > [readModuleMetaFile](#readmodulemetafile)()   <br/><br/>|
+|6|[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [MetaFileInfoDto](/metaInfoSeralize/com/ejdoc/metainfo/seralize/dto/MetaFileInfoDto.md) > [readModuleMetaFileByName](#readmodulemetafilebyname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) moduleName)   <br/><br/>|
+|7|[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [File](https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true) > [readModuleProjectMetaFile](#readmoduleprojectmetafile)()   <br/><br/>|
+|8|[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [File](https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true) > [readModuleProjectMetaFileByModuleName](#readmoduleprojectmetafilebymodulename-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) moduleName)   <br/><br/>|
+|9|[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [MetaFileInfoDto](/metaInfoSeralize/com/ejdoc/metainfo/seralize/dto/MetaFileInfoDto.md) > [readProjectFileByClasspath](#readprojectfilebyclasspath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) classpath)   <br/><br/>|
+|10|[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [MetaFileInfoDto](/metaInfoSeralize/com/ejdoc/metainfo/seralize/dto/MetaFileInfoDto.md) > [readProjectFileByPath](#readprojectfilebypath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) path)   <br/><br/>|
+|11|[File](https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true) [readProjectMetaFile](#readprojectmetafile)()   <br/><br/>|
 
 
 
@@ -65,10 +72,12 @@
 
 ## 方法详细信息
 
----
-> **1.<span id="innerlink-getmetaenvironment">getMetaEnvironment</span>**
 
-* **方法签名：** 
+---
+
+> **1.<span id="getmetaenvironment">getMetaEnvironment</span>**
+
+**方法签名：** 
 
   [MetaEnvironment](/metaInfoSeralize/com/ejdoc/metainfo/seralize/env/MetaEnvironment.md) [getMetaEnvironment](#getmetaenvironment)()   
 
@@ -78,25 +87,19 @@
 
 
 
----
-> **2.<span id="innerlink-getprop-javalangstring">getProp</span>**
-
-* **方法签名：** 
-
-  String [getProp](#getprop-javalangstring)(String propKey)   
-
-
-
-
 
 
 
 ---
-> **3.<span id="innerlink-getprop-javalangstring-javalangstring">getProp</span>**
 
-* **方法签名：** 
+> **2.<span id="getprop-string-string">getProp</span>**
 
-  String [getProp](#getprop-javalangstring-javalangstring)(String propKey,String defaultVal)   
+**方法签名：** 
+
+  [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getProp](#getprop-string-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) propKey,[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) defaultVal)   
+
+
+
 
 
 
@@ -105,24 +108,15 @@
 
 
 ---
-> **4.<span id="innerlink-readallmetafile">readAllMetaFile</span>**
 
-* **方法签名：** 
+> **3.<span id="getprop-string">getProp</span>**
 
-  List< MetaFileInfoDto > [readAllMetaFile](#readallmetafile)()   
+**方法签名：** 
 
-
-
+  [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getProp](#getprop-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) propKey)   
 
 
 
-
----
-> **5.<span id="innerlink-readmodulemetafile">readModuleMetaFile</span>**
-
-* **方法签名：** 
-
-  Map< < MetaFileInfoDto >String,List > [readModuleMetaFile](#readmodulemetafile)()   
 
 
 
@@ -131,24 +125,15 @@
 
 
 ---
-> **6.<span id="innerlink-readmodulemetafilebyname-javalangstring">readModuleMetaFileByName</span>**
 
-* **方法签名：** 
+> **4.<span id="readallmetafile">readAllMetaFile</span>**
 
-  List< MetaFileInfoDto > [readModuleMetaFileByName](#readmodulemetafilebyname-javalangstring)(String moduleName)   
+**方法签名：** 
 
-
-
+  [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [MetaFileInfoDto](/metaInfoSeralize/com/ejdoc/metainfo/seralize/dto/MetaFileInfoDto.md) > [readAllMetaFile](#readallmetafile)()   
 
 
 
-
----
-> **7.<span id="innerlink-readmoduleprojectmetafile">readModuleProjectMetaFile</span>**
-
-* **方法签名：** 
-
-  List< File > [readModuleProjectMetaFile](#readmoduleprojectmetafile)()   
 
 
 
@@ -157,24 +142,15 @@
 
 
 ---
-> **8.<span id="innerlink-readmoduleprojectmetafilebymodulename-javalangstring">readModuleProjectMetaFileByModuleName</span>**
 
-* **方法签名：** 
+> **5.<span id="readmodulemetafile">readModuleMetaFile</span>**
 
-  List< File > [readModuleProjectMetaFileByModuleName](#readmoduleprojectmetafilebymodulename-javalangstring)(String moduleName)   
+**方法签名：** 
 
-
-
+  [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< < MetaFileInfoDto >[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true) > [readModuleMetaFile](#readmodulemetafile)()   
 
 
 
-
----
-> **9.<span id="innerlink-readprojectfilebyclasspath-javalangstring">readProjectFileByClasspath</span>**
-
-* **方法签名：** 
-
-  List< MetaFileInfoDto > [readProjectFileByClasspath](#readprojectfilebyclasspath-javalangstring)(String classpath)   
 
 
 
@@ -183,11 +159,15 @@
 
 
 ---
-> **10.<span id="innerlink-readprojectfilebypath-javalangstring">readProjectFileByPath</span>**
 
-* **方法签名：** 
+> **6.<span id="readmodulemetafilebyname-string">readModuleMetaFileByName</span>**
 
-  List< MetaFileInfoDto > [readProjectFileByPath](#readprojectfilebypath-javalangstring)(String path)   
+**方法签名：** 
+
+  [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [MetaFileInfoDto](/metaInfoSeralize/com/ejdoc/metainfo/seralize/dto/MetaFileInfoDto.md) > [readModuleMetaFileByName](#readmodulemetafilebyname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) moduleName)   
+
+
+
 
 
 
@@ -196,11 +176,82 @@
 
 
 ---
-> **11.<span id="innerlink-readprojectmetafile">readProjectMetaFile</span>**
 
-* **方法签名：** 
+> **7.<span id="readmoduleprojectmetafile">readModuleProjectMetaFile</span>**
 
-  File [readProjectMetaFile](#readprojectmetafile)()   
+**方法签名：** 
+
+  [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [File](https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true) > [readModuleProjectMetaFile](#readmoduleprojectmetafile)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **8.<span id="readmoduleprojectmetafilebymodulename-string">readModuleProjectMetaFileByModuleName</span>**
+
+**方法签名：** 
+
+  [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [File](https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true) > [readModuleProjectMetaFileByModuleName](#readmoduleprojectmetafilebymodulename-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) moduleName)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **9.<span id="readprojectfilebyclasspath-string">readProjectFileByClasspath</span>**
+
+**方法签名：** 
+
+  [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [MetaFileInfoDto](/metaInfoSeralize/com/ejdoc/metainfo/seralize/dto/MetaFileInfoDto.md) > [readProjectFileByClasspath](#readprojectfilebyclasspath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) classpath)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **10.<span id="readprojectfilebypath-string">readProjectFileByPath</span>**
+
+**方法签名：** 
+
+  [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [MetaFileInfoDto](/metaInfoSeralize/com/ejdoc/metainfo/seralize/dto/MetaFileInfoDto.md) > [readProjectFileByPath](#readprojectfilebypath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) path)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **11.<span id="readprojectmetafile">readProjectMetaFile</span>**
+
+**方法签名：** 
+
+  [File](https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true) [readProjectMetaFile](#readprojectmetafile)()   
+
+
 
 
 

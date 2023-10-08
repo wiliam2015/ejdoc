@@ -1,30 +1,37 @@
 # 类名称:JavaModuleMeta
 
-## 基本信息
-
-* **全路径信息:** com.ejdoc.metainfo.seralize.model.JavaModuleMeta
-* **包名称:** com.ejdoc.metainfo.seralize.model
-* **项目名称:** ejdoc
-* **模块名称:** metaInfoSeralize
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |metaInfoSeralize|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.metainfo.seralize.model    |   **全路径信息:**   |com.ejdoc.metainfo.seralize.model.JavaModuleMeta|
 
 
 
 
 
 
-* **所有父级接口：**  
-Serializable
+
+
+
+
+
+
+
+
+
+
+
 
 
 ---
 
 ## 声明信息
-> public class JavaModuleMeta   implements Serializable   
+
+> public class JavaModuleMeta   implements [Serializable](https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true)   
 
 
-* **描述：** 
 
-  
+
+
 
 
 
@@ -36,22 +43,22 @@ Serializable
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public  [JavaModuleMeta](#innerlink-javamodulemeta)()   <br/>|
-|2|public  [JavaModuleMeta](#innerlink-javamodulemeta-javalangstring-javalangstring)(String name,String desc)   <br/>|
+|1|public  [JavaModuleMeta](#javamodulemeta)()   <br/><br/>|
+|2|public  [JavaModuleMeta](#javamodulemeta-string-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name,[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) desc)   <br/><br/>|
+
 
 ## 方法汇总
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public boolean [equals](#innerlink-equals-javalangobject)(Object obj)   <br/>|
-|2|public String [getDesc](#innerlink-getdesc)()   <br/>|
-|3|public List< JavaClassMeta > [getJavaClassMetas](#innerlink-getjavaclassmetas)()   <br/>|
-|4|public String [getName](#innerlink-getname)()   <br/>|
-|5|public int [hashCode](#innerlink-hashcode)()   <br/>|
-|6|public void [setDesc](#innerlink-setdesc-javalangstring)(String desc)   <br/>|
-|7|public void [setJavaClassMetas](#innerlink-setjavaclassmetas-javautillist)(List< JavaClassMeta > javaClassMetas)   <br/>|
-|8|public void [setName](#innerlink-setname-javalangstring)(String name)   <br/>|
-
+|1|public [boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [equals](#equals-object)([Object](https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true) obj)   <br/><br/>|
+|2|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getDesc](#getdesc)()   <br/><br/>|
+|3|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) > [getJavaClassMetas](#getjavaclassmetas)()   <br/><br/>|
+|4|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getName](#getname)()   <br/><br/>|
+|5|public [int](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true) [hashCode](#hashcode)()   <br/><br/>|
+|6|public void [setDesc](#setdesc-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) desc)   <br/><br/>|
+|7|public void [setJavaClassMetas](#setjavaclassmetas-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassMeta > javaClassMetas)   <br/><br/>|
+|8|public void [setName](#setname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name)   <br/><br/>|
 
 
 
@@ -60,10 +67,12 @@ Serializable
 
 ## 构造方法详细信息
 
----
-> **1.<span id="innerlink-javamodulemeta">JavaModuleMeta</span>**
 
-* **构造方法签名：** 
+---
+
+> **1.<span id="javamodulemeta">JavaModuleMeta</span>**
+
+**构造方法签名：** 
 
   public  [JavaModuleMeta](#javamodulemeta)()   
 
@@ -72,12 +81,16 @@ Serializable
 
 
 
+
+
 ---
-> **2.<span id="innerlink-javamodulemeta-javalangstring-javalangstring">JavaModuleMeta</span>**
 
-* **构造方法签名：** 
+> **2.<span id="javamodulemeta-string-string">JavaModuleMeta</span>**
 
-  public  [JavaModuleMeta](#javamodulemeta-javalangstring-javalangstring)(String name,String desc)   
+**构造方法签名：** 
+
+  public  [JavaModuleMeta](#javamodulemeta-string-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name,[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) desc)   
+
 
 
 
@@ -87,25 +100,17 @@ Serializable
 
 ## 方法详细信息
 
----
-> **1.<span id="innerlink-equals-javalangobject">equals</span>**
-
-* **方法签名：** 
-
-  public boolean [equals](#equals-javalangobject)(Object obj)   
-
-
-
-
-
-
 
 ---
-> **2.<span id="innerlink-getdesc">getDesc</span>**
 
-* **方法签名：** 
+> **1.<span id="equals-object">equals</span>**
 
-  public String [getDesc](#getdesc)()   
+**方法签名：** 
+
+  public [boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [equals](#equals-object)([Object](https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true) obj)   
+
+
+
 
 
 
@@ -114,24 +119,15 @@ Serializable
 
 
 ---
-> **3.<span id="innerlink-getjavaclassmetas">getJavaClassMetas</span>**
 
-* **方法签名：** 
+> **2.<span id="getdesc">getDesc</span>**
 
-  public List< JavaClassMeta > [getJavaClassMetas](#getjavaclassmetas)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getDesc](#getdesc)()   
 
 
 
-
----
-> **4.<span id="innerlink-getname">getName</span>**
-
-* **方法签名：** 
-
-  public String [getName](#getname)()   
 
 
 
@@ -140,24 +136,15 @@ Serializable
 
 
 ---
-> **5.<span id="innerlink-hashcode">hashCode</span>**
 
-* **方法签名：** 
+> **3.<span id="getjavaclassmetas">getJavaClassMetas</span>**
 
-  public int [hashCode](#hashcode)()   
+**方法签名：** 
 
-
-
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) > [getJavaClassMetas](#getjavaclassmetas)()   
 
 
 
-
----
-> **6.<span id="innerlink-setdesc-javalangstring">setDesc</span>**
-
-* **方法签名：** 
-
-  public void [setDesc](#setdesc-javalangstring)(String desc)   
 
 
 
@@ -166,11 +153,15 @@ Serializable
 
 
 ---
-> **7.<span id="innerlink-setjavaclassmetas-javautillist">setJavaClassMetas</span>**
 
-* **方法签名：** 
+> **4.<span id="getname">getName</span>**
 
-  public void [setJavaClassMetas](#setjavaclassmetas-javautillist)(List< JavaClassMeta > javaClassMetas)   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getName](#getname)()   
+
+
+
 
 
 
@@ -179,11 +170,65 @@ Serializable
 
 
 ---
-> **8.<span id="innerlink-setname-javalangstring">setName</span>**
 
-* **方法签名：** 
+> **5.<span id="hashcode">hashCode</span>**
 
-  public void [setName](#setname-javalangstring)(String name)   
+**方法签名：** 
+
+  public [int](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true) [hashCode](#hashcode)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **6.<span id="setdesc-string">setDesc</span>**
+
+**方法签名：** 
+
+  public void [setDesc](#setdesc-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) desc)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **7.<span id="setjavaclassmetas-list">setJavaClassMetas</span>**
+
+**方法签名：** 
+
+  public void [setJavaClassMetas](#setjavaclassmetas-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassMeta > javaClassMetas)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **8.<span id="setname-string">setName</span>**
+
+**方法签名：** 
+
+  public void [setName](#setname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name)   
+
+
 
 
 

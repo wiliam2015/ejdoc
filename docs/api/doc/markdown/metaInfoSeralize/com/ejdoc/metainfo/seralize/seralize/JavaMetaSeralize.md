@@ -1,40 +1,48 @@
 # 接口名称:JavaMetaSeralize
 
-## 基本信息
-
-* **全路径信息:** com.ejdoc.metainfo.seralize.seralize.JavaMetaSeralize
-* **包名称:** com.ejdoc.metainfo.seralize.seralize
-* **项目名称:** ejdoc
-* **模块名称:** metaInfoSeralize
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |metaInfoSeralize|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.metainfo.seralize.seralize    |   **全路径信息:**   |com.ejdoc.metainfo.seralize.seralize.JavaMetaSeralize|
 
 
 
 
-* **作者：** 
 
-   - wiliam.hu
+**作者：** 
+
+  wiliam.hu
 
 
 
 
-* **所有子类：**  
+
+
+
+
+
+**所有子类：**  
 [JavaMetaJsonSeralizeImpl](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/impl/JavaMetaJsonSeralizeImpl.md)
-* **所有子接口：**  
+
+**所有子接口：**  
 [JavaMetaJsonSeralize](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/JavaMetaJsonSeralize.md),[JavaMetaYamlSeralize](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/JavaMetaYamlSeralize.md)
+
+
+
 ---
 
 ## 声明信息
+
 > public interface JavaMetaSeralize     
 
 
-* **描述：** 
-
-  Java元数据序列化接口<br>
+**描述：** Java元数据序列化接口<br>
 提供默认的java序列化方法和自定义配置能力的序列化输出方法
 
-* **描述：** 
 
-Java元数据序列化接口<br>提供默认的java序列化方法和自定义配置能力的序列化输出方法
+
+
+
+
 
 
 
@@ -45,11 +53,10 @@ Java元数据序列化接口<br>提供默认的java序列化方法和自定义�
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|boolean [addMetaSeralizePlugins](#innerlink-addmetaseralizeplugins-comejdocmetainfoseralizeseralizejavametaseralizeplugin)([JavaMetaSeralizePlugin](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/JavaMetaSeralizePlugin.md) metaSeralizePlugin)   <br/><br/><br/>增加序列化插件|
-|2|String [exeJavaMetaSeralize](#innerlink-exejavametaseralize)()   <br/><br/><br/>默认的java序列化方法，使用默认配置|
-|3|String [exeJavaMetaSeralize](#innerlink-exejavametaseralize-comejdocmetainfoseralizeseralizeconfigseralizeconfig)([SeralizeConfig](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/config/SeralizeConfig.md) seralizeConfig)   <br/><br/><br/>java序列化方法,传入自定义配置|
-|4|List< JavaMetaSeralizePlugin > [getMetaSeralizePlugins](#innerlink-getmetaseralizeplugins)()   <br/><br/><br/>获取java元数据序列化插件|
-
+|1|[boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [addMetaSeralizePlugins](#addmetaseralizeplugins-javametaseralizeplugin)([JavaMetaSeralizePlugin](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/JavaMetaSeralizePlugin.md) metaSeralizePlugin)   <br/><br/>增加序列化插件.|
+|2|[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [exeJavaMetaSeralize](#exejavametaseralize-seralizeconfig)([SeralizeConfig](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/config/SeralizeConfig.md) seralizeConfig)   <br/><br/>java序列化方法,传入自定义配置.|
+|3|[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [exeJavaMetaSeralize](#exejavametaseralize)()   <br/><br/>默认的java序列化方法，使用默认配置.|
+|4|[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaMetaSeralizePlugin](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/JavaMetaSeralizePlugin.md) > [getMetaSeralizePlugins](#getmetaseralizeplugins)()   <br/><br/>获取java元数据序列化插件.|
 
 
 
@@ -59,18 +66,21 @@ Java元数据序列化接口<br>提供默认的java序列化方法和自定义�
 
 ## 方法详细信息
 
+
 ---
-> **1.<span id="innerlink-addmetaseralizeplugins-comejdocmetainfoseralizeseralizejavametaseralizeplugin">addMetaSeralizePlugins</span>**
 
-* **方法签名：** 
+> **1.<span id="addmetaseralizeplugins-javametaseralizeplugin">addMetaSeralizePlugins</span>**
 
-  boolean [addMetaSeralizePlugins](#addmetaseralizeplugins-comejdocmetainfoseralizeseralizejavametaseralizeplugin)([JavaMetaSeralizePlugin](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/JavaMetaSeralizePlugin.md) metaSeralizePlugin)   
+**方法签名：** 
+
+  [boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [addMetaSeralizePlugins](#addmetaseralizeplugins-javametaseralizeplugin)([JavaMetaSeralizePlugin](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/JavaMetaSeralizePlugin.md) metaSeralizePlugin)   
 
 
-* **描述：** 
+**描述：** 
 
 增加序列化插件
-* **参数描述：** 
+
+**参数描述：** 
 
   metaSeralizePlugin - 
 
@@ -78,33 +88,23 @@ Java元数据序列化接口<br>提供默认的java序列化方法和自定义�
 
 
 
----
-> **2.<span id="innerlink-exejavametaseralize">exeJavaMetaSeralize</span>**
-
-* **方法签名：** 
-
-  String [exeJavaMetaSeralize](#exejavametaseralize)()   
-
-
-* **描述：** 
-
-默认的java序列化方法，使用默认配置
-
 
 
 
 ---
-> **3.<span id="innerlink-exejavametaseralize-comejdocmetainfoseralizeseralizeconfigseralizeconfig">exeJavaMetaSeralize</span>**
 
-* **方法签名：** 
+> **2.<span id="exejavametaseralize-seralizeconfig">exeJavaMetaSeralize</span>**
 
-  String [exeJavaMetaSeralize](#exejavametaseralize-comejdocmetainfoseralizeseralizeconfigseralizeconfig)([SeralizeConfig](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/config/SeralizeConfig.md) seralizeConfig)   
+**方法签名：** 
+
+  [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [exeJavaMetaSeralize](#exejavametaseralize-seralizeconfig)([SeralizeConfig](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/config/SeralizeConfig.md) seralizeConfig)   
 
 
-* **描述：** 
+**描述：** 
 
 java序列化方法,传入自定义配置
-* **参数描述：** 
+
+**参数描述：** 
 
   seralizeConfig - 自定义配置
 
@@ -112,21 +112,44 @@ java序列化方法,传入自定义配置
 
 
 
+
+
+
 ---
-> **4.<span id="innerlink-getmetaseralizeplugins">getMetaSeralizePlugins</span>**
 
-* **方法签名：** 
+> **3.<span id="exejavametaseralize">exeJavaMetaSeralize</span>**
 
-  List< JavaMetaSeralizePlugin > [getMetaSeralizePlugins](#getmetaseralizeplugins)()   
+**方法签名：** 
+
+  [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [exeJavaMetaSeralize](#exejavametaseralize)()   
 
 
-* **描述：** 
+**描述：** 
+
+默认的java序列化方法，使用默认配置
+
+
+
+
+
+
+
+
+---
+
+> **4.<span id="getmetaseralizeplugins">getMetaSeralizePlugins</span>**
+
+**方法签名：** 
+
+  [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaMetaSeralizePlugin](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/JavaMetaSeralizePlugin.md) > [getMetaSeralizePlugins](#getmetaseralizeplugins)()   
+
+
+**描述：** 
 
 获取java元数据序列化插件
 
-* **返回值描述：** 
 
-   - 
+
 
 
 

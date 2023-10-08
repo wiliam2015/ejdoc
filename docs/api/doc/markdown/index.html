@@ -16,7 +16,7 @@
       <div class="logo-box">
 <!--        <img src="logo.png" title="logo" />-->
         <h1 class="logo-text">ejdoc</h1>
-        <sub>1.0-SNAPSHOT</sub>
+        <sub>0.5.1-SNAPSHOT</sub>
       </div>
     </a>
   </div>
@@ -62,6 +62,8 @@
     <a class="wzi" href="#/route/allpackage/README.md">所有包</a>
     <a class="wzi" href="#/route/allclass/README.md">所有类</a>
     <a class="wzi" href="#/route/allmodule/README.md">所有模块</a>
+    <a class="wzi" href="#/route/alldeprecated/README.md">Deprecated</a>
+    <a class="wzi" href="#/route/allclasstree/README.md">所有层级</a>
 
 
   </nav>
@@ -95,10 +97,10 @@
 <script>
 			window.$docsify = {
 				//name: "ejdoc", // 名字
-				repo: 'https://github.com/dromara/sa-token', // github地址
+				repo: 'https://github.com/wiliam2015/ejdoc', // github地址
 				// themeColor: '#06A3D7', // 主题颜色
-				//basePath: location.pathname.substr(0, location.pathname.lastIndexOf('/') + 1), // 自动计算项目名字
-				basePath: '/api/doc/markdown/',		// 设置文件加载的父路径, 这在一些带项目名部署的文件中非常有效
+				basePath: location.pathname.substr(0, location.pathname.lastIndexOf('/') + 1), // 自动计算项目名字
+				// basePath: '/sa-token-doc/',		// 设置文件加载的父路径, 这在一些带项目名部署的文件中非常有效
 				auto2top: true, // 是否在切换页面后回到顶部
 				// coverpage: true, // 开启封面
 				//subMaxLevel: 2, // 标题解析层级, 写几就在目录树中解析到几级标题 ,一般写2吧也就
@@ -159,12 +161,12 @@
 <!-- sidebar折叠 -->
 <!--<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css" />-->
 <!--<script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>-->
-
+<!-- 返回顶部 -->
+<script src="static/docsify-backTop.min.js"></script>
 <!-- jqeury -->
 <script src="static/jquery.min.js"></script>
 <script src="static/layer-v3.1.1/layer.js"></script>
-<!-- 返回顶部 -->
-<script src="static/docsify-backTop.min.js"></script>
+
 <!-- 目录模块 -->
 <link rel="stylesheet" href="static/toc.css" />
 <script src="static/toc.js"></script>

@@ -1,33 +1,45 @@
 # 类名称:JavaDocSerializeException
 
-## 基本信息
-
-* **全路径信息:** com.ejdoc.doc.generate.exception.JavaDocSerializeException
-* **包名称:** com.ejdoc.doc.generate.exception
-* **项目名称:** ejdoc
-* **模块名称:** jdocGenerate
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |jdocGenerate|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.doc.generate.exception    |   **全路径信息:**   |com.ejdoc.doc.generate.exception.JavaDocSerializeException|
 
 
 
 
 
-* **所有父类：**  
-RuntimeException
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 ---
 
 ## 声明信息
-> public class JavaDocSerializeException extends RuntimeException     
 
-
-* **描述：** 
-
-  
+> public class JavaDocSerializeException extends [RuntimeException](https://docs.oracle.com/javase/8/docs/api/java/lang/RuntimeException.html?is-external=true)     
 
 
 
+
+
+
+
+
+## 成员变量汇总
+
+|   索引  |   修饰符  |    类型简称  |   字段与描述   |   初始值   |
+| ---- | ---- | ---- | ---- | ---- |
+|1|public static final |[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true)|[LOAD_FILE_ERROR](#load_file_error)<br/>|"LOAD_FILE_ERROR"|
 
 
 
@@ -36,19 +48,33 @@ RuntimeException
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public  [JavaDocSerializeException](#innerlink-javadocserializeexception-javalangstring-javalangstring)(String errCode,String errMsg)   <br/>|
-|2|public  [JavaDocSerializeException](#innerlink-javadocserializeexception-javalangstring-javalangthrowable)(String errCode,Throwable cause)   <br/>|
-|3|public  [JavaDocSerializeException](#innerlink-javadocserializeexception-javalangstring-javalangstring-javalangthrowable)(String errCode,String errMsg,Throwable cause)   <br/>|
+|1|public  [JavaDocSerializeException](#javadocserializeexception-string-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) errCode,[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) errMsg)   <br/><br/>|
+|2|public  [JavaDocSerializeException](#javadocserializeexception-string-throwable)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) errCode,[Throwable](https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true) cause)   <br/><br/>|
+|3|public  [JavaDocSerializeException](#javadocserializeexception-string-string-throwable)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) errCode,[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) errMsg,[Throwable](https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true) cause)   <br/><br/>|
+
 
 ## 方法汇总
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public String [getErrCode](#innerlink-geterrcode)()   <br/>|
-|2|public String [getErrMsg](#innerlink-geterrmsg)()   <br/>|
-|3|public void [setErrCode](#innerlink-seterrcode-javalangstring)(String errCode)   <br/>|
-|4|public void [setErrMsg](#innerlink-seterrmsg-javalangstring)(String errMsg)   <br/>|
+|1|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getErrCode](#geterrcode)()   <br/><br/>|
+|2|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getErrMsg](#geterrmsg)()   <br/><br/>|
+|3|public void [setErrCode](#seterrcode-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) errCode)   <br/><br/>|
+|4|public void [setErrMsg](#seterrmsg-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) errMsg)   <br/><br/>|
 
+
+
+
+## 成员变量详细信息
+
+
+---
+
+> **1.<span id="load_file_error">LOAD_FILE_ERROR</span>**
+
+**签名信息：** 
+
+  public static final  [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true)  LOAD_FILE_ERROR 
 
 
 
@@ -57,24 +83,16 @@ RuntimeException
 
 ## 构造方法详细信息
 
----
-> **1.<span id="innerlink-javadocserializeexception-javalangstring-javalangstring">JavaDocSerializeException</span>**
-
-* **构造方法签名：** 
-
-  public  [JavaDocSerializeException](#javadocserializeexception-javalangstring-javalangstring)(String errCode,String errMsg)   
-
-
-
-
-
 
 ---
-> **2.<span id="innerlink-javadocserializeexception-javalangstring-javalangthrowable">JavaDocSerializeException</span>**
 
-* **构造方法签名：** 
+> **1.<span id="javadocserializeexception-string-string">JavaDocSerializeException</span>**
 
-  public  [JavaDocSerializeException](#javadocserializeexception-javalangstring-javalangthrowable)(String errCode,Throwable cause)   
+**构造方法签名：** 
+
+  public  [JavaDocSerializeException](#javadocserializeexception-string-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) errCode,[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) errMsg)   
+
+
 
 
 
@@ -82,11 +100,28 @@ RuntimeException
 
 
 ---
-> **3.<span id="innerlink-javadocserializeexception-javalangstring-javalangstring-javalangthrowable">JavaDocSerializeException</span>**
 
-* **构造方法签名：** 
+> **2.<span id="javadocserializeexception-string-throwable">JavaDocSerializeException</span>**
 
-  public  [JavaDocSerializeException](#javadocserializeexception-javalangstring-javalangstring-javalangthrowable)(String errCode,String errMsg,Throwable cause)   
+**构造方法签名：** 
+
+  public  [JavaDocSerializeException](#javadocserializeexception-string-throwable)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) errCode,[Throwable](https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true) cause)   
+
+
+
+
+
+
+
+
+---
+
+> **3.<span id="javadocserializeexception-string-string-throwable">JavaDocSerializeException</span>**
+
+**构造方法签名：** 
+
+  public  [JavaDocSerializeException](#javadocserializeexception-string-string-throwable)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) errCode,[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) errMsg,[Throwable](https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html?is-external=true) cause)   
+
 
 
 
@@ -96,25 +131,17 @@ RuntimeException
 
 ## 方法详细信息
 
----
-> **1.<span id="innerlink-geterrcode">getErrCode</span>**
-
-* **方法签名：** 
-
-  public String [getErrCode](#geterrcode)()   
-
-
-
-
-
-
 
 ---
-> **2.<span id="innerlink-geterrmsg">getErrMsg</span>**
 
-* **方法签名：** 
+> **1.<span id="geterrcode">getErrCode</span>**
 
-  public String [getErrMsg](#geterrmsg)()   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getErrCode](#geterrcode)()   
+
+
+
 
 
 
@@ -123,11 +150,15 @@ RuntimeException
 
 
 ---
-> **3.<span id="innerlink-seterrcode-javalangstring">setErrCode</span>**
 
-* **方法签名：** 
+> **2.<span id="geterrmsg">getErrMsg</span>**
 
-  public void [setErrCode](#seterrcode-javalangstring)(String errCode)   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getErrMsg](#geterrmsg)()   
+
+
+
 
 
 
@@ -136,11 +167,31 @@ RuntimeException
 
 
 ---
-> **4.<span id="innerlink-seterrmsg-javalangstring">setErrMsg</span>**
 
-* **方法签名：** 
+> **3.<span id="seterrcode-string">setErrCode</span>**
 
-  public void [setErrMsg](#seterrmsg-javalangstring)(String errMsg)   
+**方法签名：** 
+
+  public void [setErrCode](#seterrcode-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) errCode)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **4.<span id="seterrmsg-string">setErrMsg</span>**
+
+**方法签名：** 
+
+  public void [setErrMsg](#seterrmsg-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) errMsg)   
+
+
 
 
 

@@ -1,125 +1,186 @@
 # 类名称:JavaClassMeta
 
-## 基本信息
-
-* **全路径信息:** com.ejdoc.metainfo.seralize.model.JavaClassMeta
-* **包名称:** com.ejdoc.metainfo.seralize.model
-* **项目名称:** ejdoc
-* **模块名称:** metaInfoSeralize
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |metaInfoSeralize|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.metainfo.seralize.model    |   **全路径信息:**   |com.ejdoc.metainfo.seralize.model.JavaClassMeta|
 
 
 
 
 
 
-* **所有父级接口：**  
-Serializable
+
+
+
+
+
+
+
+
+
+
+
 
 
 ---
 
 ## 声明信息
-> public class JavaClassMeta   implements Serializable   
 
-
-* **描述：** 
-
-  
+> public class JavaClassMeta   implements [Serializable](https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true)   
 
 
 
 
 
 
+
+
+
+
+
+
+## 构造方法汇总
+
+|   索引  |    方法体和描述   |
+| ---- | ---- |
+|1|public  [JavaClassMeta](#javaclassmeta)()   <br/><br/>|
+|2|public  [JavaClassMeta](#javaclassmeta-string-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) className,[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) fullClassName)   <br/><br/>|
 
 
 ## 方法汇总
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public String [getAbsolutePath](#innerlink-getabsolutepath)()   <br/>|
-|2|public Boolean [getAbstractClass](#innerlink-getabstractclass)()   <br/>|
-|3|public Boolean [getAnnotationClass](#innerlink-getannotationclass)()   <br/>|
-|4|public List< JavaAnnotationMeta > [getAnnotationFields](#innerlink-getannotationfields)()   <br/>|
-|5|public String [getArrayFullClassName](#innerlink-getarrayfullclassname)()   <br/>|
-|6|public String [getClassName](#innerlink-getclassname)()   <br/>|
-|7|public String [getClassNamePrefix](#innerlink-getclassnameprefix)()   <br/>|
-|8|public List< JavaConstructorMeta > [getConstructors](#innerlink-getconstructors)()   <br/>|
-|9|public String [getDeclarationStructure](#innerlink-getdeclarationstructure)()   <br/>|
-|10|public String [getDependencyAbsolutePath](#innerlink-getdependencyabsolutepath)()   <br/>|
-|11|public String [getDependencyRelativePath](#innerlink-getdependencyrelativepath)()   <br/>|
-|12|public Boolean [getEnumClass](#innerlink-getenumclass)()   <br/>|
-|13|public List< JavaClassMeta > [getEnumConstants](#innerlink-getenumconstants)()   <br/>|
-|14|public List< JavaFieldMeta > [getFields](#innerlink-getfields)()   <br/>|
-|15|public Boolean [getFinalClass](#innerlink-getfinalclass)()   <br/>|
-|16|public String [getFullClassName](#innerlink-getfullclassname)()   <br/>|
-|17|public List< String > [getImports](#innerlink-getimports)()   <br/>|
-|18|public Boolean [getInnerClass](#innerlink-getinnerclass)()   <br/>|
-|19|public List< JavaClassMeta > [getInnerClasses](#innerlink-getinnerclasses)()   <br/>|
-|20|public Boolean [getInterfaceClass](#innerlink-getinterfaceclass)()   <br/>|
-|21|public List< JavaClassMeta > [getInterfaces](#innerlink-getinterfaces)()   <br/>|
-|22|public [JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) [getJavaModelMeta](#innerlink-getjavamodelmeta)()   <br/>|
-|23|public List< JavaMethodMeta > [getMethods](#innerlink-getmethods)()   <br/>|
-|24|public List< String > [getModifiers](#innerlink-getmodifiers)()   <br/>|
-|25|public String [getModuleDesc](#innerlink-getmoduledesc)()   <br/>|
-|26|public String [getModuleName](#innerlink-getmodulename)()   <br/>|
-|27|public String [getPackageDesc](#innerlink-getpackagedesc)()   <br/>|
-|28|public String [getPackageName](#innerlink-getpackagename)()   <br/>|
-|29|public Boolean [getPrimitiveClass](#innerlink-getprimitiveclass)()   <br/>|
-|30|public Boolean [getPrivateClass](#innerlink-getprivateclass)()   <br/>|
-|31|public String [getProjectName](#innerlink-getprojectname)()   <br/>|
-|32|public Boolean [getProtectedClass](#innerlink-getprotectedclass)()   <br/>|
-|33|public Boolean [getPublicClass](#innerlink-getpublicclass)()   <br/>|
-|34|public String [getRelativePath](#innerlink-getrelativepath)()   <br/>|
-|35|public Boolean [getStaticClass](#innerlink-getstaticclass)()   <br/>|
-|36|public List< JavaClassMeta > [getSuperClasses](#innerlink-getsuperclasses)()   <br/>|
-|37|public List< JavaClassMeta > [getTypeArguments](#innerlink-gettypearguments)()   <br/>|
-|38|public List< String > [getTypeParameters](#innerlink-gettypeparameters)()   <br/>|
-|39|public URL [getUrl](#innerlink-geturl)()   <br/>|
-|40|public String [getValue](#innerlink-getvalue)()   <br/>|
-|41|public Boolean [getVoidClass](#innerlink-getvoidclass)()   <br/>|
-|42|public String [parseDeclarationStructure](#innerlink-parsedeclarationstructure)()   <br/>|
-|43|public void [setAbsolutePath](#innerlink-setabsolutepath-javalangstring)(String absolutePath)   <br/>|
-|44|public void [setAbstractClass](#innerlink-setabstractclass-javalangboolean)(Boolean abstractClass)   <br/>|
-|45|public void [setAnnotationClass](#innerlink-setannotationclass-javalangboolean)(Boolean annotationClass)   <br/>|
-|46|public void [setAnnotationFields](#innerlink-setannotationfields-javautillist)(List< JavaAnnotationMeta > annotationFields)   <br/>|
-|47|public void [setArrayFullClassName](#innerlink-setarrayfullclassname-javalangstring)(String arrayFullClassName)   <br/>|
-|48|public void [setClassName](#innerlink-setclassname-javalangstring)(String className)   <br/>|
-|49|public void [setClassNamePrefix](#innerlink-setclassnameprefix-javalangstring)(String classNamePrefix)   <br/>|
-|50|public void [setConstructors](#innerlink-setconstructors-javautillist)(List< JavaConstructorMeta > constructors)   <br/>|
-|51|public void [setDeclarationStructure](#innerlink-setdeclarationstructure-javalangstring)(String declarationStructure)   <br/>|
-|52|public void [setDependencyAbsolutePath](#innerlink-setdependencyabsolutepath-javalangstring)(String dependencyAbsolutePath)   <br/>|
-|53|public void [setDependencyRelativePath](#innerlink-setdependencyrelativepath-javalangstring)(String dependencyRelativePath)   <br/>|
-|54|public void [setEnumClass](#innerlink-setenumclass-javalangboolean)(Boolean enumClass)   <br/>|
-|55|public void [setEnumConstants](#innerlink-setenumconstants-javautillist)(List< JavaClassMeta > enumConstants)   <br/>|
-|56|public void [setFields](#innerlink-setfields-javautillist)(List< JavaFieldMeta > fields)   <br/>|
-|57|public void [setFinalClass](#innerlink-setfinalclass-javalangboolean)(Boolean finalClass)   <br/>|
-|58|public void [setFullClassName](#innerlink-setfullclassname-javalangstring)(String fullClassName)   <br/>|
-|59|public void [setImports](#innerlink-setimports-javautillist)(List< String > imports)   <br/>|
-|60|public void [setInnerClass](#innerlink-setinnerclass-javalangboolean)(Boolean innerClass)   <br/>|
-|61|public void [setInnerClasses](#innerlink-setinnerclasses-javautillist)(List< JavaClassMeta > innerClasses)   <br/>|
-|62|public void [setInterfaceClass](#innerlink-setinterfaceclass-javalangboolean)(Boolean interfaceClass)   <br/>|
-|63|public void [setInterfaces](#innerlink-setinterfaces-javautillist)(List< JavaClassMeta > interfaces)   <br/>|
-|64|public void [setJavaModelMeta](#innerlink-setjavamodelmeta-comejdocmetainfoseralizemodeljavamodelmeta)([JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) javaModelMeta)   <br/>|
-|65|public void [setMethods](#innerlink-setmethods-javautillist)(List< JavaMethodMeta > methods)   <br/>|
-|66|public void [setModifiers](#innerlink-setmodifiers-javautillist)(List< String > modifiers)   <br/>|
-|67|public void [setModuleDesc](#innerlink-setmoduledesc-javalangstring)(String moduleDesc)   <br/>|
-|68|public void [setModuleName](#innerlink-setmodulename-javalangstring)(String moduleName)   <br/>|
-|69|public void [setPackageDesc](#innerlink-setpackagedesc-javalangstring)(String packageDesc)   <br/>|
-|70|public void [setPackageName](#innerlink-setpackagename-javalangstring)(String packageName)   <br/>|
-|71|public void [setPrimitiveClass](#innerlink-setprimitiveclass-javalangboolean)(Boolean primitiveClass)   <br/>|
-|72|public void [setPrivateClass](#innerlink-setprivateclass-javalangboolean)(Boolean privateClass)   <br/>|
-|73|public void [setProjectName](#innerlink-setprojectname-javalangstring)(String projectName)   <br/>|
-|74|public void [setProtectedClass](#innerlink-setprotectedclass-javalangboolean)(Boolean protectedClass)   <br/>|
-|75|public void [setPublicClass](#innerlink-setpublicclass-javalangboolean)(Boolean publicClass)   <br/>|
-|76|public void [setRelativePath](#innerlink-setrelativepath-javalangstring)(String relativePath)   <br/>|
-|77|public void [setStaticClass](#innerlink-setstaticclass-javalangboolean)(Boolean staticClass)   <br/>|
-|78|public void [setSuperClasses](#innerlink-setsuperclasses-javautillist)(List< JavaClassMeta > superClasses)   <br/>|
-|79|public void [setTypeArguments](#innerlink-settypearguments-javautillist)(List< JavaClassMeta > typeArguments)   <br/>|
-|80|public void [setTypeParameters](#innerlink-settypeparameters-javautillist)(List< String > typeParameters)   <br/>|
-|81|public void [setUrl](#innerlink-seturl-javaneturl)(URL url)   <br/>|
-|82|public void [setValue](#innerlink-setvalue-javalangstring)(String value)   <br/>|
-|83|public void [setVoidClass](#innerlink-setvoidclass-javalangboolean)(Boolean voidClass)   <br/>|
+|1|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getAbsolutePath](#getabsolutepath)()   <br/><br/>|
+|2|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getAbstractClass](#getabstractclass)()   <br/><br/>|
+|3|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getAnnotationClass](#getannotationclass)()   <br/><br/>|
+|4|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaAnnotationMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaAnnotationMeta.md) > [getAnnotationFields](#getannotationfields)()   <br/><br/>|
+|5|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getArrayFullClassName](#getarrayfullclassname)()   <br/><br/>|
+|6|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getClassDesc](#getclassdesc)()   <br/><br/>|
+|7|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getClassName](#getclassname)()   <br/><br/>|
+|8|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getClassNamePrefix](#getclassnameprefix)()   <br/><br/>|
+|9|public [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getConstructorMetaIndex](#getconstructormetaindex)()   <br/><br/>|
+|10|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaConstructorMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaConstructorMeta.md) > [getConstructors](#getconstructors)()   <br/><br/>|
+|11|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getDeclarationStructure](#getdeclarationstructure)()   <br/><br/>|
+|12|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getDependencyAbsolutePath](#getdependencyabsolutepath)()   <br/><br/>|
+|13|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getDependencyRelativePath](#getdependencyrelativepath)()   <br/><br/>|
+|14|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getEnumClass](#getenumclass)()   <br/><br/>|
+|15|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) > [getEnumConstants](#getenumconstants)()   <br/><br/>|
+|16|public [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getFieldMetaIndex](#getfieldmetaindex)()   <br/><br/>|
+|17|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaFieldMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaFieldMeta.md) > [getFields](#getfields)()   <br/><br/>|
+|18|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getFinalClass](#getfinalclass)()   <br/><br/>|
+|19|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getFullClassName](#getfullclassname)()   <br/><br/>|
+|20|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassImportMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassImportMeta.md) > [getImports](#getimports)()   <br/><br/>|
+|21|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getInnerClass](#getinnerclass)()   <br/><br/>|
+|22|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) > [getInnerClasses](#getinnerclasses)()   <br/><br/>|
+|23|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getInterfaceClass](#getinterfaceclass)()   <br/><br/>|
+|24|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) > [getInterfaces](#getinterfaces)()   <br/><br/>|
+|25|public [JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) [getJavaModelMeta](#getjavamodelmeta)()   <br/><br/>|
+|26|public [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getMethodMetaIndex](#getmethodmetaindex)()   <br/><br/>|
+|27|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaMethodMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaMethodMeta.md) > [getMethods](#getmethods)()   <br/><br/>|
+|28|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getModifiers](#getmodifiers)()   <br/><br/>|
+|29|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getModuleDesc](#getmoduledesc)()   <br/><br/>|
+|30|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getModuleName](#getmodulename)()   <br/><br/>|
+|31|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getNestedClass](#getnestedclass)()   <br/><br/>|
+|32|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getNestedClassFullClassName](#getnestedclassfullclassname)()   <br/><br/>|
+|33|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getNestedClassName](#getnestedclassname)()   <br/><br/>|
+|34|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) > [getNestedClasses](#getnestedclasses)()   <br/><br/>|
+|35|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getPackageDesc](#getpackagedesc)()   <br/><br/>|
+|36|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getPackageName](#getpackagename)()   <br/><br/>|
+|37|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getPrimitiveClass](#getprimitiveclass)()   <br/><br/>|
+|38|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getPrivateClass](#getprivateclass)()   <br/><br/>|
+|39|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getProjectName](#getprojectname)()   <br/><br/>|
+|40|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getProtectedClass](#getprotectedclass)()   <br/><br/>|
+|41|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getPublicClass](#getpublicclass)()   <br/><br/>|
+|42|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getRelativePath](#getrelativepath)()   <br/><br/>|
+|43|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getStaticClass](#getstaticclass)()   <br/><br/>|
+|44|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) > [getSuperClasses](#getsuperclasses)()   <br/><br/>|
+|45|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) > [getTypeArguments](#gettypearguments)()   <br/><br/>|
+|46|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getTypeParameters](#gettypeparameters)()   <br/><br/>|
+|47|public [URL](https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true) [getUrl](#geturl)()   <br/><br/>|
+|48|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getValue](#getvalue)()   <br/><br/>|
+|49|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getVoidClass](#getvoidclass)()   <br/><br/>|
+|50|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [parseDeclarationStructure](#parsedeclarationstructure)()   <br/><br/>|
+|51|public void [setAbsolutePath](#setabsolutepath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) absolutePath)   <br/><br/>|
+|52|public void [setAbstractClass](#setabstractclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) abstractClass)   <br/><br/>|
+|53|public void [setAnnotationClass](#setannotationclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) annotationClass)   <br/><br/>|
+|54|public void [setAnnotationFields](#setannotationfields-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaAnnotationMeta > annotationFields)   <br/><br/>|
+|55|public void [setArrayFullClassName](#setarrayfullclassname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) arrayFullClassName)   <br/><br/>|
+|56|public void [setClassDesc](#setclassdesc-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) classDesc)   <br/><br/>|
+|57|public void [setClassName](#setclassname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) className)   <br/><br/>|
+|58|public void [setClassNamePrefix](#setclassnameprefix-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) classNamePrefix)   <br/><br/>|
+|59|public void [setConstructorMetaIndex](#setconstructormetaindex-map)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > constructorMetaIndex)   <br/><br/>|
+|60|public void [setConstructors](#setconstructors-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaConstructorMeta > constructors)   <br/><br/>|
+|61|public void [setDeclarationStructure](#setdeclarationstructure-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) declarationStructure)   <br/><br/>|
+|62|public void [setDependencyAbsolutePath](#setdependencyabsolutepath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) dependencyAbsolutePath)   <br/><br/>|
+|63|public void [setDependencyRelativePath](#setdependencyrelativepath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) dependencyRelativePath)   <br/><br/>|
+|64|public void [setEnumClass](#setenumclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) enumClass)   <br/><br/>|
+|65|public void [setEnumConstants](#setenumconstants-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassMeta > enumConstants)   <br/><br/>|
+|66|public void [setFieldMetaIndex](#setfieldmetaindex-map)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > fieldMetaIndex)   <br/><br/>|
+|67|public void [setFields](#setfields-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaFieldMeta > fields)   <br/><br/>|
+|68|public void [setFinalClass](#setfinalclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) finalClass)   <br/><br/>|
+|69|public void [setFullClassName](#setfullclassname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) fullClassName)   <br/><br/>|
+|70|public void [setImports](#setimports-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassImportMeta > imports)   <br/><br/>|
+|71|public void [setInnerClass](#setinnerclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) innerClass)   <br/><br/>|
+|72|public void [setInnerClasses](#setinnerclasses-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassMeta > innerClasses)   <br/><br/>|
+|73|public void [setInterfaceClass](#setinterfaceclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) interfaceClass)   <br/><br/>|
+|74|public void [setInterfaces](#setinterfaces-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassMeta > interfaces)   <br/><br/>|
+|75|public void [setJavaModelMeta](#setjavamodelmeta-javamodelmeta)([JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) javaModelMeta)   <br/><br/>|
+|76|public void [setMethodMetaIndex](#setmethodmetaindex-map)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > methodMetaIndex)   <br/><br/>|
+|77|public void [setMethods](#setmethods-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaMethodMeta > methods)   <br/><br/>|
+|78|public void [setModifiers](#setmodifiers-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > modifiers)   <br/><br/>|
+|79|public void [setModuleDesc](#setmoduledesc-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) moduleDesc)   <br/><br/>|
+|80|public void [setModuleName](#setmodulename-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) moduleName)   <br/><br/>|
+|81|public void [setNestedClass](#setnestedclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) nestedClass)   <br/><br/>|
+|82|public void [setNestedClassFullClassName](#setnestedclassfullclassname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) nestedClassFullClassName)   <br/><br/>|
+|83|public void [setNestedClassName](#setnestedclassname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) nestedClassName)   <br/><br/>|
+|84|public void [setNestedClasses](#setnestedclasses-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassMeta > nestedClasses)   <br/><br/>|
+|85|public void [setPackageDesc](#setpackagedesc-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) packageDesc)   <br/><br/>|
+|86|public void [setPackageName](#setpackagename-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) packageName)   <br/><br/>|
+|87|public void [setPrimitiveClass](#setprimitiveclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) primitiveClass)   <br/><br/>|
+|88|public void [setPrivateClass](#setprivateclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) privateClass)   <br/><br/>|
+|89|public void [setProjectName](#setprojectname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) projectName)   <br/><br/>|
+|90|public void [setProtectedClass](#setprotectedclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) protectedClass)   <br/><br/>|
+|91|public void [setPublicClass](#setpublicclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) publicClass)   <br/><br/>|
+|92|public void [setRelativePath](#setrelativepath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) relativePath)   <br/><br/>|
+|93|public void [setStaticClass](#setstaticclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) staticClass)   <br/><br/>|
+|94|public void [setSuperClasses](#setsuperclasses-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassMeta > superClasses)   <br/><br/>|
+|95|public void [setTypeArguments](#settypearguments-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassMeta > typeArguments)   <br/><br/>|
+|96|public void [setTypeParameters](#settypeparameters-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > typeParameters)   <br/><br/>|
+|97|public void [setUrl](#seturl-url)([URL](https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true) url)   <br/><br/>|
+|98|public void [setValue](#setvalue-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) value)   <br/><br/>|
+|99|public void [setVoidClass](#setvoidclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) voidClass)   <br/><br/>|
+
+
+
+
+
+
+## 构造方法详细信息
+
+
+---
+
+> **1.<span id="javaclassmeta">JavaClassMeta</span>**
+
+**构造方法签名：** 
+
+  public  [JavaClassMeta](#javaclassmeta)()   
+
+
+
+
+
+
+
+
+---
+
+> **2.<span id="javaclassmeta-string-string">JavaClassMeta</span>**
+
+**构造方法签名：** 
+
+  public  [JavaClassMeta](#javaclassmeta-string-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) className,[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) fullClassName)   
 
 
 
@@ -130,25 +191,17 @@ Serializable
 
 ## 方法详细信息
 
----
-> **1.<span id="innerlink-getabsolutepath">getAbsolutePath</span>**
-
-* **方法签名：** 
-
-  public String [getAbsolutePath](#getabsolutepath)()   
-
-
-
-
-
-
 
 ---
-> **2.<span id="innerlink-getabstractclass">getAbstractClass</span>**
 
-* **方法签名：** 
+> **1.<span id="getabsolutepath">getAbsolutePath</span>**
 
-  public Boolean [getAbstractClass](#getabstractclass)()   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getAbsolutePath](#getabsolutepath)()   
+
+
+
 
 
 
@@ -157,24 +210,15 @@ Serializable
 
 
 ---
-> **3.<span id="innerlink-getannotationclass">getAnnotationClass</span>**
 
-* **方法签名：** 
+> **2.<span id="getabstractclass">getAbstractClass</span>**
 
-  public Boolean [getAnnotationClass](#getannotationclass)()   
+**方法签名：** 
 
-
-
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getAbstractClass](#getabstractclass)()   
 
 
 
-
----
-> **4.<span id="innerlink-getannotationfields">getAnnotationFields</span>**
-
-* **方法签名：** 
-
-  public List< JavaAnnotationMeta > [getAnnotationFields](#getannotationfields)()   
 
 
 
@@ -183,24 +227,15 @@ Serializable
 
 
 ---
-> **5.<span id="innerlink-getarrayfullclassname">getArrayFullClassName</span>**
 
-* **方法签名：** 
+> **3.<span id="getannotationclass">getAnnotationClass</span>**
 
-  public String [getArrayFullClassName](#getarrayfullclassname)()   
+**方法签名：** 
 
-
-
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getAnnotationClass](#getannotationclass)()   
 
 
 
-
----
-> **6.<span id="innerlink-getclassname">getClassName</span>**
-
-* **方法签名：** 
-
-  public String [getClassName](#getclassname)()   
 
 
 
@@ -209,24 +244,15 @@ Serializable
 
 
 ---
-> **7.<span id="innerlink-getclassnameprefix">getClassNamePrefix</span>**
 
-* **方法签名：** 
+> **4.<span id="getannotationfields">getAnnotationFields</span>**
 
-  public String [getClassNamePrefix](#getclassnameprefix)()   
+**方法签名：** 
 
-
-
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaAnnotationMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaAnnotationMeta.md) > [getAnnotationFields](#getannotationfields)()   
 
 
 
-
----
-> **8.<span id="innerlink-getconstructors">getConstructors</span>**
-
-* **方法签名：** 
-
-  public List< JavaConstructorMeta > [getConstructors](#getconstructors)()   
 
 
 
@@ -235,24 +261,15 @@ Serializable
 
 
 ---
-> **9.<span id="innerlink-getdeclarationstructure">getDeclarationStructure</span>**
 
-* **方法签名：** 
+> **5.<span id="getarrayfullclassname">getArrayFullClassName</span>**
 
-  public String [getDeclarationStructure](#getdeclarationstructure)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getArrayFullClassName](#getarrayfullclassname)()   
 
 
 
-
----
-> **10.<span id="innerlink-getdependencyabsolutepath">getDependencyAbsolutePath</span>**
-
-* **方法签名：** 
-
-  public String [getDependencyAbsolutePath](#getdependencyabsolutepath)()   
 
 
 
@@ -261,24 +278,15 @@ Serializable
 
 
 ---
-> **11.<span id="innerlink-getdependencyrelativepath">getDependencyRelativePath</span>**
 
-* **方法签名：** 
+> **6.<span id="getclassdesc">getClassDesc</span>**
 
-  public String [getDependencyRelativePath](#getdependencyrelativepath)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getClassDesc](#getclassdesc)()   
 
 
 
-
----
-> **12.<span id="innerlink-getenumclass">getEnumClass</span>**
-
-* **方法签名：** 
-
-  public Boolean [getEnumClass](#getenumclass)()   
 
 
 
@@ -287,24 +295,15 @@ Serializable
 
 
 ---
-> **13.<span id="innerlink-getenumconstants">getEnumConstants</span>**
 
-* **方法签名：** 
+> **7.<span id="getclassname">getClassName</span>**
 
-  public List< JavaClassMeta > [getEnumConstants](#getenumconstants)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getClassName](#getclassname)()   
 
 
 
-
----
-> **14.<span id="innerlink-getfields">getFields</span>**
-
-* **方法签名：** 
-
-  public List< JavaFieldMeta > [getFields](#getfields)()   
 
 
 
@@ -313,24 +312,15 @@ Serializable
 
 
 ---
-> **15.<span id="innerlink-getfinalclass">getFinalClass</span>**
 
-* **方法签名：** 
+> **8.<span id="getclassnameprefix">getClassNamePrefix</span>**
 
-  public Boolean [getFinalClass](#getfinalclass)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getClassNamePrefix](#getclassnameprefix)()   
 
 
 
-
----
-> **16.<span id="innerlink-getfullclassname">getFullClassName</span>**
-
-* **方法签名：** 
-
-  public String [getFullClassName](#getfullclassname)()   
 
 
 
@@ -339,24 +329,15 @@ Serializable
 
 
 ---
-> **17.<span id="innerlink-getimports">getImports</span>**
 
-* **方法签名：** 
+> **9.<span id="getconstructormetaindex">getConstructorMetaIndex</span>**
 
-  public List< String > [getImports](#getimports)()   
+**方法签名：** 
 
-
-
+  public [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getConstructorMetaIndex](#getconstructormetaindex)()   
 
 
 
-
----
-> **18.<span id="innerlink-getinnerclass">getInnerClass</span>**
-
-* **方法签名：** 
-
-  public Boolean [getInnerClass](#getinnerclass)()   
 
 
 
@@ -365,24 +346,15 @@ Serializable
 
 
 ---
-> **19.<span id="innerlink-getinnerclasses">getInnerClasses</span>**
 
-* **方法签名：** 
+> **10.<span id="getconstructors">getConstructors</span>**
 
-  public List< JavaClassMeta > [getInnerClasses](#getinnerclasses)()   
+**方法签名：** 
 
-
-
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaConstructorMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaConstructorMeta.md) > [getConstructors](#getconstructors)()   
 
 
 
-
----
-> **20.<span id="innerlink-getinterfaceclass">getInterfaceClass</span>**
-
-* **方法签名：** 
-
-  public Boolean [getInterfaceClass](#getinterfaceclass)()   
 
 
 
@@ -391,11 +363,15 @@ Serializable
 
 
 ---
-> **21.<span id="innerlink-getinterfaces">getInterfaces</span>**
 
-* **方法签名：** 
+> **11.<span id="getdeclarationstructure">getDeclarationStructure</span>**
 
-  public List< JavaClassMeta > [getInterfaces](#getinterfaces)()   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getDeclarationStructure](#getdeclarationstructure)()   
+
+
+
 
 
 
@@ -404,9 +380,231 @@ Serializable
 
 
 ---
-> **22.<span id="innerlink-getjavamodelmeta">getJavaModelMeta</span>**
 
-* **方法签名：** 
+> **12.<span id="getdependencyabsolutepath">getDependencyAbsolutePath</span>**
+
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getDependencyAbsolutePath](#getdependencyabsolutepath)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **13.<span id="getdependencyrelativepath">getDependencyRelativePath</span>**
+
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getDependencyRelativePath](#getdependencyrelativepath)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **14.<span id="getenumclass">getEnumClass</span>**
+
+**方法签名：** 
+
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getEnumClass](#getenumclass)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **15.<span id="getenumconstants">getEnumConstants</span>**
+
+**方法签名：** 
+
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) > [getEnumConstants](#getenumconstants)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **16.<span id="getfieldmetaindex">getFieldMetaIndex</span>**
+
+**方法签名：** 
+
+  public [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getFieldMetaIndex](#getfieldmetaindex)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **17.<span id="getfields">getFields</span>**
+
+**方法签名：** 
+
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaFieldMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaFieldMeta.md) > [getFields](#getfields)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **18.<span id="getfinalclass">getFinalClass</span>**
+
+**方法签名：** 
+
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getFinalClass](#getfinalclass)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **19.<span id="getfullclassname">getFullClassName</span>**
+
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getFullClassName](#getfullclassname)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **20.<span id="getimports">getImports</span>**
+
+**方法签名：** 
+
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassImportMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassImportMeta.md) > [getImports](#getimports)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **21.<span id="getinnerclass">getInnerClass</span>**
+
+**方法签名：** 
+
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getInnerClass](#getinnerclass)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **22.<span id="getinnerclasses">getInnerClasses</span>**
+
+**方法签名：** 
+
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) > [getInnerClasses](#getinnerclasses)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **23.<span id="getinterfaceclass">getInterfaceClass</span>**
+
+**方法签名：** 
+
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getInterfaceClass](#getinterfaceclass)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **24.<span id="getinterfaces">getInterfaces</span>**
+
+**方法签名：** 
+
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) > [getInterfaces](#getinterfaces)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **25.<span id="getjavamodelmeta">getJavaModelMeta</span>**
+
+**方法签名：** 
 
   public [JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) [getJavaModelMeta](#getjavamodelmeta)()   
 
@@ -416,25 +614,19 @@ Serializable
 
 
 
----
-> **23.<span id="innerlink-getmethods">getMethods</span>**
-
-* **方法签名：** 
-
-  public List< JavaMethodMeta > [getMethods](#getmethods)()   
-
-
-
-
 
 
 
 ---
-> **24.<span id="innerlink-getmodifiers">getModifiers</span>**
 
-* **方法签名：** 
+> **26.<span id="getmethodmetaindex">getMethodMetaIndex</span>**
 
-  public List< String > [getModifiers](#getmodifiers)()   
+**方法签名：** 
+
+  public [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getMethodMetaIndex](#getmethodmetaindex)()   
+
+
+
 
 
 
@@ -443,24 +635,15 @@ Serializable
 
 
 ---
-> **25.<span id="innerlink-getmoduledesc">getModuleDesc</span>**
 
-* **方法签名：** 
+> **27.<span id="getmethods">getMethods</span>**
 
-  public String [getModuleDesc](#getmoduledesc)()   
+**方法签名：** 
 
-
-
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaMethodMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaMethodMeta.md) > [getMethods](#getmethods)()   
 
 
 
-
----
-> **26.<span id="innerlink-getmodulename">getModuleName</span>**
-
-* **方法签名：** 
-
-  public String [getModuleName](#getmodulename)()   
 
 
 
@@ -469,24 +652,15 @@ Serializable
 
 
 ---
-> **27.<span id="innerlink-getpackagedesc">getPackageDesc</span>**
 
-* **方法签名：** 
+> **28.<span id="getmodifiers">getModifiers</span>**
 
-  public String [getPackageDesc](#getpackagedesc)()   
+**方法签名：** 
 
-
-
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getModifiers](#getmodifiers)()   
 
 
 
-
----
-> **28.<span id="innerlink-getpackagename">getPackageName</span>**
-
-* **方法签名：** 
-
-  public String [getPackageName](#getpackagename)()   
 
 
 
@@ -495,24 +669,15 @@ Serializable
 
 
 ---
-> **29.<span id="innerlink-getprimitiveclass">getPrimitiveClass</span>**
 
-* **方法签名：** 
+> **29.<span id="getmoduledesc">getModuleDesc</span>**
 
-  public Boolean [getPrimitiveClass](#getprimitiveclass)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getModuleDesc](#getmoduledesc)()   
 
 
 
-
----
-> **30.<span id="innerlink-getprivateclass">getPrivateClass</span>**
-
-* **方法签名：** 
-
-  public Boolean [getPrivateClass](#getprivateclass)()   
 
 
 
@@ -521,24 +686,15 @@ Serializable
 
 
 ---
-> **31.<span id="innerlink-getprojectname">getProjectName</span>**
 
-* **方法签名：** 
+> **30.<span id="getmodulename">getModuleName</span>**
 
-  public String [getProjectName](#getprojectname)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getModuleName](#getmodulename)()   
 
 
 
-
----
-> **32.<span id="innerlink-getprotectedclass">getProtectedClass</span>**
-
-* **方法签名：** 
-
-  public Boolean [getProtectedClass](#getprotectedclass)()   
 
 
 
@@ -547,24 +703,15 @@ Serializable
 
 
 ---
-> **33.<span id="innerlink-getpublicclass">getPublicClass</span>**
 
-* **方法签名：** 
+> **31.<span id="getnestedclass">getNestedClass</span>**
 
-  public Boolean [getPublicClass](#getpublicclass)()   
+**方法签名：** 
 
-
-
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getNestedClass](#getnestedclass)()   
 
 
 
-
----
-> **34.<span id="innerlink-getrelativepath">getRelativePath</span>**
-
-* **方法签名：** 
-
-  public String [getRelativePath](#getrelativepath)()   
 
 
 
@@ -573,24 +720,15 @@ Serializable
 
 
 ---
-> **35.<span id="innerlink-getstaticclass">getStaticClass</span>**
 
-* **方法签名：** 
+> **32.<span id="getnestedclassfullclassname">getNestedClassFullClassName</span>**
 
-  public Boolean [getStaticClass](#getstaticclass)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getNestedClassFullClassName](#getnestedclassfullclassname)()   
 
 
 
-
----
-> **36.<span id="innerlink-getsuperclasses">getSuperClasses</span>**
-
-* **方法签名：** 
-
-  public List< JavaClassMeta > [getSuperClasses](#getsuperclasses)()   
 
 
 
@@ -599,24 +737,15 @@ Serializable
 
 
 ---
-> **37.<span id="innerlink-gettypearguments">getTypeArguments</span>**
 
-* **方法签名：** 
+> **33.<span id="getnestedclassname">getNestedClassName</span>**
 
-  public List< JavaClassMeta > [getTypeArguments](#gettypearguments)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getNestedClassName](#getnestedclassname)()   
 
 
 
-
----
-> **38.<span id="innerlink-gettypeparameters">getTypeParameters</span>**
-
-* **方法签名：** 
-
-  public List< String > [getTypeParameters](#gettypeparameters)()   
 
 
 
@@ -625,24 +754,15 @@ Serializable
 
 
 ---
-> **39.<span id="innerlink-geturl">getUrl</span>**
 
-* **方法签名：** 
+> **34.<span id="getnestedclasses">getNestedClasses</span>**
 
-  public URL [getUrl](#geturl)()   
+**方法签名：** 
 
-
-
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) > [getNestedClasses](#getnestedclasses)()   
 
 
 
-
----
-> **40.<span id="innerlink-getvalue">getValue</span>**
-
-* **方法签名：** 
-
-  public String [getValue](#getvalue)()   
 
 
 
@@ -651,24 +771,15 @@ Serializable
 
 
 ---
-> **41.<span id="innerlink-getvoidclass">getVoidClass</span>**
 
-* **方法签名：** 
+> **35.<span id="getpackagedesc">getPackageDesc</span>**
 
-  public Boolean [getVoidClass](#getvoidclass)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getPackageDesc](#getpackagedesc)()   
 
 
 
-
----
-> **42.<span id="innerlink-parsedeclarationstructure">parseDeclarationStructure</span>**
-
-* **方法签名：** 
-
-  public String [parseDeclarationStructure](#parsedeclarationstructure)()   
 
 
 
@@ -677,24 +788,15 @@ Serializable
 
 
 ---
-> **43.<span id="innerlink-setabsolutepath-javalangstring">setAbsolutePath</span>**
 
-* **方法签名：** 
+> **36.<span id="getpackagename">getPackageName</span>**
 
-  public void [setAbsolutePath](#setabsolutepath-javalangstring)(String absolutePath)   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getPackageName](#getpackagename)()   
 
 
 
-
----
-> **44.<span id="innerlink-setabstractclass-javalangboolean">setAbstractClass</span>**
-
-* **方法签名：** 
-
-  public void [setAbstractClass](#setabstractclass-javalangboolean)(Boolean abstractClass)   
 
 
 
@@ -703,24 +805,15 @@ Serializable
 
 
 ---
-> **45.<span id="innerlink-setannotationclass-javalangboolean">setAnnotationClass</span>**
 
-* **方法签名：** 
+> **37.<span id="getprimitiveclass">getPrimitiveClass</span>**
 
-  public void [setAnnotationClass](#setannotationclass-javalangboolean)(Boolean annotationClass)   
+**方法签名：** 
 
-
-
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getPrimitiveClass](#getprimitiveclass)()   
 
 
 
-
----
-> **46.<span id="innerlink-setannotationfields-javautillist">setAnnotationFields</span>**
-
-* **方法签名：** 
-
-  public void [setAnnotationFields](#setannotationfields-javautillist)(List< JavaAnnotationMeta > annotationFields)   
 
 
 
@@ -729,24 +822,15 @@ Serializable
 
 
 ---
-> **47.<span id="innerlink-setarrayfullclassname-javalangstring">setArrayFullClassName</span>**
 
-* **方法签名：** 
+> **38.<span id="getprivateclass">getPrivateClass</span>**
 
-  public void [setArrayFullClassName](#setarrayfullclassname-javalangstring)(String arrayFullClassName)   
+**方法签名：** 
 
-
-
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getPrivateClass](#getprivateclass)()   
 
 
 
-
----
-> **48.<span id="innerlink-setclassname-javalangstring">setClassName</span>**
-
-* **方法签名：** 
-
-  public void [setClassName](#setclassname-javalangstring)(String className)   
 
 
 
@@ -755,24 +839,15 @@ Serializable
 
 
 ---
-> **49.<span id="innerlink-setclassnameprefix-javalangstring">setClassNamePrefix</span>**
 
-* **方法签名：** 
+> **39.<span id="getprojectname">getProjectName</span>**
 
-  public void [setClassNamePrefix](#setclassnameprefix-javalangstring)(String classNamePrefix)   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getProjectName](#getprojectname)()   
 
 
 
-
----
-> **50.<span id="innerlink-setconstructors-javautillist">setConstructors</span>**
-
-* **方法签名：** 
-
-  public void [setConstructors](#setconstructors-javautillist)(List< JavaConstructorMeta > constructors)   
 
 
 
@@ -781,24 +856,15 @@ Serializable
 
 
 ---
-> **51.<span id="innerlink-setdeclarationstructure-javalangstring">setDeclarationStructure</span>**
 
-* **方法签名：** 
+> **40.<span id="getprotectedclass">getProtectedClass</span>**
 
-  public void [setDeclarationStructure](#setdeclarationstructure-javalangstring)(String declarationStructure)   
+**方法签名：** 
 
-
-
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getProtectedClass](#getprotectedclass)()   
 
 
 
-
----
-> **52.<span id="innerlink-setdependencyabsolutepath-javalangstring">setDependencyAbsolutePath</span>**
-
-* **方法签名：** 
-
-  public void [setDependencyAbsolutePath](#setdependencyabsolutepath-javalangstring)(String dependencyAbsolutePath)   
 
 
 
@@ -807,24 +873,15 @@ Serializable
 
 
 ---
-> **53.<span id="innerlink-setdependencyrelativepath-javalangstring">setDependencyRelativePath</span>**
 
-* **方法签名：** 
+> **41.<span id="getpublicclass">getPublicClass</span>**
 
-  public void [setDependencyRelativePath](#setdependencyrelativepath-javalangstring)(String dependencyRelativePath)   
+**方法签名：** 
 
-
-
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getPublicClass](#getpublicclass)()   
 
 
 
-
----
-> **54.<span id="innerlink-setenumclass-javalangboolean">setEnumClass</span>**
-
-* **方法签名：** 
-
-  public void [setEnumClass](#setenumclass-javalangboolean)(Boolean enumClass)   
 
 
 
@@ -833,24 +890,15 @@ Serializable
 
 
 ---
-> **55.<span id="innerlink-setenumconstants-javautillist">setEnumConstants</span>**
 
-* **方法签名：** 
+> **42.<span id="getrelativepath">getRelativePath</span>**
 
-  public void [setEnumConstants](#setenumconstants-javautillist)(List< JavaClassMeta > enumConstants)   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getRelativePath](#getrelativepath)()   
 
 
 
-
----
-> **56.<span id="innerlink-setfields-javautillist">setFields</span>**
-
-* **方法签名：** 
-
-  public void [setFields](#setfields-javautillist)(List< JavaFieldMeta > fields)   
 
 
 
@@ -859,24 +907,15 @@ Serializable
 
 
 ---
-> **57.<span id="innerlink-setfinalclass-javalangboolean">setFinalClass</span>**
 
-* **方法签名：** 
+> **43.<span id="getstaticclass">getStaticClass</span>**
 
-  public void [setFinalClass](#setfinalclass-javalangboolean)(Boolean finalClass)   
+**方法签名：** 
 
-
-
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getStaticClass](#getstaticclass)()   
 
 
 
-
----
-> **58.<span id="innerlink-setfullclassname-javalangstring">setFullClassName</span>**
-
-* **方法签名：** 
-
-  public void [setFullClassName](#setfullclassname-javalangstring)(String fullClassName)   
 
 
 
@@ -885,24 +924,15 @@ Serializable
 
 
 ---
-> **59.<span id="innerlink-setimports-javautillist">setImports</span>**
 
-* **方法签名：** 
+> **44.<span id="getsuperclasses">getSuperClasses</span>**
 
-  public void [setImports](#setimports-javautillist)(List< String > imports)   
+**方法签名：** 
 
-
-
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) > [getSuperClasses](#getsuperclasses)()   
 
 
 
-
----
-> **60.<span id="innerlink-setinnerclass-javalangboolean">setInnerClass</span>**
-
-* **方法签名：** 
-
-  public void [setInnerClass](#setinnerclass-javalangboolean)(Boolean innerClass)   
 
 
 
@@ -911,24 +941,15 @@ Serializable
 
 
 ---
-> **61.<span id="innerlink-setinnerclasses-javautillist">setInnerClasses</span>**
 
-* **方法签名：** 
+> **45.<span id="gettypearguments">getTypeArguments</span>**
 
-  public void [setInnerClasses](#setinnerclasses-javautillist)(List< JavaClassMeta > innerClasses)   
+**方法签名：** 
 
-
-
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) > [getTypeArguments](#gettypearguments)()   
 
 
 
-
----
-> **62.<span id="innerlink-setinterfaceclass-javalangboolean">setInterfaceClass</span>**
-
-* **方法签名：** 
-
-  public void [setInterfaceClass](#setinterfaceclass-javalangboolean)(Boolean interfaceClass)   
 
 
 
@@ -937,24 +958,15 @@ Serializable
 
 
 ---
-> **63.<span id="innerlink-setinterfaces-javautillist">setInterfaces</span>**
 
-* **方法签名：** 
+> **46.<span id="gettypeparameters">getTypeParameters</span>**
 
-  public void [setInterfaces](#setinterfaces-javautillist)(List< JavaClassMeta > interfaces)   
+**方法签名：** 
 
-
-
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getTypeParameters](#gettypeparameters)()   
 
 
 
-
----
-> **64.<span id="innerlink-setjavamodelmeta-comejdocmetainfoseralizemodeljavamodelmeta">setJavaModelMeta</span>**
-
-* **方法签名：** 
-
-  public void [setJavaModelMeta](#setjavamodelmeta-comejdocmetainfoseralizemodeljavamodelmeta)([JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) javaModelMeta)   
 
 
 
@@ -963,24 +975,15 @@ Serializable
 
 
 ---
-> **65.<span id="innerlink-setmethods-javautillist">setMethods</span>**
 
-* **方法签名：** 
+> **47.<span id="geturl">getUrl</span>**
 
-  public void [setMethods](#setmethods-javautillist)(List< JavaMethodMeta > methods)   
+**方法签名：** 
 
-
-
+  public [URL](https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true) [getUrl](#geturl)()   
 
 
 
-
----
-> **66.<span id="innerlink-setmodifiers-javautillist">setModifiers</span>**
-
-* **方法签名：** 
-
-  public void [setModifiers](#setmodifiers-javautillist)(List< String > modifiers)   
 
 
 
@@ -989,24 +992,15 @@ Serializable
 
 
 ---
-> **67.<span id="innerlink-setmoduledesc-javalangstring">setModuleDesc</span>**
 
-* **方法签名：** 
+> **48.<span id="getvalue">getValue</span>**
 
-  public void [setModuleDesc](#setmoduledesc-javalangstring)(String moduleDesc)   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getValue](#getvalue)()   
 
 
 
-
----
-> **68.<span id="innerlink-setmodulename-javalangstring">setModuleName</span>**
-
-* **方法签名：** 
-
-  public void [setModuleName](#setmodulename-javalangstring)(String moduleName)   
 
 
 
@@ -1015,24 +1009,15 @@ Serializable
 
 
 ---
-> **69.<span id="innerlink-setpackagedesc-javalangstring">setPackageDesc</span>**
 
-* **方法签名：** 
+> **49.<span id="getvoidclass">getVoidClass</span>**
 
-  public void [setPackageDesc](#setpackagedesc-javalangstring)(String packageDesc)   
+**方法签名：** 
 
-
-
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getVoidClass](#getvoidclass)()   
 
 
 
-
----
-> **70.<span id="innerlink-setpackagename-javalangstring">setPackageName</span>**
-
-* **方法签名：** 
-
-  public void [setPackageName](#setpackagename-javalangstring)(String packageName)   
 
 
 
@@ -1041,24 +1026,15 @@ Serializable
 
 
 ---
-> **71.<span id="innerlink-setprimitiveclass-javalangboolean">setPrimitiveClass</span>**
 
-* **方法签名：** 
+> **50.<span id="parsedeclarationstructure">parseDeclarationStructure</span>**
 
-  public void [setPrimitiveClass](#setprimitiveclass-javalangboolean)(Boolean primitiveClass)   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [parseDeclarationStructure](#parsedeclarationstructure)()   
 
 
 
-
----
-> **72.<span id="innerlink-setprivateclass-javalangboolean">setPrivateClass</span>**
-
-* **方法签名：** 
-
-  public void [setPrivateClass](#setprivateclass-javalangboolean)(Boolean privateClass)   
 
 
 
@@ -1067,24 +1043,15 @@ Serializable
 
 
 ---
-> **73.<span id="innerlink-setprojectname-javalangstring">setProjectName</span>**
 
-* **方法签名：** 
+> **51.<span id="setabsolutepath-string">setAbsolutePath</span>**
 
-  public void [setProjectName](#setprojectname-javalangstring)(String projectName)   
+**方法签名：** 
 
-
-
+  public void [setAbsolutePath](#setabsolutepath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) absolutePath)   
 
 
 
-
----
-> **74.<span id="innerlink-setprotectedclass-javalangboolean">setProtectedClass</span>**
-
-* **方法签名：** 
-
-  public void [setProtectedClass](#setprotectedclass-javalangboolean)(Boolean protectedClass)   
 
 
 
@@ -1093,24 +1060,15 @@ Serializable
 
 
 ---
-> **75.<span id="innerlink-setpublicclass-javalangboolean">setPublicClass</span>**
 
-* **方法签名：** 
+> **52.<span id="setabstractclass-boolean">setAbstractClass</span>**
 
-  public void [setPublicClass](#setpublicclass-javalangboolean)(Boolean publicClass)   
+**方法签名：** 
 
-
-
+  public void [setAbstractClass](#setabstractclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) abstractClass)   
 
 
 
-
----
-> **76.<span id="innerlink-setrelativepath-javalangstring">setRelativePath</span>**
-
-* **方法签名：** 
-
-  public void [setRelativePath](#setrelativepath-javalangstring)(String relativePath)   
 
 
 
@@ -1119,24 +1077,15 @@ Serializable
 
 
 ---
-> **77.<span id="innerlink-setstaticclass-javalangboolean">setStaticClass</span>**
 
-* **方法签名：** 
+> **53.<span id="setannotationclass-boolean">setAnnotationClass</span>**
 
-  public void [setStaticClass](#setstaticclass-javalangboolean)(Boolean staticClass)   
+**方法签名：** 
 
-
-
+  public void [setAnnotationClass](#setannotationclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) annotationClass)   
 
 
 
-
----
-> **78.<span id="innerlink-setsuperclasses-javautillist">setSuperClasses</span>**
-
-* **方法签名：** 
-
-  public void [setSuperClasses](#setsuperclasses-javautillist)(List< JavaClassMeta > superClasses)   
 
 
 
@@ -1145,24 +1094,15 @@ Serializable
 
 
 ---
-> **79.<span id="innerlink-settypearguments-javautillist">setTypeArguments</span>**
 
-* **方法签名：** 
+> **54.<span id="setannotationfields-list">setAnnotationFields</span>**
 
-  public void [setTypeArguments](#settypearguments-javautillist)(List< JavaClassMeta > typeArguments)   
+**方法签名：** 
 
-
-
+  public void [setAnnotationFields](#setannotationfields-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaAnnotationMeta > annotationFields)   
 
 
 
-
----
-> **80.<span id="innerlink-settypeparameters-javautillist">setTypeParameters</span>**
-
-* **方法签名：** 
-
-  public void [setTypeParameters](#settypeparameters-javautillist)(List< String > typeParameters)   
 
 
 
@@ -1171,24 +1111,15 @@ Serializable
 
 
 ---
-> **81.<span id="innerlink-seturl-javaneturl">setUrl</span>**
 
-* **方法签名：** 
+> **55.<span id="setarrayfullclassname-string">setArrayFullClassName</span>**
 
-  public void [setUrl](#seturl-javaneturl)(URL url)   
+**方法签名：** 
 
-
-
+  public void [setArrayFullClassName](#setarrayfullclassname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) arrayFullClassName)   
 
 
 
-
----
-> **82.<span id="innerlink-setvalue-javalangstring">setValue</span>**
-
-* **方法签名：** 
-
-  public void [setValue](#setvalue-javalangstring)(String value)   
 
 
 
@@ -1197,11 +1128,745 @@ Serializable
 
 
 ---
-> **83.<span id="innerlink-setvoidclass-javalangboolean">setVoidClass</span>**
 
-* **方法签名：** 
+> **56.<span id="setclassdesc-string">setClassDesc</span>**
 
-  public void [setVoidClass](#setvoidclass-javalangboolean)(Boolean voidClass)   
+**方法签名：** 
+
+  public void [setClassDesc](#setclassdesc-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) classDesc)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **57.<span id="setclassname-string">setClassName</span>**
+
+**方法签名：** 
+
+  public void [setClassName](#setclassname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) className)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **58.<span id="setclassnameprefix-string">setClassNamePrefix</span>**
+
+**方法签名：** 
+
+  public void [setClassNamePrefix](#setclassnameprefix-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) classNamePrefix)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **59.<span id="setconstructormetaindex-map">setConstructorMetaIndex</span>**
+
+**方法签名：** 
+
+  public void [setConstructorMetaIndex](#setconstructormetaindex-map)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > constructorMetaIndex)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **60.<span id="setconstructors-list">setConstructors</span>**
+
+**方法签名：** 
+
+  public void [setConstructors](#setconstructors-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaConstructorMeta > constructors)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **61.<span id="setdeclarationstructure-string">setDeclarationStructure</span>**
+
+**方法签名：** 
+
+  public void [setDeclarationStructure](#setdeclarationstructure-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) declarationStructure)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **62.<span id="setdependencyabsolutepath-string">setDependencyAbsolutePath</span>**
+
+**方法签名：** 
+
+  public void [setDependencyAbsolutePath](#setdependencyabsolutepath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) dependencyAbsolutePath)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **63.<span id="setdependencyrelativepath-string">setDependencyRelativePath</span>**
+
+**方法签名：** 
+
+  public void [setDependencyRelativePath](#setdependencyrelativepath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) dependencyRelativePath)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **64.<span id="setenumclass-boolean">setEnumClass</span>**
+
+**方法签名：** 
+
+  public void [setEnumClass](#setenumclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) enumClass)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **65.<span id="setenumconstants-list">setEnumConstants</span>**
+
+**方法签名：** 
+
+  public void [setEnumConstants](#setenumconstants-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassMeta > enumConstants)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **66.<span id="setfieldmetaindex-map">setFieldMetaIndex</span>**
+
+**方法签名：** 
+
+  public void [setFieldMetaIndex](#setfieldmetaindex-map)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > fieldMetaIndex)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **67.<span id="setfields-list">setFields</span>**
+
+**方法签名：** 
+
+  public void [setFields](#setfields-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaFieldMeta > fields)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **68.<span id="setfinalclass-boolean">setFinalClass</span>**
+
+**方法签名：** 
+
+  public void [setFinalClass](#setfinalclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) finalClass)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **69.<span id="setfullclassname-string">setFullClassName</span>**
+
+**方法签名：** 
+
+  public void [setFullClassName](#setfullclassname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) fullClassName)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **70.<span id="setimports-list">setImports</span>**
+
+**方法签名：** 
+
+  public void [setImports](#setimports-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassImportMeta > imports)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **71.<span id="setinnerclass-boolean">setInnerClass</span>**
+
+**方法签名：** 
+
+  public void [setInnerClass](#setinnerclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) innerClass)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **72.<span id="setinnerclasses-list">setInnerClasses</span>**
+
+**方法签名：** 
+
+  public void [setInnerClasses](#setinnerclasses-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassMeta > innerClasses)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **73.<span id="setinterfaceclass-boolean">setInterfaceClass</span>**
+
+**方法签名：** 
+
+  public void [setInterfaceClass](#setinterfaceclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) interfaceClass)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **74.<span id="setinterfaces-list">setInterfaces</span>**
+
+**方法签名：** 
+
+  public void [setInterfaces](#setinterfaces-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassMeta > interfaces)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **75.<span id="setjavamodelmeta-javamodelmeta">setJavaModelMeta</span>**
+
+**方法签名：** 
+
+  public void [setJavaModelMeta](#setjavamodelmeta-javamodelmeta)([JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) javaModelMeta)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **76.<span id="setmethodmetaindex-map">setMethodMetaIndex</span>**
+
+**方法签名：** 
+
+  public void [setMethodMetaIndex](#setmethodmetaindex-map)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > methodMetaIndex)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **77.<span id="setmethods-list">setMethods</span>**
+
+**方法签名：** 
+
+  public void [setMethods](#setmethods-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaMethodMeta > methods)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **78.<span id="setmodifiers-list">setModifiers</span>**
+
+**方法签名：** 
+
+  public void [setModifiers](#setmodifiers-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > modifiers)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **79.<span id="setmoduledesc-string">setModuleDesc</span>**
+
+**方法签名：** 
+
+  public void [setModuleDesc](#setmoduledesc-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) moduleDesc)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **80.<span id="setmodulename-string">setModuleName</span>**
+
+**方法签名：** 
+
+  public void [setModuleName](#setmodulename-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) moduleName)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **81.<span id="setnestedclass-boolean">setNestedClass</span>**
+
+**方法签名：** 
+
+  public void [setNestedClass](#setnestedclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) nestedClass)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **82.<span id="setnestedclassfullclassname-string">setNestedClassFullClassName</span>**
+
+**方法签名：** 
+
+  public void [setNestedClassFullClassName](#setnestedclassfullclassname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) nestedClassFullClassName)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **83.<span id="setnestedclassname-string">setNestedClassName</span>**
+
+**方法签名：** 
+
+  public void [setNestedClassName](#setnestedclassname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) nestedClassName)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **84.<span id="setnestedclasses-list">setNestedClasses</span>**
+
+**方法签名：** 
+
+  public void [setNestedClasses](#setnestedclasses-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassMeta > nestedClasses)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **85.<span id="setpackagedesc-string">setPackageDesc</span>**
+
+**方法签名：** 
+
+  public void [setPackageDesc](#setpackagedesc-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) packageDesc)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **86.<span id="setpackagename-string">setPackageName</span>**
+
+**方法签名：** 
+
+  public void [setPackageName](#setpackagename-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) packageName)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **87.<span id="setprimitiveclass-boolean">setPrimitiveClass</span>**
+
+**方法签名：** 
+
+  public void [setPrimitiveClass](#setprimitiveclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) primitiveClass)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **88.<span id="setprivateclass-boolean">setPrivateClass</span>**
+
+**方法签名：** 
+
+  public void [setPrivateClass](#setprivateclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) privateClass)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **89.<span id="setprojectname-string">setProjectName</span>**
+
+**方法签名：** 
+
+  public void [setProjectName](#setprojectname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) projectName)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **90.<span id="setprotectedclass-boolean">setProtectedClass</span>**
+
+**方法签名：** 
+
+  public void [setProtectedClass](#setprotectedclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) protectedClass)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **91.<span id="setpublicclass-boolean">setPublicClass</span>**
+
+**方法签名：** 
+
+  public void [setPublicClass](#setpublicclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) publicClass)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **92.<span id="setrelativepath-string">setRelativePath</span>**
+
+**方法签名：** 
+
+  public void [setRelativePath](#setrelativepath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) relativePath)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **93.<span id="setstaticclass-boolean">setStaticClass</span>**
+
+**方法签名：** 
+
+  public void [setStaticClass](#setstaticclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) staticClass)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **94.<span id="setsuperclasses-list">setSuperClasses</span>**
+
+**方法签名：** 
+
+  public void [setSuperClasses](#setsuperclasses-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassMeta > superClasses)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **95.<span id="settypearguments-list">setTypeArguments</span>**
+
+**方法签名：** 
+
+  public void [setTypeArguments](#settypearguments-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassMeta > typeArguments)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **96.<span id="settypeparameters-list">setTypeParameters</span>**
+
+**方法签名：** 
+
+  public void [setTypeParameters](#settypeparameters-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > typeParameters)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **97.<span id="seturl-url">setUrl</span>**
+
+**方法签名：** 
+
+  public void [setUrl](#seturl-url)([URL](https://docs.oracle.com/javase/8/docs/api/java/net/URL.html?is-external=true) url)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **98.<span id="setvalue-string">setValue</span>**
+
+**方法签名：** 
+
+  public void [setValue](#setvalue-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) value)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **99.<span id="setvoidclass-boolean">setVoidClass</span>**
+
+**方法签名：** 
+
+  public void [setVoidClass](#setvoidclass-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) voidClass)   
+
+
 
 
 

@@ -1,30 +1,39 @@
 # 类名称:PackageInfoTypeDeclarationParse
 
-## 基本信息
-
-* **全路径信息:** com.ejdoc.metainfo.seralize.parser.impl.javaparser.type.PackageInfoTypeDeclarationParse
-* **包名称:** com.ejdoc.metainfo.seralize.parser.impl.javaparser.type
-* **项目名称:** ejdoc
-* **模块名称:** metaInfoSeralize
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |metaInfoSeralize|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.metainfo.seralize.parser.impl.javaparser.type    |   **全路径信息:**   |com.ejdoc.metainfo.seralize.parser.impl.javaparser.type.PackageInfoTypeDeclarationParse|
 
 
 
 
 
-* **所有父类：**  
+
+
+
+
+**所有父类：**  
 [AbstractJavaParserTypeDeclarationParse](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md),[BaseJavaParse](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/BaseJavaParse.md)
+
+**所有父级接口：**  
+[JavaParserTypeDeclarationParse](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/JavaParserTypeDeclarationParse.md)
+
+
+
+
 
 
 
 ---
 
 ## 声明信息
+
 > public class PackageInfoTypeDeclarationParse extends [AbstractJavaParserTypeDeclarationParse](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md)     
 
 
-* **描述：** 
 
-  
+
+
 
 
 
@@ -36,38 +45,54 @@
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public  [PackageInfoTypeDeclarationParse](#innerlink-packageinfotypedeclarationparse-javautillist)(List< JavaParserMemberParse > javaParserMemberParseList)   <br/>|
+|1|public  [PackageInfoTypeDeclarationParse](#packageinfotypedeclarationparse-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaParserMemberParse > javaParserMemberParseList)   <br/><br/>|
+
 
 ## 方法汇总
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public boolean [accept](#innerlink-accept-typedeclaration-?--comejdocmetainfoseralizedtometafileinfodto)(TypeDeclaration< ? > typeDeclaration,[MetaFileInfoDto](/metaInfoSeralize/com/ejdoc/metainfo/seralize/dto/MetaFileInfoDto.md) metaFileInfo)   <br/>|
+|1|public [boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [accept](#accept-typedeclaration-metafileinfodto)(TypeDeclaration< ? > typeDeclaration,[MetaFileInfoDto](/metaInfoSeralize/com/ejdoc/metainfo/seralize/dto/MetaFileInfoDto.md) metaFileInfo)   <br/><br/>|
+|2|protected [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) > [doParseChildTypeToJavaClassMeta](#doparsechildtypetojavaclassmeta-metafileinfodto-javaclassmeta-compilationunit-typedeclaration-javaparsermetacontext)([MetaFileInfoDto](/metaInfoSeralize/com/ejdoc/metainfo/seralize/dto/MetaFileInfoDto.md) metaFileInfo,[JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) javaClassMeta,CompilationUnit rootAst,TypeDeclaration< ? > typeDeclaration,[JavaParserMetaContext](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/JavaParserMetaContext.md) javaParserMetaContext)   <br/><br/>|
 
 
 ---
-### 继承类方法:AbstractJavaParserTypeDeclarationParse
+
+### 从AbstractJavaParserTypeDeclarationParse类继承方法:
 
 全路径信息com.ejdoc.metainfo.seralize.parser.impl.javaparser.type.[AbstractJavaParserTypeDeclarationParse](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md)  
-[getJavaParserMemberParseList](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md#getJavaParserMemberParseList),[parseTypeToJavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md#parseTypeToJavaClassMeta-comejdocmetainfoseralizedtometafileinfodto-compilationunit-typedeclaration-?--comejdocmetainfoseralizeparserimpljavaparserjavaparsermetacontext),[setJavaParserMemberParseList](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md#setJavaParserMemberParseList-javautillist)
+[convertClassOrInterfaceTypeToSimpleClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md#convertClassOrInterfaceTypeToSimpleClassMeta-classorinterfacetype),[doParseChildTypeToJavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md#doParseChildTypeToJavaClassMeta-metafileinfodto-javaclassmeta-compilationunit-typedeclaration-javaparsermetacontext),[getJavaParserMemberParseList](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md#getJavaParserMemberParseList),[getRefClassResolvedType](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md#getRefClassResolvedType-classorinterfacetype),[parseClassDeclaration](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md#parseClassDeclaration-javaclassmeta-javaparsermetacontext),[parseClassMetaProp](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md#parseClassMetaProp-javaclassmeta-metafileinfodto-typedeclaration-javaparsermetacontext),[parseDocAndAnnotation](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md#parseDocAndAnnotation-javaclassmeta-typedeclaration-compilationunit-javaparsermetacontext),[parseJavaSouce](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md#parseJavaSouce-javaclassmeta-compilationunit-javaparsermetacontext),[parseMembers](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md#parseMembers-javaclassmeta-metafileinfodto-typedeclaration-javaparsermetacontext),[parseModifiers](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md#parseModifiers-javaclassmeta-typedeclaration-javaparsermetacontext)
+,[parseNestedJavaClass](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md#parseNestedJavaClass-javaclassmeta-typedeclaration-compilationunit-javaparsermetacontext),[parseSuperJavaClass](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md#parseSuperJavaClass-javaclassmeta-typedeclaration),[parseTypeToJavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md#parseTypeToJavaClassMeta-metafileinfodto-compilationunit-typedeclaration-javaparsermetacontext),[setJavaParserMemberParseList](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/AbstractJavaParserTypeDeclarationParse.md#setJavaParserMemberParseList-list)
+
 ---
-### 继承类方法:BaseJavaParse
+
+### 从BaseJavaParse类继承方法:
 
 全路径信息com.ejdoc.metainfo.seralize.parser.impl.javaparser.[BaseJavaParse](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/BaseJavaParse.md)  
+[createJavaDocTag](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/BaseJavaParse.md#createJavaDocTag-optional-javamodelmeta),[parseExpression](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/BaseJavaParse.md#parseExpression-expression-list),[setAnnotationExpr](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/BaseJavaParse.md#setAnnotationExpr-annotationexpr-javamodelmeta),[setAnnotations](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/BaseJavaParse.md#setAnnotations-nodelist-javamodelmeta),[setFieldResolvedTypeDeclaration](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/BaseJavaParse.md#setFieldResolvedTypeDeclaration-javaclassmeta-type),[setFullClassNameFromResolvedType](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/BaseJavaParse.md#setFullClassNameFromResolvedType-javaclassmeta-resolvedtype)
 
 
 
+---
+
+### 从JavaParserTypeDeclarationParse接口继承方法:
+
+全路径信息com.ejdoc.metainfo.seralize.parser.impl.javaparser.type.[JavaParserTypeDeclarationParse](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/JavaParserTypeDeclarationParse.md)  
+[accept](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/JavaParserTypeDeclarationParse.md#accept-typedeclaration-metafileinfodto),[parseTypeToJavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/JavaParserTypeDeclarationParse.md#parseTypeToJavaClassMeta-metafileinfodto-compilationunit-typedeclaration-javaparsermetacontext)
 
 
 
 ## 构造方法详细信息
 
+
 ---
-> **1.<span id="innerlink-packageinfotypedeclarationparse-javautillist">PackageInfoTypeDeclarationParse</span>**
 
-* **构造方法签名：** 
+> **1.<span id="packageinfotypedeclarationparse-list">PackageInfoTypeDeclarationParse</span>**
 
-  public  [PackageInfoTypeDeclarationParse](#packageinfotypedeclarationparse-javautillist)(List< JavaParserMemberParse > javaParserMemberParseList)   
+**构造方法签名：** 
+
+  public  [PackageInfoTypeDeclarationParse](#packageinfotypedeclarationparse-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaParserMemberParse > javaParserMemberParseList)   
+
 
 
 
@@ -77,12 +102,33 @@
 
 ## 方法详细信息
 
+
 ---
-> **1.<span id="innerlink-accept-typedeclaration-?--comejdocmetainfoseralizedtometafileinfodto">accept</span>**
 
-* **方法签名：** 
+> **1.<span id="accept-typedeclaration-metafileinfodto">accept</span>**
 
-  public boolean [accept](#accept-typedeclaration-?--comejdocmetainfoseralizedtometafileinfodto)(TypeDeclaration< ? > typeDeclaration,[MetaFileInfoDto](/metaInfoSeralize/com/ejdoc/metainfo/seralize/dto/MetaFileInfoDto.md) metaFileInfo)   
+**方法签名：** 
+
+  public [boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [accept](#accept-typedeclaration-metafileinfodto)(TypeDeclaration< ? > typeDeclaration,[MetaFileInfoDto](/metaInfoSeralize/com/ejdoc/metainfo/seralize/dto/MetaFileInfoDto.md) metaFileInfo)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **2.<span id="doparsechildtypetojavaclassmeta-metafileinfodto-javaclassmeta-compilationunit-typedeclaration-javaparsermetacontext">doParseChildTypeToJavaClassMeta</span>**
+
+**方法签名：** 
+
+  protected [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) > [doParseChildTypeToJavaClassMeta](#doparsechildtypetojavaclassmeta-metafileinfodto-javaclassmeta-compilationunit-typedeclaration-javaparsermetacontext)([MetaFileInfoDto](/metaInfoSeralize/com/ejdoc/metainfo/seralize/dto/MetaFileInfoDto.md) metaFileInfo,[JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) javaClassMeta,CompilationUnit rootAst,TypeDeclaration< ? > typeDeclaration,[JavaParserMetaContext](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/JavaParserMetaContext.md) javaParserMetaContext)   
+
+
 
 
 

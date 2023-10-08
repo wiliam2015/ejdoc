@@ -1,30 +1,39 @@
 # 类名称:JavaParserMetaInfoParser
 
-## 基本信息
-
-* **全路径信息:** com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaInfoParser
-* **包名称:** com.ejdoc.metainfo.seralize.parser.impl.javaparser
-* **项目名称:** ejdoc
-* **模块名称:** metaInfoSeralize
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |metaInfoSeralize|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.metainfo.seralize.parser.impl.javaparser    |   **全路径信息:**   |com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaInfoParser|
 
 
 
 
 
-* **所有父类：**  
+
+
+
+
+**所有父类：**  
 [AbstractMetaInfoParser](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/AbstractMetaInfoParser.md)
+
+**所有父级接口：**  
+[MetaInfoParser](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/MetaInfoParser.md),[MetaProjectMetaInfoParser](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/MetaProjectMetaInfoParser.md)
+
+
+
+
 
 
 
 ---
 
 ## 声明信息
+
 > public class JavaParserMetaInfoParser extends [AbstractMetaInfoParser](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/AbstractMetaInfoParser.md)     
 
 
-* **描述：** 
 
-  
+
+
 
 
 
@@ -36,36 +45,55 @@
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public  [JavaParserMetaInfoParser](#innerlink-javaparsermetainfoparser)()   <br/>|
-|2|public  [JavaParserMetaInfoParser](#innerlink-javaparsermetainfoparser-javalangstring)(String configFilePath)   <br/>|
-|3|public  [JavaParserMetaInfoParser](#innerlink-javaparsermetainfoparser-comejdocmetainfoseralizeresourcemetafileread)([MetaFileRead](/metaInfoSeralize/com/ejdoc/metainfo/seralize/resource/MetaFileRead.md) metaFileRead)   <br/>|
-|4|public  [JavaParserMetaInfoParser](#innerlink-javaparsermetainfoparser-comejdocmetainfoseralizeresourcemetafileread-javautillist)([MetaFileRead](/metaInfoSeralize/com/ejdoc/metainfo/seralize/resource/MetaFileRead.md) metaFileRead,List< JavaParserTypeDeclarationParse > javaParserTypeDeclarationParseList)   <br/>|
+|1|public  [JavaParserMetaInfoParser](#javaparsermetainfoparser)()   <br/><br/>|
+|2|public  [JavaParserMetaInfoParser](#javaparsermetainfoparser-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) configFilePath)   <br/><br/>|
+|3|public  [JavaParserMetaInfoParser](#javaparsermetainfoparser-metafileread)([MetaFileRead](/metaInfoSeralize/com/ejdoc/metainfo/seralize/resource/MetaFileRead.md) metaFileRead)   <br/><br/>|
+|4|public  [JavaParserMetaInfoParser](#javaparsermetainfoparser-metafileread-list)([MetaFileRead](/metaInfoSeralize/com/ejdoc/metainfo/seralize/resource/MetaFileRead.md) metaFileRead,[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaParserTypeDeclarationParse > javaParserTypeDeclarationParseList)   <br/><br/>|
+
 
 ## 方法汇总
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public List< JavaParserTypeDeclarationParse > [getJavaParserTypeDeclarationParseList](#innerlink-getjavaparsertypedeclarationparselist)()   <br/>|
-|2|public List< JavaModuleMeta > [parseAllJavaModuletMeta](#innerlink-parsealljavamoduletmeta)()   <br/>|
-|3|public void [setJavaParserTypeDeclarationParseList](#innerlink-setjavaparsertypedeclarationparselist-javautillist)(List< JavaParserTypeDeclarationParse > javaParserTypeDeclarationParseList)   <br/>|
+|1|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaParserTypeDeclarationParse](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/JavaParserTypeDeclarationParse.md) > [getJavaParserTypeDeclarationParseList](#getjavaparsertypedeclarationparselist)()   <br/><br/>|
+|2|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaModuleMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModuleMeta.md) > [parseAllJavaModuletMeta](#parsealljavamoduletmeta)()   <br/><br/>|
+|3|protected void [postParsingJavaClass](#postparsingjavaclass-javaparsermetacontext-list)([JavaParserMetaContext](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/JavaParserMetaContext.md) javaParserMetaContext,[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassMeta > javaClassMetaList)   <br/><br/>子类重载使用.|
+|4|public void [setJavaParserTypeDeclarationParseList](#setjavaparsertypedeclarationparselist-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaParserTypeDeclarationParse > javaParserTypeDeclarationParseList)   <br/><br/>|
 
 
 ---
-### 继承类方法:AbstractMetaInfoParser
+
+### 从AbstractMetaInfoParser类继承方法:
 
 全路径信息com.ejdoc.metainfo.seralize.parser.impl.[AbstractMetaInfoParser](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/AbstractMetaInfoParser.md)  
-[getMetaEnvironment](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/AbstractMetaInfoParser.md#getMetaEnvironment),[parseJavaProjectMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/AbstractMetaInfoParser.md#parseJavaProjectMeta)
+[getMetaEnvironment](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/AbstractMetaInfoParser.md#getMetaEnvironment),[initDefaultMetaFileRead](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/AbstractMetaInfoParser.md#initDefaultMetaFileRead),[parseJavaProjectMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/AbstractMetaInfoParser.md#parseJavaProjectMeta)
 
 
+
+---
+
+### 从MetaInfoParser接口继承方法:
+
+全路径信息com.ejdoc.metainfo.seralize.parser.[MetaInfoParser](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/MetaInfoParser.md)  
+[getMetaEnvironment](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/MetaInfoParser.md#getMetaEnvironment),[parseAllJavaModuletMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/MetaInfoParser.md#parseAllJavaModuletMeta)
+
+---
+
+### 从MetaProjectMetaInfoParser接口继承方法:
+
+全路径信息com.ejdoc.metainfo.seralize.parser.[MetaProjectMetaInfoParser](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/MetaProjectMetaInfoParser.md)  
+[parseJavaProjectMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/MetaProjectMetaInfoParser.md#parseJavaProjectMeta)
 
 
 
 ## 构造方法详细信息
 
----
-> **1.<span id="innerlink-javaparsermetainfoparser">JavaParserMetaInfoParser</span>**
 
-* **构造方法签名：** 
+---
+
+> **1.<span id="javaparsermetainfoparser">JavaParserMetaInfoParser</span>**
+
+**构造方法签名：** 
 
   public  [JavaParserMetaInfoParser](#javaparsermetainfoparser)()   
 
@@ -74,24 +102,17 @@
 
 
 
----
-> **2.<span id="innerlink-javaparsermetainfoparser-javalangstring">JavaParserMetaInfoParser</span>**
-
-* **构造方法签名：** 
-
-  public  [JavaParserMetaInfoParser](#javaparsermetainfoparser-javalangstring)(String configFilePath)   
-
-
-
-
 
 
 ---
-> **3.<span id="innerlink-javaparsermetainfoparser-comejdocmetainfoseralizeresourcemetafileread">JavaParserMetaInfoParser</span>**
 
-* **构造方法签名：** 
+> **2.<span id="javaparsermetainfoparser-string">JavaParserMetaInfoParser</span>**
 
-  public  [JavaParserMetaInfoParser](#javaparsermetainfoparser-comejdocmetainfoseralizeresourcemetafileread)([MetaFileRead](/metaInfoSeralize/com/ejdoc/metainfo/seralize/resource/MetaFileRead.md) metaFileRead)   
+**构造方法签名：** 
+
+  public  [JavaParserMetaInfoParser](#javaparsermetainfoparser-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) configFilePath)   
+
+
 
 
 
@@ -99,11 +120,28 @@
 
 
 ---
-> **4.<span id="innerlink-javaparsermetainfoparser-comejdocmetainfoseralizeresourcemetafileread-javautillist">JavaParserMetaInfoParser</span>**
 
-* **构造方法签名：** 
+> **3.<span id="javaparsermetainfoparser-metafileread">JavaParserMetaInfoParser</span>**
 
-  public  [JavaParserMetaInfoParser](#javaparsermetainfoparser-comejdocmetainfoseralizeresourcemetafileread-javautillist)([MetaFileRead](/metaInfoSeralize/com/ejdoc/metainfo/seralize/resource/MetaFileRead.md) metaFileRead,List< JavaParserTypeDeclarationParse > javaParserTypeDeclarationParseList)   
+**构造方法签名：** 
+
+  public  [JavaParserMetaInfoParser](#javaparsermetainfoparser-metafileread)([MetaFileRead](/metaInfoSeralize/com/ejdoc/metainfo/seralize/resource/MetaFileRead.md) metaFileRead)   
+
+
+
+
+
+
+
+
+---
+
+> **4.<span id="javaparsermetainfoparser-metafileread-list">JavaParserMetaInfoParser</span>**
+
+**构造方法签名：** 
+
+  public  [JavaParserMetaInfoParser](#javaparsermetainfoparser-metafileread-list)([MetaFileRead](/metaInfoSeralize/com/ejdoc/metainfo/seralize/resource/MetaFileRead.md) metaFileRead,[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaParserTypeDeclarationParse > javaParserTypeDeclarationParseList)   
+
 
 
 
@@ -113,25 +151,17 @@
 
 ## 方法详细信息
 
----
-> **1.<span id="innerlink-getjavaparsertypedeclarationparselist">getJavaParserTypeDeclarationParseList</span>**
-
-* **方法签名：** 
-
-  public List< JavaParserTypeDeclarationParse > [getJavaParserTypeDeclarationParseList](#getjavaparsertypedeclarationparselist)()   
-
-
-
-
-
-
 
 ---
-> **2.<span id="innerlink-parsealljavamoduletmeta">parseAllJavaModuletMeta</span>**
 
-* **方法签名：** 
+> **1.<span id="getjavaparsertypedeclarationparselist">getJavaParserTypeDeclarationParseList</span>**
 
-  public List< JavaModuleMeta > [parseAllJavaModuletMeta](#parsealljavamoduletmeta)()   
+**方法签名：** 
+
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaParserTypeDeclarationParse](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/type/JavaParserTypeDeclarationParse.md) > [getJavaParserTypeDeclarationParseList](#getjavaparsertypedeclarationparselist)()   
+
+
+
 
 
 
@@ -140,11 +170,57 @@
 
 
 ---
-> **3.<span id="innerlink-setjavaparsertypedeclarationparselist-javautillist">setJavaParserTypeDeclarationParseList</span>**
 
-* **方法签名：** 
+> **2.<span id="parsealljavamoduletmeta">parseAllJavaModuletMeta</span>**
 
-  public void [setJavaParserTypeDeclarationParseList](#setjavaparsertypedeclarationparselist-javautillist)(List< JavaParserTypeDeclarationParse > javaParserTypeDeclarationParseList)   
+**方法签名：** 
+
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaModuleMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModuleMeta.md) > [parseAllJavaModuletMeta](#parsealljavamoduletmeta)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **3.<span id="postparsingjavaclass-javaparsermetacontext-list">postParsingJavaClass</span>**
+
+**方法签名：** 
+
+  protected void [postParsingJavaClass](#postparsingjavaclass-javaparsermetacontext-list)([JavaParserMetaContext](/metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/JavaParserMetaContext.md) javaParserMetaContext,[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassMeta > javaClassMetaList)   
+
+
+**描述：** 
+
+子类重载使用
+
+**参数描述：** 
+
+  javaParserMetaContext - 
+
+  javaClassMetaList - 
+
+
+
+
+
+
+
+
+---
+
+> **4.<span id="setjavaparsertypedeclarationparselist-list">setJavaParserTypeDeclarationParseList</span>**
+
+**方法签名：** 
+
+  public void [setJavaParserTypeDeclarationParseList](#setjavaparsertypedeclarationparselist-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaParserTypeDeclarationParse > javaParserTypeDeclarationParseList)   
+
+
 
 
 

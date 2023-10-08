@@ -1,30 +1,38 @@
 # 类名称:JavaDocletTagMeta
 
-## 基本信息
-
-* **全路径信息:** com.ejdoc.metainfo.seralize.model.JavaDocletTagMeta
-* **包名称:** com.ejdoc.metainfo.seralize.model
-* **项目名称:** ejdoc
-* **模块名称:** metaInfoSeralize
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |metaInfoSeralize|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.metainfo.seralize.model    |   **全路径信息:**   |com.ejdoc.metainfo.seralize.model.JavaDocletTagMeta|
 
 
 
 
 
 
-* **所有父级接口：**  
-Serializable
+
+
+
+
+
+
+
+
+
+
+
 
 
 ---
 
 ## 声明信息
-> public class JavaDocletTagMeta   implements Serializable   
+
+> public class JavaDocletTagMeta   implements [Serializable](https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true)   
 
 
-* **描述：** 
 
-  
+
+
+
 
 
 
@@ -37,23 +45,22 @@ Serializable
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public Integer [getLineNumber](#innerlink-getlinenumber)()   <br/>|
-|2|public String [getName](#innerlink-getname)()   <br/>|
-|3|public Map< String,String > [getNamedParameterMap](#innerlink-getnamedparametermap)()   <br/>|
-|4|public List< String > [getParameters](#innerlink-getparameters)()   <br/>|
-|5|public String [getTagName](#innerlink-gettagname)()   <br/>|
-|6|public String [getType](#innerlink-gettype)()   <br/>|
-|7|public String [getValue](#innerlink-getvalue)()   <br/>|
-|8|public List< JavaDocCommentElementMeta > [getValues](#innerlink-getvalues)()   <br/>|
-|9|public void [setLineNumber](#innerlink-setlinenumber-javalanginteger)(Integer lineNumber)   <br/>|
-|10|public void [setName](#innerlink-setname-javalangstring)(String name)   <br/>|
-|11|public void [setNamedParameterMap](#innerlink-setnamedparametermap-javautilmap)(Map< String,String > namedParameterMap)   <br/>|
-|12|public void [setParameters](#innerlink-setparameters-javautillist)(List< String > parameters)   <br/>|
-|13|public void [setTagName](#innerlink-settagname-javalangstring)(String tagName)   <br/>|
-|14|public void [setType](#innerlink-settype-javalangstring)(String type)   <br/>|
-|15|public void [setValue](#innerlink-setvalue-javalangstring)(String value)   <br/>|
-|16|public void [setValues](#innerlink-setvalues-javautillist)(List< JavaDocCommentElementMeta > values)   <br/>|
-
+|1|public [Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true) [getLineNumber](#getlinenumber)()   <br/><br/>|
+|2|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getName](#getname)()   <br/><br/>|
+|3|public [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getNamedParameterMap](#getnamedparametermap)()   <br/><br/>|
+|4|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getParameters](#getparameters)()   <br/><br/>|
+|5|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getTagName](#gettagname)()   <br/><br/>|
+|6|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getType](#gettype)()   <br/><br/>|
+|7|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getValue](#getvalue)()   <br/><br/>|
+|8|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaDocCommentElementMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaDocCommentElementMeta.md) > [getValues](#getvalues)()   <br/><br/>|
+|9|public void [setLineNumber](#setlinenumber-integer)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true) lineNumber)   <br/><br/>|
+|10|public void [setName](#setname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name)   <br/><br/>|
+|11|public void [setNamedParameterMap](#setnamedparametermap-map)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > namedParameterMap)   <br/><br/>|
+|12|public void [setParameters](#setparameters-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > parameters)   <br/><br/>|
+|13|public void [setTagName](#settagname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) tagName)   <br/><br/>|
+|14|public void [setType](#settype-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) type)   <br/><br/>|
+|15|public void [setValue](#setvalue-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) value)   <br/><br/>|
+|16|public void [setValues](#setvalues-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaDocCommentElementMeta > values)   <br/><br/>|
 
 
 
@@ -63,25 +70,17 @@ Serializable
 
 ## 方法详细信息
 
----
-> **1.<span id="innerlink-getlinenumber">getLineNumber</span>**
-
-* **方法签名：** 
-
-  public Integer [getLineNumber](#getlinenumber)()   
-
-
-
-
-
-
 
 ---
-> **2.<span id="innerlink-getname">getName</span>**
 
-* **方法签名：** 
+> **1.<span id="getlinenumber">getLineNumber</span>**
 
-  public String [getName](#getname)()   
+**方法签名：** 
+
+  public [Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true) [getLineNumber](#getlinenumber)()   
+
+
+
 
 
 
@@ -90,24 +89,15 @@ Serializable
 
 
 ---
-> **3.<span id="innerlink-getnamedparametermap">getNamedParameterMap</span>**
 
-* **方法签名：** 
+> **2.<span id="getname">getName</span>**
 
-  public Map< String,String > [getNamedParameterMap](#getnamedparametermap)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getName](#getname)()   
 
 
 
-
----
-> **4.<span id="innerlink-getparameters">getParameters</span>**
-
-* **方法签名：** 
-
-  public List< String > [getParameters](#getparameters)()   
 
 
 
@@ -116,24 +106,15 @@ Serializable
 
 
 ---
-> **5.<span id="innerlink-gettagname">getTagName</span>**
 
-* **方法签名：** 
+> **3.<span id="getnamedparametermap">getNamedParameterMap</span>**
 
-  public String [getTagName](#gettagname)()   
+**方法签名：** 
 
-
-
+  public [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getNamedParameterMap](#getnamedparametermap)()   
 
 
 
-
----
-> **6.<span id="innerlink-gettype">getType</span>**
-
-* **方法签名：** 
-
-  public String [getType](#gettype)()   
 
 
 
@@ -142,24 +123,15 @@ Serializable
 
 
 ---
-> **7.<span id="innerlink-getvalue">getValue</span>**
 
-* **方法签名：** 
+> **4.<span id="getparameters">getParameters</span>**
 
-  public String [getValue](#getvalue)()   
+**方法签名：** 
 
-
-
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getParameters](#getparameters)()   
 
 
 
-
----
-> **8.<span id="innerlink-getvalues">getValues</span>**
-
-* **方法签名：** 
-
-  public List< JavaDocCommentElementMeta > [getValues](#getvalues)()   
 
 
 
@@ -168,24 +140,15 @@ Serializable
 
 
 ---
-> **9.<span id="innerlink-setlinenumber-javalanginteger">setLineNumber</span>**
 
-* **方法签名：** 
+> **5.<span id="gettagname">getTagName</span>**
 
-  public void [setLineNumber](#setlinenumber-javalanginteger)(Integer lineNumber)   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getTagName](#gettagname)()   
 
 
 
-
----
-> **10.<span id="innerlink-setname-javalangstring">setName</span>**
-
-* **方法签名：** 
-
-  public void [setName](#setname-javalangstring)(String name)   
 
 
 
@@ -194,24 +157,15 @@ Serializable
 
 
 ---
-> **11.<span id="innerlink-setnamedparametermap-javautilmap">setNamedParameterMap</span>**
 
-* **方法签名：** 
+> **6.<span id="gettype">getType</span>**
 
-  public void [setNamedParameterMap](#setnamedparametermap-javautilmap)(Map< String,String > namedParameterMap)   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getType](#gettype)()   
 
 
 
-
----
-> **12.<span id="innerlink-setparameters-javautillist">setParameters</span>**
-
-* **方法签名：** 
-
-  public void [setParameters](#setparameters-javautillist)(List< String > parameters)   
 
 
 
@@ -220,24 +174,15 @@ Serializable
 
 
 ---
-> **13.<span id="innerlink-settagname-javalangstring">setTagName</span>**
 
-* **方法签名：** 
+> **7.<span id="getvalue">getValue</span>**
 
-  public void [setTagName](#settagname-javalangstring)(String tagName)   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getValue](#getvalue)()   
 
 
 
-
----
-> **14.<span id="innerlink-settype-javalangstring">setType</span>**
-
-* **方法签名：** 
-
-  public void [setType](#settype-javalangstring)(String type)   
 
 
 
@@ -246,11 +191,15 @@ Serializable
 
 
 ---
-> **15.<span id="innerlink-setvalue-javalangstring">setValue</span>**
 
-* **方法签名：** 
+> **8.<span id="getvalues">getValues</span>**
 
-  public void [setValue](#setvalue-javalangstring)(String value)   
+**方法签名：** 
+
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaDocCommentElementMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaDocCommentElementMeta.md) > [getValues](#getvalues)()   
+
+
+
 
 
 
@@ -259,11 +208,133 @@ Serializable
 
 
 ---
-> **16.<span id="innerlink-setvalues-javautillist">setValues</span>**
 
-* **方法签名：** 
+> **9.<span id="setlinenumber-integer">setLineNumber</span>**
 
-  public void [setValues](#setvalues-javautillist)(List< JavaDocCommentElementMeta > values)   
+**方法签名：** 
+
+  public void [setLineNumber](#setlinenumber-integer)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true) lineNumber)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **10.<span id="setname-string">setName</span>**
+
+**方法签名：** 
+
+  public void [setName](#setname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **11.<span id="setnamedparametermap-map">setNamedParameterMap</span>**
+
+**方法签名：** 
+
+  public void [setNamedParameterMap](#setnamedparametermap-map)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > namedParameterMap)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **12.<span id="setparameters-list">setParameters</span>**
+
+**方法签名：** 
+
+  public void [setParameters](#setparameters-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > parameters)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **13.<span id="settagname-string">setTagName</span>**
+
+**方法签名：** 
+
+  public void [setTagName](#settagname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) tagName)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **14.<span id="settype-string">setType</span>**
+
+**方法签名：** 
+
+  public void [setType](#settype-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) type)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **15.<span id="setvalue-string">setValue</span>**
+
+**方法签名：** 
+
+  public void [setValue](#setvalue-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) value)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **16.<span id="setvalues-list">setValues</span>**
+
+**方法签名：** 
+
+  public void [setValues](#setvalues-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaDocCommentElementMeta > values)   
+
+
 
 
 

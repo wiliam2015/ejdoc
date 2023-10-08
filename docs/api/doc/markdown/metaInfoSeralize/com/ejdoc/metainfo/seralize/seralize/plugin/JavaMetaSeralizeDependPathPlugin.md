@@ -1,31 +1,40 @@
 # 类名称:JavaMetaSeralizeDependPathPlugin
 
-## 基本信息
-
-* **全路径信息:** com.ejdoc.metainfo.seralize.seralize.plugin.JavaMetaSeralizeDependPathPlugin
-* **包名称:** com.ejdoc.metainfo.seralize.seralize.plugin
-* **项目名称:** ejdoc
-* **模块名称:** metaInfoSeralize
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |metaInfoSeralize|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.metainfo.seralize.seralize.plugin    |   **全路径信息:**   |com.ejdoc.metainfo.seralize.seralize.plugin.JavaMetaSeralizeDependPathPlugin|
 
 
 
 
 
-* **所有父类：**  
+
+
+
+
+**所有父类：**  
 [AbstractJavaMetaSeralizePlugin](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/plugin/AbstractJavaMetaSeralizePlugin.md)
-* **所有父级接口：**  
+
+**所有父级接口：**  
 [JavaMetaSeralizePlugin](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/JavaMetaSeralizePlugin.md)
+
+
+
+
+
 
 
 ---
 
 ## 声明信息
+
 > public class JavaMetaSeralizeDependPathPlugin extends [AbstractJavaMetaSeralizePlugin](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/plugin/AbstractJavaMetaSeralizePlugin.md)   implements [JavaMetaSeralizePlugin](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/JavaMetaSeralizePlugin.md)   
 
 
-* **描述：** 
 
-  
+
+
+
 
 
 
@@ -38,33 +47,40 @@
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public void [exePostJavaMetaSeralize](#innerlink-exepostjavametaseralize-comejdocmetainfoseralizeseralizeplugindtojavametaservalizeplugincontextdto)([JavaMetaServalizePluginContextDto](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/plugin/dto/JavaMetaServalizePluginContextDto.md) javaMetaServalizePluginContextDto)   <br/>|
+|1|public void [exePostJavaMetaSeralize](#exepostjavametaseralize-javametaservalizeplugincontextdto)([JavaMetaServalizePluginContextDto](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/plugin/dto/JavaMetaServalizePluginContextDto.md) javaMetaServalizePluginContextDto)   <br/><br/>|
 
 
 ---
-### 继承类方法:AbstractJavaMetaSeralizePlugin
+
+### 从AbstractJavaMetaSeralizePlugin类继承方法:
 
 全路径信息com.ejdoc.metainfo.seralize.seralize.plugin.[AbstractJavaMetaSeralizePlugin](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/plugin/AbstractJavaMetaSeralizePlugin.md)  
+[parseBaseClassDependPath](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/plugin/AbstractJavaMetaSeralizePlugin.md#parseBaseClassDependPath-seralizeconfig-list-string-map),[setRelativePath](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/plugin/AbstractJavaMetaSeralizePlugin.md#setRelativePath-seralizeconfig-javametafileinfo-string-javaclassmeta)
 
 
 
 ---
-### 继承接口方法:JavaMetaSeralizePlugin
+
+### 从JavaMetaSeralizePlugin接口继承方法:
 
 全路径信息com.ejdoc.metainfo.seralize.seralize.[JavaMetaSeralizePlugin](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/JavaMetaSeralizePlugin.md)  
-[exePostJavaMetaSeralize](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/JavaMetaSeralizePlugin.md#exePostJavaMetaSeralize-comejdocmetainfoseralizeseralizeplugindtojavametaservalizeplugincontextdto)
+[exePostJavaMetaSeralize](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/JavaMetaSeralizePlugin.md#exePostJavaMetaSeralize-javametaservalizeplugincontextdto)
 
 
 
 
 ## 方法详细信息
 
+
 ---
-> **1.<span id="innerlink-exepostjavametaseralize-comejdocmetainfoseralizeseralizeplugindtojavametaservalizeplugincontextdto">exePostJavaMetaSeralize</span>**
 
-* **方法签名：** 
+> **1.<span id="exepostjavametaseralize-javametaservalizeplugincontextdto">exePostJavaMetaSeralize</span>**
 
-  public void [exePostJavaMetaSeralize](#exepostjavametaseralize-comejdocmetainfoseralizeseralizeplugindtojavametaservalizeplugincontextdto)([JavaMetaServalizePluginContextDto](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/plugin/dto/JavaMetaServalizePluginContextDto.md) javaMetaServalizePluginContextDto)   
+**方法签名：** 
+
+  public void [exePostJavaMetaSeralize](#exepostjavametaseralize-javametaservalizeplugincontextdto)([JavaMetaServalizePluginContextDto](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/plugin/dto/JavaMetaServalizePluginContextDto.md) javaMetaServalizePluginContextDto)   
+
+
 
 
 

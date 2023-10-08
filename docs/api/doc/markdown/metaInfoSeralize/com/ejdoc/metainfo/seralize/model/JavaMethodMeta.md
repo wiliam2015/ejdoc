@@ -1,30 +1,37 @@
 # 类名称:JavaMethodMeta
 
-## 基本信息
-
-* **全路径信息:** com.ejdoc.metainfo.seralize.model.JavaMethodMeta
-* **包名称:** com.ejdoc.metainfo.seralize.model
-* **项目名称:** ejdoc
-* **模块名称:** metaInfoSeralize
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |metaInfoSeralize|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.metainfo.seralize.model    |   **全路径信息:**   |com.ejdoc.metainfo.seralize.model.JavaMethodMeta|
 
 
 
 
 
 
-* **所有父级接口：**  
-Serializable
+
+
+
+
+
+
+
+
+
+
+
 
 
 ---
 
 ## 声明信息
-> public class JavaMethodMeta   implements Serializable   
+
+> public class JavaMethodMeta   implements [Serializable](https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true)   
 
 
-* **描述：** 
 
-  
+
+
 
 
 
@@ -32,7 +39,8 @@ Serializable
 
 |   索引  |   修饰符  |    类型简称  |   字段与描述   |   初始值   |
 | ---- | ---- | ---- | ---- | ---- |
-|1||List<JavaParameterMeta>|[parameters](#innerlink-parameters)<br/>|无|
+|1||[List<JavaParameterMeta>](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)|[parameters](#parameters)<br/>|无|
+
 
 
 
@@ -42,63 +50,67 @@ Serializable
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public Boolean [getAbstracts](#innerlink-getabstracts)()   <br/>|
-|2|public String [getCallSignature](#innerlink-getcallsignature)()   <br/>|
-|3|public Boolean [getDefaultMethod](#innerlink-getdefaultmethod)()   <br/>|
-|4|public [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) [getDefaultValue](#innerlink-getdefaultvalue)()   <br/>|
-|5|public List< JavaClassMeta > [getExceptions](#innerlink-getexceptions)()   <br/>|
-|6|public Boolean [getFinals](#innerlink-getfinals)()   <br/>|
-|7|public [JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) [getJavaModelMeta](#innerlink-getjavamodelmeta)()   <br/>|
-|8|public List< String > [getModifiers](#innerlink-getmodifiers)()   <br/>|
-|9|public String [getName](#innerlink-getname)()   <br/>|
-|10|public Boolean [getNatives](#innerlink-getnatives)()   <br/>|
-|11|public List< JavaParameterMeta > [getParameters](#innerlink-getparameters)()   <br/>|
-|12|public Boolean [getPrivates](#innerlink-getprivates)()   <br/>|
-|13|public Boolean [getProtecteds](#innerlink-getprotecteds)()   <br/>|
-|14|public Boolean [getPublics](#innerlink-getpublics)()   <br/>|
-|15|public [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) [getReturns](#innerlink-getreturns)()   <br/>|
-|16|public String [getSourceCode](#innerlink-getsourcecode)()   <br/>|
-|17|public Boolean [getStatics](#innerlink-getstatics)()   <br/>|
-|18|public Boolean [getStrictfps](#innerlink-getstrictfps)()   <br/>|
-|19|public Boolean [getSynchronizeds](#innerlink-getsynchronizeds)()   <br/>|
-|20|public Boolean [getTransients](#innerlink-gettransients)()   <br/>|
-|21|public Boolean [getVarArgs](#innerlink-getvarargs)()   <br/>|
-|22|public Boolean [getVolatiles](#innerlink-getvolatiles)()   <br/>|
-|23|public void [setAbstracts](#innerlink-setabstracts-javalangboolean)(Boolean abstracts)   <br/>|
-|24|public void [setCallSignature](#innerlink-setcallsignature-javalangstring)(String callSignature)   <br/>|
-|25|public void [setDefaultMethod](#innerlink-setdefaultmethod-javalangboolean)(Boolean defaultMethod)   <br/>|
-|26|public void [setDefaultValue](#innerlink-setdefaultvalue-comejdocmetainfoseralizemodeljavaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) defaultValue)   <br/>|
-|27|public void [setExceptions](#innerlink-setexceptions-javautillist)(List< JavaClassMeta > exceptions)   <br/>|
-|28|public void [setFinals](#innerlink-setfinals-javalangboolean)(Boolean finals)   <br/>|
-|29|public void [setJavaModelMeta](#innerlink-setjavamodelmeta-comejdocmetainfoseralizemodeljavamodelmeta)([JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) javaModelMeta)   <br/>|
-|30|public void [setModifiers](#innerlink-setmodifiers-javautillist)(List< String > modifiers)   <br/>|
-|31|public void [setName](#innerlink-setname-javalangstring)(String name)   <br/>|
-|32|public void [setNatives](#innerlink-setnatives-javalangboolean)(Boolean natives)   <br/>|
-|33|public void [setParameters](#innerlink-setparameters-javautillist)(List< JavaParameterMeta > parameters)   <br/>|
-|34|public void [setPrivates](#innerlink-setprivates-javalangboolean)(Boolean privates)   <br/>|
-|35|public void [setProtecteds](#innerlink-setprotecteds-javalangboolean)(Boolean protecteds)   <br/>|
-|36|public void [setPublics](#innerlink-setpublics-javalangboolean)(Boolean publics)   <br/>|
-|37|public void [setReturns](#innerlink-setreturns-comejdocmetainfoseralizemodeljavaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) returns)   <br/>|
-|38|public void [setSourceCode](#innerlink-setsourcecode-javalangstring)(String sourceCode)   <br/>|
-|39|public void [setStatics](#innerlink-setstatics-javalangboolean)(Boolean statics)   <br/>|
-|40|public void [setStrictfps](#innerlink-setstrictfps-javalangboolean)(Boolean strictfps)   <br/>|
-|41|public void [setSynchronizeds](#innerlink-setsynchronizeds-javalangboolean)(Boolean synchronizeds)   <br/>|
-|42|public void [setTransients](#innerlink-settransients-javalangboolean)(Boolean transients)   <br/>|
-|43|public void [setVarArgs](#innerlink-setvarargs-javalangboolean)(Boolean varArgs)   <br/>|
-|44|public void [setVolatiles](#innerlink-setvolatiles-javalangboolean)(Boolean volatiles)   <br/>|
-
+|1|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getAbstracts](#getabstracts)()   <br/><br/>|
+|2|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getCallSignature](#getcallsignature)()   <br/><br/>|
+|3|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getDefaultMethod](#getdefaultmethod)()   <br/><br/>|
+|4|public [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) [getDefaultValue](#getdefaultvalue)()   <br/><br/>|
+|5|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) > [getExceptions](#getexceptions)()   <br/><br/>|
+|6|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getFinals](#getfinals)()   <br/><br/>|
+|7|public [JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) [getJavaModelMeta](#getjavamodelmeta)()   <br/><br/>|
+|8|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getModifiers](#getmodifiers)()   <br/><br/>|
+|9|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getName](#getname)()   <br/><br/>|
+|10|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getNatives](#getnatives)()   <br/><br/>|
+|11|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaParameterMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaParameterMeta.md) > [getParameters](#getparameters)()   <br/><br/>|
+|12|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getPrivates](#getprivates)()   <br/><br/>|
+|13|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getProtecteds](#getprotecteds)()   <br/><br/>|
+|14|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getPublics](#getpublics)()   <br/><br/>|
+|15|public [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) [getReturns](#getreturns)()   <br/><br/>|
+|16|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getSourceCode](#getsourcecode)()   <br/><br/>|
+|17|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getStatics](#getstatics)()   <br/><br/>|
+|18|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getStrictfps](#getstrictfps)()   <br/><br/>|
+|19|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getSynchronizeds](#getsynchronizeds)()   <br/><br/>|
+|20|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getTransients](#gettransients)()   <br/><br/>|
+|21|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getUniqueId](#getuniqueid)()   <br/><br/>|
+|22|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getVarArgs](#getvarargs)()   <br/><br/>|
+|23|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getVolatiles](#getvolatiles)()   <br/><br/>|
+|24|public void [setAbstracts](#setabstracts-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) abstracts)   <br/><br/>|
+|25|public void [setCallSignature](#setcallsignature-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) callSignature)   <br/><br/>|
+|26|public void [setDefaultMethod](#setdefaultmethod-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) defaultMethod)   <br/><br/>|
+|27|public void [setDefaultValue](#setdefaultvalue-javaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) defaultValue)   <br/><br/>|
+|28|public void [setExceptions](#setexceptions-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassMeta > exceptions)   <br/><br/>|
+|29|public void [setFinals](#setfinals-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) finals)   <br/><br/>|
+|30|public void [setJavaModelMeta](#setjavamodelmeta-javamodelmeta)([JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) javaModelMeta)   <br/><br/>|
+|31|public void [setModifiers](#setmodifiers-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > modifiers)   <br/><br/>|
+|32|public void [setName](#setname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name)   <br/><br/>|
+|33|public void [setNatives](#setnatives-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) natives)   <br/><br/>|
+|34|public void [setParameters](#setparameters-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaParameterMeta > parameters)   <br/><br/>|
+|35|public void [setPrivates](#setprivates-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) privates)   <br/><br/>|
+|36|public void [setProtecteds](#setprotecteds-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) protecteds)   <br/><br/>|
+|37|public void [setPublics](#setpublics-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) publics)   <br/><br/>|
+|38|public void [setReturns](#setreturns-javaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) returns)   <br/><br/>|
+|39|public void [setSourceCode](#setsourcecode-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) sourceCode)   <br/><br/>|
+|40|public void [setStatics](#setstatics-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) statics)   <br/><br/>|
+|41|public void [setStrictfps](#setstrictfps-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) strictfps)   <br/><br/>|
+|42|public void [setSynchronizeds](#setsynchronizeds-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) synchronizeds)   <br/><br/>|
+|43|public void [setTransients](#settransients-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) transients)   <br/><br/>|
+|44|public void [setUniqueId](#setuniqueid-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) uniqueId)   <br/><br/>|
+|45|public void [setVarArgs](#setvarargs-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) varArgs)   <br/><br/>|
+|46|public void [setVolatiles](#setvolatiles-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) volatiles)   <br/><br/>|
 
 
 
 
 ## 成员变量详细信息
 
+
 ---
-> **1.<span id="innerlink-parameters">parameters</span>**
 
-* **签名信息：** 
+> **1.<span id="parameters">parameters</span>**
 
-   List<JavaParameterMeta>  parameters 
+**签名信息：** 
+
+   [List<JavaParameterMeta>](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)  parameters 
+
 
 
 
@@ -107,25 +119,17 @@ Serializable
 
 ## 方法详细信息
 
----
-> **1.<span id="innerlink-getabstracts">getAbstracts</span>**
-
-* **方法签名：** 
-
-  public Boolean [getAbstracts](#getabstracts)()   
-
-
-
-
-
-
 
 ---
-> **2.<span id="innerlink-getcallsignature">getCallSignature</span>**
 
-* **方法签名：** 
+> **1.<span id="getabstracts">getAbstracts</span>**
 
-  public String [getCallSignature](#getcallsignature)()   
+**方法签名：** 
+
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getAbstracts](#getabstracts)()   
+
+
+
 
 
 
@@ -134,11 +138,15 @@ Serializable
 
 
 ---
-> **3.<span id="innerlink-getdefaultmethod">getDefaultMethod</span>**
 
-* **方法签名：** 
+> **2.<span id="getcallsignature">getCallSignature</span>**
 
-  public Boolean [getDefaultMethod](#getdefaultmethod)()   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getCallSignature](#getcallsignature)()   
+
+
+
 
 
 
@@ -147,9 +155,27 @@ Serializable
 
 
 ---
-> **4.<span id="innerlink-getdefaultvalue">getDefaultValue</span>**
 
-* **方法签名：** 
+> **3.<span id="getdefaultmethod">getDefaultMethod</span>**
+
+**方法签名：** 
+
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getDefaultMethod](#getdefaultmethod)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **4.<span id="getdefaultvalue">getDefaultValue</span>**
+
+**方法签名：** 
 
   public [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) [getDefaultValue](#getdefaultvalue)()   
 
@@ -159,25 +185,19 @@ Serializable
 
 
 
----
-> **5.<span id="innerlink-getexceptions">getExceptions</span>**
-
-* **方法签名：** 
-
-  public List< JavaClassMeta > [getExceptions](#getexceptions)()   
-
-
-
-
 
 
 
 ---
-> **6.<span id="innerlink-getfinals">getFinals</span>**
 
-* **方法签名：** 
+> **5.<span id="getexceptions">getExceptions</span>**
 
-  public Boolean [getFinals](#getfinals)()   
+**方法签名：** 
+
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) > [getExceptions](#getexceptions)()   
+
+
+
 
 
 
@@ -186,9 +206,27 @@ Serializable
 
 
 ---
-> **7.<span id="innerlink-getjavamodelmeta">getJavaModelMeta</span>**
 
-* **方法签名：** 
+> **6.<span id="getfinals">getFinals</span>**
+
+**方法签名：** 
+
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getFinals](#getfinals)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **7.<span id="getjavamodelmeta">getJavaModelMeta</span>**
+
+**方法签名：** 
 
   public [JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) [getJavaModelMeta](#getjavamodelmeta)()   
 
@@ -198,25 +236,19 @@ Serializable
 
 
 
----
-> **8.<span id="innerlink-getmodifiers">getModifiers</span>**
-
-* **方法签名：** 
-
-  public List< String > [getModifiers](#getmodifiers)()   
-
-
-
-
 
 
 
 ---
-> **9.<span id="innerlink-getname">getName</span>**
 
-* **方法签名：** 
+> **8.<span id="getmodifiers">getModifiers</span>**
 
-  public String [getName](#getname)()   
+**方法签名：** 
+
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getModifiers](#getmodifiers)()   
+
+
+
 
 
 
@@ -225,24 +257,15 @@ Serializable
 
 
 ---
-> **10.<span id="innerlink-getnatives">getNatives</span>**
 
-* **方法签名：** 
+> **9.<span id="getname">getName</span>**
 
-  public Boolean [getNatives](#getnatives)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getName](#getname)()   
 
 
 
-
----
-> **11.<span id="innerlink-getparameters">getParameters</span>**
-
-* **方法签名：** 
-
-  public List< JavaParameterMeta > [getParameters](#getparameters)()   
 
 
 
@@ -251,24 +274,15 @@ Serializable
 
 
 ---
-> **12.<span id="innerlink-getprivates">getPrivates</span>**
 
-* **方法签名：** 
+> **10.<span id="getnatives">getNatives</span>**
 
-  public Boolean [getPrivates](#getprivates)()   
+**方法签名：** 
 
-
-
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getNatives](#getnatives)()   
 
 
 
-
----
-> **13.<span id="innerlink-getprotecteds">getProtecteds</span>**
-
-* **方法签名：** 
-
-  public Boolean [getProtecteds](#getprotecteds)()   
 
 
 
@@ -277,11 +291,15 @@ Serializable
 
 
 ---
-> **14.<span id="innerlink-getpublics">getPublics</span>**
 
-* **方法签名：** 
+> **11.<span id="getparameters">getParameters</span>**
 
-  public Boolean [getPublics](#getpublics)()   
+**方法签名：** 
+
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaParameterMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaParameterMeta.md) > [getParameters](#getparameters)()   
+
+
+
 
 
 
@@ -290,9 +308,61 @@ Serializable
 
 
 ---
-> **15.<span id="innerlink-getreturns">getReturns</span>**
 
-* **方法签名：** 
+> **12.<span id="getprivates">getPrivates</span>**
+
+**方法签名：** 
+
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getPrivates](#getprivates)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **13.<span id="getprotecteds">getProtecteds</span>**
+
+**方法签名：** 
+
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getProtecteds](#getprotecteds)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **14.<span id="getpublics">getPublics</span>**
+
+**方法签名：** 
+
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getPublics](#getpublics)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **15.<span id="getreturns">getReturns</span>**
+
+**方法签名：** 
 
   public [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) [getReturns](#getreturns)()   
 
@@ -302,25 +372,19 @@ Serializable
 
 
 
----
-> **16.<span id="innerlink-getsourcecode">getSourceCode</span>**
-
-* **方法签名：** 
-
-  public String [getSourceCode](#getsourcecode)()   
-
-
-
-
 
 
 
 ---
-> **17.<span id="innerlink-getstatics">getStatics</span>**
 
-* **方法签名：** 
+> **16.<span id="getsourcecode">getSourceCode</span>**
 
-  public Boolean [getStatics](#getstatics)()   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getSourceCode](#getsourcecode)()   
+
+
+
 
 
 
@@ -329,24 +393,15 @@ Serializable
 
 
 ---
-> **18.<span id="innerlink-getstrictfps">getStrictfps</span>**
 
-* **方法签名：** 
+> **17.<span id="getstatics">getStatics</span>**
 
-  public Boolean [getStrictfps](#getstrictfps)()   
+**方法签名：** 
 
-
-
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getStatics](#getstatics)()   
 
 
 
-
----
-> **19.<span id="innerlink-getsynchronizeds">getSynchronizeds</span>**
-
-* **方法签名：** 
-
-  public Boolean [getSynchronizeds](#getsynchronizeds)()   
 
 
 
@@ -355,24 +410,15 @@ Serializable
 
 
 ---
-> **20.<span id="innerlink-gettransients">getTransients</span>**
 
-* **方法签名：** 
+> **18.<span id="getstrictfps">getStrictfps</span>**
 
-  public Boolean [getTransients](#gettransients)()   
+**方法签名：** 
 
-
-
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getStrictfps](#getstrictfps)()   
 
 
 
-
----
-> **21.<span id="innerlink-getvarargs">getVarArgs</span>**
-
-* **方法签名：** 
-
-  public Boolean [getVarArgs](#getvarargs)()   
 
 
 
@@ -381,24 +427,15 @@ Serializable
 
 
 ---
-> **22.<span id="innerlink-getvolatiles">getVolatiles</span>**
 
-* **方法签名：** 
+> **19.<span id="getsynchronizeds">getSynchronizeds</span>**
 
-  public Boolean [getVolatiles](#getvolatiles)()   
+**方法签名：** 
 
-
-
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getSynchronizeds](#getsynchronizeds)()   
 
 
 
-
----
-> **23.<span id="innerlink-setabstracts-javalangboolean">setAbstracts</span>**
-
-* **方法签名：** 
-
-  public void [setAbstracts](#setabstracts-javalangboolean)(Boolean abstracts)   
 
 
 
@@ -407,24 +444,15 @@ Serializable
 
 
 ---
-> **24.<span id="innerlink-setcallsignature-javalangstring">setCallSignature</span>**
 
-* **方法签名：** 
+> **20.<span id="gettransients">getTransients</span>**
 
-  public void [setCallSignature](#setcallsignature-javalangstring)(String callSignature)   
+**方法签名：** 
 
-
-
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getTransients](#gettransients)()   
 
 
 
-
----
-> **25.<span id="innerlink-setdefaultmethod-javalangboolean">setDefaultMethod</span>**
-
-* **方法签名：** 
-
-  public void [setDefaultMethod](#setdefaultmethod-javalangboolean)(Boolean defaultMethod)   
 
 
 
@@ -433,24 +461,15 @@ Serializable
 
 
 ---
-> **26.<span id="innerlink-setdefaultvalue-comejdocmetainfoseralizemodeljavaclassmeta">setDefaultValue</span>**
 
-* **方法签名：** 
+> **21.<span id="getuniqueid">getUniqueId</span>**
 
-  public void [setDefaultValue](#setdefaultvalue-comejdocmetainfoseralizemodeljavaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) defaultValue)   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getUniqueId](#getuniqueid)()   
 
 
 
-
----
-> **27.<span id="innerlink-setexceptions-javautillist">setExceptions</span>**
-
-* **方法签名：** 
-
-  public void [setExceptions](#setexceptions-javautillist)(List< JavaClassMeta > exceptions)   
 
 
 
@@ -459,24 +478,15 @@ Serializable
 
 
 ---
-> **28.<span id="innerlink-setfinals-javalangboolean">setFinals</span>**
 
-* **方法签名：** 
+> **22.<span id="getvarargs">getVarArgs</span>**
 
-  public void [setFinals](#setfinals-javalangboolean)(Boolean finals)   
+**方法签名：** 
 
-
-
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getVarArgs](#getvarargs)()   
 
 
 
-
----
-> **29.<span id="innerlink-setjavamodelmeta-comejdocmetainfoseralizemodeljavamodelmeta">setJavaModelMeta</span>**
-
-* **方法签名：** 
-
-  public void [setJavaModelMeta](#setjavamodelmeta-comejdocmetainfoseralizemodeljavamodelmeta)([JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) javaModelMeta)   
 
 
 
@@ -485,24 +495,15 @@ Serializable
 
 
 ---
-> **30.<span id="innerlink-setmodifiers-javautillist">setModifiers</span>**
 
-* **方法签名：** 
+> **23.<span id="getvolatiles">getVolatiles</span>**
 
-  public void [setModifiers](#setmodifiers-javautillist)(List< String > modifiers)   
+**方法签名：** 
 
-
-
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getVolatiles](#getvolatiles)()   
 
 
 
-
----
-> **31.<span id="innerlink-setname-javalangstring">setName</span>**
-
-* **方法签名：** 
-
-  public void [setName](#setname-javalangstring)(String name)   
 
 
 
@@ -511,24 +512,15 @@ Serializable
 
 
 ---
-> **32.<span id="innerlink-setnatives-javalangboolean">setNatives</span>**
 
-* **方法签名：** 
+> **24.<span id="setabstracts-boolean">setAbstracts</span>**
 
-  public void [setNatives](#setnatives-javalangboolean)(Boolean natives)   
+**方法签名：** 
 
-
-
+  public void [setAbstracts](#setabstracts-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) abstracts)   
 
 
 
-
----
-> **33.<span id="innerlink-setparameters-javautillist">setParameters</span>**
-
-* **方法签名：** 
-
-  public void [setParameters](#setparameters-javautillist)(List< JavaParameterMeta > parameters)   
 
 
 
@@ -537,24 +529,15 @@ Serializable
 
 
 ---
-> **34.<span id="innerlink-setprivates-javalangboolean">setPrivates</span>**
 
-* **方法签名：** 
+> **25.<span id="setcallsignature-string">setCallSignature</span>**
 
-  public void [setPrivates](#setprivates-javalangboolean)(Boolean privates)   
+**方法签名：** 
 
-
-
+  public void [setCallSignature](#setcallsignature-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) callSignature)   
 
 
 
-
----
-> **35.<span id="innerlink-setprotecteds-javalangboolean">setProtecteds</span>**
-
-* **方法签名：** 
-
-  public void [setProtecteds](#setprotecteds-javalangboolean)(Boolean protecteds)   
 
 
 
@@ -563,24 +546,15 @@ Serializable
 
 
 ---
-> **36.<span id="innerlink-setpublics-javalangboolean">setPublics</span>**
 
-* **方法签名：** 
+> **26.<span id="setdefaultmethod-boolean">setDefaultMethod</span>**
 
-  public void [setPublics](#setpublics-javalangboolean)(Boolean publics)   
+**方法签名：** 
 
-
-
+  public void [setDefaultMethod](#setdefaultmethod-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) defaultMethod)   
 
 
 
-
----
-> **37.<span id="innerlink-setreturns-comejdocmetainfoseralizemodeljavaclassmeta">setReturns</span>**
-
-* **方法签名：** 
-
-  public void [setReturns](#setreturns-comejdocmetainfoseralizemodeljavaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) returns)   
 
 
 
@@ -589,24 +563,15 @@ Serializable
 
 
 ---
-> **38.<span id="innerlink-setsourcecode-javalangstring">setSourceCode</span>**
 
-* **方法签名：** 
+> **27.<span id="setdefaultvalue-javaclassmeta">setDefaultValue</span>**
 
-  public void [setSourceCode](#setsourcecode-javalangstring)(String sourceCode)   
+**方法签名：** 
 
-
-
+  public void [setDefaultValue](#setdefaultvalue-javaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) defaultValue)   
 
 
 
-
----
-> **39.<span id="innerlink-setstatics-javalangboolean">setStatics</span>**
-
-* **方法签名：** 
-
-  public void [setStatics](#setstatics-javalangboolean)(Boolean statics)   
 
 
 
@@ -615,24 +580,15 @@ Serializable
 
 
 ---
-> **40.<span id="innerlink-setstrictfps-javalangboolean">setStrictfps</span>**
 
-* **方法签名：** 
+> **28.<span id="setexceptions-list">setExceptions</span>**
 
-  public void [setStrictfps](#setstrictfps-javalangboolean)(Boolean strictfps)   
+**方法签名：** 
 
-
-
+  public void [setExceptions](#setexceptions-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaClassMeta > exceptions)   
 
 
 
-
----
-> **41.<span id="innerlink-setsynchronizeds-javalangboolean">setSynchronizeds</span>**
-
-* **方法签名：** 
-
-  public void [setSynchronizeds](#setsynchronizeds-javalangboolean)(Boolean synchronizeds)   
 
 
 
@@ -641,24 +597,15 @@ Serializable
 
 
 ---
-> **42.<span id="innerlink-settransients-javalangboolean">setTransients</span>**
 
-* **方法签名：** 
+> **29.<span id="setfinals-boolean">setFinals</span>**
 
-  public void [setTransients](#settransients-javalangboolean)(Boolean transients)   
+**方法签名：** 
 
-
-
+  public void [setFinals](#setfinals-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) finals)   
 
 
 
-
----
-> **43.<span id="innerlink-setvarargs-javalangboolean">setVarArgs</span>**
-
-* **方法签名：** 
-
-  public void [setVarArgs](#setvarargs-javalangboolean)(Boolean varArgs)   
 
 
 
@@ -667,11 +614,286 @@ Serializable
 
 
 ---
-> **44.<span id="innerlink-setvolatiles-javalangboolean">setVolatiles</span>**
 
-* **方法签名：** 
+> **30.<span id="setjavamodelmeta-javamodelmeta">setJavaModelMeta</span>**
 
-  public void [setVolatiles](#setvolatiles-javalangboolean)(Boolean volatiles)   
+**方法签名：** 
+
+  public void [setJavaModelMeta](#setjavamodelmeta-javamodelmeta)([JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) javaModelMeta)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **31.<span id="setmodifiers-list">setModifiers</span>**
+
+**方法签名：** 
+
+  public void [setModifiers](#setmodifiers-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > modifiers)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **32.<span id="setname-string">setName</span>**
+
+**方法签名：** 
+
+  public void [setName](#setname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **33.<span id="setnatives-boolean">setNatives</span>**
+
+**方法签名：** 
+
+  public void [setNatives](#setnatives-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) natives)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **34.<span id="setparameters-list">setParameters</span>**
+
+**方法签名：** 
+
+  public void [setParameters](#setparameters-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaParameterMeta > parameters)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **35.<span id="setprivates-boolean">setPrivates</span>**
+
+**方法签名：** 
+
+  public void [setPrivates](#setprivates-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) privates)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **36.<span id="setprotecteds-boolean">setProtecteds</span>**
+
+**方法签名：** 
+
+  public void [setProtecteds](#setprotecteds-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) protecteds)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **37.<span id="setpublics-boolean">setPublics</span>**
+
+**方法签名：** 
+
+  public void [setPublics](#setpublics-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) publics)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **38.<span id="setreturns-javaclassmeta">setReturns</span>**
+
+**方法签名：** 
+
+  public void [setReturns](#setreturns-javaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) returns)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **39.<span id="setsourcecode-string">setSourceCode</span>**
+
+**方法签名：** 
+
+  public void [setSourceCode](#setsourcecode-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) sourceCode)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **40.<span id="setstatics-boolean">setStatics</span>**
+
+**方法签名：** 
+
+  public void [setStatics](#setstatics-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) statics)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **41.<span id="setstrictfps-boolean">setStrictfps</span>**
+
+**方法签名：** 
+
+  public void [setStrictfps](#setstrictfps-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) strictfps)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **42.<span id="setsynchronizeds-boolean">setSynchronizeds</span>**
+
+**方法签名：** 
+
+  public void [setSynchronizeds](#setsynchronizeds-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) synchronizeds)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **43.<span id="settransients-boolean">setTransients</span>**
+
+**方法签名：** 
+
+  public void [setTransients](#settransients-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) transients)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **44.<span id="setuniqueid-string">setUniqueId</span>**
+
+**方法签名：** 
+
+  public void [setUniqueId](#setuniqueid-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) uniqueId)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **45.<span id="setvarargs-boolean">setVarArgs</span>**
+
+**方法签名：** 
+
+  public void [setVarArgs](#setvarargs-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) varArgs)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **46.<span id="setvolatiles-boolean">setVolatiles</span>**
+
+**方法签名：** 
+
+  public void [setVolatiles](#setvolatiles-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) volatiles)   
+
+
 
 
 

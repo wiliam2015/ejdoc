@@ -1,11 +1,18 @@
 # 枚举类型:TemplateTypeEnum
 
-## 基本信息
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |jdocGenerate|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.doc.generate.enums    |   **全路径信息:**   |com.ejdoc.doc.generate.enums.TemplateTypeEnum|
 
-* **全路径信息:** com.ejdoc.doc.generate.enums.TemplateTypeEnum
-* **包名称:** com.ejdoc.doc.generate.enums
-* **项目名称:** ejdoc
-* **模块名称:** jdocGenerate
+
+
+
+
+
+
+
+
+
 
 
 
@@ -18,12 +25,13 @@
 ---
 
 ## 声明信息
+
 > public enum TemplateTypeEnum     
 
 
-* **描述：** 
 
-  
+
+
 
 
 
@@ -35,17 +43,18 @@
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1| [TemplateTypeEnum](#innerlink-templatetypeenum-javalangstring-javalangstring)(String code,String extension)   <br/>|
+|1| [TemplateTypeEnum](#templatetypeenum-string-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) code,[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) extension)   <br/><br/>|
+
 
 ## 方法汇总
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public String [getCode](#innerlink-getcode)()   <br/>|
-|2|public String [getExtension](#innerlink-getextension)()   <br/>|
-|3|public void [setCode](#innerlink-setcode-javalangstring)(String code)   <br/>|
-|4|public void [setExtension](#innerlink-setextension-javalangstring)(String extension)   <br/>|
-
+|1|public static [TemplateTypeEnum](/jdocGenerate/com/ejdoc/doc/generate/enums/TemplateTypeEnum.md) [convertToEnumByName](#converttoenumbyname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name)   <br/><br/>|
+|2|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getCode](#getcode)()   <br/><br/>|
+|3|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getExtension](#getextension)()   <br/><br/>|
+|4|public void [setCode](#setcode-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) code)   <br/><br/>|
+|5|public void [setExtension](#setextension-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) extension)   <br/><br/>|
 
 
 
@@ -54,12 +63,15 @@
 
 ## 构造方法详细信息
 
+
 ---
-> **1.<span id="innerlink-templatetypeenum-javalangstring-javalangstring">TemplateTypeEnum</span>**
 
-* **构造方法签名：** 
+> **1.<span id="templatetypeenum-string-string">TemplateTypeEnum</span>**
 
-   [TemplateTypeEnum](#templatetypeenum-javalangstring-javalangstring)(String code,String extension)   
+**构造方法签名：** 
+
+   [TemplateTypeEnum](#templatetypeenum-string-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) code,[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) extension)   
+
 
 
 
@@ -69,25 +81,17 @@
 
 ## 方法详细信息
 
----
-> **1.<span id="innerlink-getcode">getCode</span>**
-
-* **方法签名：** 
-
-  public String [getCode](#getcode)()   
-
-
-
-
-
-
 
 ---
-> **2.<span id="innerlink-getextension">getExtension</span>**
 
-* **方法签名：** 
+> **1.<span id="converttoenumbyname-string">convertToEnumByName</span>**
 
-  public String [getExtension](#getextension)()   
+**方法签名：** 
+
+  public static [TemplateTypeEnum](/jdocGenerate/com/ejdoc/doc/generate/enums/TemplateTypeEnum.md) [convertToEnumByName](#converttoenumbyname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name)   
+
+
+
 
 
 
@@ -96,11 +100,15 @@
 
 
 ---
-> **3.<span id="innerlink-setcode-javalangstring">setCode</span>**
 
-* **方法签名：** 
+> **2.<span id="getcode">getCode</span>**
 
-  public void [setCode](#setcode-javalangstring)(String code)   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getCode](#getcode)()   
+
+
+
 
 
 
@@ -109,11 +117,48 @@
 
 
 ---
-> **4.<span id="innerlink-setextension-javalangstring">setExtension</span>**
 
-* **方法签名：** 
+> **3.<span id="getextension">getExtension</span>**
 
-  public void [setExtension](#setextension-javalangstring)(String extension)   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getExtension](#getextension)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **4.<span id="setcode-string">setCode</span>**
+
+**方法签名：** 
+
+  public void [setCode](#setcode-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) code)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **5.<span id="setextension-string">setExtension</span>**
+
+**方法签名：** 
+
+  public void [setExtension](#setextension-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) extension)   
+
+
 
 
 

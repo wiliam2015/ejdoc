@@ -3,7 +3,7 @@
 * 网址 : https://ejdoc.com
 * 联系人 : wiliam
 * 描述 : ejdoc自动生成代码文档,提供多种主题，高度定制化，生成漂亮的javadoc文档
-* 版本信息 : 1.0-SNAPSHOT
+* 版本信息 : 0.5.1-SNAPSHOT
 * 协议名称 : [Mulan Permissive Software License，Version 2, null]
 * 协议地址 : [null, https://license.coscl.org.cn/MulanPSL2]
 

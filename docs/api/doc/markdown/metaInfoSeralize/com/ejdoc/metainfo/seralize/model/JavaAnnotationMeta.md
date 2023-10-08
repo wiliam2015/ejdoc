@@ -1,30 +1,38 @@
 # 类名称:JavaAnnotationMeta
 
-## 基本信息
-
-* **全路径信息:** com.ejdoc.metainfo.seralize.model.JavaAnnotationMeta
-* **包名称:** com.ejdoc.metainfo.seralize.model
-* **项目名称:** ejdoc
-* **模块名称:** metaInfoSeralize
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |metaInfoSeralize|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.metainfo.seralize.model    |   **全路径信息:**   |com.ejdoc.metainfo.seralize.model.JavaAnnotationMeta|
 
 
 
 
 
 
-* **所有父级接口：**  
-Serializable
+
+
+
+
+
+
+
+
+
+
+
 
 
 ---
 
 ## 声明信息
-> public class JavaAnnotationMeta   implements Serializable   
+
+> public class JavaAnnotationMeta   implements [Serializable](https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true)   
 
 
-* **描述：** 
 
-  
+
+
+
 
 
 
@@ -37,21 +45,20 @@ Serializable
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public Boolean [getAnnoField](#innerlink-getannofield)()   <br/>|
-|2|public String [getCodeBlock](#innerlink-getcodeblock)()   <br/>|
-|3|public Integer [getLineNumber](#innerlink-getlinenumber)()   <br/>|
-|4|public String [getName](#innerlink-getname)()   <br/>|
-|5|public Map< String,Object > [getProperties](#innerlink-getproperties)()   <br/>|
-|6|public [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) [getType](#innerlink-gettype)()   <br/>|
-|7|public String [getValue](#innerlink-getvalue)()   <br/>|
-|8|public void [setAnnoField](#innerlink-setannofield-javalangboolean)(Boolean annoField)   <br/>|
-|9|public void [setCodeBlock](#innerlink-setcodeblock-javalangstring)(String codeBlock)   <br/>|
-|10|public void [setLineNumber](#innerlink-setlinenumber-javalanginteger)(Integer lineNumber)   <br/>|
-|11|public void [setName](#innerlink-setname-javalangstring)(String name)   <br/>|
-|12|public void [setProperties](#innerlink-setproperties-javautilmap)(Map< String,Object > properties)   <br/>|
-|13|public void [setType](#innerlink-settype-comejdocmetainfoseralizemodeljavaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) type)   <br/>|
-|14|public void [setValue](#innerlink-setvalue-javalangstring)(String value)   <br/>|
-
+|1|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getAnnoField](#getannofield)()   <br/><br/>|
+|2|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getCodeBlock](#getcodeblock)()   <br/><br/>|
+|3|public [Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true) [getLineNumber](#getlinenumber)()   <br/><br/>|
+|4|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getName](#getname)()   <br/><br/>|
+|5|public [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[Object](https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true) > [getProperties](#getproperties)()   <br/><br/>|
+|6|public [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) [getType](#gettype)()   <br/><br/>|
+|7|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getValue](#getvalue)()   <br/><br/>|
+|8|public void [setAnnoField](#setannofield-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) annoField)   <br/><br/>|
+|9|public void [setCodeBlock](#setcodeblock-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) codeBlock)   <br/><br/>|
+|10|public void [setLineNumber](#setlinenumber-integer)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true) lineNumber)   <br/><br/>|
+|11|public void [setName](#setname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name)   <br/><br/>|
+|12|public void [setProperties](#setproperties-map)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[Object](https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true) > properties)   <br/><br/>|
+|13|public void [setType](#settype-javaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) type)   <br/><br/>|
+|14|public void [setValue](#setvalue-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) value)   <br/><br/>|
 
 
 
@@ -61,25 +68,17 @@ Serializable
 
 ## 方法详细信息
 
----
-> **1.<span id="innerlink-getannofield">getAnnoField</span>**
-
-* **方法签名：** 
-
-  public Boolean [getAnnoField](#getannofield)()   
-
-
-
-
-
-
 
 ---
-> **2.<span id="innerlink-getcodeblock">getCodeBlock</span>**
 
-* **方法签名：** 
+> **1.<span id="getannofield">getAnnoField</span>**
 
-  public String [getCodeBlock](#getcodeblock)()   
+**方法签名：** 
+
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getAnnoField](#getannofield)()   
+
+
+
 
 
 
@@ -88,24 +87,15 @@ Serializable
 
 
 ---
-> **3.<span id="innerlink-getlinenumber">getLineNumber</span>**
 
-* **方法签名：** 
+> **2.<span id="getcodeblock">getCodeBlock</span>**
 
-  public Integer [getLineNumber](#getlinenumber)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getCodeBlock](#getcodeblock)()   
 
 
 
-
----
-> **4.<span id="innerlink-getname">getName</span>**
-
-* **方法签名：** 
-
-  public String [getName](#getname)()   
 
 
 
@@ -114,11 +104,15 @@ Serializable
 
 
 ---
-> **5.<span id="innerlink-getproperties">getProperties</span>**
 
-* **方法签名：** 
+> **3.<span id="getlinenumber">getLineNumber</span>**
 
-  public Map< String,Object > [getProperties](#getproperties)()   
+**方法签名：** 
+
+  public [Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true) [getLineNumber](#getlinenumber)()   
+
+
+
 
 
 
@@ -127,9 +121,44 @@ Serializable
 
 
 ---
-> **6.<span id="innerlink-gettype">getType</span>**
 
-* **方法签名：** 
+> **4.<span id="getname">getName</span>**
+
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getName](#getname)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **5.<span id="getproperties">getProperties</span>**
+
+**方法签名：** 
+
+  public [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[Object](https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true) > [getProperties](#getproperties)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **6.<span id="gettype">getType</span>**
+
+**方法签名：** 
 
   public [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) [getType](#gettype)()   
 
@@ -139,25 +168,19 @@ Serializable
 
 
 
----
-> **7.<span id="innerlink-getvalue">getValue</span>**
-
-* **方法签名：** 
-
-  public String [getValue](#getvalue)()   
-
-
-
-
 
 
 
 ---
-> **8.<span id="innerlink-setannofield-javalangboolean">setAnnoField</span>**
 
-* **方法签名：** 
+> **7.<span id="getvalue">getValue</span>**
 
-  public void [setAnnoField](#setannofield-javalangboolean)(Boolean annoField)   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getValue](#getvalue)()   
+
+
+
 
 
 
@@ -166,24 +189,15 @@ Serializable
 
 
 ---
-> **9.<span id="innerlink-setcodeblock-javalangstring">setCodeBlock</span>**
 
-* **方法签名：** 
+> **8.<span id="setannofield-boolean">setAnnoField</span>**
 
-  public void [setCodeBlock](#setcodeblock-javalangstring)(String codeBlock)   
+**方法签名：** 
 
-
-
+  public void [setAnnoField](#setannofield-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) annoField)   
 
 
 
-
----
-> **10.<span id="innerlink-setlinenumber-javalanginteger">setLineNumber</span>**
-
-* **方法签名：** 
-
-  public void [setLineNumber](#setlinenumber-javalanginteger)(Integer lineNumber)   
 
 
 
@@ -192,24 +206,15 @@ Serializable
 
 
 ---
-> **11.<span id="innerlink-setname-javalangstring">setName</span>**
 
-* **方法签名：** 
+> **9.<span id="setcodeblock-string">setCodeBlock</span>**
 
-  public void [setName](#setname-javalangstring)(String name)   
+**方法签名：** 
 
-
-
+  public void [setCodeBlock](#setcodeblock-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) codeBlock)   
 
 
 
-
----
-> **12.<span id="innerlink-setproperties-javautilmap">setProperties</span>**
-
-* **方法签名：** 
-
-  public void [setProperties](#setproperties-javautilmap)(Map< String,Object > properties)   
 
 
 
@@ -218,11 +223,15 @@ Serializable
 
 
 ---
-> **13.<span id="innerlink-settype-comejdocmetainfoseralizemodeljavaclassmeta">setType</span>**
 
-* **方法签名：** 
+> **10.<span id="setlinenumber-integer">setLineNumber</span>**
 
-  public void [setType](#settype-comejdocmetainfoseralizemodeljavaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) type)   
+**方法签名：** 
+
+  public void [setLineNumber](#setlinenumber-integer)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true) lineNumber)   
+
+
+
 
 
 
@@ -231,11 +240,65 @@ Serializable
 
 
 ---
-> **14.<span id="innerlink-setvalue-javalangstring">setValue</span>**
 
-* **方法签名：** 
+> **11.<span id="setname-string">setName</span>**
 
-  public void [setValue](#setvalue-javalangstring)(String value)   
+**方法签名：** 
+
+  public void [setName](#setname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **12.<span id="setproperties-map">setProperties</span>**
+
+**方法签名：** 
+
+  public void [setProperties](#setproperties-map)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[Object](https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true) > properties)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **13.<span id="settype-javaclassmeta">setType</span>**
+
+**方法签名：** 
+
+  public void [setType](#settype-javaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) type)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **14.<span id="setvalue-string">setValue</span>**
+
+**方法签名：** 
+
+  public void [setValue](#setvalue-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) value)   
+
+
 
 
 

@@ -1,30 +1,38 @@
 # 类名称:JavaFieldMeta
 
-## 基本信息
-
-* **全路径信息:** com.ejdoc.metainfo.seralize.model.JavaFieldMeta
-* **包名称:** com.ejdoc.metainfo.seralize.model
-* **项目名称:** ejdoc
-* **模块名称:** metaInfoSeralize
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |metaInfoSeralize|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.metainfo.seralize.model    |   **全路径信息:**   |com.ejdoc.metainfo.seralize.model.JavaFieldMeta|
 
 
 
 
 
 
-* **所有父级接口：**  
-Serializable
+
+
+
+
+
+
+
+
+
+
+
 
 
 ---
 
 ## 声明信息
-> public class JavaFieldMeta   implements Serializable   
+
+> public class JavaFieldMeta   implements [Serializable](https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true)   
 
 
-* **描述：** 
 
-  
+
+
+
 
 
 
@@ -37,25 +45,26 @@ Serializable
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) [getAnnoDefaultVal](#innerlink-getannodefaultval)()   <br/>|
-|2|public Boolean [getAnnoField](#innerlink-getannofield)()   <br/>|
-|3|public Boolean [getEnumField](#innerlink-getenumfield)()   <br/>|
-|4|public String [getInitializationExpression](#innerlink-getinitializationexpression)()   <br/>|
-|5|public String [getInitializer](#innerlink-getinitializer)()   <br/>|
-|6|public [JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) [getJavaModelMeta](#innerlink-getjavamodelmeta)()   <br/>|
-|7|public List< String > [getModifiers](#innerlink-getmodifiers)()   <br/>|
-|8|public String [getName](#innerlink-getname)()   <br/>|
-|9|public [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) [getType](#innerlink-gettype)()   <br/>|
-|10|public void [setAnnoDefaultVal](#innerlink-setannodefaultval-comejdocmetainfoseralizemodeljavaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) annoDefaultVal)   <br/>|
-|11|public void [setAnnoField](#innerlink-setannofield-javalangboolean)(Boolean annoField)   <br/>|
-|12|public void [setEnumField](#innerlink-setenumfield-javalangboolean)(Boolean enumField)   <br/>|
-|13|public void [setInitializationExpression](#innerlink-setinitializationexpression-javalangstring)(String initializationExpression)   <br/>|
-|14|public void [setInitializer](#innerlink-setinitializer-javalangstring)(String initializer)   <br/>|
-|15|public void [setJavaModelMeta](#innerlink-setjavamodelmeta-comejdocmetainfoseralizemodeljavamodelmeta)([JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) javaModelMeta)   <br/>|
-|16|public void [setModifiers](#innerlink-setmodifiers-javautillist)(List< String > modifiers)   <br/>|
-|17|public void [setName](#innerlink-setname-javalangstring)(String name)   <br/>|
-|18|public void [setType](#innerlink-settype-comejdocmetainfoseralizemodeljavaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) type)   <br/>|
-
+|1|public [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) [getAnnoDefaultVal](#getannodefaultval)()   <br/><br/>|
+|2|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getAnnoField](#getannofield)()   <br/><br/>|
+|3|public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getEnumField](#getenumfield)()   <br/><br/>|
+|4|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getInitializationExpression](#getinitializationexpression)()   <br/><br/>|
+|5|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getInitializer](#getinitializer)()   <br/><br/>|
+|6|public [JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) [getJavaModelMeta](#getjavamodelmeta)()   <br/><br/>|
+|7|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getModifiers](#getmodifiers)()   <br/><br/>|
+|8|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getName](#getname)()   <br/><br/>|
+|9|public [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) [getType](#gettype)()   <br/><br/>|
+|10|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getUniqueId](#getuniqueid)()   <br/><br/>|
+|11|public void [setAnnoDefaultVal](#setannodefaultval-javaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) annoDefaultVal)   <br/><br/>|
+|12|public void [setAnnoField](#setannofield-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) annoField)   <br/><br/>|
+|13|public void [setEnumField](#setenumfield-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) enumField)   <br/><br/>|
+|14|public void [setInitializationExpression](#setinitializationexpression-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) initializationExpression)   <br/><br/>|
+|15|public void [setInitializer](#setinitializer-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) initializer)   <br/><br/>|
+|16|public void [setJavaModelMeta](#setjavamodelmeta-javamodelmeta)([JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) javaModelMeta)   <br/><br/>|
+|17|public void [setModifiers](#setmodifiers-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > modifiers)   <br/><br/>|
+|18|public void [setName](#setname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name)   <br/><br/>|
+|19|public void [setType](#settype-javaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) type)   <br/><br/>|
+|20|public void [setUniqueId](#setuniqueid-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) uniqueId)   <br/><br/>|
 
 
 
@@ -65,10 +74,12 @@ Serializable
 
 ## 方法详细信息
 
----
-> **1.<span id="innerlink-getannodefaultval">getAnnoDefaultVal</span>**
 
-* **方法签名：** 
+---
+
+> **1.<span id="getannodefaultval">getAnnoDefaultVal</span>**
+
+**方法签名：** 
 
   public [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) [getAnnoDefaultVal](#getannodefaultval)()   
 
@@ -78,25 +89,19 @@ Serializable
 
 
 
----
-> **2.<span id="innerlink-getannofield">getAnnoField</span>**
-
-* **方法签名：** 
-
-  public Boolean [getAnnoField](#getannofield)()   
-
-
-
-
 
 
 
 ---
-> **3.<span id="innerlink-getenumfield">getEnumField</span>**
 
-* **方法签名：** 
+> **2.<span id="getannofield">getAnnoField</span>**
 
-  public Boolean [getEnumField](#getenumfield)()   
+**方法签名：** 
+
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getAnnoField](#getannofield)()   
+
+
+
 
 
 
@@ -105,24 +110,15 @@ Serializable
 
 
 ---
-> **4.<span id="innerlink-getinitializationexpression">getInitializationExpression</span>**
 
-* **方法签名：** 
+> **3.<span id="getenumfield">getEnumField</span>**
 
-  public String [getInitializationExpression](#getinitializationexpression)()   
+**方法签名：** 
 
-
-
+  public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [getEnumField](#getenumfield)()   
 
 
 
-
----
-> **5.<span id="innerlink-getinitializer">getInitializer</span>**
-
-* **方法签名：** 
-
-  public String [getInitializer](#getinitializer)()   
 
 
 
@@ -131,9 +127,44 @@ Serializable
 
 
 ---
-> **6.<span id="innerlink-getjavamodelmeta">getJavaModelMeta</span>**
 
-* **方法签名：** 
+> **4.<span id="getinitializationexpression">getInitializationExpression</span>**
+
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getInitializationExpression](#getinitializationexpression)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **5.<span id="getinitializer">getInitializer</span>**
+
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getInitializer](#getinitializer)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **6.<span id="getjavamodelmeta">getJavaModelMeta</span>**
+
+**方法签名：** 
 
   public [JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) [getJavaModelMeta](#getjavamodelmeta)()   
 
@@ -143,25 +174,19 @@ Serializable
 
 
 
----
-> **7.<span id="innerlink-getmodifiers">getModifiers</span>**
-
-* **方法签名：** 
-
-  public List< String > [getModifiers](#getmodifiers)()   
-
-
-
-
 
 
 
 ---
-> **8.<span id="innerlink-getname">getName</span>**
 
-* **方法签名：** 
+> **7.<span id="getmodifiers">getModifiers</span>**
 
-  public String [getName](#getname)()   
+**方法签名：** 
+
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getModifiers](#getmodifiers)()   
+
+
+
 
 
 
@@ -170,9 +195,27 @@ Serializable
 
 
 ---
-> **9.<span id="innerlink-gettype">getType</span>**
 
-* **方法签名：** 
+> **8.<span id="getname">getName</span>**
+
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getName](#getname)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **9.<span id="gettype">getType</span>**
+
+**方法签名：** 
 
   public [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) [getType](#gettype)()   
 
@@ -182,25 +225,19 @@ Serializable
 
 
 
----
-> **10.<span id="innerlink-setannodefaultval-comejdocmetainfoseralizemodeljavaclassmeta">setAnnoDefaultVal</span>**
-
-* **方法签名：** 
-
-  public void [setAnnoDefaultVal](#setannodefaultval-comejdocmetainfoseralizemodeljavaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) annoDefaultVal)   
-
-
-
-
 
 
 
 ---
-> **11.<span id="innerlink-setannofield-javalangboolean">setAnnoField</span>**
 
-* **方法签名：** 
+> **10.<span id="getuniqueid">getUniqueId</span>**
 
-  public void [setAnnoField](#setannofield-javalangboolean)(Boolean annoField)   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getUniqueId](#getuniqueid)()   
+
+
+
 
 
 
@@ -209,24 +246,15 @@ Serializable
 
 
 ---
-> **12.<span id="innerlink-setenumfield-javalangboolean">setEnumField</span>**
 
-* **方法签名：** 
+> **11.<span id="setannodefaultval-javaclassmeta">setAnnoDefaultVal</span>**
 
-  public void [setEnumField](#setenumfield-javalangboolean)(Boolean enumField)   
+**方法签名：** 
 
-
-
+  public void [setAnnoDefaultVal](#setannodefaultval-javaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) annoDefaultVal)   
 
 
 
-
----
-> **13.<span id="innerlink-setinitializationexpression-javalangstring">setInitializationExpression</span>**
-
-* **方法签名：** 
-
-  public void [setInitializationExpression](#setinitializationexpression-javalangstring)(String initializationExpression)   
 
 
 
@@ -235,24 +263,15 @@ Serializable
 
 
 ---
-> **14.<span id="innerlink-setinitializer-javalangstring">setInitializer</span>**
 
-* **方法签名：** 
+> **12.<span id="setannofield-boolean">setAnnoField</span>**
 
-  public void [setInitializer](#setinitializer-javalangstring)(String initializer)   
+**方法签名：** 
 
-
-
+  public void [setAnnoField](#setannofield-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) annoField)   
 
 
 
-
----
-> **15.<span id="innerlink-setjavamodelmeta-comejdocmetainfoseralizemodeljavamodelmeta">setJavaModelMeta</span>**
-
-* **方法签名：** 
-
-  public void [setJavaModelMeta](#setjavamodelmeta-comejdocmetainfoseralizemodeljavamodelmeta)([JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) javaModelMeta)   
 
 
 
@@ -261,24 +280,15 @@ Serializable
 
 
 ---
-> **16.<span id="innerlink-setmodifiers-javautillist">setModifiers</span>**
 
-* **方法签名：** 
+> **13.<span id="setenumfield-boolean">setEnumField</span>**
 
-  public void [setModifiers](#setmodifiers-javautillist)(List< String > modifiers)   
+**方法签名：** 
 
-
-
+  public void [setEnumField](#setenumfield-boolean)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) enumField)   
 
 
 
-
----
-> **17.<span id="innerlink-setname-javalangstring">setName</span>**
-
-* **方法签名：** 
-
-  public void [setName](#setname-javalangstring)(String name)   
 
 
 
@@ -287,11 +297,116 @@ Serializable
 
 
 ---
-> **18.<span id="innerlink-settype-comejdocmetainfoseralizemodeljavaclassmeta">setType</span>**
 
-* **方法签名：** 
+> **14.<span id="setinitializationexpression-string">setInitializationExpression</span>**
 
-  public void [setType](#settype-comejdocmetainfoseralizemodeljavaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) type)   
+**方法签名：** 
+
+  public void [setInitializationExpression](#setinitializationexpression-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) initializationExpression)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **15.<span id="setinitializer-string">setInitializer</span>**
+
+**方法签名：** 
+
+  public void [setInitializer](#setinitializer-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) initializer)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **16.<span id="setjavamodelmeta-javamodelmeta">setJavaModelMeta</span>**
+
+**方法签名：** 
+
+  public void [setJavaModelMeta](#setjavamodelmeta-javamodelmeta)([JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) javaModelMeta)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **17.<span id="setmodifiers-list">setModifiers</span>**
+
+**方法签名：** 
+
+  public void [setModifiers](#setmodifiers-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > modifiers)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **18.<span id="setname-string">setName</span>**
+
+**方法签名：** 
+
+  public void [setName](#setname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **19.<span id="settype-javaclassmeta">setType</span>**
+
+**方法签名：** 
+
+  public void [setType](#settype-javaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) type)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **20.<span id="setuniqueid-string">setUniqueId</span>**
+
+**方法签名：** 
+
+  public void [setUniqueId](#setuniqueid-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) uniqueId)   
+
+
 
 
 

@@ -1,11 +1,18 @@
 # 类名称:DependPathPluginDto
 
-## 基本信息
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |metaInfoSeralize|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.metainfo.seralize.seralize.plugin.dto    |   **全路径信息:**   |com.ejdoc.metainfo.seralize.seralize.plugin.dto.DependPathPluginDto|
 
-* **全路径信息:** com.ejdoc.metainfo.seralize.seralize.plugin.dto.DependPathPluginDto
-* **包名称:** com.ejdoc.metainfo.seralize.seralize.plugin.dto
-* **项目名称:** ejdoc
-* **模块名称:** metaInfoSeralize
+
+
+
+
+
+
+
+
+
 
 
 
@@ -18,12 +25,14 @@
 ---
 
 ## 声明信息
+
 > public class DependPathPluginDto     
 
 
-* **描述：** 
 
-  
+
+
+
 
 
 
@@ -36,11 +45,10 @@
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public String [getAbsolutePath](#innerlink-getabsolutepath)()   <br/>|
-|2|public String [getFileName](#innerlink-getfilename)()   <br/>|
-|3|public void [setAbsolutePath](#innerlink-setabsolutepath-javalangstring)(String absolutePath)   <br/>|
-|4|public void [setFileName](#innerlink-setfilename-javalangstring)(String fileName)   <br/>|
-
+|1|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getAbsolutePath](#getabsolutepath)()   <br/><br/>|
+|2|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getFileName](#getfilename)()   <br/><br/>|
+|3|public void [setAbsolutePath](#setabsolutepath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) absolutePath)   <br/><br/>|
+|4|public void [setFileName](#setfilename-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) fileName)   <br/><br/>|
 
 
 
@@ -50,25 +58,17 @@
 
 ## 方法详细信息
 
----
-> **1.<span id="innerlink-getabsolutepath">getAbsolutePath</span>**
-
-* **方法签名：** 
-
-  public String [getAbsolutePath](#getabsolutepath)()   
-
-
-
-
-
-
 
 ---
-> **2.<span id="innerlink-getfilename">getFileName</span>**
 
-* **方法签名：** 
+> **1.<span id="getabsolutepath">getAbsolutePath</span>**
 
-  public String [getFileName](#getfilename)()   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getAbsolutePath](#getabsolutepath)()   
+
+
+
 
 
 
@@ -77,11 +77,15 @@
 
 
 ---
-> **3.<span id="innerlink-setabsolutepath-javalangstring">setAbsolutePath</span>**
 
-* **方法签名：** 
+> **2.<span id="getfilename">getFileName</span>**
 
-  public void [setAbsolutePath](#setabsolutepath-javalangstring)(String absolutePath)   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getFileName](#getfilename)()   
+
+
+
 
 
 
@@ -90,11 +94,31 @@
 
 
 ---
-> **4.<span id="innerlink-setfilename-javalangstring">setFileName</span>**
 
-* **方法签名：** 
+> **3.<span id="setabsolutepath-string">setAbsolutePath</span>**
 
-  public void [setFileName](#setfilename-javalangstring)(String fileName)   
+**方法签名：** 
+
+  public void [setAbsolutePath](#setabsolutepath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) absolutePath)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **4.<span id="setfilename-string">setFileName</span>**
+
+**方法签名：** 
+
+  public void [setFileName](#setfilename-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) fileName)   
+
+
 
 
 

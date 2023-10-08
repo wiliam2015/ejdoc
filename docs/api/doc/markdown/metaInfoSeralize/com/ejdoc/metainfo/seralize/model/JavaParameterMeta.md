@@ -1,30 +1,38 @@
 # 类名称:JavaParameterMeta
 
-## 基本信息
-
-* **全路径信息:** com.ejdoc.metainfo.seralize.model.JavaParameterMeta
-* **包名称:** com.ejdoc.metainfo.seralize.model
-* **项目名称:** ejdoc
-* **模块名称:** metaInfoSeralize
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |metaInfoSeralize|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.metainfo.seralize.model    |   **全路径信息:**   |com.ejdoc.metainfo.seralize.model.JavaParameterMeta|
 
 
 
 
 
 
-* **所有父级接口：**  
-Serializable
+
+
+
+
+
+
+
+
+
+
+
 
 
 ---
 
 ## 声明信息
-> public class JavaParameterMeta   implements Serializable   
+
+> public class JavaParameterMeta   implements [Serializable](https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true)   
 
 
-* **描述：** 
 
-  
+
+
+
 
 
 
@@ -37,13 +45,12 @@ Serializable
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) [getJavaClass](#innerlink-getjavaclass)()   <br/>|
-|2|public String [getName](#innerlink-getname)()   <br/>|
-|3|public boolean [isVarArgs](#innerlink-isvarargs)()   <br/>|
-|4|public void [setJavaClass](#innerlink-setjavaclass-comejdocmetainfoseralizemodeljavaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) javaClass)   <br/>|
-|5|public void [setName](#innerlink-setname-javalangstring)(String name)   <br/>|
-|6|public void [setVarArgs](#innerlink-setvarargs-javalangboolean)(boolean varArgs)   <br/>|
-
+|1|public [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) [getJavaClass](#getjavaclass)()   <br/><br/>|
+|2|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getName](#getname)()   <br/><br/>|
+|3|public [boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [isVarArgs](#isvarargs)()   <br/><br/>|
+|4|public void [setJavaClass](#setjavaclass-javaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) javaClass)   <br/><br/>|
+|5|public void [setName](#setname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name)   <br/><br/>|
+|6|public void [setVarArgs](#setvarargs-boolean)([boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) varArgs)   <br/><br/>|
 
 
 
@@ -53,10 +60,12 @@ Serializable
 
 ## 方法详细信息
 
----
-> **1.<span id="innerlink-getjavaclass">getJavaClass</span>**
 
-* **方法签名：** 
+---
+
+> **1.<span id="getjavaclass">getJavaClass</span>**
+
+**方法签名：** 
 
   public [JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) [getJavaClass](#getjavaclass)()   
 
@@ -66,25 +75,19 @@ Serializable
 
 
 
----
-> **2.<span id="innerlink-getname">getName</span>**
-
-* **方法签名：** 
-
-  public String [getName](#getname)()   
-
-
-
-
 
 
 
 ---
-> **3.<span id="innerlink-isvarargs">isVarArgs</span>**
 
-* **方法签名：** 
+> **2.<span id="getname">getName</span>**
 
-  public boolean [isVarArgs](#isvarargs)()   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getName](#getname)()   
+
+
+
 
 
 
@@ -93,24 +96,15 @@ Serializable
 
 
 ---
-> **4.<span id="innerlink-setjavaclass-comejdocmetainfoseralizemodeljavaclassmeta">setJavaClass</span>**
 
-* **方法签名：** 
+> **3.<span id="isvarargs">isVarArgs</span>**
 
-  public void [setJavaClass](#setjavaclass-comejdocmetainfoseralizemodeljavaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) javaClass)   
+**方法签名：** 
 
-
-
+  public [boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [isVarArgs](#isvarargs)()   
 
 
 
-
----
-> **5.<span id="innerlink-setname-javalangstring">setName</span>**
-
-* **方法签名：** 
-
-  public void [setName](#setname-javalangstring)(String name)   
 
 
 
@@ -119,11 +113,48 @@ Serializable
 
 
 ---
-> **6.<span id="innerlink-setvarargs-javalangboolean">setVarArgs</span>**
 
-* **方法签名：** 
+> **4.<span id="setjavaclass-javaclassmeta">setJavaClass</span>**
 
-  public void [setVarArgs](#setvarargs-javalangboolean)(boolean varArgs)   
+**方法签名：** 
+
+  public void [setJavaClass](#setjavaclass-javaclassmeta)([JavaClassMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md) javaClass)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **5.<span id="setname-string">setName</span>**
+
+**方法签名：** 
+
+  public void [setName](#setname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **6.<span id="setvarargs-boolean">setVarArgs</span>**
+
+**方法签名：** 
+
+  public void [setVarArgs](#setvarargs-boolean)([boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) varArgs)   
+
+
 
 
 
