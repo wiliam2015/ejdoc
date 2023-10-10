@@ -20,7 +20,7 @@ ejdoc简单快速生成doc文档，不只是javadoc，让开发更专注，写�
 
 ## 文档
 
-[中文文档](http://wiliam.me/ejdoc/#/)
+[中文文档](http://wiliam.me/ejdoc/docs/)
 
 ## 安装
 
@@ -29,9 +29,9 @@ ejdoc简单快速生成doc文档，不只是javadoc，让开发更专注，写�
 
 ```xml
 <dependency>
-    <groupId>com.ejdoc</groupId>
-    <artifactId>jdocGenerate</artifactId>
-    <version>0.5.1</version>
+   <groupId>com.ejdoc</groupId>
+   <artifactId>jdocGenerate</artifactId>
+   <version>0.5.1</version>
 </dependency>
 ```
 
@@ -56,8 +56,8 @@ contract: "联系人|非必须"
 description: "项目描述|非必须"
 host: "项目网址|非必须"
 license:
-  - name: "使用的协议名称|非必须"
-  - url: "协议地址|非必须"
+   - name: "使用的协议名称|非必须"
+   - url: "协议地址|非必须"
 ```
 
 2. 在项目根目录下创建`javaDocOutConfig.properties`文件
@@ -77,14 +77,14 @@ import com.ejdoc.doc.generate.out.factory.DocGenerateFactory;
 
 public class JavaDocGenerate {
 
-    public static void main(String[] args) {
-        DocGenerate javaDocGenerate = DocGenerateFactory.createDefaultJavaDocGenerate();
+   public static void main(String[] args) {
+      DocGenerate javaDocGenerate = DocGenerateFactory.createDefaultJavaDocGenerate();
 
-        javaDocGenerate.printDoc();
-    }
+      javaDocGenerate.printDoc();
+   }
 }
 ```
-4. 查看上面配置的`文档生成目录`是否已经生成了文档，可以点击生成的文件查看，若需要在浏览器中查看效果，可以直接部署到web服务器中，例如Nginx、Tomcat、apache等，也可以直接安装docsify来查看，安装方法：先安装`node`。
+4. 查看上面配置的`文档生成目录`是否已经生成了文档，可以点击生成的文件查看，若需要在浏览器中查看效果,可以直接部署在web服务器中，如Nginx、Tomcat等。或者使用node，需要安装`node`。
    安装完成后，执行 `npm i docsify-cli -g`,安装`docsify`脚手架，安装完成后进入`文档生成目录/markdown`目录下 ,执行`docsify serve`
    按照输出提示，在浏览器输入网址查看生成的doc文档吧。
 5. 实际效果如图

@@ -1,30 +1,38 @@
 # 类名称:JavaProjectMeta
 
-## 基本信息
-
-* **全路径信息:** com.ejdoc.metainfo.seralize.model.JavaProjectMeta
-* **包名称:** com.ejdoc.metainfo.seralize.model
-* **项目名称:** ejdoc
-* **模块名称:** metaInfoSeralize
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |metaInfoSeralize|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.metainfo.seralize.model    |   **全路径信息:**   |com.ejdoc.metainfo.seralize.model.JavaProjectMeta|
 
 
 
 
 
 
-* **所有父级接口：**  
-Serializable
+
+
+
+
+
+
+
+
+
+
+
 
 
 ---
 
 ## 声明信息
-> public class JavaProjectMeta   implements Serializable   
+
+> public class JavaProjectMeta   implements [Serializable](https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true)   
 
 
-* **描述：** 
 
-  
+
+
+
 
 
 
@@ -37,33 +45,32 @@ Serializable
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public Map< String,Object > [getAllProp](#innerlink-getallprop)()   <br/>|
-|2|public String [getAuthor](#innerlink-getauthor)()   <br/>|
-|3|public String [getBasePath](#innerlink-getbasepath)()   <br/>|
-|4|public String [getContract](#innerlink-getcontract)()   <br/>|
-|5|public String [getDescription](#innerlink-getdescription)()   <br/>|
-|6|public String [getEmail](#innerlink-getemail)()   <br/>|
-|7|public String [getHost](#innerlink-gethost)()   <br/>|
-|8|public Map< String,String > [getLicense](#innerlink-getlicense)()   <br/>|
-|9|public String [getName](#innerlink-getname)()   <br/>|
-|10|public String [getRepo](#innerlink-getrepo)()   <br/>|
-|11|public String [getTitle](#innerlink-gettitle)()   <br/>|
-|12|public String [getVersion](#innerlink-getversion)()   <br/>|
-|13|public boolean [isOpen](#innerlink-isopen)()   <br/>|
-|14|public void [setAllProp](#innerlink-setallprop-javautilmap)(Map< String,Object > allProp)   <br/>|
-|15|public void [setAuthor](#innerlink-setauthor-javalangstring)(String author)   <br/>|
-|16|public void [setBasePath](#innerlink-setbasepath-javalangstring)(String basePath)   <br/>|
-|17|public void [setContract](#innerlink-setcontract-javalangstring)(String contract)   <br/>|
-|18|public void [setDescription](#innerlink-setdescription-javalangstring)(String description)   <br/>|
-|19|public void [setEmail](#innerlink-setemail-javalangstring)(String email)   <br/>|
-|20|public void [setHost](#innerlink-sethost-javalangstring)(String host)   <br/>|
-|21|public void [setLicense](#innerlink-setlicense-javautilmap)(Map< String,String > license)   <br/>|
-|22|public void [setName](#innerlink-setname-javalangstring)(String name)   <br/>|
-|23|public void [setOpen](#innerlink-setopen-javalangboolean)(boolean open)   <br/>|
-|24|public void [setRepo](#innerlink-setrepo-javalangstring)(String repo)   <br/>|
-|25|public void [setTitle](#innerlink-settitle-javalangstring)(String title)   <br/>|
-|26|public void [setVersion](#innerlink-setversion-javalangstring)(String version)   <br/>|
-
+|1|public [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[Object](https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true) > [getAllProp](#getallprop)()   <br/><br/>|
+|2|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getAuthor](#getauthor)()   <br/><br/>|
+|3|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getBasePath](#getbasepath)()   <br/><br/>|
+|4|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getContract](#getcontract)()   <br/><br/>|
+|5|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getDescription](#getdescription)()   <br/><br/>|
+|6|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getEmail](#getemail)()   <br/><br/>|
+|7|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getHost](#gethost)()   <br/><br/>|
+|8|public [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getLicense](#getlicense)()   <br/><br/>|
+|9|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getName](#getname)()   <br/><br/>|
+|10|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getRepo](#getrepo)()   <br/><br/>|
+|11|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getTitle](#gettitle)()   <br/><br/>|
+|12|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getVersion](#getversion)()   <br/><br/>|
+|13|public [boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [isOpen](#isopen)()   <br/><br/>|
+|14|public void [setAllProp](#setallprop-map)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[Object](https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true) > allProp)   <br/><br/>|
+|15|public void [setAuthor](#setauthor-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) author)   <br/><br/>|
+|16|public void [setBasePath](#setbasepath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) basePath)   <br/><br/>|
+|17|public void [setContract](#setcontract-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) contract)   <br/><br/>|
+|18|public void [setDescription](#setdescription-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) description)   <br/><br/>|
+|19|public void [setEmail](#setemail-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) email)   <br/><br/>|
+|20|public void [setHost](#sethost-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) host)   <br/><br/>|
+|21|public void [setLicense](#setlicense-map)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > license)   <br/><br/>|
+|22|public void [setName](#setname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name)   <br/><br/>|
+|23|public void [setOpen](#setopen-boolean)([boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) open)   <br/><br/>|
+|24|public void [setRepo](#setrepo-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) repo)   <br/><br/>|
+|25|public void [setTitle](#settitle-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) title)   <br/><br/>|
+|26|public void [setVersion](#setversion-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) version)   <br/><br/>|
 
 
 
@@ -73,25 +80,17 @@ Serializable
 
 ## 方法详细信息
 
----
-> **1.<span id="innerlink-getallprop">getAllProp</span>**
-
-* **方法签名：** 
-
-  public Map< String,Object > [getAllProp](#getallprop)()   
-
-
-
-
-
-
 
 ---
-> **2.<span id="innerlink-getauthor">getAuthor</span>**
 
-* **方法签名：** 
+> **1.<span id="getallprop">getAllProp</span>**
 
-  public String [getAuthor](#getauthor)()   
+**方法签名：** 
+
+  public [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[Object](https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true) > [getAllProp](#getallprop)()   
+
+
+
 
 
 
@@ -100,24 +99,15 @@ Serializable
 
 
 ---
-> **3.<span id="innerlink-getbasepath">getBasePath</span>**
 
-* **方法签名：** 
+> **2.<span id="getauthor">getAuthor</span>**
 
-  public String [getBasePath](#getbasepath)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getAuthor](#getauthor)()   
 
 
 
-
----
-> **4.<span id="innerlink-getcontract">getContract</span>**
-
-* **方法签名：** 
-
-  public String [getContract](#getcontract)()   
 
 
 
@@ -126,24 +116,15 @@ Serializable
 
 
 ---
-> **5.<span id="innerlink-getdescription">getDescription</span>**
 
-* **方法签名：** 
+> **3.<span id="getbasepath">getBasePath</span>**
 
-  public String [getDescription](#getdescription)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getBasePath](#getbasepath)()   
 
 
 
-
----
-> **6.<span id="innerlink-getemail">getEmail</span>**
-
-* **方法签名：** 
-
-  public String [getEmail](#getemail)()   
 
 
 
@@ -152,24 +133,15 @@ Serializable
 
 
 ---
-> **7.<span id="innerlink-gethost">getHost</span>**
 
-* **方法签名：** 
+> **4.<span id="getcontract">getContract</span>**
 
-  public String [getHost](#gethost)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getContract](#getcontract)()   
 
 
 
-
----
-> **8.<span id="innerlink-getlicense">getLicense</span>**
-
-* **方法签名：** 
-
-  public Map< String,String > [getLicense](#getlicense)()   
 
 
 
@@ -178,24 +150,15 @@ Serializable
 
 
 ---
-> **9.<span id="innerlink-getname">getName</span>**
 
-* **方法签名：** 
+> **5.<span id="getdescription">getDescription</span>**
 
-  public String [getName](#getname)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getDescription](#getdescription)()   
 
 
 
-
----
-> **10.<span id="innerlink-getrepo">getRepo</span>**
-
-* **方法签名：** 
-
-  public String [getRepo](#getrepo)()   
 
 
 
@@ -204,24 +167,15 @@ Serializable
 
 
 ---
-> **11.<span id="innerlink-gettitle">getTitle</span>**
 
-* **方法签名：** 
+> **6.<span id="getemail">getEmail</span>**
 
-  public String [getTitle](#gettitle)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getEmail](#getemail)()   
 
 
 
-
----
-> **12.<span id="innerlink-getversion">getVersion</span>**
-
-* **方法签名：** 
-
-  public String [getVersion](#getversion)()   
 
 
 
@@ -230,24 +184,15 @@ Serializable
 
 
 ---
-> **13.<span id="innerlink-isopen">isOpen</span>**
 
-* **方法签名：** 
+> **7.<span id="gethost">getHost</span>**
 
-  public boolean [isOpen](#isopen)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getHost](#gethost)()   
 
 
 
-
----
-> **14.<span id="innerlink-setallprop-javautilmap">setAllProp</span>**
-
-* **方法签名：** 
-
-  public void [setAllProp](#setallprop-javautilmap)(Map< String,Object > allProp)   
 
 
 
@@ -256,24 +201,15 @@ Serializable
 
 
 ---
-> **15.<span id="innerlink-setauthor-javalangstring">setAuthor</span>**
 
-* **方法签名：** 
+> **8.<span id="getlicense">getLicense</span>**
 
-  public void [setAuthor](#setauthor-javalangstring)(String author)   
+**方法签名：** 
 
-
-
+  public [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > [getLicense](#getlicense)()   
 
 
 
-
----
-> **16.<span id="innerlink-setbasepath-javalangstring">setBasePath</span>**
-
-* **方法签名：** 
-
-  public void [setBasePath](#setbasepath-javalangstring)(String basePath)   
 
 
 
@@ -282,24 +218,15 @@ Serializable
 
 
 ---
-> **17.<span id="innerlink-setcontract-javalangstring">setContract</span>**
 
-* **方法签名：** 
+> **9.<span id="getname">getName</span>**
 
-  public void [setContract](#setcontract-javalangstring)(String contract)   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getName](#getname)()   
 
 
 
-
----
-> **18.<span id="innerlink-setdescription-javalangstring">setDescription</span>**
-
-* **方法签名：** 
-
-  public void [setDescription](#setdescription-javalangstring)(String description)   
 
 
 
@@ -308,24 +235,15 @@ Serializable
 
 
 ---
-> **19.<span id="innerlink-setemail-javalangstring">setEmail</span>**
 
-* **方法签名：** 
+> **10.<span id="getrepo">getRepo</span>**
 
-  public void [setEmail](#setemail-javalangstring)(String email)   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getRepo](#getrepo)()   
 
 
 
-
----
-> **20.<span id="innerlink-sethost-javalangstring">setHost</span>**
-
-* **方法签名：** 
-
-  public void [setHost](#sethost-javalangstring)(String host)   
 
 
 
@@ -334,24 +252,15 @@ Serializable
 
 
 ---
-> **21.<span id="innerlink-setlicense-javautilmap">setLicense</span>**
 
-* **方法签名：** 
+> **11.<span id="gettitle">getTitle</span>**
 
-  public void [setLicense](#setlicense-javautilmap)(Map< String,String > license)   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getTitle](#gettitle)()   
 
 
 
-
----
-> **22.<span id="innerlink-setname-javalangstring">setName</span>**
-
-* **方法签名：** 
-
-  public void [setName](#setname-javalangstring)(String name)   
 
 
 
@@ -360,24 +269,15 @@ Serializable
 
 
 ---
-> **23.<span id="innerlink-setopen-javalangboolean">setOpen</span>**
 
-* **方法签名：** 
+> **12.<span id="getversion">getVersion</span>**
 
-  public void [setOpen](#setopen-javalangboolean)(boolean open)   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getVersion](#getversion)()   
 
 
 
-
----
-> **24.<span id="innerlink-setrepo-javalangstring">setRepo</span>**
-
-* **方法签名：** 
-
-  public void [setRepo](#setrepo-javalangstring)(String repo)   
 
 
 
@@ -386,11 +286,15 @@ Serializable
 
 
 ---
-> **25.<span id="innerlink-settitle-javalangstring">setTitle</span>**
 
-* **方法签名：** 
+> **13.<span id="isopen">isOpen</span>**
 
-  public void [setTitle](#settitle-javalangstring)(String title)   
+**方法签名：** 
+
+  public [boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [isOpen](#isopen)()   
+
+
+
 
 
 
@@ -399,11 +303,218 @@ Serializable
 
 
 ---
-> **26.<span id="innerlink-setversion-javalangstring">setVersion</span>**
 
-* **方法签名：** 
+> **14.<span id="setallprop-map">setAllProp</span>**
 
-  public void [setVersion](#setversion-javalangstring)(String version)   
+**方法签名：** 
+
+  public void [setAllProp](#setallprop-map)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[Object](https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true) > allProp)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **15.<span id="setauthor-string">setAuthor</span>**
+
+**方法签名：** 
+
+  public void [setAuthor](#setauthor-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) author)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **16.<span id="setbasepath-string">setBasePath</span>**
+
+**方法签名：** 
+
+  public void [setBasePath](#setbasepath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) basePath)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **17.<span id="setcontract-string">setContract</span>**
+
+**方法签名：** 
+
+  public void [setContract](#setcontract-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) contract)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **18.<span id="setdescription-string">setDescription</span>**
+
+**方法签名：** 
+
+  public void [setDescription](#setdescription-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) description)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **19.<span id="setemail-string">setEmail</span>**
+
+**方法签名：** 
+
+  public void [setEmail](#setemail-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) email)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **20.<span id="sethost-string">setHost</span>**
+
+**方法签名：** 
+
+  public void [setHost](#sethost-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) host)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **21.<span id="setlicense-map">setLicense</span>**
+
+**方法签名：** 
+
+  public void [setLicense](#setlicense-map)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true)< [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true),[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) > license)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **22.<span id="setname-string">setName</span>**
+
+**方法签名：** 
+
+  public void [setName](#setname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **23.<span id="setopen-boolean">setOpen</span>**
+
+**方法签名：** 
+
+  public void [setOpen](#setopen-boolean)([boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) open)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **24.<span id="setrepo-string">setRepo</span>**
+
+**方法签名：** 
+
+  public void [setRepo](#setrepo-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) repo)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **25.<span id="settitle-string">setTitle</span>**
+
+**方法签名：** 
+
+  public void [setTitle](#settitle-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) title)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **26.<span id="setversion-string">setVersion</span>**
+
+**方法签名：** 
+
+  public void [setVersion](#setversion-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) version)   
+
+
 
 
 

@@ -1,11 +1,18 @@
 # 类名称:JavaModelMeta
 
-## 基本信息
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |metaInfoSeralize|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.metainfo.seralize.model    |   **全路径信息:**   |com.ejdoc.metainfo.seralize.model.JavaModelMeta|
 
-* **全路径信息:** com.ejdoc.metainfo.seralize.model.JavaModelMeta
-* **包名称:** com.ejdoc.metainfo.seralize.model
-* **项目名称:** ejdoc
-* **模块名称:** metaInfoSeralize
+
+
+
+
+
+
+
+
+
 
 
 
@@ -18,12 +25,14 @@
 ---
 
 ## 声明信息
+
 > public class JavaModelMeta     
 
 
-* **描述：** 
 
-  
+
+
+
 
 
 
@@ -36,19 +45,18 @@
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public List< JavaAnnotationMeta > [getAnnotations](#innerlink-getannotations)()   <br/>|
-|2|public String [getCodeBlock](#innerlink-getcodeblock)()   <br/>|
-|3|public String [getComment](#innerlink-getcomment)()   <br/>|
-|4|public [JavaDocCommentMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaDocCommentMeta.md) [getJavaDocComment](#innerlink-getjavadoccomment)()   <br/>|
-|5|public Integer [getLineNumber](#innerlink-getlinenumber)()   <br/>|
-|6|public List< JavaDocletTagMeta > [getTags](#innerlink-gettags)()   <br/>|
-|7|public void [setAnnotations](#innerlink-setannotations-javautillist)(List< JavaAnnotationMeta > annotations)   <br/>|
-|8|public void [setCodeBlock](#innerlink-setcodeblock-javalangstring)(String codeBlock)   <br/>|
-|9|public void [setComment](#innerlink-setcomment-javalangstring)(String comment)   <br/>|
-|10|public void [setJavaDocComment](#innerlink-setjavadoccomment-comejdocmetainfoseralizemodeljavadoccommentmeta)([JavaDocCommentMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaDocCommentMeta.md) javaDocComment)   <br/>|
-|11|public void [setLineNumber](#innerlink-setlinenumber-javalanginteger)(Integer lineNumber)   <br/>|
-|12|public void [setTags](#innerlink-settags-javautillist)(List< JavaDocletTagMeta > tags)   <br/>|
-
+|1|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaAnnotationMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaAnnotationMeta.md) > [getAnnotations](#getannotations)()   <br/><br/>|
+|2|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getCodeBlock](#getcodeblock)()   <br/><br/>|
+|3|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getComment](#getcomment)()   <br/><br/>|
+|4|public [JavaDocCommentMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaDocCommentMeta.md) [getJavaDocComment](#getjavadoccomment)()   <br/><br/>|
+|5|public [Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true) [getLineNumber](#getlinenumber)()   <br/><br/>|
+|6|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaDocletTagMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaDocletTagMeta.md) > [getTags](#gettags)()   <br/><br/>|
+|7|public void [setAnnotations](#setannotations-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaAnnotationMeta > annotations)   <br/><br/>|
+|8|public void [setCodeBlock](#setcodeblock-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) codeBlock)   <br/><br/>|
+|9|public void [setComment](#setcomment-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) comment)   <br/><br/>|
+|10|public void [setJavaDocComment](#setjavadoccomment-javadoccommentmeta)([JavaDocCommentMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaDocCommentMeta.md) javaDocComment)   <br/><br/>|
+|11|public void [setLineNumber](#setlinenumber-integer)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true) lineNumber)   <br/><br/>|
+|12|public void [setTags](#settags-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaDocletTagMeta > tags)   <br/><br/>|
 
 
 
@@ -58,25 +66,17 @@
 
 ## 方法详细信息
 
----
-> **1.<span id="innerlink-getannotations">getAnnotations</span>**
-
-* **方法签名：** 
-
-  public List< JavaAnnotationMeta > [getAnnotations](#getannotations)()   
-
-
-
-
-
-
 
 ---
-> **2.<span id="innerlink-getcodeblock">getCodeBlock</span>**
 
-* **方法签名：** 
+> **1.<span id="getannotations">getAnnotations</span>**
 
-  public String [getCodeBlock](#getcodeblock)()   
+**方法签名：** 
+
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaAnnotationMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaAnnotationMeta.md) > [getAnnotations](#getannotations)()   
+
+
+
 
 
 
@@ -85,11 +85,15 @@
 
 
 ---
-> **3.<span id="innerlink-getcomment">getComment</span>**
 
-* **方法签名：** 
+> **2.<span id="getcodeblock">getCodeBlock</span>**
 
-  public String [getComment](#getcomment)()   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getCodeBlock](#getcodeblock)()   
+
+
+
 
 
 
@@ -98,9 +102,27 @@
 
 
 ---
-> **4.<span id="innerlink-getjavadoccomment">getJavaDocComment</span>**
 
-* **方法签名：** 
+> **3.<span id="getcomment">getComment</span>**
+
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getComment](#getcomment)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **4.<span id="getjavadoccomment">getJavaDocComment</span>**
+
+**方法签名：** 
 
   public [JavaDocCommentMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaDocCommentMeta.md) [getJavaDocComment](#getjavadoccomment)()   
 
@@ -110,25 +132,19 @@
 
 
 
----
-> **5.<span id="innerlink-getlinenumber">getLineNumber</span>**
-
-* **方法签名：** 
-
-  public Integer [getLineNumber](#getlinenumber)()   
-
-
-
-
 
 
 
 ---
-> **6.<span id="innerlink-gettags">getTags</span>**
 
-* **方法签名：** 
+> **5.<span id="getlinenumber">getLineNumber</span>**
 
-  public List< JavaDocletTagMeta > [getTags](#gettags)()   
+**方法签名：** 
+
+  public [Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true) [getLineNumber](#getlinenumber)()   
+
+
+
 
 
 
@@ -137,24 +153,15 @@
 
 
 ---
-> **7.<span id="innerlink-setannotations-javautillist">setAnnotations</span>**
 
-* **方法签名：** 
+> **6.<span id="gettags">getTags</span>**
 
-  public void [setAnnotations](#setannotations-javautillist)(List< JavaAnnotationMeta > annotations)   
+**方法签名：** 
 
-
-
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaDocletTagMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaDocletTagMeta.md) > [getTags](#gettags)()   
 
 
 
-
----
-> **8.<span id="innerlink-setcodeblock-javalangstring">setCodeBlock</span>**
-
-* **方法签名：** 
-
-  public void [setCodeBlock](#setcodeblock-javalangstring)(String codeBlock)   
 
 
 
@@ -163,24 +170,15 @@
 
 
 ---
-> **9.<span id="innerlink-setcomment-javalangstring">setComment</span>**
 
-* **方法签名：** 
+> **7.<span id="setannotations-list">setAnnotations</span>**
 
-  public void [setComment](#setcomment-javalangstring)(String comment)   
+**方法签名：** 
 
-
-
+  public void [setAnnotations](#setannotations-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaAnnotationMeta > annotations)   
 
 
 
-
----
-> **10.<span id="innerlink-setjavadoccomment-comejdocmetainfoseralizemodeljavadoccommentmeta">setJavaDocComment</span>**
-
-* **方法签名：** 
-
-  public void [setJavaDocComment](#setjavadoccomment-comejdocmetainfoseralizemodeljavadoccommentmeta)([JavaDocCommentMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaDocCommentMeta.md) javaDocComment)   
 
 
 
@@ -189,11 +187,15 @@
 
 
 ---
-> **11.<span id="innerlink-setlinenumber-javalanginteger">setLineNumber</span>**
 
-* **方法签名：** 
+> **8.<span id="setcodeblock-string">setCodeBlock</span>**
 
-  public void [setLineNumber](#setlinenumber-javalanginteger)(Integer lineNumber)   
+**方法签名：** 
+
+  public void [setCodeBlock](#setcodeblock-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) codeBlock)   
+
+
+
 
 
 
@@ -202,11 +204,65 @@
 
 
 ---
-> **12.<span id="innerlink-settags-javautillist">setTags</span>**
 
-* **方法签名：** 
+> **9.<span id="setcomment-string">setComment</span>**
 
-  public void [setTags](#settags-javautillist)(List< JavaDocletTagMeta > tags)   
+**方法签名：** 
+
+  public void [setComment](#setcomment-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) comment)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **10.<span id="setjavadoccomment-javadoccommentmeta">setJavaDocComment</span>**
+
+**方法签名：** 
+
+  public void [setJavaDocComment](#setjavadoccomment-javadoccommentmeta)([JavaDocCommentMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaDocCommentMeta.md) javaDocComment)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **11.<span id="setlinenumber-integer">setLineNumber</span>**
+
+**方法签名：** 
+
+  public void [setLineNumber](#setlinenumber-integer)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true) lineNumber)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **12.<span id="settags-list">setTags</span>**
+
+**方法签名：** 
+
+  public void [setTags](#settags-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaDocletTagMeta > tags)   
+
+
 
 
 

@@ -1,5 +1,12 @@
 
-**com.ejdoc.doc.generate.exception包下类信息**
+# com.ejdoc.doc.generate.exception包下类信息
 
 
-- [JavaDocSerializeException](jdocGenerate/com/ejdoc/doc/generate/exception/JavaDocSerializeException.md)  
+
+
+## J  
+|   类信息  |    描述   |  
+| ---- | ---- |  
+|[JavaDocSerializeException](jdocGenerate/com/ejdoc/doc/generate/exception/JavaDocSerializeException.md)||
+
+

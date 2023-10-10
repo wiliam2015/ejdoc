@@ -20,7 +20,7 @@ ejdoc简单快速生成doc文档，不只是javadoc，让开发更专注，写�
 
 ## 文档
 
-[中文文档](https://www.ejdoc.com/docs/)
+[中文文档](http://wiliam.me/ejdoc/docs/)
 
 ## 安装
 
@@ -31,20 +31,20 @@ ejdoc简单快速生成doc文档，不只是javadoc，让开发更专注，写�
 <dependency>
    <groupId>com.ejdoc</groupId>
    <artifactId>jdocGenerate</artifactId>
-   <version>0.5.0</version>
+   <version>0.5.1</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-implementation 'com.ejdoc:jdocGenerate:1.0.0'
+implementation 'com.ejdoc:jdocGenerate:0.5.1'
 ```
 
 ### 下载jar
 
 点击以下链接，下载`jdocGenerate-X.X.X.jar`即可：
 
-- [Maven中央库](https://repo1.maven.org/maven2/cn/hutool/hutool-all/5.8.9/)
+- [Maven中央库](https://repo1.maven.org/maven2/com/ejdoc/jdocGenerate/0.5.1/)
 
 ## 使用
 1. 在项目跟目录下创建项目描述文件`projectMeta.yml`

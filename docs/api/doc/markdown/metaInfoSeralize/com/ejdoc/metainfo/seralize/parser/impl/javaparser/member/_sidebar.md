@@ -1,6 +1,9 @@
 
 
 
+
+
+
 - **com.ejdoc.metainfo.seralize.parser.impl.javaparser.member目录**
 
 	- [AbstractJavaParseMemberParse](metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/member/AbstractJavaParseMemberParse.md)
@@ -11,3 +14,4 @@
 	- [InnerClassMemberParse](metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/member/InnerClassMemberParse.md)
 	- [JavaParserMemberParse](metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/member/JavaParserMemberParse.md)
 	- [MethodMemberParse](metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/member/MethodMemberParse.md)
+	- [NestedClassMemberParse](metaInfoSeralize/com/ejdoc/metainfo/seralize/parser/impl/javaparser/member/NestedClassMemberParse.md)

@@ -20,7 +20,7 @@ ejdoc简单快速生成doc文档，不只是javadoc，让开发更专注，写�
 
 ## 文档
 
-[中文文档](https://www.ejdoc.com/docs/)
+[中文文档](http://wiliam.me/ejdoc/docs/)
 
 ## 安装
 
@@ -31,20 +31,20 @@ ejdoc简单快速生成doc文档，不只是javadoc，让开发更专注，写�
 <dependency>
    <groupId>com.ejdoc</groupId>
    <artifactId>jdocGenerate</artifactId>
-   <version>1.0.0</version>
+   <version>0.5.1</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-implementation 'com.ejdoc:jdocGenerate:1.0.0'
+implementation 'com.ejdoc:jdocGenerate:0.5.1'
 ```
 
 ### 下载jar
 
 点击以下链接，下载`jdocGenerate-X.X.X.jar`即可：
 
-- [Maven中央库](https://repo1.maven.org/maven2/cn/hutool/hutool-all/5.8.9/)
+- [Maven中央库](https://repo1.maven.org/maven2/com/ejdoc/jdocGenerate/0.5.1/)
 
 ## 使用
 1. 在项目跟目录下创建项目描述文件`projectMeta.yml`
@@ -84,7 +84,7 @@ public class JavaDocGenerate {
    }
 }
 ```
-4. 查看上面配置的`文档生成目录`是否已经生成了文档，可以点击生成的文件查看，若需要在浏览器中查看效果，需要安装`node`。
+4. 查看上面配置的`文档生成目录`是否已经生成了文档，可以点击生成的文件查看，若需要在浏览器中查看效果,可以直接部署在web服务器中，如Nginx、Tomcat等。或者使用node，需要安装`node`。
    安装完成后，执行 `npm i docsify-cli -g`,安装`docsify`脚手架，安装完成后进入`文档生成目录/markdown`目录下 ,执行`docsify serve`
    按照输出提示，在浏览器输入网址查看生成的doc文档吧。
 5. 实际效果如图

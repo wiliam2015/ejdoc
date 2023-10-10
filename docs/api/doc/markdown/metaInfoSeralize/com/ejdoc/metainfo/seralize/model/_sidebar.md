@@ -1,9 +1,13 @@
 
 
 
+
+
+
 - **com.ejdoc.metainfo.seralize.model目录**
 
 	- [JavaAnnotationMeta](metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaAnnotationMeta.md)
+	- [JavaClassImportMeta](metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassImportMeta.md)
 	- [JavaClassMeta](metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaClassMeta.md)
 	- [JavaConstructorMeta](metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaConstructorMeta.md)
 	- [JavaDocCommentElementMeta](metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaDocCommentElementMeta.md)

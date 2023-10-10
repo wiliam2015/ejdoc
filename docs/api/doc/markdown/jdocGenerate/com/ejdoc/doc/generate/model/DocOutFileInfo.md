@@ -1,11 +1,18 @@
 # 类名称:DocOutFileInfo
 
-## 基本信息
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |jdocGenerate|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.doc.generate.model    |   **全路径信息:**   |com.ejdoc.doc.generate.model.DocOutFileInfo|
 
-* **全路径信息:** com.ejdoc.doc.generate.model.DocOutFileInfo
-* **包名称:** com.ejdoc.doc.generate.model
-* **项目名称:** ejdoc
-* **模块名称:** jdocGenerate
+
+
+
+
+
+
+
+
+
 
 
 
@@ -18,12 +25,14 @@
 ---
 
 ## 声明信息
+
 > public class DocOutFileInfo     
 
 
-* **描述：** 
 
-  
+
+
+
 
 
 
@@ -36,27 +45,26 @@
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public String [getDocOutRootPath](#innerlink-getdocoutrootpath)()   <br/>|
-|2|public String [getFileName](#innerlink-getfilename)()   <br/>|
-|3|public String [getFullFilePath](#innerlink-getfullfilepath)()   <br/>|
-|4|public File [getJsonFile](#innerlink-getjsonfile)()   <br/>|
-|5|public String [getJsonFileRootPath](#innerlink-getjsonfilerootpath)()   <br/>|
-|6|public Locale [getLocale](#innerlink-getlocale)()   <br/>|
-|7|public String [getRelativeRootPath](#innerlink-getrelativerootpath)()   <br/>|
-|8|public [SeralizeConfig](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/config/SeralizeConfig.md) [getSeralizeConfig](#innerlink-getseralizeconfig)()   <br/>|
-|9|public [TemplateTypeEnum](/jdocGenerate/com/ejdoc/doc/generate/enums/TemplateTypeEnum.md) [getTemplateType](#innerlink-gettemplatetype)()   <br/>|
-|10|public boolean [isMainFile](#innerlink-ismainfile)()   <br/>|
-|11|public void [setDocOutRootPath](#innerlink-setdocoutrootpath-javalangstring)(String docOutRootPath)   <br/>|
-|12|public void [setFileName](#innerlink-setfilename-javalangstring)(String fileName)   <br/>|
-|13|public void [setFullFilePath](#innerlink-setfullfilepath-javalangstring)(String fullFilePath)   <br/>|
-|14|public void [setJsonFile](#innerlink-setjsonfile-javaiofile)(File jsonFile)   <br/>|
-|15|public void [setJsonFileRootPath](#innerlink-setjsonfilerootpath-javalangstring)(String jsonFileRootPath)   <br/>|
-|16|public void [setLocale](#innerlink-setlocale-javautillocale)(Locale locale)   <br/>|
-|17|public void [setMainFile](#innerlink-setmainfile-javalangboolean)(boolean mainFile)   <br/>|
-|18|public void [setRelativeRootPath](#innerlink-setrelativerootpath-javalangstring)(String relativeRootPath)   <br/>|
-|19|public void [setSeralizeConfig](#innerlink-setseralizeconfig-comejdocmetainfoseralizeseralizeconfigseralizeconfig)([SeralizeConfig](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/config/SeralizeConfig.md) seralizeConfig)   <br/>|
-|20|public void [setTemplateType](#innerlink-settemplatetype-comejdocdocgenerateenumstemplatetypeenum)([TemplateTypeEnum](/jdocGenerate/com/ejdoc/doc/generate/enums/TemplateTypeEnum.md) templateType)   <br/>|
-
+|1|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getDocOutRootPath](#getdocoutrootpath)()   <br/><br/>|
+|2|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getFileName](#getfilename)()   <br/><br/>|
+|3|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getFullFilePath](#getfullfilepath)()   <br/><br/>|
+|4|public [File](https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true) [getJsonFile](#getjsonfile)()   <br/><br/>|
+|5|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getJsonFileRootPath](#getjsonfilerootpath)()   <br/><br/>|
+|6|public [Locale](https://docs.oracle.com/javase/8/docs/api/java/util/Locale.html?is-external=true) [getLocale](#getlocale)()   <br/><br/>|
+|7|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getRelativeRootPath](#getrelativerootpath)()   <br/><br/>|
+|8|public [SeralizeConfig](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/config/SeralizeConfig.md) [getSeralizeConfig](#getseralizeconfig)()   <br/><br/>|
+|9|public [TemplateTypeEnum](/jdocGenerate/com/ejdoc/doc/generate/enums/TemplateTypeEnum.md) [getTemplateType](#gettemplatetype)()   <br/><br/>|
+|10|public [boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [isMainFile](#ismainfile)()   <br/><br/>|
+|11|public void [setDocOutRootPath](#setdocoutrootpath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) docOutRootPath)   <br/><br/>|
+|12|public void [setFileName](#setfilename-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) fileName)   <br/><br/>|
+|13|public void [setFullFilePath](#setfullfilepath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) fullFilePath)   <br/><br/>|
+|14|public void [setJsonFile](#setjsonfile-file)([File](https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true) jsonFile)   <br/><br/>|
+|15|public void [setJsonFileRootPath](#setjsonfilerootpath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) jsonFileRootPath)   <br/><br/>|
+|16|public void [setLocale](#setlocale-locale)([Locale](https://docs.oracle.com/javase/8/docs/api/java/util/Locale.html?is-external=true) locale)   <br/><br/>|
+|17|public void [setMainFile](#setmainfile-boolean)([boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) mainFile)   <br/><br/>|
+|18|public void [setRelativeRootPath](#setrelativerootpath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) relativeRootPath)   <br/><br/>|
+|19|public void [setSeralizeConfig](#setseralizeconfig-seralizeconfig)([SeralizeConfig](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/config/SeralizeConfig.md) seralizeConfig)   <br/><br/>|
+|20|public void [setTemplateType](#settemplatetype-templatetypeenum)([TemplateTypeEnum](/jdocGenerate/com/ejdoc/doc/generate/enums/TemplateTypeEnum.md) templateType)   <br/><br/>|
 
 
 
@@ -66,25 +74,17 @@
 
 ## 方法详细信息
 
----
-> **1.<span id="innerlink-getdocoutrootpath">getDocOutRootPath</span>**
-
-* **方法签名：** 
-
-  public String [getDocOutRootPath](#getdocoutrootpath)()   
-
-
-
-
-
-
 
 ---
-> **2.<span id="innerlink-getfilename">getFileName</span>**
 
-* **方法签名：** 
+> **1.<span id="getdocoutrootpath">getDocOutRootPath</span>**
 
-  public String [getFileName](#getfilename)()   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getDocOutRootPath](#getdocoutrootpath)()   
+
+
+
 
 
 
@@ -93,24 +93,15 @@
 
 
 ---
-> **3.<span id="innerlink-getfullfilepath">getFullFilePath</span>**
 
-* **方法签名：** 
+> **2.<span id="getfilename">getFileName</span>**
 
-  public String [getFullFilePath](#getfullfilepath)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getFileName](#getfilename)()   
 
 
 
-
----
-> **4.<span id="innerlink-getjsonfile">getJsonFile</span>**
-
-* **方法签名：** 
-
-  public File [getJsonFile](#getjsonfile)()   
 
 
 
@@ -119,24 +110,15 @@
 
 
 ---
-> **5.<span id="innerlink-getjsonfilerootpath">getJsonFileRootPath</span>**
 
-* **方法签名：** 
+> **3.<span id="getfullfilepath">getFullFilePath</span>**
 
-  public String [getJsonFileRootPath](#getjsonfilerootpath)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getFullFilePath](#getfullfilepath)()   
 
 
 
-
----
-> **6.<span id="innerlink-getlocale">getLocale</span>**
-
-* **方法签名：** 
-
-  public Locale [getLocale](#getlocale)()   
 
 
 
@@ -145,11 +127,15 @@
 
 
 ---
-> **7.<span id="innerlink-getrelativerootpath">getRelativeRootPath</span>**
 
-* **方法签名：** 
+> **4.<span id="getjsonfile">getJsonFile</span>**
 
-  public String [getRelativeRootPath](#getrelativerootpath)()   
+**方法签名：** 
+
+  public [File](https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true) [getJsonFile](#getjsonfile)()   
+
+
+
 
 
 
@@ -158,9 +144,61 @@
 
 
 ---
-> **8.<span id="innerlink-getseralizeconfig">getSeralizeConfig</span>**
 
-* **方法签名：** 
+> **5.<span id="getjsonfilerootpath">getJsonFileRootPath</span>**
+
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getJsonFileRootPath](#getjsonfilerootpath)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **6.<span id="getlocale">getLocale</span>**
+
+**方法签名：** 
+
+  public [Locale](https://docs.oracle.com/javase/8/docs/api/java/util/Locale.html?is-external=true) [getLocale](#getlocale)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **7.<span id="getrelativerootpath">getRelativeRootPath</span>**
+
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getRelativeRootPath](#getrelativerootpath)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **8.<span id="getseralizeconfig">getSeralizeConfig</span>**
+
+**方法签名：** 
 
   public [SeralizeConfig](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/config/SeralizeConfig.md) [getSeralizeConfig](#getseralizeconfig)()   
 
@@ -170,10 +208,14 @@
 
 
 
----
-> **9.<span id="innerlink-gettemplatetype">getTemplateType</span>**
 
-* **方法签名：** 
+
+
+---
+
+> **9.<span id="gettemplatetype">getTemplateType</span>**
+
+**方法签名：** 
 
   public [TemplateTypeEnum](/jdocGenerate/com/ejdoc/doc/generate/enums/TemplateTypeEnum.md) [getTemplateType](#gettemplatetype)()   
 
@@ -183,25 +225,19 @@
 
 
 
----
-> **10.<span id="innerlink-ismainfile">isMainFile</span>**
-
-* **方法签名：** 
-
-  public boolean [isMainFile](#ismainfile)()   
-
-
-
-
 
 
 
 ---
-> **11.<span id="innerlink-setdocoutrootpath-javalangstring">setDocOutRootPath</span>**
 
-* **方法签名：** 
+> **10.<span id="ismainfile">isMainFile</span>**
 
-  public void [setDocOutRootPath](#setdocoutrootpath-javalangstring)(String docOutRootPath)   
+**方法签名：** 
+
+  public [boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [isMainFile](#ismainfile)()   
+
+
+
 
 
 
@@ -210,24 +246,15 @@
 
 
 ---
-> **12.<span id="innerlink-setfilename-javalangstring">setFileName</span>**
 
-* **方法签名：** 
+> **11.<span id="setdocoutrootpath-string">setDocOutRootPath</span>**
 
-  public void [setFileName](#setfilename-javalangstring)(String fileName)   
+**方法签名：** 
 
-
-
+  public void [setDocOutRootPath](#setdocoutrootpath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) docOutRootPath)   
 
 
 
-
----
-> **13.<span id="innerlink-setfullfilepath-javalangstring">setFullFilePath</span>**
-
-* **方法签名：** 
-
-  public void [setFullFilePath](#setfullfilepath-javalangstring)(String fullFilePath)   
 
 
 
@@ -236,24 +263,15 @@
 
 
 ---
-> **14.<span id="innerlink-setjsonfile-javaiofile">setJsonFile</span>**
 
-* **方法签名：** 
+> **12.<span id="setfilename-string">setFileName</span>**
 
-  public void [setJsonFile](#setjsonfile-javaiofile)(File jsonFile)   
+**方法签名：** 
 
-
-
+  public void [setFileName](#setfilename-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) fileName)   
 
 
 
-
----
-> **15.<span id="innerlink-setjsonfilerootpath-javalangstring">setJsonFileRootPath</span>**
-
-* **方法签名：** 
-
-  public void [setJsonFileRootPath](#setjsonfilerootpath-javalangstring)(String jsonFileRootPath)   
 
 
 
@@ -262,24 +280,15 @@
 
 
 ---
-> **16.<span id="innerlink-setlocale-javautillocale">setLocale</span>**
 
-* **方法签名：** 
+> **13.<span id="setfullfilepath-string">setFullFilePath</span>**
 
-  public void [setLocale](#setlocale-javautillocale)(Locale locale)   
+**方法签名：** 
 
-
-
+  public void [setFullFilePath](#setfullfilepath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) fullFilePath)   
 
 
 
-
----
-> **17.<span id="innerlink-setmainfile-javalangboolean">setMainFile</span>**
-
-* **方法签名：** 
-
-  public void [setMainFile](#setmainfile-javalangboolean)(boolean mainFile)   
 
 
 
@@ -288,24 +297,15 @@
 
 
 ---
-> **18.<span id="innerlink-setrelativerootpath-javalangstring">setRelativeRootPath</span>**
 
-* **方法签名：** 
+> **14.<span id="setjsonfile-file">setJsonFile</span>**
 
-  public void [setRelativeRootPath](#setrelativerootpath-javalangstring)(String relativeRootPath)   
+**方法签名：** 
 
-
-
+  public void [setJsonFile](#setjsonfile-file)([File](https://docs.oracle.com/javase/8/docs/api/java/io/File.html?is-external=true) jsonFile)   
 
 
 
-
----
-> **19.<span id="innerlink-setseralizeconfig-comejdocmetainfoseralizeseralizeconfigseralizeconfig">setSeralizeConfig</span>**
-
-* **方法签名：** 
-
-  public void [setSeralizeConfig](#setseralizeconfig-comejdocmetainfoseralizeseralizeconfigseralizeconfig)([SeralizeConfig](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/config/SeralizeConfig.md) seralizeConfig)   
 
 
 
@@ -314,11 +314,99 @@
 
 
 ---
-> **20.<span id="innerlink-settemplatetype-comejdocdocgenerateenumstemplatetypeenum">setTemplateType</span>**
 
-* **方法签名：** 
+> **15.<span id="setjsonfilerootpath-string">setJsonFileRootPath</span>**
 
-  public void [setTemplateType](#settemplatetype-comejdocdocgenerateenumstemplatetypeenum)([TemplateTypeEnum](/jdocGenerate/com/ejdoc/doc/generate/enums/TemplateTypeEnum.md) templateType)   
+**方法签名：** 
+
+  public void [setJsonFileRootPath](#setjsonfilerootpath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) jsonFileRootPath)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **16.<span id="setlocale-locale">setLocale</span>**
+
+**方法签名：** 
+
+  public void [setLocale](#setlocale-locale)([Locale](https://docs.oracle.com/javase/8/docs/api/java/util/Locale.html?is-external=true) locale)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **17.<span id="setmainfile-boolean">setMainFile</span>**
+
+**方法签名：** 
+
+  public void [setMainFile](#setmainfile-boolean)([boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) mainFile)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **18.<span id="setrelativerootpath-string">setRelativeRootPath</span>**
+
+**方法签名：** 
+
+  public void [setRelativeRootPath](#setrelativerootpath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) relativeRootPath)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **19.<span id="setseralizeconfig-seralizeconfig">setSeralizeConfig</span>**
+
+**方法签名：** 
+
+  public void [setSeralizeConfig](#setseralizeconfig-seralizeconfig)([SeralizeConfig](/metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/config/SeralizeConfig.md) seralizeConfig)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **20.<span id="settemplatetype-templatetypeenum">setTemplateType</span>**
+
+**方法签名：** 
+
+  public void [setTemplateType](#settemplatetype-templatetypeenum)([TemplateTypeEnum](/jdocGenerate/com/ejdoc/doc/generate/enums/TemplateTypeEnum.md) templateType)   
+
+
 
 
 

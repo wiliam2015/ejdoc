@@ -1,5 +1,12 @@
 
-**com.ejdoc.metainfo.seralize.seralize.config包下类信息**
+# com.ejdoc.metainfo.seralize.seralize.config包下类信息
 
 
-- [SeralizeConfig](metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/config/SeralizeConfig.md)  
+
+
+## S  
+|   类信息  |    描述   |  
+| ---- | ---- |  
+|[SeralizeConfig](metaInfoSeralize/com/ejdoc/metainfo/seralize/seralize/config/SeralizeConfig.md)||
+
+

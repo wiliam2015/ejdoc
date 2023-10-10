@@ -1,11 +1,18 @@
 # 类名称:ModuleInfoDto
 
-## 基本信息
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |metaInfoSeralize|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.metainfo.seralize.dto    |   **全路径信息:**   |com.ejdoc.metainfo.seralize.dto.ModuleInfoDto|
 
-* **全路径信息:** com.ejdoc.metainfo.seralize.dto.ModuleInfoDto
-* **包名称:** com.ejdoc.metainfo.seralize.dto
-* **项目名称:** ejdoc
-* **模块名称:** metaInfoSeralize
+
+
+
+
+
+
+
+
+
 
 
 
@@ -18,12 +25,14 @@
 ---
 
 ## 声明信息
+
 > public class ModuleInfoDto     
 
 
-* **描述：** 
 
-  
+
+
+
 
 
 
@@ -36,17 +45,16 @@
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public String [getModuleDesc](#innerlink-getmoduledesc)()   <br/>|
-|2|public String [getModuleName](#innerlink-getmodulename)()   <br/>|
-|3|public String [getModulePath](#innerlink-getmodulepath)()   <br/>|
-|4|public String [getProjectName](#innerlink-getprojectname)()   <br/>|
-|5|public String [getProjectPath](#innerlink-getprojectpath)()   <br/>|
-|6|public void [setModuleDesc](#innerlink-setmoduledesc-javalangstring)(String moduleDesc)   <br/>|
-|7|public void [setModuleName](#innerlink-setmodulename-javalangstring)(String moduleName)   <br/>|
-|8|public void [setModulePath](#innerlink-setmodulepath-javalangstring)(String modulePath)   <br/>|
-|9|public void [setProjectName](#innerlink-setprojectname-javalangstring)(String projectName)   <br/>|
-|10|public void [setProjectPath](#innerlink-setprojectpath-javalangstring)(String projectPath)   <br/>|
-
+|1|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getModuleDesc](#getmoduledesc)()   <br/><br/>|
+|2|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getModuleName](#getmodulename)()   <br/><br/>|
+|3|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getModulePath](#getmodulepath)()   <br/><br/>|
+|4|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getProjectName](#getprojectname)()   <br/><br/>|
+|5|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getProjectPath](#getprojectpath)()   <br/><br/>|
+|6|public void [setModuleDesc](#setmoduledesc-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) moduleDesc)   <br/><br/>|
+|7|public void [setModuleName](#setmodulename-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) moduleName)   <br/><br/>|
+|8|public void [setModulePath](#setmodulepath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) modulePath)   <br/><br/>|
+|9|public void [setProjectName](#setprojectname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) projectName)   <br/><br/>|
+|10|public void [setProjectPath](#setprojectpath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) projectPath)   <br/><br/>|
 
 
 
@@ -56,25 +64,17 @@
 
 ## 方法详细信息
 
----
-> **1.<span id="innerlink-getmoduledesc">getModuleDesc</span>**
-
-* **方法签名：** 
-
-  public String [getModuleDesc](#getmoduledesc)()   
-
-
-
-
-
-
 
 ---
-> **2.<span id="innerlink-getmodulename">getModuleName</span>**
 
-* **方法签名：** 
+> **1.<span id="getmoduledesc">getModuleDesc</span>**
 
-  public String [getModuleName](#getmodulename)()   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getModuleDesc](#getmoduledesc)()   
+
+
+
 
 
 
@@ -83,24 +83,15 @@
 
 
 ---
-> **3.<span id="innerlink-getmodulepath">getModulePath</span>**
 
-* **方法签名：** 
+> **2.<span id="getmodulename">getModuleName</span>**
 
-  public String [getModulePath](#getmodulepath)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getModuleName](#getmodulename)()   
 
 
 
-
----
-> **4.<span id="innerlink-getprojectname">getProjectName</span>**
-
-* **方法签名：** 
-
-  public String [getProjectName](#getprojectname)()   
 
 
 
@@ -109,24 +100,15 @@
 
 
 ---
-> **5.<span id="innerlink-getprojectpath">getProjectPath</span>**
 
-* **方法签名：** 
+> **3.<span id="getmodulepath">getModulePath</span>**
 
-  public String [getProjectPath](#getprojectpath)()   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getModulePath](#getmodulepath)()   
 
 
 
-
----
-> **6.<span id="innerlink-setmoduledesc-javalangstring">setModuleDesc</span>**
-
-* **方法签名：** 
-
-  public void [setModuleDesc](#setmoduledesc-javalangstring)(String moduleDesc)   
 
 
 
@@ -135,24 +117,15 @@
 
 
 ---
-> **7.<span id="innerlink-setmodulename-javalangstring">setModuleName</span>**
 
-* **方法签名：** 
+> **4.<span id="getprojectname">getProjectName</span>**
 
-  public void [setModuleName](#setmodulename-javalangstring)(String moduleName)   
+**方法签名：** 
 
-
-
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getProjectName](#getprojectname)()   
 
 
 
-
----
-> **8.<span id="innerlink-setmodulepath-javalangstring">setModulePath</span>**
-
-* **方法签名：** 
-
-  public void [setModulePath](#setmodulepath-javalangstring)(String modulePath)   
 
 
 
@@ -161,11 +134,15 @@
 
 
 ---
-> **9.<span id="innerlink-setprojectname-javalangstring">setProjectName</span>**
 
-* **方法签名：** 
+> **5.<span id="getprojectpath">getProjectPath</span>**
 
-  public void [setProjectName](#setprojectname-javalangstring)(String projectName)   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getProjectPath](#getprojectpath)()   
+
+
+
 
 
 
@@ -174,11 +151,82 @@
 
 
 ---
-> **10.<span id="innerlink-setprojectpath-javalangstring">setProjectPath</span>**
 
-* **方法签名：** 
+> **6.<span id="setmoduledesc-string">setModuleDesc</span>**
 
-  public void [setProjectPath](#setprojectpath-javalangstring)(String projectPath)   
+**方法签名：** 
+
+  public void [setModuleDesc](#setmoduledesc-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) moduleDesc)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **7.<span id="setmodulename-string">setModuleName</span>**
+
+**方法签名：** 
+
+  public void [setModuleName](#setmodulename-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) moduleName)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **8.<span id="setmodulepath-string">setModulePath</span>**
+
+**方法签名：** 
+
+  public void [setModulePath](#setmodulepath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) modulePath)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **9.<span id="setprojectname-string">setProjectName</span>**
+
+**方法签名：** 
+
+  public void [setProjectName](#setprojectname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) projectName)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **10.<span id="setprojectpath-string">setProjectPath</span>**
+
+**方法签名：** 
+
+  public void [setProjectPath](#setprojectpath-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) projectPath)   
+
+
 
 
 

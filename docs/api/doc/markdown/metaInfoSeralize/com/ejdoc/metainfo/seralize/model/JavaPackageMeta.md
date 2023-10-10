@@ -1,30 +1,38 @@
 # 类名称:JavaPackageMeta
 
-## 基本信息
-
-* **全路径信息:** com.ejdoc.metainfo.seralize.model.JavaPackageMeta
-* **包名称:** com.ejdoc.metainfo.seralize.model
-* **项目名称:** ejdoc
-* **模块名称:** metaInfoSeralize
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |metaInfoSeralize|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.metainfo.seralize.model    |   **全路径信息:**   |com.ejdoc.metainfo.seralize.model.JavaPackageMeta|
 
 
 
 
 
 
-* **所有父级接口：**  
-Serializable
+
+
+
+
+
+
+
+
+
+
+
 
 
 ---
 
 ## 声明信息
-> public class JavaPackageMeta   implements Serializable   
+
+> public class JavaPackageMeta   implements [Serializable](https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true)   
 
 
-* **描述：** 
 
-  
+
+
+
 
 
 
@@ -37,15 +45,14 @@ Serializable
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public [JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) [getJavaModelMeta](#innerlink-getjavamodelmeta)()   <br/>|
-|2|public String [getName](#innerlink-getname)()   <br/>|
-|3|public [JavaPackageMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaPackageMeta.md) [getParentPackage](#innerlink-getparentpackage)()   <br/>|
-|4|public List< JavaPackageMeta > [getSubPackages](#innerlink-getsubpackages)()   <br/>|
-|5|public void [setJavaModelMeta](#innerlink-setjavamodelmeta-comejdocmetainfoseralizemodeljavamodelmeta)([JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) javaModelMeta)   <br/>|
-|6|public void [setName](#innerlink-setname-javalangstring)(String name)   <br/>|
-|7|public void [setParentPackage](#innerlink-setparentpackage-comejdocmetainfoseralizemodeljavapackagemeta)([JavaPackageMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaPackageMeta.md) parentPackage)   <br/>|
-|8|public void [setSubPackages](#innerlink-setsubpackages-javautillist)(List< JavaPackageMeta > subPackages)   <br/>|
-
+|1|public [JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) [getJavaModelMeta](#getjavamodelmeta)()   <br/><br/>|
+|2|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getName](#getname)()   <br/><br/>|
+|3|public [JavaPackageMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaPackageMeta.md) [getParentPackage](#getparentpackage)()   <br/><br/>|
+|4|public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaPackageMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaPackageMeta.md) > [getSubPackages](#getsubpackages)()   <br/><br/>|
+|5|public void [setJavaModelMeta](#setjavamodelmeta-javamodelmeta)([JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) javaModelMeta)   <br/><br/>|
+|6|public void [setName](#setname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name)   <br/><br/>|
+|7|public void [setParentPackage](#setparentpackage-javapackagemeta)([JavaPackageMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaPackageMeta.md) parentPackage)   <br/><br/>|
+|8|public void [setSubPackages](#setsubpackages-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaPackageMeta > subPackages)   <br/><br/>|
 
 
 
@@ -55,10 +62,12 @@ Serializable
 
 ## 方法详细信息
 
----
-> **1.<span id="innerlink-getjavamodelmeta">getJavaModelMeta</span>**
 
-* **方法签名：** 
+---
+
+> **1.<span id="getjavamodelmeta">getJavaModelMeta</span>**
+
+**方法签名：** 
 
   public [JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) [getJavaModelMeta](#getjavamodelmeta)()   
 
@@ -68,23 +77,31 @@ Serializable
 
 
 
----
-> **2.<span id="innerlink-getname">getName</span>**
-
-* **方法签名：** 
-
-  public String [getName](#getname)()   
-
-
-
-
 
 
 
 ---
-> **3.<span id="innerlink-getparentpackage">getParentPackage</span>**
 
-* **方法签名：** 
+> **2.<span id="getname">getName</span>**
+
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [getName](#getname)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **3.<span id="getparentpackage">getParentPackage</span>**
+
+**方法签名：** 
 
   public [JavaPackageMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaPackageMeta.md) [getParentPackage](#getparentpackage)()   
 
@@ -94,25 +111,19 @@ Serializable
 
 
 
----
-> **4.<span id="innerlink-getsubpackages">getSubPackages</span>**
-
-* **方法签名：** 
-
-  public List< JavaPackageMeta > [getSubPackages](#getsubpackages)()   
-
-
-
-
 
 
 
 ---
-> **5.<span id="innerlink-setjavamodelmeta-comejdocmetainfoseralizemodeljavamodelmeta">setJavaModelMeta</span>**
 
-* **方法签名：** 
+> **4.<span id="getsubpackages">getSubPackages</span>**
 
-  public void [setJavaModelMeta](#setjavamodelmeta-comejdocmetainfoseralizemodeljavamodelmeta)([JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) javaModelMeta)   
+**方法签名：** 
+
+  public [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< [JavaPackageMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaPackageMeta.md) > [getSubPackages](#getsubpackages)()   
+
+
+
 
 
 
@@ -121,24 +132,15 @@ Serializable
 
 
 ---
-> **6.<span id="innerlink-setname-javalangstring">setName</span>**
 
-* **方法签名：** 
+> **5.<span id="setjavamodelmeta-javamodelmeta">setJavaModelMeta</span>**
 
-  public void [setName](#setname-javalangstring)(String name)   
+**方法签名：** 
 
-
-
+  public void [setJavaModelMeta](#setjavamodelmeta-javamodelmeta)([JavaModelMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaModelMeta.md) javaModelMeta)   
 
 
 
-
----
-> **7.<span id="innerlink-setparentpackage-comejdocmetainfoseralizemodeljavapackagemeta">setParentPackage</span>**
-
-* **方法签名：** 
-
-  public void [setParentPackage](#setparentpackage-comejdocmetainfoseralizemodeljavapackagemeta)([JavaPackageMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaPackageMeta.md) parentPackage)   
 
 
 
@@ -147,11 +149,48 @@ Serializable
 
 
 ---
-> **8.<span id="innerlink-setsubpackages-javautillist">setSubPackages</span>**
 
-* **方法签名：** 
+> **6.<span id="setname-string">setName</span>**
 
-  public void [setSubPackages](#setsubpackages-javautillist)(List< JavaPackageMeta > subPackages)   
+**方法签名：** 
+
+  public void [setName](#setname-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) name)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **7.<span id="setparentpackage-javapackagemeta">setParentPackage</span>**
+
+**方法签名：** 
+
+  public void [setParentPackage](#setparentpackage-javapackagemeta)([JavaPackageMeta](/metaInfoSeralize/com/ejdoc/metainfo/seralize/model/JavaPackageMeta.md) parentPackage)   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **8.<span id="setsubpackages-list">setSubPackages</span>**
+
+**方法签名：** 
+
+  public void [setSubPackages](#setsubpackages-list)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true)< JavaPackageMeta > subPackages)   
+
+
 
 
 

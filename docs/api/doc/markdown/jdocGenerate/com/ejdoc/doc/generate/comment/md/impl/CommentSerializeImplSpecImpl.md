@@ -1,30 +1,39 @@
 # 类名称:CommentSerializeImplSpecImpl
 
-## 基本信息
-
-* **全路径信息:** com.ejdoc.doc.generate.comment.md.impl.CommentSerializeImplSpecImpl
-* **包名称:** com.ejdoc.doc.generate.comment.md.impl
-* **项目名称:** ejdoc
-* **模块名称:** jdocGenerate
+|  **项目名称:**    |  ejdoc    |   **模块名称:**   |jdocGenerate|
+| ----: | :---- | ----: |:---- |
+|   **包名称:**   |  com.ejdoc.doc.generate.comment.md.impl    |   **全路径信息:**   |com.ejdoc.doc.generate.comment.md.impl.CommentSerializeImplSpecImpl|
 
 
 
 
 
 
-* **所有父级接口：**  
+
+
+
+
+
+**所有父级接口：**  
 [CommentSerialize](/jdocGenerate/com/ejdoc/doc/generate/comment/CommentSerialize.md)
+
+
+
+
+
 
 
 ---
 
 ## 声明信息
+
 > public class CommentSerializeImplSpecImpl   implements [CommentSerialize](/jdocGenerate/com/ejdoc/doc/generate/comment/CommentSerialize.md)   
 
 
-* **描述：** 
 
-  
+
+
+
 
 
 
@@ -37,43 +46,36 @@
 
 |   索引  |    方法体和描述   |
 | ---- | ---- |
-|1|public boolean [accept](#innerlink-accept-javalangstring)(String type)   <br/>|
-|2|public String [acceptType](#innerlink-accepttype)()   <br/>|
-|3|public String [toSerialize](#innerlink-toserialize-javalangstring)(String content)   <br/>|
+|1|public [boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [accept](#accept-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) type)   <br/><br/>|
+|2|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [acceptType](#accepttype)()   <br/><br/>|
+|3|public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [toSerialize](#toserialize-string-commentserializerootdocdto)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) content,[CommentSerializeRootDocDto](/jdocGenerate/com/ejdoc/doc/generate/comment/dto/CommentSerializeRootDocDto.md) serializeRootDocDto)   <br/><br/>|
 
 
 
 
 ---
-### 继承接口方法:CommentSerialize
+
+### 从CommentSerialize接口继承方法:
 
 全路径信息com.ejdoc.doc.generate.comment.[CommentSerialize](/jdocGenerate/com/ejdoc/doc/generate/comment/CommentSerialize.md)  
-[accept](/jdocGenerate/com/ejdoc/doc/generate/comment/CommentSerialize.md#accept-javalangstring),[acceptType](/jdocGenerate/com/ejdoc/doc/generate/comment/CommentSerialize.md#acceptType),[toSerialize](/jdocGenerate/com/ejdoc/doc/generate/comment/CommentSerialize.md#toSerialize-javalangstring)
+[accept](/jdocGenerate/com/ejdoc/doc/generate/comment/CommentSerialize.md#accept-string),[acceptType](/jdocGenerate/com/ejdoc/doc/generate/comment/CommentSerialize.md#acceptType),[toSerialize](/jdocGenerate/com/ejdoc/doc/generate/comment/CommentSerialize.md#toSerialize-string-commentserializerootdocdto)
 
 
 
 
 ## 方法详细信息
 
----
-> **1.<span id="innerlink-accept-javalangstring">accept</span>**
-
-* **方法签名：** 
-
-  public boolean [accept](#accept-javalangstring)(String type)   
-
-
-
-
-
-
 
 ---
-> **2.<span id="innerlink-accepttype">acceptType</span>**
 
-* **方法签名：** 
+> **1.<span id="accept-string">accept</span>**
 
-  public String [acceptType](#accepttype)()   
+**方法签名：** 
+
+  public [boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html?is-external=true) [accept](#accept-string)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) type)   
+
+
+
 
 
 
@@ -82,11 +84,31 @@
 
 
 ---
-> **3.<span id="innerlink-toserialize-javalangstring">toSerialize</span>**
 
-* **方法签名：** 
+> **2.<span id="accepttype">acceptType</span>**
 
-  public String [toSerialize](#toserialize-javalangstring)(String content)   
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [acceptType](#accepttype)()   
+
+
+
+
+
+
+
+
+
+
+---
+
+> **3.<span id="toserialize-string-commentserializerootdocdto">toSerialize</span>**
+
+**方法签名：** 
+
+  public [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) [toSerialize](#toserialize-string-commentserializerootdocdto)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true) content,[CommentSerializeRootDocDto](/jdocGenerate/com/ejdoc/doc/generate/comment/dto/CommentSerializeRootDocDto.md) serializeRootDocDto)   
+
+
 
 
 
