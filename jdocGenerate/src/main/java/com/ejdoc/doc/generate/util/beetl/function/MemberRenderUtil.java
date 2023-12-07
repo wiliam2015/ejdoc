@@ -138,23 +138,7 @@ public class MemberRenderUtil {
         StringBuilder result = new StringBuilder();
         if(paras instanceof JSONObject){
             JSONObject methodObj =( JSONObject)paras;
-            result.append(methodObj.getStr("name"));
-            JSONArray parameters = methodObj.getJSONArray("parameters");
-            if(parameters != null && parameters.size()>0){
-                List<String> params = new ArrayList<>();
-                for (Object obj : parameters) {
-                    JSONObject param = (JSONObject)obj;
-                    JSONObject javaClass = param.getJSONObject("javaClass");
-                    String className = javaClass.getStr("className");
-                    params.add(className);
-//                    result.append("-");
-//                    String fullClassName = javaClass.getStr("fullClassName");
-//                    fullClassName = fullClassName.replace(" ","");
-//                    result.append(replaceSpecChars(fullClassName));
-//                    result.append(replaceSpecChars(className));
-                }
-                result.append(catUniqueMethodParamName(params));
-            }
+            result.append(methodObj.getStr("uniqueId"));
         }
         return result.toString();
     }

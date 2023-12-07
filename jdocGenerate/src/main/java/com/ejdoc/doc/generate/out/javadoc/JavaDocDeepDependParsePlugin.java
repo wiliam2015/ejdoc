@@ -1,8 +1,7 @@
 package com.ejdoc.doc.generate.out.javadoc;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.*;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.ejdoc.metainfo.seralize.index.JavaMetaFileInfo;
@@ -64,6 +63,9 @@ public class JavaDocDeepDependParsePlugin extends AbstractJavaMetaSeralizePlugin
         if(CollectionUtil.isNotEmpty(javaClassMeta.getAllSupperClasses())){
             parseBaseClassDependPath(seralizeConfig,javaClassMeta.getAllSupperClasses(),jsonFilePath,MetaIndexContext.getAllJavaMetaFileIndexMap());
         }
+        if(CollectionUtil.isNotEmpty(javaClassMeta.getAllNestedClasses())){
+            parseBaseClassDependPath(seralizeConfig,javaClassMeta.getAllNestedClasses(),jsonFilePath,MetaIndexContext.getAllJavaMetaFileIndexMap());
+        }
 
         addAllDeepDependMetaToJsonProp(javaClassMeta, javaMetaFileInfo);
     }
@@ -75,6 +77,7 @@ public class JavaDocDeepDependParsePlugin extends AbstractJavaMetaSeralizePlugin
 
         addAllSupperClass(treeIndexClass,treeIndexClass);
         addAllSubClass(treeIndexClass,treeIndexClass);
+        addAllNestedClass(treeIndexClass,treeIndexClass);
 
         addAllDeepDependMetaToJsonProp(treeIndexClass,javaMetaFile);
 
@@ -90,6 +93,7 @@ public class JavaDocDeepDependParsePlugin extends AbstractJavaMetaSeralizePlugin
         reSetJsonMetaFileProp(javaMetaFileInfo, "allSubInterfaceClasses", javaClassMeta.getAllSubInterfaceClasses());
         reSetJsonMetaFileProp(javaMetaFileInfo, "allSubClasses", javaClassMeta.getAllSubClasses());
         reSetJsonMetaFileProp(javaMetaFileInfo, "allSupperClasses", javaClassMeta.getAllSupperClasses());
+        reSetJsonMetaFileProp(javaMetaFileInfo, "allNestedClasses", javaClassMeta.getAllNestedClasses());
     }
     /**
      * 重新设置json元数据属性
@@ -134,6 +138,72 @@ public class JavaDocDeepDependParsePlugin extends AbstractJavaMetaSeralizePlugin
     }
 
     /**
+     * 增加所有嵌套类
+     * @param treeIndexClass
+     * @param rootTreeIndexClass
+     */
+    private void addAllNestedClass(TreeIndexClassMeta treeIndexClass, TreeIndexClassMeta rootTreeIndexClass) {
+        if(ObjectUtil.isNotNull(treeIndexClass)){
+
+            List<JavaClassMeta> interfaceList = treeIndexClass.getInterfaceList();
+            List<JavaClassMeta> supperClassList = treeIndexClass.getSupperClassList();
+            if(CollectionUtil.isNotEmpty(interfaceList)){
+                for (JavaClassMeta classMeta : interfaceList) {
+                    String fullClassName = classMeta.getFullClassName();
+                    if(isJdkClass(fullClassName)){
+                        classMeta.setJdkClass(true);
+                        Class<?> jdkClass = ClassLoaderUtil.loadClass(fullClassName);
+                        if(jdkClass != null){
+                            addAllJdkSupperNestedClass(jdkClass,rootTreeIndexClass);
+                        }
+                    }else{
+                        JavaClassMeta classMetaIndex = MetaIndexContext.getClassMetaByFullName(fullClassName);
+                        if(classMetaIndex != null){
+                            List<JavaClassMeta> nestedClasses = classMetaIndex.getNestedClasses();
+                            if(CollectionUtil.isNotEmpty(nestedClasses)){
+                                for (JavaClassMeta nestedClass : nestedClasses) {
+                                    rootTreeIndexClass.addAllNestedClasses(createSimpleClass(nestedClass));
+                                }
+                            }
+                            TreeIndexClassMeta superTreeIndexClass = MetaIndexContext.getTreeIndexClassMetaByFullName(fullClassName);
+                            addAllNestedClass(superTreeIndexClass,rootTreeIndexClass);
+                        }
+                    }
+                }
+            }
+
+            if(CollectionUtil.isNotEmpty(supperClassList)){
+                for (JavaClassMeta classMeta : supperClassList) {
+                    String fullClassName = classMeta.getFullClassName();
+                    if(isJdkClass(fullClassName)){
+                        classMeta.setJdkClass(true);
+                        rootTreeIndexClass.addAllSupperClasses(createSimpleClass(classMeta));
+                        Class<?> jdkClass = ClassLoaderUtil.loadClass(fullClassName);
+                        if(jdkClass != null){
+                            Class<?> superclass = jdkClass.getSuperclass();
+                            addAllJdkSupperNestedClass(superclass,rootTreeIndexClass);
+                        }
+
+                    }else{
+                        JavaClassMeta classMetaIndex = MetaIndexContext.getClassMetaByFullName(fullClassName);
+                        if(classMetaIndex != null){
+                            List<JavaClassMeta> nestedClasses = classMetaIndex.getNestedClasses();
+                            if(CollectionUtil.isNotEmpty(nestedClasses)){
+                                for (JavaClassMeta nestedClass : nestedClasses) {
+                                    rootTreeIndexClass.addAllNestedClasses(createSimpleClass(nestedClass));
+                                }
+                            }
+                            TreeIndexClassMeta superTreeIndexClass = MetaIndexContext.getTreeIndexClassMetaByFullName(fullClassName);
+                            addAllNestedClass(superTreeIndexClass,rootTreeIndexClass);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    /**
      * 接口类-增加所有父接口
      * @param treeIndexClass
      * @param rootTreeIndexClass
@@ -145,9 +215,17 @@ public class JavaDocDeepDependParsePlugin extends AbstractJavaMetaSeralizePlugin
             if(CollectionUtil.isNotEmpty(interfaceList)){
                 for (JavaClassMeta classMeta : interfaceList) {
                     String fullClassName = classMeta.getFullClassName();
-                    JavaClassMeta classMetaIndex = MetaIndexContext.getClassMetaByFullName(fullClassName);
-                    rootTreeIndexClass.addAllInterfaceClasses(createSimpleClass(classMetaIndex));
-                    if(!isJdkClass(fullClassName)){
+                    if(isJdkClass(fullClassName)){
+                        classMeta.setJdkClass(true);
+                        rootTreeIndexClass.addAllInterfaceClasses(createSimpleClass(classMeta));
+                        Class<?> jdkClass = ClassLoaderUtil.loadClass(fullClassName);
+                        if(jdkClass != null){
+                            Class<?>[] interfaces = jdkClass.getInterfaces();
+                            addAllJdkSupperInterfaceClass(interfaces,rootTreeIndexClass);
+                        }
+                    }else{
+                        JavaClassMeta classMetaIndex = MetaIndexContext.getClassMetaByFullName(fullClassName);
+                        rootTreeIndexClass.addAllInterfaceClasses(createSimpleClass(classMetaIndex));
                         TreeIndexClassMeta superTreeIndexClass = MetaIndexContext.getTreeIndexClassMetaByFullName(fullClassName);
                         addAllSupperClass(superTreeIndexClass,rootTreeIndexClass);
                     }
@@ -157,14 +235,90 @@ public class JavaDocDeepDependParsePlugin extends AbstractJavaMetaSeralizePlugin
             if(CollectionUtil.isNotEmpty(supperClassList)){
                 for (JavaClassMeta classMeta : supperClassList) {
                     String fullClassName = classMeta.getFullClassName();
-                    JavaClassMeta classMetaIndex = MetaIndexContext.getClassMetaByFullName(fullClassName);
-                    rootTreeIndexClass.addAllSupperClasses(createSimpleClass(classMetaIndex));
-                    if(!isJdkClass(fullClassName)){
+                    if(isJdkClass(fullClassName)){
+                        classMeta.setJdkClass(true);
+                        rootTreeIndexClass.addAllSupperClasses(createSimpleClass(classMeta));
+                        Class<?> jdkClass = ClassLoaderUtil.loadClass(fullClassName);
+                        if(jdkClass != null){
+                            Class<?> superclass = jdkClass.getSuperclass();
+                            addAllJdkSupperClass(superclass,rootTreeIndexClass);
+                        }
+
+                    }else{
+                        JavaClassMeta classMetaIndex = MetaIndexContext.getClassMetaByFullName(fullClassName);
+                        rootTreeIndexClass.addAllSupperClasses(createSimpleClass(classMetaIndex));
                         TreeIndexClassMeta superTreeIndexClass = MetaIndexContext.getTreeIndexClassMetaByFullName(fullClassName);
                         addAllSupperClass(superTreeIndexClass,rootTreeIndexClass);
                     }
                 }
             }
+        }
+    }
+
+
+    private void addAllJdkSupperNestedClass(Class<?> supperJdkClass, TreeIndexClassMeta rootTreeIndexClass) {
+        if(supperJdkClass != null){
+            Class<?>[] interfaces = supperJdkClass.getDeclaredClasses();
+            if(ArrayUtil.isNotEmpty(interfaces)){
+                for (Class<?> anInterface : interfaces) {
+                    JavaClassMeta interfaceNestClass = new JavaClassMeta();
+                    interfaceNestClass.setJdkClass(true);
+                    interfaceNestClass.setClassName(anInterface.getSimpleName());
+                    interfaceNestClass.setFullClassName(anInterface.getName());
+                    interfaceNestClass.setNestedClass(true);
+                    interfaceNestClass.setNestedClassName(supperJdkClass.getSimpleName());
+                    interfaceNestClass.setNestedClassFullClassName(supperJdkClass.getName());
+                    rootTreeIndexClass.addAllNestedClasses(createSimpleClass(interfaceNestClass));
+
+                    Class<?>[] declaredClasses = anInterface.getDeclaredClasses();
+                    if(ArrayUtil.isNotEmpty(declaredClasses)){
+                        for (Class<?> declaredClass : declaredClasses) {
+                            JavaClassMeta javaClassMeta = new JavaClassMeta();
+                            javaClassMeta.setJdkClass(true);
+                            javaClassMeta.setClassName(declaredClass.getSimpleName());
+                            javaClassMeta.setFullClassName(declaredClass.getName());
+                            interfaceNestClass.setNestedClass(true);
+                            interfaceNestClass.setNestedClassName(supperJdkClass.getSimpleName());
+                            interfaceNestClass.setNestedClassFullClassName(supperJdkClass.getName());
+                            rootTreeIndexClass.addAllNestedClasses(createSimpleClass(javaClassMeta));
+                            addAllJdkSupperNestedClass(declaredClass,rootTreeIndexClass);
+                        }
+                    }
+                    Class<?>[] superInterfaces = supperJdkClass.getInterfaces();
+                    Class<?> superclass = supperJdkClass.getSuperclass();
+                    addAllJdkSupperNestedClass(superclass,rootTreeIndexClass);
+                    if(ArrayUtil.isNotEmpty(superInterfaces)){
+                        for (Class<?> superInterface : superInterfaces) {
+                            addAllJdkSupperNestedClass(superInterface,rootTreeIndexClass);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void addAllJdkSupperInterfaceClass(Class<?>[] interfaces, TreeIndexClassMeta rootTreeIndexClass) {
+        if(interfaces != null && interfaces.length > 0){
+            for (Class<?> anInterface : interfaces) {
+                JavaClassMeta javaClassMeta = new JavaClassMeta();
+                javaClassMeta.setJdkClass(true);
+                javaClassMeta.setClassName(anInterface.getSimpleName());
+                javaClassMeta.setFullClassName(anInterface.getName());
+                rootTreeIndexClass.addAllInterfaceClasses(createSimpleClass(javaClassMeta));
+                addAllJdkSupperInterfaceClass(anInterface.getInterfaces(),rootTreeIndexClass);
+            }
+        }
+    }
+
+    private void addAllJdkSupperClass(Class<?> superclass, TreeIndexClassMeta rootTreeIndexClass) {
+        if(superclass != null){
+            JavaClassMeta javaClassMeta = new JavaClassMeta();
+            javaClassMeta.setJdkClass(true);
+            javaClassMeta.setClassName(superclass.getSimpleName());
+            javaClassMeta.setFullClassName(superclass.getName());
+            rootTreeIndexClass.addAllSupperClasses(createSimpleClass(javaClassMeta));
+
+            addAllJdkSupperClass(superclass.getSuperclass(),rootTreeIndexClass);
         }
     }
 
@@ -180,6 +334,16 @@ public class JavaDocDeepDependParsePlugin extends AbstractJavaMetaSeralizePlugin
         supperClassAdd.setDependencyAbsolutePath(javaClassMeta1.getDependencyAbsolutePath());
         supperClassAdd.setTypeParameters(javaClassMeta1.getTypeParameters());
         supperClassAdd.setTypeArguments(javaClassMeta1.getTypeArguments());
+        supperClassAdd.setJdkClass(javaClassMeta1.getJdkClass());
+        supperClassAdd.setNestedClass(javaClassMeta1.getNestedClass());
+        supperClassAdd.setNestedClassName(javaClassMeta1.getNestedClassName());
+        supperClassAdd.setNestedClassFullClassName(javaClassMeta1.getNestedClassFullClassName());
+        if(BooleanUtil.isTrue(javaClassMeta1.getJdkClass())){
+            if(StrUtil.length(javaClassMeta1.getFullClassName()) > StrUtil.length(javaClassMeta1.getClassName())) {
+                String replace = StrUtil.replace(javaClassMeta1.getFullClassName(), javaClassMeta1.getClassName(), "", false);
+                supperClassAdd.setClassNamePrefix(replace);
+            }
+        }
         return supperClassAdd;
     }
 

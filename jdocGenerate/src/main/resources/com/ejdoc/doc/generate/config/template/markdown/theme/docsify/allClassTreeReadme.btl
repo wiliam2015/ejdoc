@@ -1,5 +1,5 @@
 <% if(prop.classType == "allClasstree"){
-println("## 类层级信息");
+println("## 类分层结构");
 }
 %>
 
@@ -13,7 +13,7 @@ for(obj in prop.tableList!){
 
 
 <%
-println("## 接口层级信息");
+println("## 接口分层结构");
 println();
 for(obj in prop.interfaceTableList!){
     print(docClassFn.calAllClassesHierarchyMd(obj));println("  ");
@@ -21,7 +21,7 @@ for(obj in prop.interfaceTableList!){
 %>
 
 <%
-println("## 异常层级信息");
+println("## 异常分层结构");
 println();
 for(obj in prop.exceptionTableList!){
     print(docClassFn.calAllClassesHierarchyMd(obj));println("  ");
@@ -29,7 +29,7 @@ for(obj in prop.exceptionTableList!){
 %>
 
 <%
-println("## 枚举层级信息");
+println("## 枚举分层结构");
 println();
 for(obj in prop.enumTableList!){
     print(docClassFn.calAllClassesHierarchyMd(obj));println("  ");

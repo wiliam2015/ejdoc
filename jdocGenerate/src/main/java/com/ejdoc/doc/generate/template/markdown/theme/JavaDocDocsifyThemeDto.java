@@ -20,6 +20,8 @@ public class JavaDocDocsifyThemeDto {
 
     private String className;
 
+    private String classSimpleName;
+
     private String classDesc;
 
     private String head;
@@ -29,6 +31,9 @@ public class JavaDocDocsifyThemeDto {
     private String fullClassName;
 
     private String packageNamePath;
+
+    /**作者*/
+    private String author;
     /**
      * 层级
      */
@@ -189,5 +194,21 @@ public class JavaDocDocsifyThemeDto {
 
     public void setDocDeprecatedDto(JavaDocDeprecatedDto docDeprecatedDto) {
         this.docDeprecatedDto = docDeprecatedDto;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getClassSimpleName() {
+        return classSimpleName;
+    }
+
+    public void setClassSimpleName(String classSimpleName) {
+        this.classSimpleName = classSimpleName;
     }
 }

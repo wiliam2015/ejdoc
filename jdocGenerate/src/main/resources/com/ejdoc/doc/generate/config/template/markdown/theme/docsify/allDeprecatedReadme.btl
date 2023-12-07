@@ -1,9 +1,10 @@
 <% if(isNotEmpty(prop.haveDeprecatedData) && !prop.haveDeprecatedData){%>
 无Deprecated信息
 <% } else{%>
+# 已过时的API
 
 <% if(isNotEmpty(prop.allDeprecatedClasses)){%>
-## 所有deprecated classes
+## 已过时的类
 
 |   类信息  |    描述   |
 | ---- | ---- |
@@ -17,7 +18,7 @@
 
 
 <% if(isNotEmpty(prop.allDeprecatedMethods)){%>
-## 所有deprecated methods
+## 已过时的方法
 
 |   方法信息  |    描述   |
 | ---- | ---- |
@@ -34,7 +35,7 @@
 
 
 <% if(isNotEmpty(prop.allDeprecatedContructors)){%>
-## 所有deprecated constructors
+## 已过时的构造方法
 
 |   构造方法信息  |    描述   |
 | ---- | ---- |

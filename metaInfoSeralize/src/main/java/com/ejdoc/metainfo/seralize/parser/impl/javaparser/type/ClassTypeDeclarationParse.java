@@ -1,6 +1,7 @@
 package com.ejdoc.metainfo.seralize.parser.impl.javaparser.type;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ClassLoaderUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
@@ -29,6 +30,7 @@ public class ClassTypeDeclarationParse extends AbstractJavaParserTypeDeclaration
     protected List<JavaClassMeta> doParseChildTypeToJavaClassMeta(MetaFileInfoDto metaFileInfo, JavaClassMeta javaClassMeta, CompilationUnit rootAst, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
         parseSuperJavaClass(javaClassMeta, typeDeclaration);
         parseInterfaces(javaClassMeta, typeDeclaration);
+
         return null;
     }
 

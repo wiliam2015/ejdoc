@@ -11,6 +11,7 @@ public enum JavaDocTagTypeEnum {
     SINCE("since","SINCE"),
     TYPEPARAM("typeparam","TYPEPARAM"),
     DEFAULT("default","DEFAULT"),
+    AUTHOR("author","AUTHOR"),
     UNKNOWN("unknown","UNKNOWN"),
     ;
 

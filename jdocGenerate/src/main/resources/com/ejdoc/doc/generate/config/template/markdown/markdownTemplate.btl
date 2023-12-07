@@ -10,7 +10,7 @@
     print("# 类名称:");
 }
 %>
-${prop.className!}
+${docClassFn.calSimpleClassNameStructure(prop)}
 
 |  **${i18n.childfile.projectName!}:**    |  ${prop.projectName!}    |   **${i18n.childfile.moduleName!}:**   |${prop.moduleName!}|
 | ----: | :---- | ----: |:---- |
@@ -26,7 +26,11 @@ ${docClassFn.calCommentTagsMd(prop,prop,"SEE","**另请参阅：** \n\n")}
 
 ${docClassFn.calAllClassesMd(prop.allSupperClasses,"**所有父类：**  \n")}
 
+<% if(isNotEmpty(prop.interfaceClass) && prop.interfaceClass){%>
 ${docClassFn.calAllClassesMd(prop.allInterfaceClasses,"**所有父级接口：**  \n")}
+<% }else{%>
+${docClassFn.calAllClassesMd(prop.allInterfaceClasses,"**所有实现接口：**  \n")}
+<% }%>
 
 ${docClassFn.calAllClassesMd(prop.allSubClasses,"**所有子类：**  \n")}
 
@@ -60,8 +64,11 @@ ${docClassFn.calFunctionInterfaceInfoMd(prop,"**Functional Interface：**  \n")}
 
 ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
 
+<% if(isNotEmpty(prop.nestedClasses) || isNotEmpty(prop.allNestedClasses)){
+ print("## 嵌套类汇总");
+}
+%>
 <% if(isNotEmpty(prop.nestedClasses)){
-     print("## 嵌套类汇总");
      println("");
      println("|   索引  |   修饰符与类型  |   接口和描述  |");
      println("| ---- |---- | ---- | ");
@@ -88,9 +95,21 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
 }
 %>
 
+<% if(isNotEmpty(prop.allNestedClasses)){
+     println("");
+     for(nestClassObj in prop.allNestedClasses){
+            println("");println("---");println("");
+             print("### ");print("从");print(nestClassObj.nestedClassName);println("继承的嵌套类:");
+             println();print("继承类全路径：");print(docClassFn.calLinkNestedRefClassNameMd(nestClassObj));print(" , ");
+             print("嵌套类：");print(docClassFn.calLinkClassNameMd(nestClassObj));println("  ");
+       }
+       println("");
+       println("");
+}
+%>
 
 <% if(isNotEmpty(prop.innerClasses)){
-     print("## 内部类汇总");
+     print("## 嵌套类汇总");
      println("");
      println("|   索引  |   修饰符与类型  |   接口和描述  |");
      println("| ---- |---- | ---- | ");
@@ -257,8 +276,15 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
     for(allSupperInterfaceClassObj in prop.allInterfaceClassDetailProp){
         println("");println("---");println("");
         print("### ");print("从");print(allSupperInterfaceClassObj.className);println("接口继承方法:");
-        println();print("全路径信息");print(docClassFn.calLinkClassNameMd(allSupperInterfaceClassObj));println("  ");
-        println(docClassFn.calAllClassesDetailMethodMd(allSupperInterfaceClassObj.methods,"",allSupperInterfaceClassObj.dependencyRelativePath));
+        if(allSupperInterfaceClassObj.jdkClass){
+                println();print("全路径信息");print(docClassFn.calLinkClassNameMd(allSupperInterfaceClassObj));println("  ");
+                println(docClassFn.calAllJdkClassesDetailMethodMd(allSupperInterfaceClassObj));
+
+        }else{
+            println();print("全路径信息");print(docClassFn.calLinkClassNameMd(allSupperInterfaceClassObj));println("  ");
+                println(docClassFn.calAllClassesDetailMethodMd(allSupperInterfaceClassObj.methods,"",allSupperInterfaceClassObj.dependencyRelativePath));
+        }
+
       }
     }
 %>

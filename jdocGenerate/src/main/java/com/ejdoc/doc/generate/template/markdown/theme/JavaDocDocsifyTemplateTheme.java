@@ -15,6 +15,8 @@ import com.ejdoc.doc.generate.out.javadoc.dto.JavaDocDeprecatedDto;
 import com.ejdoc.doc.generate.template.BaseOutTemplate;
 import com.ejdoc.doc.generate.template.DocTemplateTheme;
 import com.ejdoc.doc.generate.template.markdown.JavaDocMarkdownDocOutTemplate;
+import com.ejdoc.doc.generate.util.beetl.function.DocClassRenderUtil;
+import com.ejdoc.metainfo.seralize.enums.JavaDocTagTypeEnum;
 import com.ejdoc.metainfo.seralize.index.MetaIndexContext;
 import com.ejdoc.metainfo.seralize.index.TreeIndexClassMeta;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
@@ -37,6 +39,7 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
     /***/
     private final Logger log = LoggerFactory.getLogger(JavaDocMarkdownDocOutTemplate.class);
 
+    private DocClassRenderUtil docClassFn = new DocClassRenderUtil();
     public JavaDocDocsifyTemplateTheme() {
         super();
     }
@@ -93,6 +96,7 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
         List<File> jsonFiles = FileUtil.loopFiles(docTemplateThemeInfo.getJsonFilePath(), subFile -> FileTypeUtil.getType(subFile).equals("json"));
         List<JavaDocDocsifyThemeDto> javaDocDocsifyThemeDtos = new ArrayList<>();
         Map<String,String> packageDecsMap = new HashMap<>();
+        Map<String,String> packageAuthorsMap = new HashMap<>();
 
         for (File jsonFile : jsonFiles) {
             JavaDocDocsifyThemeDto javaDocDocsifyThemeDto = new JavaDocDocsifyThemeDto();
@@ -105,18 +109,21 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
             String packageName = jsonObject.getStr("packageName");
             JSONObject javaDocDeprecatedInfo = jsonObject.getJSONObject("javaDocDeprecatedInfo");
             if(StrUtil.equals(className,"package-info")){
-                JSONObject javaModelMeta = jsonObject.getJSONObject("javaModelMeta");
-                if(javaModelMeta != null){
-                    String comment = javaModelMeta.getStr("comment", "");
-                    if(StrUtil.isNotBlank(comment) && StrUtil.isNotBlank(packageName)){
-                        packageDecsMap.put(packageName, replacePackageDesc(comment));
-                    }
+                String packageComment = docClassFn.calCommentDocMd(jsonObject, jsonObject, "", null);
+                if(StrUtil.isNotBlank(packageComment) && StrUtil.isNotBlank(packageName)){
+                    packageDecsMap.put(packageName, packageComment);
                 }
+                String packageAuthor = docClassFn.calCommentTagsMd(jsonObject, jsonObject, JavaDocTagTypeEnum.AUTHOR.getName(), "", null);
+                if(StrUtil.isNotBlank(packageAuthor) && StrUtil.isNotBlank(packageName)){
+                    packageAuthorsMap.put(packageName, packageAuthor);
+                }
+
             }else if(StrUtil.isNotBlank(moduleName) && StrUtil.isNotBlank(packageName)){
                 javaDocDocsifyThemeDto.setProjectName(jsonObject.getStr("projectName"));
                 javaDocDocsifyThemeDto.setModuleName(moduleName);
                 javaDocDocsifyThemeDto.setModuleDesc(moduleDesc);
                 javaDocDocsifyThemeDto.setClassName(className);
+                javaDocDocsifyThemeDto.setClassSimpleName(docClassFn.calSimpleClassNameStructure(jsonObject,null));
                 javaDocDocsifyThemeDto.setClassDesc(classDesc);
                 javaDocDocsifyThemeDto.setHead(className.substring(0,1).toUpperCase());
                 javaDocDocsifyThemeDto.setFullClassName(fullClassName);
@@ -140,7 +147,9 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
         for (JavaDocDocsifyThemeDto javaDocDocsifyThemeDto : javaDocDocsifyThemeDtos) {
             String packageName = javaDocDocsifyThemeDto.getPackageName();
             String packageDesc = packageDecsMap.get(packageName);
+            String authorDesc = packageAuthorsMap.get(packageName);
             javaDocDocsifyThemeDto.setPackageDesc(packageDesc);
+            javaDocDocsifyThemeDto.setAuthor(authorDesc);
         }
         return javaDocDocsifyThemeDtos;
     }
@@ -527,6 +536,7 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
 
         List<JavaDocDocsifyThemeDto> packageFileList = createPackageAndSubFile(javaDocDocsifyThemeDtos);
 
+
         //打印所有包信息
         Map<String,Object> prop = new HashMap<>();
         prop.put("tableList",packageFileList);
@@ -542,11 +552,36 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
 
 
         //打印包下类明细
-        for (JavaDocDocsifyThemeDto javaDocDocsifyThemeDto : packageFileList) {
+        for (JavaDocDocsifyThemeDto javaDocDocsifyThemeDtoPac : packageFileList) {
 
-            List<JavaDocDocsifyThemeDto> packageChildList = javaDocDocsifyThemeDto.getChildList();
+            List<JavaDocDocsifyThemeDto> packageChildList = javaDocDocsifyThemeDtoPac.getChildList();
 
-            List<JavaDocDocsifyThemeDto> indexClassList = getIndexClassList(packageChildList);
+            List<JavaDocDocsifyThemeDto> allClassList= new ArrayList<>();
+            List<JavaDocDocsifyThemeDto> allInterfaceList = new ArrayList<>();
+            List<JavaDocDocsifyThemeDto> allEnumList = new ArrayList<>();
+            List<JavaDocDocsifyThemeDto> allAnnoList = new ArrayList<>();
+
+            for (JavaDocDocsifyThemeDto javaDocDocsifyThemeDto : packageChildList) {
+                String fullClassName = javaDocDocsifyThemeDto.getFullClassName();
+                JavaClassMeta javaClassMeta = MetaIndexContext.getClassMetaByFullName(fullClassName);
+                boolean isEnum = BooleanUtil.isTrue(javaClassMeta.getEnumClass());
+                boolean isClass = !BooleanUtil.isTrue(javaClassMeta.getInterfaceClass());
+                boolean isAnno = BooleanUtil.isTrue(javaClassMeta.getAnnotationClass());
+                if(isEnum){
+                    allEnumList.add(javaDocDocsifyThemeDto);
+                }else if(isAnno){
+                    allAnnoList.add(javaDocDocsifyThemeDto);
+                }else if(isClass){
+                    allClassList.add(javaDocDocsifyThemeDto);
+                }else{
+                    allInterfaceList.add(javaDocDocsifyThemeDto);
+                }
+            }
+
+            List<JavaDocDocsifyThemeDto> allClassIndexClassList = getIndexClassList(allClassList);
+            List<JavaDocDocsifyThemeDto> allInterfaceIndexClassList = getIndexClassList(allInterfaceList);
+            List<JavaDocDocsifyThemeDto> allEnumIndexClassList = getIndexClassList(allEnumList);
+            List<JavaDocDocsifyThemeDto> allAnnoIndexClassList = getIndexClassList(allAnnoList);
 
             JavaDocDocsifyThemeDto packageDesc = packageChildList.get(0);
             String firstComment = "";
@@ -556,13 +591,17 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
 
             if(CollectionUtil.isNotEmpty(packageChildList)){
                 Map<String,Object> childProp = new HashMap<>();
-                childProp.put("tableList",indexClassList);
-                childProp.put("title", javaDocDocsifyThemeDto.getPackageName());
+                childProp.put("classList",allClassIndexClassList);
+                childProp.put("interfaceList",allInterfaceIndexClassList);
+                childProp.put("enumList",allEnumIndexClassList);
+                childProp.put("annoList",allAnnoIndexClassList);
+                childProp.put("title", javaDocDocsifyThemeDtoPac.getPackageName());
                 childProp.put("classType","allPackage");
                 childProp.put("firstComment",firstComment);
                 childProp.put("allComment",packageDesc.getPackageDesc());
+                childProp.put("author",packageDesc.getAuthor());
 
-                String packageRouteReadmeFile = "/route/allpackage/" + javaDocDocsifyThemeDto.getPackageNamePath()+"/README.md";
+                String packageRouteReadmeFile = "/route/allpackage/" + javaDocDocsifyThemeDtoPac.getPackageNamePath()+"/README.md";
                 writeThemeTemplateFile(renderFilePath, childProp,"allClassReadme.btl",packageRouteReadmeFile);
             }
 

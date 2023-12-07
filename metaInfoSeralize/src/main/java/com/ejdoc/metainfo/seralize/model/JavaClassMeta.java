@@ -1,5 +1,7 @@
 package com.ejdoc.metainfo.seralize.model;
 
+import cn.hutool.core.util.StrUtil;
+
 import java.io.Serializable;
 import java.net.URL;
 import java.util.List;
@@ -95,6 +97,8 @@ public class JavaClassMeta  implements Serializable {
 
     private Boolean voidClass;
 
+    private Boolean jdkClass;
+
     private List<JavaClassMeta> superClasses;
 
     private List<String> modifiers;
@@ -177,6 +181,9 @@ public class JavaClassMeta  implements Serializable {
     }
 
     public void setFullClassName(String fullClassName) {
+        if(StrUtil.contains(fullClassName,"$")){
+            fullClassName= fullClassName.replace("$",".");
+        }
         this.fullClassName = fullClassName;
     }
 
@@ -533,6 +540,14 @@ public class JavaClassMeta  implements Serializable {
 
     public void setNestedClassName(String nestedClassName) {
         this.nestedClassName = nestedClassName;
+    }
+
+    public Boolean getJdkClass() {
+        return jdkClass;
+    }
+
+    public void setJdkClass(Boolean jdkClass) {
+        this.jdkClass = jdkClass;
     }
 
     public String parseDeclarationStructure(){

@@ -116,7 +116,9 @@ public class MetaIndexContextBuilder {
             TreeIndexClassMeta treeIndexClassMeta = createTreeIndexClassByAllMapIndex(treeIndexClassIndex, fullClassName);
             treeIndexClassIndex.put(fullClassName,treeIndexClassMeta);
 
-            addSupperClasses(javaClassMetaTree, javaClassMeta, treeIndexClassMeta);
+            treeIndexClassMeta.setJavaClassMeta(javaClassMetaTree);
+            addSupperClasses( javaClassMeta, treeIndexClassMeta);
+            addNestedClasses( javaClassMeta, treeIndexClassMeta);
             if(!distinctSet.contains(fullClassName)){
                 treeIndexClassMetas.add(treeIndexClassMeta);
                 distinctSet.add(fullClassName);
@@ -128,17 +130,20 @@ public class MetaIndexContextBuilder {
         return treeIndexClassMetas;
     }
 
+    private void addNestedClasses(JavaClassMeta javaClassMeta, TreeIndexClassMeta treeIndexClassMeta) {
+        List<JavaClassMeta> metaTreeNestedClasses = javaClassMeta.getNestedClasses();
+        treeIndexClassMeta.addNestedClassesList(metaTreeNestedClasses);
+    }
+
     /**
      * 增加父类
-     * @param javaClassMetaTree
      * @param javaClassMeta
      * @param treeIndexClassMeta 树形结构类
      */
-    private TreeIndexClassMeta addSupperClasses(JavaClassMeta javaClassMetaTree, JavaClassMeta javaClassMeta,TreeIndexClassMeta treeIndexClassMeta) {
+    private TreeIndexClassMeta addSupperClasses( JavaClassMeta javaClassMeta,TreeIndexClassMeta treeIndexClassMeta) {
         List<JavaClassMeta> superClasses =javaClassMeta.getSuperClasses();
         List<JavaClassMeta> interfaces =javaClassMeta.getInterfaces();
         boolean isClass = !BooleanUtil.isTrue(javaClassMeta.getInterfaceClass());
-        treeIndexClassMeta.setJavaClassMeta(javaClassMetaTree);
         if(isClass){
             treeIndexClassMeta.addSupperClasses(superClasses);
             treeIndexClassMeta.addInterfaceList(interfaces);

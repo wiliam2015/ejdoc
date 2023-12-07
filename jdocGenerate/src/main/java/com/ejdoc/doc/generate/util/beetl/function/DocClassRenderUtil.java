@@ -39,6 +39,19 @@ public class DocClassRenderUtil {
         return result.toString();
     }
 
+    public String calSimpleClassNameStructure(Object paras, Context ctx){
+        StringBuilder result = new StringBuilder();
+        if(paras instanceof JSONObject){
+            JSONObject classObj =( JSONObject)paras;
+            result.append(classObj.getStr("className"));
+            StringBuilder typeArgumentStr = new StringBuilder();
+            createTypeParametersMd(classObj,typeArgumentStr);
+            result.append(typeArgumentStr);
+        }
+        result.append(" ");
+        return result.toString();
+    }
+
     public String calAllClassesMd(Object paras, String appendBefore,Context ctx){
         StringBuilder result = new StringBuilder();
         if(paras != null && paras instanceof JSONArray){
@@ -48,8 +61,12 @@ public class DocClassRenderUtil {
                 int i = 1;
                 for (Object allClass : allClasses) {
                     JSONObject allClassObj =( JSONObject)allClass;
-                    innerLoopSb.append(",");
+                    innerLoopSb.append(", &nbsp;");
                     innerLoopSb.append(createClassNameLinkMd(allClassObj));
+                    StringBuilder typeArgumentStr = new StringBuilder();
+                    createTypeParametersMd(allClassObj,typeArgumentStr);
+                    innerLoopSb.append(typeArgumentStr);
+
                     if((i++)%5 == 0 ){
                         innerLoopSb.append("\n");
                     }
@@ -90,6 +107,38 @@ public class DocClassRenderUtil {
         return result.toString();
     }
 
+    public String calLinkNestedRefClassNameMd(Object paras,Context ctx){
+        StringBuilder result = new StringBuilder();
+        if(paras != null && paras instanceof JSONObject){
+            JSONObject allClasses =(JSONObject)paras;
+            String nestedClassFullClassName = allClasses.getStr("nestedClassFullClassName", "");
+            String nestedClassName = allClasses.getStr("nestedClassName", "");
+            String classNamePrefix = nestedClassFullClassName.replace(nestedClassName,"");
+            result.append(classNamePrefix);
+            result.append(createNestedRefClassNameLinkMd(allClasses));
+        }
+        return result.toString();
+    }
+
+    public  String createNestedRefClassNameLinkMd(JSONObject classJson) {
+        StringBuilder result = new StringBuilder();
+        if(classJson.containsKey("dependencyRelativePath")){
+            result.append("[");
+            result.append(classJson.getStr("nestedClassName"));
+            result.append("](");
+            result.append(classJson.getStr("dependencyRelativePath"));
+            result.append(".md");
+            result.append(")");
+        }else{
+
+            String fullClassName = classJson.getStr("nestedClassFullClassName");
+            String className = classJson.getStr("nestedClassName");
+            result.append(DocParseUtil.parseJdkClassLink(className,fullClassName));
+
+        }
+        return result.toString();
+    }
+
     public String calLinkClassNameMd(Object paras,Context ctx){
         StringBuilder result = new StringBuilder();
         if(paras != null && paras instanceof JSONObject){
@@ -119,7 +168,7 @@ public class DocClassRenderUtil {
                 for (Object allClass : allClasses) {
                     JSONObject methodObj =( JSONObject)allClass;
                     String methodName = methodObj.getStr("name");
-                    innerLoopSb.append(",");
+                    innerLoopSb.append(", &nbsp;&nbsp;");
                     String linkPath = basePath+".md#"+memberRenderUtil.calUniqueMethodName(methodObj,ctx);
                     innerLoopSb.append(createCommonLinkMd(methodName,linkPath));
                     if((i++)%10==0){
@@ -131,6 +180,34 @@ public class DocClassRenderUtil {
                     result.append(appendBefore);
                 }
                 result.append(innerLoopSb.substring(1));
+            }
+        }
+        return result.toString();
+    }
+
+    /**
+     * 计算所有Jdk父类的方法明细，生成markdown结构
+     * @param paras
+     * @param ctx
+     * @return
+     */
+    public String calAllJdkClassesDetailMethodMd(Object paras,Context ctx){
+        StringBuilder result = new StringBuilder();
+        if(paras != null && paras instanceof JSONObject){
+            JSONObject classJson =(JSONObject)paras;
+            String fullClassName = classJson.getStr("fullClassName");
+            String className = classJson.getStr("className");
+            List<String> allJdkMethods = DocParseUtil.parseJdkClassMethodMd(fullClassName);
+            if(CollectionUtil.isNotEmpty(allJdkMethods)){
+                int i = 1;
+                for (String allJdkMethod : allJdkMethods) {
+                    if((i++)%10==0){
+                        result.append("\n");
+                    }
+                    result.append(allJdkMethod).append(", &nbsp;&nbsp;");
+                }
+            }else{
+                result.append("无方法信息");
             }
         }
         return result.toString();
@@ -329,7 +406,21 @@ public class DocClassRenderUtil {
 
             String fullClassName = classJson.getStr("fullClassName");
             String className = classJson.getStr("className");
-            result.append(DocParseUtil.parseJdkClassLink(className,fullClassName));
+
+            Boolean nestedClass = classJson.getBool("nestedClass",false);
+            if(nestedClass){
+                String filePath = "";
+                String nestedClassFullClassName = classJson.getStr("nestedClassFullClassName");
+                if(StrUtil.isNotBlank(nestedClassFullClassName)){
+                    filePath = nestedClassFullClassName.replace(".", "/");
+                }
+                filePath = filePath +"."+className;
+                result.append(DocParseUtil.parseJdkClassLink(className,fullClassName,filePath));
+            }else{
+                result.append(DocParseUtil.parseJdkClassLink(className,fullClassName));
+            }
+
+
 
         }
         return result.toString();
@@ -550,28 +641,6 @@ public class DocClassRenderUtil {
                                     tagSb.append("\n\n");
                                 }
                             }
-//                            if(type.equals(tagType)){
-//                                if(type.equals("SEE")){
-//                                    System.out.println("sss");
-//                                }
-//                                String name = tagJsonObj.getStr("name", "");
-//                                String value = "";
-//                                boolean values = tagJsonObj.containsKey("values");
-//                                if(values){
-//                                    value = parseCommentMd(tagJsonObj.getJSONArray("values"),rootPropObj);
-//                                }else{
-//                                    value = tagJsonObj.getStr("value", "");
-////                                    value = value.trim().replace("\n","").replaceAll(" {2,}","");
-//                                    value = value.trim().replaceAll(" {2,}","");
-//                                }
-//                                tagSb.append("  ");
-//                                if(StrUtil.isNotBlank(name)){
-//                                    tagSb.append(name);
-//                                    tagSb.append(" - ");
-//                                }
-//                                tagSb.append(value);
-//                                tagSb.append("\n\n");
-//                            }
                         }
                     }
                     result.append(tagSb);

@@ -7,16 +7,16 @@ import com.ejdoc.doc.generate.tagtype.dto.TagTypeSerializeRootDocDto;
 import com.ejdoc.doc.generate.util.DocParseUtil;
 import com.ejdoc.metainfo.seralize.enums.JavaDocTagTypeEnum;
 
-public class DefaultTagTypeSerialize implements TagTypeSerialize {
+public class AuthorTagTypeSerialize implements TagTypeSerialize {
 
     @Override
     public String acceptType() {
-        return JavaDocTagTypeEnum.DEFAULT.getName();
+        return JavaDocTagTypeEnum.AUTHOR.getName();
     }
 
     @Override
     public boolean accept(String type) {
-        return JavaDocTagTypeEnum.DEFAULT.getName().equals(type);
+        return JavaDocTagTypeEnum.AUTHOR.getName().equals(type);
     }
 
     @Override
@@ -25,20 +25,14 @@ public class DefaultTagTypeSerialize implements TagTypeSerialize {
         JSONObject tagJsonObj = serializeRootDocDto.getTagJsonObj();
         StringBuilder tagSb = new StringBuilder();
 
-        String name = tagJsonObj.getStr("name", "");
         String value = "";
         boolean values = tagJsonObj.containsKey("values");
         if(values){
             value = DocParseUtil.parseCommentMd(tagJsonObj.getJSONArray("values"),rootPropObj);
         }else{
             value = tagJsonObj.getStr("value", "");
-            value = value.trim().replaceAll(" {2,}","");
         }
         tagSb.append("  ");
-        if(StrUtil.isNotBlank(name)){
-            tagSb.append(name);
-            tagSb.append(" - ");
-        }
         tagSb.append(value);
         return tagSb.toString();
     }

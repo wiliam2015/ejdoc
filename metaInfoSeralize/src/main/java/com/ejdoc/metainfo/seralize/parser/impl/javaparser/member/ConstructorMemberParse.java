@@ -1,6 +1,7 @@
 package com.ejdoc.metainfo.seralize.parser.impl.javaparser.member;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.enums.EnvPropEnum;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
@@ -93,8 +94,14 @@ public class ConstructorMemberParse extends MethodMemberParse{
             for (JavaParameterMeta parameter : parameters) {
                 JavaClassMeta javaClass = parameter.getJavaClass();
                 if(javaClass != null){
+                    String className = javaClass.getClassName();
+                    //数组类型
+                    if(StrUtil.isNotBlank(javaClass.getArrayFullClassName())){
+                        className = className.replace("[","").replace("]","").trim();
+                        className +="-a";
+                    }
                     uniqueId.append("-");
-                    uniqueId.append(javaClass.getClassName());
+                    uniqueId.append(className);
                 }
             }
         }
