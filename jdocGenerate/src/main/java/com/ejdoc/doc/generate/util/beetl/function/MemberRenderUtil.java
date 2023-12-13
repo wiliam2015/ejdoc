@@ -321,6 +321,8 @@ public class MemberRenderUtil {
             result.append(classJson.getStr("dependencyRelativePath"));
             result.append(".md");
             result.append(")");
+        }else  if(classJson.getBool("typeParameter",false)){
+            result.append(classJson.getStr("className"));
         }else{
             String fullClassName = classJson.getStr("fullClassName");
             String className = classJson.getStr("className");

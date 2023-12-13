@@ -129,6 +129,8 @@ public class DocClassRenderUtil {
             result.append(classJson.getStr("dependencyRelativePath"));
             result.append(".md");
             result.append(")");
+        }else  if(classJson.getBool("typeParameter",false)){
+            result.append(classJson.getStr("className"));
         }else{
 
             String fullClassName = classJson.getStr("nestedClassFullClassName");
@@ -196,7 +198,6 @@ public class DocClassRenderUtil {
         if(paras != null && paras instanceof JSONObject){
             JSONObject classJson =(JSONObject)paras;
             String fullClassName = classJson.getStr("fullClassName");
-            String className = classJson.getStr("className");
             List<String> allJdkMethods = DocParseUtil.parseJdkClassMethodMd(fullClassName);
             if(CollectionUtil.isNotEmpty(allJdkMethods)){
                 int i = 1;
@@ -402,6 +403,8 @@ public class DocClassRenderUtil {
             result.append(classJson.getStr("dependencyRelativePath"));
             result.append(".md");
             result.append(")");
+        }else  if(classJson.getBool("typeParameter",false)){
+            result.append(classJson.getStr("className"));
         }else{
 
             String fullClassName = classJson.getStr("fullClassName");

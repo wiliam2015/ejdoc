@@ -1,6 +1,7 @@
 package com.ejdoc.metainfo.seralize.parser.impl.javaparser.member;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.enums.EnvPropEnum;
@@ -29,18 +30,58 @@ public class ConstructorMemberParse extends MethodMemberParse{
     @Override
     protected void parseBodyDeclarationToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, NodeList<BodyDeclaration<?>> members, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
         List<JavaConstructorMeta> constructorMetas = new ArrayList<>();
+        List<JavaConstructorMeta> result = new ArrayList<>();
         String compileIncludePrivate = javaParserMetaContext.getEnvPropVal(EnvPropEnum.compile_include_private.getCode(), "");
         for (BodyDeclaration<?> member : members) {
             if(accept(member)){
                 JavaConstructorMeta javaConstructorMeta = parseContructorMember(member);
-                if(filterModifier(compileIncludePrivate,javaConstructorMeta.getModifiers())){
-                    constructorMetas.add(javaConstructorMeta);
+                constructorMetas.add(javaConstructorMeta);
+
+            }
+        }
+        if(CollectionUtil.isNotEmpty(constructorMetas)){
+            for (JavaConstructorMeta constructorMeta : constructorMetas) {
+                if(filterModifier(compileIncludePrivate,constructorMeta.getModifiers())){
+                    result.add(constructorMeta);
+                }
+            }
+        }else{
+            JavaConstructorMeta javaConstructorMeta = new JavaConstructorMeta();
+            javaConstructorMeta.setName(javaClassMeta.getClassName());
+            javaConstructorMeta.setModifiers(ListUtil.of("public"));
+            javaConstructorMeta.setPrivates(false);
+            javaConstructorMeta.setPublics(true);
+            javaConstructorMeta.setProtecteds(false);
+            javaConstructorMeta.setUniqueId(javaClassMeta.getClassName());
+            result.add(javaConstructorMeta);
+        }
+        javaClassMeta.setConstructors(result);
+        replaceConstructMethodFullClassRefByImport(javaClassMeta,result);
+    }
+
+    /**
+     * 将解析失败的全名称路径进一步替换成import的
+     * @param javaClassMeta
+     * @param methodMetas
+     */
+    private void replaceConstructMethodFullClassRefByImport(JavaClassMeta javaClassMeta, List<JavaConstructorMeta> methodMetas) {
+        List<JavaClassMeta> readyReplaceFullClassNameList = new ArrayList<>();
+        for (JavaConstructorMeta methodMeta : methodMetas) {
+            List<JavaParameterMeta> parameters = methodMeta.getParameters();
+            if(CollectionUtil.isNotEmpty(parameters)){
+                for (JavaParameterMeta parameter : parameters) {
+                    addClassMetaList(readyReplaceFullClassNameList,parameter.getJavaClass());
+                }
+            }
+            List<JavaClassMeta> exceptions = methodMeta.getExceptions();
+            if(CollectionUtil.isNotEmpty(exceptions)){
+                for (JavaClassMeta exception : exceptions) {
+                    addClassMetaList(readyReplaceFullClassNameList,exception);
                 }
             }
         }
-        javaClassMeta.setConstructors(constructorMetas);
+        replaceFullClassNameByImport(readyReplaceFullClassNameList, javaClassMeta.getImports());
     }
-
     private JavaConstructorMeta parseContructorMember(BodyDeclaration<?> member) {
         JavaConstructorMeta javaConstructorMeta = new JavaConstructorMeta();
         JavaMethodMeta javaMethodMeta = parseConstructorsMember(member);

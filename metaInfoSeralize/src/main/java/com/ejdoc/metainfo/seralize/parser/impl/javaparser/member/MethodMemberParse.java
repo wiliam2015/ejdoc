@@ -13,10 +13,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.AnnotationExpr;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import com.github.javaparser.ast.type.ReferenceType;
-import com.github.javaparser.ast.type.Type;
-import com.github.javaparser.ast.type.TypeParameter;
+import com.github.javaparser.ast.type.*;
 import com.github.javaparser.javadoc.Javadoc;
 import com.github.javaparser.resolution.UnsolvedSymbolException;
 import com.github.javaparser.resolution.declarations.ResolvedMethodDeclaration;
@@ -26,9 +23,7 @@ import com.github.javaparser.resolution.types.ResolvedType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MethodMemberParse extends AbstractJavaParseMemberParse{
@@ -46,9 +41,82 @@ public class MethodMemberParse extends AbstractJavaParseMemberParse{
                 }
             }
         }
+
         List<JavaMethodMeta> methodMetas = CollectionUtil.sortByProperty(javaMethodMetas, "name");
+        replaceMethodFullClassRefByImport(javaClassMeta, methodMetas);
+        paraseTypeParameterFlag(methodMetas);
         javaClassMeta.setMethods(methodMetas);
     }
+
+    /**
+     * 解析方法体对类型参数打标
+     * @param methodMetas
+     */
+    private void paraseTypeParameterFlag(List<JavaMethodMeta> methodMetas) {
+        for (JavaMethodMeta methodMeta : methodMetas) {
+            JavaClassMeta returns = methodMeta.getReturns();
+            boolean includeTypeParameter = false;
+            Map<String, String> typeParameterMap = new HashMap<>();
+            if(returns != null && CollectionUtil.isNotEmpty(returns.getTypeParameters())){
+                includeTypeParameter = true;
+                returns.setTypeParameter(true);
+                typeParameterMap.putAll(returns.getTypeParameters().stream().collect(Collectors.toMap(String::trim, String::trim)));
+            }
+            List<JavaClassMeta> returnTypeArguments = returns.getTypeArguments();
+            if(CollectionUtil.isNotEmpty(returnTypeArguments)){
+                for (JavaClassMeta typeArgument : returnTypeArguments) {
+                    if(typeParameterMap.containsKey(typeArgument.getClassName())){
+                        typeArgument.setTypeParameter(includeTypeParameter);
+                    }
+                }
+            }
+
+            List<JavaParameterMeta> parameters = methodMeta.getParameters();
+            if(CollectionUtil.isNotEmpty(parameters)){
+                for (JavaParameterMeta parameter : parameters) {
+                    JavaClassMeta javaClass = parameter.getJavaClass();
+                    if(typeParameterMap.containsKey(javaClass.getClassName())){
+                        javaClass.setTypeParameter(includeTypeParameter);
+                    }
+                    List<JavaClassMeta> typeArguments = javaClass.getTypeArguments();
+                    if(CollectionUtil.isNotEmpty(typeArguments)){
+                        for (JavaClassMeta typeArgument : typeArguments) {
+                            if(typeParameterMap.containsKey(typeArgument.getClassName())){
+                                typeArgument.setTypeParameter(includeTypeParameter);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 将解析失败的全名称路径进一步替换成import的
+     * @param javaClassMeta
+     * @param methodMetas
+     */
+    private void replaceMethodFullClassRefByImport(JavaClassMeta javaClassMeta, List<JavaMethodMeta> methodMetas) {
+        List<JavaClassMeta> readyReplaceFullClassNameList = new ArrayList<>();
+        for (JavaMethodMeta methodMeta : methodMetas) {
+            addClassMetaList(readyReplaceFullClassNameList,methodMeta.getReturns());
+            List<JavaParameterMeta> parameters = methodMeta.getParameters();
+            if(CollectionUtil.isNotEmpty(parameters)){
+                for (JavaParameterMeta parameter : parameters) {
+                    addClassMetaList(readyReplaceFullClassNameList,parameter.getJavaClass());
+                }
+            }
+            List<JavaClassMeta> exceptions = methodMeta.getExceptions();
+            if(CollectionUtil.isNotEmpty(exceptions)){
+                for (JavaClassMeta exception : exceptions) {
+                    addClassMetaList(readyReplaceFullClassNameList,exception);
+                }
+            }
+        }
+        replaceFullClassNameByImport(readyReplaceFullClassNameList, javaClassMeta.getImports());
+    }
+
+
     private List<JavaMethodMeta> initJavaMethodMeta(JavaClassMeta javaClassMeta) {
         if(CollectionUtil.isEmpty(javaClassMeta.getMethods())){
             return new ArrayList<>();
@@ -262,9 +330,23 @@ public class MethodMemberParse extends AbstractJavaParseMemberParse{
                 List<JavaClassMeta> typeArgumentsList = new ArrayList<>();
                 JavaClassMeta typeClassMeth = null;
                 for (Type type : typeArguments.get()) {
-                    typeClassMeth = new JavaClassMeta();
                     ResolvedType resolve = null;
+                    ResolvedType typeArgResolve = null;
+                    JavaClassMeta typeArgClassMeth = new JavaClassMeta();
+                    typeClassMeth = new JavaClassMeta();
+                    typeClassMeth.setClassName(type.asString());
                     try {
+                        if(type.isWildcardType()){
+                            WildcardType wildcardType = type.asWildcardType();
+                            Optional<ReferenceType> extendedType = wildcardType.getExtendedType();
+                            if(extendedType.isPresent()){
+                                if(extendedType.get().isClassOrInterfaceType()){
+                                    typeClassMeth.setTypeArgExtendClassName(extendedType.get().asClassOrInterfaceType().getNameAsString());
+                                }
+                                typeArgResolve =extendedType.get().resolve();
+
+                            }
+                        }
                         resolve = type.resolve();
                     }catch(UnsolvedSymbolException ue) {
                         log.debug("setTypeArgumentsFromType type.resolve UnsolvedSymbolException error",ue);
@@ -272,8 +354,14 @@ public class MethodMemberParse extends AbstractJavaParseMemberParse{
                     }catch (Exception e) {
                         log.error("setTypeArgumentsFromType type.resolve error {}",paramClass.getClassName(),e);
                     }
-                    typeClassMeth.setClassName(type.asString());
+
                     setFullClassNameFromResolvedType(typeClassMeth,resolve);
+                    if(typeArgResolve != null){
+                        setFullClassNameFromResolvedType(typeArgClassMeth,typeArgResolve);
+                        if(StrUtil.isNotBlank(typeArgClassMeth.getFullClassName())){
+                            typeClassMeth.setTypeArgExtendFullClassName(typeArgClassMeth.getFullClassName());
+                        }
+                    }
                     typeArgumentsList.add(typeClassMeth);
                     setTypeArgumentsFromType(type,typeClassMeth);
                 }

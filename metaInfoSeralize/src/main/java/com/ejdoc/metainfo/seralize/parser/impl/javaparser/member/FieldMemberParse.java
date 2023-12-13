@@ -6,9 +6,7 @@ import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.enums.EnvPropEnum;
-import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
-import com.ejdoc.metainfo.seralize.model.JavaFieldMeta;
-import com.ejdoc.metainfo.seralize.model.JavaModelMeta;
+import com.ejdoc.metainfo.seralize.model.*;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.NodeList;
@@ -39,10 +37,22 @@ public class FieldMemberParse extends AbstractJavaParseMemberParse{
             }
         }
         List<JavaFieldMeta> fieldMetas = CollectionUtil.sortByProperty(javaFieldMetas, "name");
+        replaceFieldFullClassRefByImport(javaClassMeta,javaFieldMetas);
         javaClassMeta.setFields(fieldMetas);
     }
 
 
+    /**
+     * 将解析失败的全名称路径进一步替换成import的
+     * @param javaClassMeta
+     */
+    private void replaceFieldFullClassRefByImport(JavaClassMeta javaClassMeta, List<JavaFieldMeta> javaFieldMetas) {
+        List<JavaClassMeta> readyReplaceFullClassNameList = new ArrayList<>();
+        for (JavaFieldMeta methodMeta : javaFieldMetas) {
+            addClassMetaList(readyReplaceFullClassNameList,methodMeta.getType());
+        }
+        replaceFullClassNameByImport(readyReplaceFullClassNameList, javaClassMeta.getImports());
+    }
     private JavaFieldMeta parseFieldMember(BodyDeclaration<?> member, MetaFileInfoDto metaFileInfo, TypeDeclaration<?> typeDeclaration) {
 
         JavaFieldMeta fieldMeta = new JavaFieldMeta();

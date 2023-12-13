@@ -266,13 +266,18 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
         println("");println("---");println("");
         print("### ");print("从");print(allSupperClassObj.className);println("类继承方法:");
         println();print("全路径信息");print(docClassFn.calLinkClassNameMd(allSupperClassObj));println("  ");
-        println(docClassFn.calAllClassesDetailMethodMd(allSupperClassObj.methods,"",allSupperClassObj.dependencyRelativePath));
+         if(allSupperClassObj.jdkClass){
+            println(docClassFn.calAllJdkClassesDetailMethodMd(allSupperClassObj));
+         }else{
+            println(docClassFn.calAllClassesDetailMethodMd(allSupperClassObj.methods,"",allSupperClassObj.dependencyRelativePath));
+         }
+
       }
     }
 %>
 
 
-<% if(isNotEmpty(prop.allInterfaceClassDetailProp)){
+<% if(isNotEmpty(prop.allInterfaceClassDetailProp) && isNotEmpty(prop.interfaceClass) && prop.interfaceClass){
     for(allSupperInterfaceClassObj in prop.allInterfaceClassDetailProp){
         println("");println("---");println("");
         print("### ");print("从");print(allSupperInterfaceClassObj.className);println("接口继承方法:");
@@ -379,6 +384,7 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
            println("<strong>Deprecated</strong> \n\n");
            println(docClassFn.printDeprecatedDesc(prop));
          }
+        println(docClassFn.calCommentTagsMd(methodObj,prop,"TYPEPARAM","**类型参数：** \n\n"));
         println(docClassFn.calCommentTagsMd(methodObj,prop,"PARAM","**参数描述：** \n\n"));
         println(docClassFn.calCommentTagsMd(methodObj,prop,"RETURN","**返回值描述：** "));
         println(docClassFn.calCommentTagsMd(methodObj,prop,"THROWS","**异常信息：** \n\n"));

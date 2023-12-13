@@ -5,31 +5,19 @@ import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
+import com.ejdoc.metainfo.seralize.index.MetaIndexContext;
+import com.ejdoc.metainfo.seralize.model.JavaClassImportMeta;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
-import com.ejdoc.metainfo.seralize.model.JavaFieldMeta;
-import com.ejdoc.metainfo.seralize.model.JavaMethodMeta;
-import com.ejdoc.metainfo.seralize.model.JavaParameterMeta;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.BaseJavaParse;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
-import com.github.javaparser.ast.Modifier;
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.*;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import com.github.javaparser.ast.type.ReferenceType;
-import com.github.javaparser.ast.type.Type;
-import com.github.javaparser.ast.type.TypeParameter;
-import com.github.javaparser.resolution.UnsolvedSymbolException;
-import com.github.javaparser.resolution.declarations.ResolvedMethodDeclaration;
-import com.github.javaparser.resolution.declarations.ResolvedParameterDeclaration;
-import com.github.javaparser.resolution.types.ResolvedType;
+import com.github.javaparser.ast.body.BodyDeclaration;
+import com.github.javaparser.ast.body.TypeDeclaration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public abstract class AbstractJavaParseMemberParse extends BaseJavaParse implements JavaParserMemberParse {
     private static final Logger log = LoggerFactory.getLogger(AbstractJavaParseMemberParse.class);
@@ -98,6 +86,58 @@ public abstract class AbstractJavaParseMemberParse extends BaseJavaParse impleme
         }
         return true;
     }
+
+    /**
+     * 根据导入的包替换全路径名称
+     * @param javaClassMetaList
+     * @param importsClass
+     */
+   protected void replaceFullClassNameByImport( List<JavaClassMeta> javaClassMetaList,List<JavaClassImportMeta> importsClass){
+       if(CollectionUtil.isNotEmpty(javaClassMetaList)){
+           for (JavaClassMeta javaClassMeta : javaClassMetaList) {
+               if(StrUtil.equals(javaClassMeta.getFullClassName(),javaClassMeta.getClassName())){
+                   List<String> importPackageClass = getImportPackageClass(importsClass);
+                   if(CollectionUtil.isNotEmpty(importPackageClass)){
+                       for (String packageClass : importPackageClass) {
+                           if(packageClass.endsWith(javaClassMeta.getClassName())){
+                               javaClassMeta.setFullClassName(packageClass);
+                           }
+                       }
+                   }
+               }
+           }
+       }
+
+}
+    protected void addClassMetaList(List<JavaClassMeta> classMetaList,JavaClassMeta classMeta){
+        if(classMeta != null){
+            classMetaList.add(classMeta);
+            List<JavaClassMeta> typeArguments = classMeta.getTypeArguments();
+            if(CollectionUtil.isNotEmpty(typeArguments)){
+                classMetaList.addAll(typeArguments);
+            }
+        }
+    }
+    protected List<String> getImportPackageClass(List<JavaClassImportMeta> importsClass){
+        List<String> imports = new ArrayList<>();
+        //导入子包引入
+        for (JavaClassImportMeta importInfo : importsClass) {
+            if(!importInfo.getName().startsWith("java")){
+                if(importInfo.isAsteriskImport() && !importInfo.isStaticImport()){
+                    List<JavaClassMeta> packageClassList = MetaIndexContext.getClassMetaByPackage(importInfo.getName());
+                    if(CollectionUtil.isNotEmpty(packageClassList)){
+                        for (JavaClassMeta javaClassMeta : packageClassList) {
+                            imports.add(javaClassMeta.getFullClassName());
+                        }
+                    }
+                }else{
+                    imports.add(importInfo.getName());
+                }
+            }
+        }
+        return imports;
+    }
+
 
     protected abstract void parseBodyDeclarationToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, NodeList<BodyDeclaration<?>> members, TypeDeclaration<?> typeDeclaration,JavaParserMetaContext javaParserMetaContext);
 

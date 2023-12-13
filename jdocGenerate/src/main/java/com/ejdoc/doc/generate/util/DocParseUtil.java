@@ -48,6 +48,21 @@ public class DocParseUtil {
     }
 
     /**
+     * 是否是jdk类
+     * @param fullClassName
+     * @return
+     */
+    public static boolean isJdkClass(String fullClassName){
+        if(StrUtil.isBlank(fullClassName)){
+            return false;
+        }
+        if(StrUtil.startWith(fullClassName,"java.") || StrUtil.startWith(fullClassName,"javax.")){
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 解析jdk类链接
      * @param className
      * @param fullClassName
@@ -68,7 +83,7 @@ public class DocParseUtil {
             result.append(".html?is-external=true");
             result.append(")");
         }else{
-            result.append(className);
+            result.append(fullClassName);
         }
         return result.toString();
     }

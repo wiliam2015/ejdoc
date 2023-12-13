@@ -2,6 +2,8 @@ package com.ejdoc.doc.generate.util;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ClassLoaderUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.reflect.generics.reflectiveObjects.*;
 
 import java.lang.reflect.Method;
@@ -10,9 +12,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class JdkClassUtil {
+
+    private static final Logger log = LoggerFactory.getLogger(JdkClassUtil.class);
 
     /**
      * 获取公共方法
@@ -21,10 +24,17 @@ public class JdkClassUtil {
      */
     public static List<Method> getAllPublicMethod(String fullJdkClassName){
         List<Method> allMethods = new ArrayList<>();
-        Class<?> aClass = ClassLoaderUtil.loadClass(fullJdkClassName);
-        Method[] methods = aClass.getMethods();
-        if(ArrayUtil.isNotEmpty(methods)){
-            allMethods.addAll(Arrays.asList(methods));
+        Class<?> aClass = null;
+        try {
+            aClass = ClassLoaderUtil.loadClass(fullJdkClassName);
+        } catch (Exception e) {
+            log.debug(" JdkClassUtil  getAllPublicMethod loadClass fullJdkClassName:{} error",fullJdkClassName);
+        }
+        if(aClass != null){
+            Method[] methods = aClass.getMethods();
+            if(ArrayUtil.isNotEmpty(methods)){
+                allMethods.addAll(Arrays.asList(methods));
+            }
         }
         return allMethods;
     }

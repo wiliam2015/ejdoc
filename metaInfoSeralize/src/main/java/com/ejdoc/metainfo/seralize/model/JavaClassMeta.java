@@ -38,6 +38,11 @@ public class JavaClassMeta  implements Serializable {
     /**嵌套类*/
     private String nestedClassName;
 
+    /**类型参数类名*/
+    private String typeArgExtendClassName;
+
+    /**类型参数全路径*/
+    private String typeArgExtendFullClassName;
     /**
      * 类型注解参数
      */
@@ -98,6 +103,10 @@ public class JavaClassMeta  implements Serializable {
     private Boolean voidClass;
 
     private Boolean jdkClass;
+    /**类型参数*/
+    private Boolean typeParameter;
+    /**通配符类型，类似结构：Class<? extends Aspect> */
+    private Boolean wildcardType;
 
     private List<JavaClassMeta> superClasses;
 
@@ -548,6 +557,38 @@ public class JavaClassMeta  implements Serializable {
 
     public void setJdkClass(Boolean jdkClass) {
         this.jdkClass = jdkClass;
+    }
+
+    public Boolean getTypeParameter() {
+        return typeParameter;
+    }
+
+    public void setTypeParameter(Boolean typeParameter) {
+        this.typeParameter = typeParameter;
+    }
+
+    public Boolean getWildcardType() {
+        return wildcardType;
+    }
+
+    public void setWildcardType(Boolean wildcardType) {
+        this.wildcardType = wildcardType;
+    }
+
+    public String getTypeArgExtendClassName() {
+        return typeArgExtendClassName;
+    }
+
+    public void setTypeArgExtendClassName(String typeArgExtendClassName) {
+        this.typeArgExtendClassName = typeArgExtendClassName;
+    }
+
+    public String getTypeArgExtendFullClassName() {
+        return typeArgExtendFullClassName;
+    }
+
+    public void setTypeArgExtendFullClassName(String typeArgExtendFullClassName) {
+        this.typeArgExtendFullClassName = typeArgExtendFullClassName;
     }
 
     public String parseDeclarationStructure(){

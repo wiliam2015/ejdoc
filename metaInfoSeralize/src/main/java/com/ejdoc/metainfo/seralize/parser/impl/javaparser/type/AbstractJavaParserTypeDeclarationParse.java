@@ -1,8 +1,11 @@
 package com.ejdoc.metainfo.seralize.parser.impl.javaparser.type;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
+import com.ejdoc.metainfo.seralize.index.MetaIndexContext;
 import com.ejdoc.metainfo.seralize.model.*;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.BaseJavaParse;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
@@ -140,19 +143,39 @@ public abstract class AbstractJavaParserTypeDeclarationParse extends BaseJavaPar
     protected void parseSuperJavaClass(JavaClassMeta javaClassMeta, TypeDeclaration<?> typeDeclaration) {
 
         if(typeDeclaration.isClassOrInterfaceDeclaration()){
-            NodeList<ClassOrInterfaceType> extendedTypes = ((ClassOrInterfaceDeclaration)typeDeclaration).getExtendedTypes();
+            ClassOrInterfaceDeclaration classOrInterfaceDeclaration = (ClassOrInterfaceDeclaration) typeDeclaration;
+            NodeList<ClassOrInterfaceType> extendedTypes = classOrInterfaceDeclaration.getExtendedTypes();
 
             if(CollectionUtil.isNotEmpty(extendedTypes)){
                 List<JavaClassMeta> superClasses = new ArrayList<>();
                 for (ClassOrInterfaceType extendedType : extendedTypes) {
-                    superClasses.add(convertClassOrInterfaceTypeToSimpleClassMeta(extendedType));
+                    superClasses.add(convertClassOrInterfaceTypeToSimpleClassMeta(extendedType,javaClassMeta.getImports()));
                 }
                 javaClassMeta.setSuperClasses(superClasses);
+            }else{
+                if(classOrInterfaceDeclaration.isInterface()){
+                    return;
+                }
+                if(classOrInterfaceDeclaration.isEnumDeclaration()){
+                    return;
+                }
+                if(classOrInterfaceDeclaration.isAnnotationDeclaration()){
+                    return;
+                }
+                JavaClassMeta superJavaClassMeta = new JavaClassMeta();
+                superJavaClassMeta.setClassName("Object");
+                superJavaClassMeta.setFullClassName("java.lang.Object");
+                superJavaClassMeta.setPackageName("java.lang");
+                superJavaClassMeta.setJdkClass(true);
+                superJavaClassMeta.setInterfaceClass(false);
+                superJavaClassMeta.setClassNamePrefix("java.lang.");
+                superJavaClassMeta.setModifiers(ListUtil.of("public"));
+                javaClassMeta.setSuperClasses(ListUtil.of(superJavaClassMeta));
             }
         }
     }
 
-    protected JavaClassMeta convertClassOrInterfaceTypeToSimpleClassMeta(ClassOrInterfaceType implementedType) {
+    protected JavaClassMeta convertClassOrInterfaceTypeToSimpleClassMeta(ClassOrInterfaceType implementedType, List<JavaClassImportMeta> imports) {
         if(implementedType == null){
             return null;
         }
@@ -166,10 +189,39 @@ public abstract class AbstractJavaParserTypeDeclarationParse extends BaseJavaPar
         javaClassMeta.setFullClassName(implementedType.getNameAsString());
         ResolvedType resolve = getRefClassResolvedType(implementedType);
         setFullClassNameFromResolvedType(javaClassMeta,resolve);
+        if(StrUtil.equals(javaClassMeta.getFullClassName(),javaClassMeta.getClassName())){
+            List<String> importPackageClass = getImportPackageClass(imports);
+            if(CollectionUtil.isNotEmpty(importPackageClass)){
+                for (String packageClass : importPackageClass) {
+                    if(packageClass.endsWith(javaClassMeta.getClassName())){
+                        javaClassMeta.setFullClassName(packageClass);
+                    }
+                }
+            }
+        }
         return javaClassMeta;
     }
 
 
+    protected List<String> getImportPackageClass(List<JavaClassImportMeta> importsClass){
+        List<String> imports = new ArrayList<>();
+        //导入子包引入
+        for (JavaClassImportMeta importInfo : importsClass) {
+            if(!importInfo.getName().startsWith("java")){
+                if(importInfo.isAsteriskImport() && !importInfo.isStaticImport()){
+                    List<JavaClassMeta> packageClassList = MetaIndexContext.getClassMetaByPackage(importInfo.getName());
+                    if(CollectionUtil.isNotEmpty(packageClassList)){
+                        for (JavaClassMeta javaClassMeta : packageClassList) {
+                            imports.add(javaClassMeta.getFullClassName());
+                        }
+                    }
+                }else{
+                    imports.add(importInfo.getName());
+                }
+            }
+        }
+        return imports;
+    }
 
 
     protected  ResolvedType getRefClassResolvedType(ClassOrInterfaceType implementedType) {
