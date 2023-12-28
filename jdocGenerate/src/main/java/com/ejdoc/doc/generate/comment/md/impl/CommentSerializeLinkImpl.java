@@ -1,18 +1,17 @@
 package com.ejdoc.doc.generate.comment.md.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ejdoc.doc.generate.comment.CommentSerialize;
 import com.ejdoc.doc.generate.comment.dto.CommentLinkDto;
 import com.ejdoc.doc.generate.comment.dto.CommentSerializeRootDocDto;
+import com.ejdoc.doc.generate.util.ImportUtil;
 import com.ejdoc.doc.generate.util.beetl.function.MemberRenderUtil;
 import com.ejdoc.metainfo.seralize.enums.JavaDocCommentTypeEnum;
 import com.ejdoc.metainfo.seralize.index.MetaIndexContext;
 import com.ejdoc.metainfo.seralize.index.TreeIndexClassMeta;
-import com.ejdoc.metainfo.seralize.model.JavaClassImportMeta;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
-import com.ejdoc.metainfo.seralize.model.JavaFieldMeta;
-import com.ejdoc.metainfo.seralize.model.JavaMethodMeta;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,51 +107,28 @@ public class CommentSerializeLinkImpl implements CommentSerialize {
      */
     private void processCommentLinkDto(CommentLinkDto commentLinkDto, CommentSerializeRootDocDto serializeRootDocDto) {
 
-        List<String> imports = new ArrayList<>();
-
         JavaClassMeta classMeta = MetaIndexContext.getClassMetaByFullName(serializeRootDocDto.getFullClassName());
-        if(classMeta != null){
-            commentLinkDto.setLinkJavaClassMeta(classMeta);
-            List<JavaClassMeta> classMetaByPackage = MetaIndexContext.getClassMetaByPackage(classMeta.getPackageName());
-            if(CollectionUtil.isNotEmpty(classMetaByPackage)){
-                for (JavaClassMeta javaClassMeta : classMetaByPackage) {
-                    imports.add(javaClassMeta.getFullClassName());
-                }
-            }
-            List<JavaClassImportMeta> importsClass = classMeta.getImports();
-            //导入子包引入
-            for (JavaClassImportMeta importInfo : importsClass) {
-                if(!importInfo.getName().startsWith("java")){
-                    if(importInfo.isAsteriskImport() && !importInfo.isStaticImport()){
-                        List<JavaClassMeta> packageClassList = MetaIndexContext.getClassMetaByPackage(importInfo.getName());
-                        if(CollectionUtil.isNotEmpty(packageClassList)){
-                            for (JavaClassMeta javaClassMeta : packageClassList) {
-                                imports.add(javaClassMeta.getFullClassName());
-                            }
-                        }
-                    }else{
-                        imports.add(importInfo.getName());
-                    }
-                }
-            }
-        }
-
-        commentLinkDto.setImports(imports);
 
         if(commentLinkDto.isClassLink()){
-            if(commentLinkDto.isFullClassPathLink() && !commentLinkDto.getFullName().startsWith("java")){
-                JavaClassMeta refClassMeta = MetaIndexContext.getClassMetaByFullName(commentLinkDto.getFullName());
-                commentLinkDto.setLinkRefJavaClassMeta(refClassMeta);
-            }else if(classMeta != null && !commentLinkDto.getFullName().startsWith("java")){
-                List<JavaClassMeta> currentPackage = MetaIndexContext.getClassMetaByPackage(classMeta.getPackageName());
-                if(CollectionUtil.isNotEmpty(currentPackage)){
-                    for (JavaClassMeta javaClassMeta : currentPackage) {
-                        if(commentLinkDto.getFullName().equals(javaClassMeta.getValue())){
-                            commentLinkDto.setLinkRefJavaClassMeta(javaClassMeta);
+            if(commentLinkDto.getFullName().startsWith("java")){
+
+            }else{
+                if(commentLinkDto.isFullClassPathLink()){
+                    JavaClassMeta refClassMeta = MetaIndexContext.getClassMetaByFullName(commentLinkDto.getFullName());
+                    commentLinkDto.setLinkRefJavaClassMeta(refClassMeta);
+                }else if(classMeta != null){
+                    List<JavaClassMeta> importClass = ImportUtil.getImportClass(serializeRootDocDto.getFullClassName());
+                    //引用的是当前包下的类和有import语句的类
+                    if(CollectionUtil.isNotEmpty(importClass)){
+                        for (JavaClassMeta javaClassMeta : importClass) {
+                            if(javaClassMeta != null && StrUtil.equals(commentLinkDto.getFullName(),javaClassMeta.getValue())){
+                                commentLinkDto.setLinkRefJavaClassMeta(javaClassMeta);
+                            }
                         }
                     }
                 }
             }
+
         }
     }
 
@@ -247,7 +223,7 @@ public class CommentSerializeLinkImpl implements CommentSerialize {
             }
         }
         if(StrUtil.isNotBlank(uniqueName)){
-            content = memberRenderUtil.createALinkHrefIdHtml(commentLinkDto.getLabelName(),"",uniqueName,null);
+            content = memberRenderUtil.createALinkHrefIdHtml(commentLinkDto.getLabelName(),"jdkClass",uniqueName,null);
         }
         return content;
     }
@@ -273,11 +249,21 @@ public class CommentSerializeLinkImpl implements CommentSerialize {
      * @return
      */
     private  String getLinkContentPreName(JavaClassMeta linkJavaClassMeta) {
-        String preName = StrUtil.join("/", linkJavaClassMeta.getModuleName(), linkJavaClassMeta.getFullClassName().replace(".","/"));
-        if(linkJavaClassMeta.getNestedClass() != null && linkJavaClassMeta.getNestedClass()){
-            preName = StrUtil.join("/", linkJavaClassMeta.getModuleName(), linkJavaClassMeta.getPackageName().replace(".","/"), linkJavaClassMeta.getClassName());
+        if(BooleanUtil.isTrue(linkJavaClassMeta.getJdkClass())){
+            StringBuilder jdkLinkBuilder= new StringBuilder("https://docs.oracle.com/javase/8/docs/api/");
+            if(StrUtil.isNotBlank(linkJavaClassMeta.getFullClassName())){
+                jdkLinkBuilder.append(linkJavaClassMeta.getFullClassName().replace(".","/"));
+            }
+            jdkLinkBuilder.append(".html?is-external=true");
+            return jdkLinkBuilder.toString();
+        }else{
+            String preName = StrUtil.join("/", linkJavaClassMeta.getModuleName(), linkJavaClassMeta.getFullClassName().replace(".","/"));
+            if(linkJavaClassMeta.getNestedClass() != null && linkJavaClassMeta.getNestedClass()){
+                preName = StrUtil.join("/", linkJavaClassMeta.getModuleName(), linkJavaClassMeta.getPackageName().replace(".","/"), linkJavaClassMeta.getClassName());
+            }
+            return preName;
         }
-        return preName;
+
     }
 
     /**

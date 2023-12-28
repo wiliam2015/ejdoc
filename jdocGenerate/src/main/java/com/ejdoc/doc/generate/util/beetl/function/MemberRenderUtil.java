@@ -120,16 +120,24 @@ public class MemberRenderUtil {
 
     public String createALinkHrefIdHtml(Object name,String prex,String uniqueName, Context ctx) {
         StringBuilder result = new StringBuilder();
-        if(name instanceof String){
-            result.append("<a href=\"#");
-            if(StrUtil.isNotBlank(uniqueName)){
-                result.append(prex+uniqueName);
-            }else{
-                result.append(prex+name);
-            }
+        if(StrUtil.equals("jdkClass",prex)){
+            result.append("<a target='_blank' href=\"");
+            result.append(uniqueName);
             result.append("\">");
             result.append(name);
             result.append("</a>");
+        }else{
+            if(name instanceof String){
+                result.append("<a href=\"#");
+                if(StrUtil.isNotBlank(uniqueName)){
+                    result.append(prex+uniqueName);
+                }else{
+                    result.append(prex+name);
+                }
+                result.append("\">");
+                result.append(name);
+                result.append("</a>");
+            }
         }
         return result.toString();
     }
@@ -266,7 +274,7 @@ public class MemberRenderUtil {
                 typeArgumentObjStr.append(",");
                 JSONObject typeJsonObj = (JSONObject)typeArgument;
                 typeArgumentObjStr.append(createClassNameLinkMd(typeJsonObj));
-                createTypeArgMd(typeJsonObj,typeArgumentStr);
+                createTypeArgMd(typeJsonObj,typeArgumentObjStr);
             }
             typeArgumentStr.append(typeArgumentObjStr.substring(1));
             typeArgumentStr.append(" >");
@@ -301,9 +309,15 @@ public class MemberRenderUtil {
             if(typeParametersArr.size() > 0){
                 result.append("< ");
                 StringBuilder typeParametersStr = new StringBuilder();
-                for (Object typeParameters : typeParametersArr) {
+                for (Object typeParametersObj : typeParametersArr) {
+                    JSONObject typeParameters = (JSONObject)typeParametersObj;
                     typeParametersStr.append(",");
-                    typeParametersStr.append(typeParameters.toString());
+                    typeParametersStr.append(typeParameters.getStr("name"));
+                    if(typeParameters.containsKey("type")){
+                        JSONObject type = typeParameters.getJSONObject("type");
+                        typeParametersStr.append(" extends ");
+                        typeParametersStr.append(createClassNameLinkMd(type));
+                    }
                 }
                 result.append(typeParametersStr.substring(1));
                 result.append(" > ");
@@ -313,6 +327,19 @@ public class MemberRenderUtil {
     }
 
     private  String createClassNameLinkMd(JSONObject classJson) {
+        StringBuilder result = new StringBuilder();
+        String className = classJson.getStr("className");
+        if(classJson.containsKey("typeArgExtend") && className.contains("?")){
+            result.append("? extends ");
+            JSONObject typeArgExtend = classJson.getJSONObject("typeArgExtend");
+            result.append(innerCreateClassNameLinkMd(typeArgExtend));
+        }else{
+            result.append(innerCreateClassNameLinkMd(classJson));
+        }
+        return result.toString();
+    }
+
+    private  String innerCreateClassNameLinkMd(JSONObject classJson) {
         StringBuilder result = new StringBuilder();
         if(classJson.containsKey("dependencyRelativePath")){
             result.append("[");
@@ -325,12 +352,12 @@ public class MemberRenderUtil {
             result.append(classJson.getStr("className"));
         }else{
             String fullClassName = classJson.getStr("fullClassName");
+
             String className = classJson.getStr("className");
             result.append(DocParseUtil.parseJdkClassLink(className,fullClassName));
         }
         return result.toString();
     }
-
 
 
 }

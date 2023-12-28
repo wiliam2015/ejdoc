@@ -42,6 +42,16 @@
 }
 %>
 
+<% if(prop.sideType == "allSerial"){
+  println("- **"+prop.title+"目录**");
+  println();
+  for(obj in prop.tableList){
+     var linkPath ="/route/allserial/"+obj.moduleName+".md";
+     print("	- ");println(docClassFn.createCommonLinkMd(obj.moduleName,linkPath));
+  }
+}
+%>
+
 <% if(prop.sideType == "packageDetail"){
   println("- **"+prop.title+"目录**");
   println();

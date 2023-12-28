@@ -6,12 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.reflect.generics.reflectiveObjects.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.net.URL;
+import java.util.*;
 
 public class JdkClassUtil {
 
@@ -75,25 +76,42 @@ public class JdkClassUtil {
         return result.toString();
     }
 
+    public static List<String> getClassNamesByPackage(String packageName) {
+        List<String> classNameList = new ArrayList<>();
+        try {
+            String packagePath = packageName.replace(".","/");
+            Enumeration<URL> resources = ClassLoader.getSystemClassLoader().getResources("/"+packagePath);
+            List<File> classFile = new ArrayList<>();
+            while (resources.hasMoreElements()){
+                URL url = resources.nextElement();
+                classFile.add(new File(url.getFile()));
+            }
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return classNameList;
+    }
+
 
     public static void main(String[] args) {
-        List<Method> javaObjectMethods = JdkClassUtil.getAllPublicMethod("java.lang.Object");
-        for (Method method : javaObjectMethods) {
-            System.out.println(getMethodFullName(method));
-        }
-        System.out.println("----------");
-        System.out.println("----------");
-        Class<?> aClass = ClassLoaderUtil.loadClass("java.util.Map");
-        Class<?>[] declaredClasses = aClass.getDeclaredClasses();
-        if(ArrayUtil.isNotEmpty(declaredClasses)){
-            for (Class<?> declaredClass : declaredClasses) {
-                System.out.println(declaredClass.getName());
-            }
-        }
-        List<Method> allPublicMethod = JdkClassUtil.getAllPublicMethod("java.util.Map");
-        for (Method method : allPublicMethod) {
-            System.out.println(getMethodFullName(method));
-
-        }
+//        List<Method> javaObjectMethods = JdkClassUtil.getAllPublicMethod("java.lang.Object");
+//        for (Method method : javaObjectMethods) {
+//            System.out.println(getMethodFullName(method));
+//        }
+//        System.out.println("----------");
+//        System.out.println("----------");
+//        Class<?> aClass = ClassLoaderUtil.loadClass("java.util.Map");
+//        Class<?>[] declaredClasses = aClass.getDeclaredClasses();
+//        if(ArrayUtil.isNotEmpty(declaredClasses)){
+//            for (Class<?> declaredClass : declaredClasses) {
+//                System.out.println(declaredClass.getName());
+//            }
+//        }
+//        List<Method> allPublicMethod = JdkClassUtil.getAllPublicMethod("java.util.Map");
+//        for (Method method : allPublicMethod) {
+//            System.out.println(getMethodFullName(method));
+//
+//        }
     }
 }

@@ -1,19 +1,22 @@
 package com.ejdoc.metainfo.seralize.parser.impl.javaparser.member;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.enums.EnvPropEnum;
 import com.ejdoc.metainfo.seralize.model.*;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
-import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaInfoParser;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.UnSolvedSymbolTool;
 import com.github.javaparser.ast.Modifier;
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.AnnotationExpr;
-import com.github.javaparser.ast.type.*;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.ast.type.ReferenceType;
+import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.ast.type.WildcardType;
 import com.github.javaparser.javadoc.Javadoc;
 import com.github.javaparser.resolution.UnsolvedSymbolException;
 import com.github.javaparser.resolution.declarations.ResolvedMethodDeclaration;
@@ -44,7 +47,7 @@ public class MethodMemberParse extends AbstractJavaParseMemberParse{
 
         List<JavaMethodMeta> methodMetas = CollectionUtil.sortByProperty(javaMethodMetas, "name");
         replaceMethodFullClassRefByImport(javaClassMeta, methodMetas);
-        paraseTypeParameterFlag(methodMetas);
+        paraseTypeParameterFlag(methodMetas,javaClassMeta);
         javaClassMeta.setMethods(methodMetas);
     }
 
@@ -52,41 +55,58 @@ public class MethodMemberParse extends AbstractJavaParseMemberParse{
      * 解析方法体对类型参数打标
      * @param methodMetas
      */
-    private void paraseTypeParameterFlag(List<JavaMethodMeta> methodMetas) {
+    private void paraseTypeParameterFlag(List<JavaMethodMeta> methodMetas,JavaClassMeta javaClassMeta) {
+        boolean isClassTypePara = BooleanUtil.isTrue(javaClassMeta.getTypeParameter());
+        Map<String, String> typeParameterMap = new HashMap<>();
+        if(isClassTypePara){
+            typeParameterMap.putAll(javaClassMeta.getTypeParameters().stream().collect(Collectors.toMap(JavaTypeParameterMeta::getName, JavaTypeParameterMeta::getName)));
+        }
         for (JavaMethodMeta methodMeta : methodMetas) {
             JavaClassMeta returns = methodMeta.getReturns();
-            boolean includeTypeParameter = false;
-            Map<String, String> typeParameterMap = new HashMap<>();
-            if(returns != null && CollectionUtil.isNotEmpty(returns.getTypeParameters())){
-                includeTypeParameter = true;
+            if(returns == null){
+                continue;
+            }
+
+            if(CollectionUtil.isNotEmpty(returns.getTypeParameters())){
                 returns.setTypeParameter(true);
-                typeParameterMap.putAll(returns.getTypeParameters().stream().collect(Collectors.toMap(String::trim, String::trim)));
+                typeParameterMap.putAll(returns.getTypeParameters().stream().collect(Collectors.toMap(JavaTypeParameterMeta::getName, JavaTypeParameterMeta::getName)));
+            }
+            if(typeParameterMap.containsKey(returns.getClassName())){
+                returns.setTypeParameter(true);
             }
             List<JavaClassMeta> returnTypeArguments = returns.getTypeArguments();
-            if(CollectionUtil.isNotEmpty(returnTypeArguments)){
-                for (JavaClassMeta typeArgument : returnTypeArguments) {
-                    if(typeParameterMap.containsKey(typeArgument.getClassName())){
-                        typeArgument.setTypeParameter(includeTypeParameter);
-                    }
-                }
-            }
+            setParaseTypeParameterFlag(typeParameterMap, returnTypeArguments);
 
             List<JavaParameterMeta> parameters = methodMeta.getParameters();
             if(CollectionUtil.isNotEmpty(parameters)){
                 for (JavaParameterMeta parameter : parameters) {
                     JavaClassMeta javaClass = parameter.getJavaClass();
                     if(typeParameterMap.containsKey(javaClass.getClassName())){
-                        javaClass.setTypeParameter(includeTypeParameter);
+                        javaClass.setTypeParameter(true);
                     }
                     List<JavaClassMeta> typeArguments = javaClass.getTypeArguments();
+                    setParaseTypeParameterFlag(typeParameterMap, typeArguments);
                     if(CollectionUtil.isNotEmpty(typeArguments)){
                         for (JavaClassMeta typeArgument : typeArguments) {
-                            if(typeParameterMap.containsKey(typeArgument.getClassName())){
-                                typeArgument.setTypeParameter(includeTypeParameter);
+                            if(typeArgument.getTypeArgExtend() == null){
+                                continue;
                             }
+                            setParaseTypeParameterFlag(typeParameterMap, ListUtil.of(typeArgument.getTypeArgExtend()));
                         }
                     }
+
                 }
+            }
+        }
+    }
+
+    protected void setParaseTypeParameterFlag(Map<String, String> typeParameterMap, List<JavaClassMeta> returnTypeArguments) {
+        if(CollectionUtil.isNotEmpty(returnTypeArguments)){
+            for (JavaClassMeta typeArgument : returnTypeArguments) {
+                if(typeParameterMap.containsKey(typeArgument.getClassName())){
+                    typeArgument.setTypeParameter(true);
+                }
+                setParaseTypeParameterFlag(typeParameterMap,typeArgument.getTypeArguments());
             }
         }
     }
@@ -331,22 +351,10 @@ public class MethodMemberParse extends AbstractJavaParseMemberParse{
                 JavaClassMeta typeClassMeth = null;
                 for (Type type : typeArguments.get()) {
                     ResolvedType resolve = null;
-                    ResolvedType typeArgResolve = null;
-                    JavaClassMeta typeArgClassMeth = new JavaClassMeta();
+
                     typeClassMeth = new JavaClassMeta();
                     typeClassMeth.setClassName(type.asString());
                     try {
-                        if(type.isWildcardType()){
-                            WildcardType wildcardType = type.asWildcardType();
-                            Optional<ReferenceType> extendedType = wildcardType.getExtendedType();
-                            if(extendedType.isPresent()){
-                                if(extendedType.get().isClassOrInterfaceType()){
-                                    typeClassMeth.setTypeArgExtendClassName(extendedType.get().asClassOrInterfaceType().getNameAsString());
-                                }
-                                typeArgResolve =extendedType.get().resolve();
-
-                            }
-                        }
                         resolve = type.resolve();
                     }catch(UnsolvedSymbolException ue) {
                         log.debug("setTypeArgumentsFromType type.resolve UnsolvedSymbolException error",ue);
@@ -354,14 +362,37 @@ public class MethodMemberParse extends AbstractJavaParseMemberParse{
                     }catch (Exception e) {
                         log.error("setTypeArgumentsFromType type.resolve error {}",paramClass.getClassName(),e);
                     }
-
                     setFullClassNameFromResolvedType(typeClassMeth,resolve);
-                    if(typeArgResolve != null){
-                        setFullClassNameFromResolvedType(typeArgClassMeth,typeArgResolve);
-                        if(StrUtil.isNotBlank(typeArgClassMeth.getFullClassName())){
-                            typeClassMeth.setTypeArgExtendFullClassName(typeArgClassMeth.getFullClassName());
+
+
+                    ResolvedType typeArgResolve = null;
+                    try {
+                        if(type.isWildcardType()){
+                            WildcardType wildcardType = type.asWildcardType();
+                            Optional<ReferenceType> extendedType = wildcardType.getExtendedType();
+                            if(extendedType.isPresent()){
+                                JavaClassMeta typeArgExtend = new JavaClassMeta();
+                                if(extendedType.get().isClassOrInterfaceType()){
+                                    typeArgExtend.setClassName(extendedType.get().asClassOrInterfaceType().getNameAsString());
+                                    typeArgExtend.setFullClassName(extendedType.get().asClassOrInterfaceType().getNameAsString());
+                                }
+                                typeArgResolve =extendedType.get().resolve();
+
+                                if(typeArgResolve != null){
+                                    setFullClassNameFromResolvedType(typeArgExtend,typeArgResolve);
+                                }
+                                typeClassMeth.setTypeArgExtend(typeArgExtend);
+                            }
                         }
+                    } catch(UnsolvedSymbolException ue) {
+                        log.debug("setTypeArgumentsFromType type.resolve UnsolvedSymbolException error",ue);
+                        UnSolvedSymbolTool.addUnSolveTOCache(ue.getMessage());
+                    }catch (Exception e) {
+                        log.error("setTypeArgumentsFromType type.resolve error {}",paramClass.getClassName(),e);
                     }
+
+
+
                     typeArgumentsList.add(typeClassMeth);
                     setTypeArgumentsFromType(type,typeClassMeth);
                 }
@@ -371,12 +402,7 @@ public class MethodMemberParse extends AbstractJavaParseMemberParse{
     }
 
 
-    private  void setTypeParametersFromDeclaration(NodeList<TypeParameter> typeParameters, JavaClassMeta returnType) {
-        if(CollectionUtil.isNotEmpty(typeParameters)){
-            List<String> typeParamList = typeParameters.stream().map(Node::toString).collect(Collectors.toList());
-            returnType.setTypeParameters(typeParamList);
-        }
-    }
+
 
 
 

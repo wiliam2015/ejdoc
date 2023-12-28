@@ -1,6 +1,7 @@
 package com.ejdoc.metainfo.seralize.seralize.plugin;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.ejdoc.metainfo.seralize.index.JavaMetaFileInfo;
@@ -29,6 +30,11 @@ public class JavaMetaSeralizeDependPathPlugin extends AbstractJavaMetaSeralizePl
 
     private void parseDependPath(JavaClassMeta javaClassMeta,SeralizeConfig seralizeConfig) {
 
+        if(javaClassMeta != null && StrUtil.equals(javaClassMeta.getClassName(),"AbstractAsymmetricCrypto")){
+            System.out.println("AbstractAsymmetricCrypto");
+        }
+        parseClassTypeParameterAndArgsDependPath(javaClassMeta,seralizeConfig);
+
         parseSupperClassDependPath(javaClassMeta,seralizeConfig);
 
         parseInterfaceDependPath(javaClassMeta,seralizeConfig);
@@ -41,8 +47,22 @@ public class JavaMetaSeralizeDependPathPlugin extends AbstractJavaMetaSeralizePl
 
     }
 
+    /**
+     * 解析类级别的类型参数和类型实参依赖路径
+     * @param javaClassMeta
+     * @param seralizeConfig
+     */
+    private void parseClassTypeParameterAndArgsDependPath(JavaClassMeta javaClassMeta, SeralizeConfig seralizeConfig) {
+        String fullClassName = javaClassMeta.getFullClassName();
+        JavaMetaFileInfo javaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(fullClassName);
+        String jsonFilePath = javaMetaFileInfo.getJsonFilePath();
 
+        setTypeParametersDependPath(seralizeConfig, jsonFilePath,  javaClassMeta.getTypeParameters());
+        setTypeArgumentsDependPath(seralizeConfig, jsonFilePath, javaClassMeta.getTypeArguments());
 
+        reSetJsonProp(javaClassMeta.getTypeParameters(), javaMetaFileInfo, "typeParameters");
+        reSetJsonProp(javaClassMeta.getTypeArguments(), javaMetaFileInfo, "typeArguments");
+    }
 
 
     private void parseMethodDependPath(JavaClassMeta javaClassMeta,SeralizeConfig seralizeConfig) {
@@ -57,25 +77,72 @@ public class JavaMetaSeralizeDependPathPlugin extends AbstractJavaMetaSeralizePl
                 JavaClassMeta returns = method.getReturns();
                 JavaMetaFileInfo returnJavaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(returns.getFullClassName());
                 setRelativePath(seralizeConfig,returnJavaMetaFileInfo,jsonFilePath, returns);
-                List<JavaClassMeta> typeArguments = returns.getTypeArguments();
-                if(CollectionUtil.isNotEmpty(typeArguments)){
-                    for (JavaClassMeta typeArgument : typeArguments) {
-                        JavaMetaFileInfo typeArgumentJavaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(typeArgument.getFullClassName());
-                        setRelativePath(seralizeConfig,typeArgumentJavaMetaFileInfo,jsonFilePath, typeArgument);
-                    }
-                }
+                setTypeArgumentsDependPath(seralizeConfig, jsonFilePath, returns.getTypeArguments());
+                setTypeParametersDependPath(seralizeConfig, jsonFilePath,  returns.getTypeParameters());
+
                 List<JavaParameterMeta> parameters = method.getParameters();
                 if(CollectionUtil.isNotEmpty(parameters)){
                     for (JavaParameterMeta parameter : parameters) {
                         JavaClassMeta javaClass = parameter.getJavaClass();
                         JavaMetaFileInfo paramJavaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(javaClass.getFullClassName());
                         setRelativePath(seralizeConfig,paramJavaMetaFileInfo,jsonFilePath, javaClass);
+
+                        setTypeArgumentsDependPath(seralizeConfig, jsonFilePath, javaClass.getTypeArguments());
+                        setTypeParametersDependPath(seralizeConfig, jsonFilePath,  javaClass.getTypeParameters());
                     }
                 }
                 parseBaseClassDependPath(seralizeConfig,method.getExceptions(),jsonFilePath,MetaIndexContext.getAllJavaMetaFileIndexMap());
+
             }
 
             reSetJsonProp(methods, javaMetaFileInfo, "methods");
+        }
+    }
+
+    /**
+     * 设置类型参数依赖路径
+     * Type Parameter 是在定义泛型类、接口或方法时使用的占位符，用于表示未知的具体类型。
+     * Type Parameter 通常使用单个大写字母来表示，例如 T、E、K 等。
+     * Type Parameter 是在定义阶段使用的，用于表示泛型的形式，不是具体的类型。
+     * @param seralizeConfig
+     * @param jsonFilePath
+     * @param typeParameters
+     */
+    private void setTypeParametersDependPath(SeralizeConfig seralizeConfig, String jsonFilePath, List<JavaTypeParameterMeta> typeParameters) {
+        if(CollectionUtil.isNotEmpty(typeParameters)){
+            for (JavaTypeParameterMeta typeParameter : typeParameters) {
+                if(typeParameter.getType() != null){
+                    JavaMetaFileInfo typeParameterJavaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(typeParameter.getType().getFullClassName());
+                    setRelativePath(seralizeConfig,typeParameterJavaMetaFileInfo, jsonFilePath, typeParameter.getType());
+                    setTypeParametersDependPath(seralizeConfig,jsonFilePath,typeParameter.getType().getTypeParameters());
+                    setTypeArgumentsDependPath(seralizeConfig, jsonFilePath, typeParameter.getType().getTypeArguments());
+                }
+            }
+        }
+    }
+
+    /**
+     * 设置类型实际参数的依赖路径
+     * Type Argument 是在创建对象、调用方法或实现接口时提供的实际类型。
+     * Type Argument 是在使用阶段指定的，用于替代 Type Parameter，使得泛型能够适应不同的具体类型。
+     * @param seralizeConfig
+     * @param jsonFilePath
+     * @param typeArguments
+     */
+    private void setTypeArgumentsDependPath(SeralizeConfig seralizeConfig, String jsonFilePath, List<JavaClassMeta> typeArguments) {
+        if(CollectionUtil.isEmpty(typeArguments)){
+            return;
+        }
+        for (JavaClassMeta typeArgument : typeArguments) {
+            JavaMetaFileInfo typeArgumentJavaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(typeArgument.getFullClassName());
+            setRelativePath(seralizeConfig,typeArgumentJavaMetaFileInfo, jsonFilePath, typeArgument);
+
+            JavaClassMeta typeArgExtend = typeArgument.getTypeArgExtend();
+            if(typeArgExtend != null){
+                JavaMetaFileInfo typeArgExtendJavaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(typeArgExtend.getFullClassName());
+                setRelativePath(seralizeConfig,typeArgExtendJavaMetaFileInfo, jsonFilePath, typeArgExtend);
+            }
+            setTypeArgumentsDependPath(seralizeConfig,jsonFilePath,typeArgument.getTypeArguments());
         }
     }
 
@@ -90,6 +157,9 @@ public class JavaMetaSeralizeDependPathPlugin extends AbstractJavaMetaSeralizePl
                 JavaClassMeta type = field.getType();
                 JavaMetaFileInfo fieldJavaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(type.getFullClassName());
                 setRelativePath(seralizeConfig,fieldJavaMetaFileInfo,jsonFilePath, type);
+
+                setTypeArgumentsDependPath(seralizeConfig, jsonFilePath, type.getTypeArguments());
+                setTypeParametersDependPath(seralizeConfig, jsonFilePath,  type.getTypeParameters());
             }
 
             reSetJsonProp(fields, javaMetaFileInfo, "fields");
@@ -111,6 +181,9 @@ public class JavaMetaSeralizeDependPathPlugin extends AbstractJavaMetaSeralizePl
                         JavaClassMeta javaClass = parameter.getJavaClass();
                         JavaMetaFileInfo contructorJavaMetaFileInfo = MetaIndexContext.getJavaMetaFileByFullName(javaClass.getFullClassName());
                         setRelativePath(seralizeConfig,contructorJavaMetaFileInfo,jsonFilePath, javaClass);
+
+                        setTypeArgumentsDependPath(seralizeConfig, jsonFilePath, javaClass.getTypeArguments());
+                        setTypeParametersDependPath(seralizeConfig, jsonFilePath,  javaClass.getTypeParameters());
                     }
                 }
                 parseBaseClassDependPath(seralizeConfig,constructor.getExceptions(),jsonFilePath,MetaIndexContext.getAllJavaMetaFileIndexMap());

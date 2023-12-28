@@ -124,7 +124,9 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
                 javaDocDocsifyThemeDto.setModuleDesc(moduleDesc);
                 javaDocDocsifyThemeDto.setClassName(className);
                 javaDocDocsifyThemeDto.setClassSimpleName(docClassFn.calSimpleClassNameStructure(jsonObject,null));
-                javaDocDocsifyThemeDto.setClassDesc(classDesc);
+                String classDescHtml = docClassFn.calCommentNoEnterDocMd(jsonObject, jsonObject, "", null);
+                javaDocDocsifyThemeDto.setClassDesc(classDescHtml);
+//                javaDocDocsifyThemeDto.setClassDesc(classDesc);
                 javaDocDocsifyThemeDto.setHead(className.substring(0,1).toUpperCase());
                 javaDocDocsifyThemeDto.setFullClassName(fullClassName);
                 javaDocDocsifyThemeDto.setPackageName(packageName);
@@ -172,7 +174,71 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
 
         createAllDeprecatedClassIndexRoute(renderFilePath, javaDocDocsifyThemeDtos);
 
+        createAllSerialIndexRoute(renderFilePath, javaDocDocsifyThemeDtos);
+
     }
+
+    /**
+     * 创建所有序列化类显示页面
+     * @param renderFilePath
+     * @param javaDocDocsifyThemeDtos
+     */
+    private void createAllSerialIndexRoute(String renderFilePath, List<JavaDocDocsifyThemeDto> javaDocDocsifyThemeDtos) {
+
+
+        List<JavaDocDocsifyThemeDto> moduleFileList = createAllSerialFile(javaDocDocsifyThemeDtos);
+
+        Map<String,Object> prop = new HashMap<>();
+        prop.put("tableList",moduleFileList);
+        String allModuleReadmeFile = "/route/allserial/README.md";
+        writeThemeTemplateFile(renderFilePath, prop,"allSerialReadme.btl",allModuleReadmeFile);
+
+        prop.put("sideType","allSerial");
+        prop.put("title","所有模块");
+        String sideBarFile = "/route/allserial/_sidebar.md";
+        writeThemeTemplateFile(renderFilePath, prop,"sidebar.btl",sideBarFile);
+
+        for (JavaDocDocsifyThemeDto javaDocDocsifyThemeDto : moduleFileList) {
+
+            List<JavaDocDocsifyThemeDto> packageChildList = javaDocDocsifyThemeDto.getChildList();
+
+            CollectionUtil.sortByProperty(packageChildList,"packageName");
+
+            if(CollectionUtil.isNotEmpty(packageChildList)){
+
+                Map<String,Object> childProp = new HashMap<>();
+                childProp.put("tableList",packageChildList);
+                childProp.put("packageType","allSerial");
+                childProp.put("title", javaDocDocsifyThemeDto.getModuleName());
+                String moduleRouteInfoFile = "/route/allserial/"+ javaDocDocsifyThemeDto.getModuleName()+".md";
+                writeThemeTemplateFile(renderFilePath, childProp,"allPackageReadme.btl",moduleRouteInfoFile);
+
+                for (JavaDocDocsifyThemeDto packageDto : packageChildList) {
+
+                    List<JavaDocDocsifyThemeDto> classDtoList = packageDto.getChildList();
+
+                    List<JavaDocDocsifyThemeDto> indexClassList = getIndexClassList(classDtoList);
+
+                    if(CollectionUtil.isNotEmpty(classDtoList)){
+                        String moduleName = packageDto.getModuleName();
+                        Map<String,Object> moduleClassProp = new HashMap<>();
+                        moduleClassProp.put("tableList",indexClassList);
+                        moduleClassProp.put("classType","packageDetail");
+                        moduleClassProp.put("title",packageDto.getPackageName());
+                        String packageReadMeFile = "/" +moduleName + "/" + packageDto.getPackageNamePath()+"/README.md";
+                        writeThemeTemplateFile(renderFilePath, moduleClassProp,"allClassReadme.btl",packageReadMeFile);
+
+                        moduleClassProp.put("sideType","packageDetail");
+                        String packageSideBarFile = "/" +moduleName+"/"+ packageDto.getPackageNamePath()+"/_sidebar.md";
+                        writeThemeTemplateFile(renderFilePath, moduleClassProp,"sidebar.btl",packageSideBarFile);
+                    }
+                }
+            }
+
+        }
+    }
+
+
 
     /**
      * 创建所有Deprecated类信息索引
@@ -687,6 +753,47 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
 
         }
 
+    }
+
+    private List<JavaDocDocsifyThemeDto> createAllSerialFile(List<JavaDocDocsifyThemeDto> javaDocDocsifyThemeDtos) {
+        Map<String, List<JavaDocDocsifyThemeDto>> groupResultMap = javaDocDocsifyThemeDtos.stream().collect(Collectors.groupingBy(JavaDocDocsifyThemeDto::getModuleName));
+        //按照module->package->class组织
+        List<JavaDocDocsifyThemeDto> moduleFileList = new ArrayList<>();
+
+        groupResultMap.forEach((moduleName,moduleClassList) ->{
+            JavaDocDocsifyThemeDto moduleDocsify = new JavaDocDocsifyThemeDto();
+            moduleDocsify.setModuleName(moduleName);
+            if(CollectionUtil.isNotEmpty(moduleClassList)){
+                moduleDocsify.setModuleDesc(moduleClassList.get(0).getModuleDesc());
+            }
+            Map<String, List<JavaDocDocsifyThemeDto>> groupPackageClassMap = moduleClassList.stream().collect(Collectors.groupingBy(JavaDocDocsifyThemeDto::getPackageName));
+            groupPackageClassMap.forEach((packageName,packageClassList) ->{
+                JavaDocDocsifyThemeDto packageDocsify = new JavaDocDocsifyThemeDto();
+                packageDocsify.setModuleName(moduleName);
+                if(CollectionUtil.isNotEmpty(packageClassList)){
+                    packageDocsify.setPackageDesc(packageClassList.get(0).getPackageDesc());
+                }
+                packageDocsify.setPackageName(packageName);
+                List<JavaDocDocsifyThemeDto> serializableList = new ArrayList<>();
+                for (JavaDocDocsifyThemeDto javaDocDocsifyThemeDto : packageClassList) {
+                    String fullClassName = javaDocDocsifyThemeDto.getFullClassName();
+                    TreeIndexClassMeta treeIndexClassMeta = MetaIndexContext.getTreeIndexClassMetaByFullName(fullClassName);
+                    if(treeIndexClassMeta != null && CollectionUtil.isNotEmpty(treeIndexClassMeta.getAllInterfaceClasses())){
+                        for (JavaClassMeta allInterfaceClass : treeIndexClassMeta.getAllInterfaceClasses()) {
+                            if(StrUtil.equals("java.io.Serializable",allInterfaceClass.getFullClassName())){
+                                serializableList.add(javaDocDocsifyThemeDto);
+                            }
+                        }
+                    }
+
+                }
+                packageDocsify.setChildList(serializableList);
+                packageDocsify.setPackageNamePath(packageName.replace(".","/"));
+                moduleDocsify.addChild(packageDocsify);
+            });
+            moduleFileList.add(moduleDocsify);
+        });
+        return moduleFileList;
     }
 
     private List<JavaDocDocsifyThemeDto> createModuleAndSubFile(List<JavaDocDocsifyThemeDto> javaDocDocsifyThemeDtos) {

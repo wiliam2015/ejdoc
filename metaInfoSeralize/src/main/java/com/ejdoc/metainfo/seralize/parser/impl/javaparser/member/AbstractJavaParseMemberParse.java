@@ -8,11 +8,17 @@ import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.index.MetaIndexContext;
 import com.ejdoc.metainfo.seralize.model.JavaClassImportMeta;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
+import com.ejdoc.metainfo.seralize.model.JavaTypeParameterMeta;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.BaseJavaParse;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
+import com.ejdoc.metainfo.seralize.parser.impl.javaparser.UnSolvedSymbolTool;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
+import com.github.javaparser.ast.expr.SimpleName;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.ast.type.TypeParameter;
+import com.github.javaparser.resolution.UnsolvedSymbolException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -138,8 +144,38 @@ public abstract class AbstractJavaParseMemberParse extends BaseJavaParse impleme
         return imports;
     }
 
+    protected   void setTypeParametersFromDeclaration(NodeList<TypeParameter> typeParameters, JavaClassMeta returnType) {
+        if(CollectionUtil.isNotEmpty(typeParameters)){
+            List<JavaTypeParameterMeta> typeParametersResult = new ArrayList<>();
+            JavaTypeParameterMeta javaTypeParameterMeta = null;
+            for (TypeParameter typeParameter : typeParameters) {
+                javaTypeParameterMeta = new JavaTypeParameterMeta();
+                javaTypeParameterMeta.setName(typeParameter.getNameAsString());
+
+                NodeList<ClassOrInterfaceType> typeBound = typeParameter.getTypeBound();
+                if(CollectionUtil.isNotEmpty(typeBound)){
+                    for (ClassOrInterfaceType classOrInterfaceType : typeBound) {
+                        SimpleName name = classOrInterfaceType.getName();
+                        JavaClassMeta type = new JavaClassMeta();
+                        type.setClassName(name.getIdentifier());
+                        type.setFullClassName(name.getIdentifier());
+                        try {
+                            setFullClassNameFromResolvedType(type,classOrInterfaceType.resolve());
+                        } catch (UnsolvedSymbolException ue){
+                            log.debug("setTypeParametersFromDeclaration error",ue);
+                            UnSolvedSymbolTool.addUnSolveTOCache(ue.getMessage());
+                        }
+                        javaTypeParameterMeta.setType(type);
+                    }
+                }
+                typeParametersResult.add(javaTypeParameterMeta);
+            }
+            returnType.setTypeParameters(typeParametersResult);
+        }
+    }
 
     protected abstract void parseBodyDeclarationToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, NodeList<BodyDeclaration<?>> members, TypeDeclaration<?> typeDeclaration,JavaParserMetaContext javaParserMetaContext);
+
 
 
 

@@ -112,6 +112,7 @@ public class JavaDocMarkdownDocOutTemplate extends MarkdownDocOutTemplate{
                             JSONObject copyJsonObj = new JSONObject();
                             copyJsonObj.putOpt("jdkClass",false);
                             copyJsonObj.putOpt("methods",dependencyRelativeObj.get("methods"));
+                            copyJsonObj.putOpt("fields",dependencyRelativeObj.get("fields"));
                             copyJsonObj.putOpt("className",dependencyRelativeObj.get("className"));
                             copyJsonObj.putOpt("classNamePrefix",dependencyRelativeObj.get("classNamePrefix"));
                             copyJsonObj.putOpt("fullClassName",dependencyRelativeObj.get("fullClassName"));

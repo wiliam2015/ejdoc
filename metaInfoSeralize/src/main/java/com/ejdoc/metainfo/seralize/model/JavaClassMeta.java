@@ -38,15 +38,12 @@ public class JavaClassMeta  implements Serializable {
     /**嵌套类*/
     private String nestedClassName;
 
-    /**类型参数类名*/
-    private String typeArgExtendClassName;
-
-    /**类型参数全路径*/
-    private String typeArgExtendFullClassName;
+    /**类型参数类名信息*/
+    private JavaClassMeta typeArgExtend;
     /**
      * 类型注解参数
      */
-    private List<String> typeParameters;
+    private List<JavaTypeParameterMeta> typeParameters;
 
     /**
      * 类型参数
@@ -244,12 +241,12 @@ public class JavaClassMeta  implements Serializable {
         this.fields = fields;
     }
 
-    public List<String> getTypeParameters() {
+    public List<JavaTypeParameterMeta> getTypeParameters() {
         return typeParameters;
     }
 
 
-    public void setTypeParameters(List<String> typeParameters) {
+    public void setTypeParameters(List<JavaTypeParameterMeta> typeParameters) {
         this.typeParameters = typeParameters;
     }
 
@@ -575,20 +572,12 @@ public class JavaClassMeta  implements Serializable {
         this.wildcardType = wildcardType;
     }
 
-    public String getTypeArgExtendClassName() {
-        return typeArgExtendClassName;
+    public JavaClassMeta getTypeArgExtend() {
+        return typeArgExtend;
     }
 
-    public void setTypeArgExtendClassName(String typeArgExtendClassName) {
-        this.typeArgExtendClassName = typeArgExtendClassName;
-    }
-
-    public String getTypeArgExtendFullClassName() {
-        return typeArgExtendFullClassName;
-    }
-
-    public void setTypeArgExtendFullClassName(String typeArgExtendFullClassName) {
-        this.typeArgExtendFullClassName = typeArgExtendFullClassName;
+    public void setTypeArgExtend(JavaClassMeta typeArgExtend) {
+        this.typeArgExtend = typeArgExtend;
     }
 
     public String parseDeclarationStructure(){
@@ -617,8 +606,14 @@ public class JavaClassMeta  implements Serializable {
         if(this.typeParameters != null && this.typeParameters.size() > 0){
             sb.append("<");
             for (int i = 0; i < this.typeParameters.size(); i++) {
-                String typeParameter = typeParameters.get(i);
-                sb.append(typeParameter);
+                JavaTypeParameterMeta javaTypeParameterMeta = typeParameters.get(i);
+                String name = javaTypeParameterMeta.getName();
+                sb.append(name);
+                JavaClassMeta type = javaTypeParameterMeta.getType();
+                if(type != null){
+                    sb.append("extend ");
+                    sb.append(type.getClassName());
+                }
                 if(this.typeParameters.size() != (i+1)){
                     sb.append(",");
                 }

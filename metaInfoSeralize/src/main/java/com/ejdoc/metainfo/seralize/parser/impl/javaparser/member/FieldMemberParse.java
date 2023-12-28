@@ -17,9 +17,7 @@ import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.javadoc.Javadoc;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class FieldMemberParse extends AbstractJavaParseMemberParse{
@@ -38,7 +36,38 @@ public class FieldMemberParse extends AbstractJavaParseMemberParse{
         }
         List<JavaFieldMeta> fieldMetas = CollectionUtil.sortByProperty(javaFieldMetas, "name");
         replaceFieldFullClassRefByImport(javaClassMeta,javaFieldMetas);
+        paraseTypeParameterFlag(javaFieldMetas,javaClassMeta);
         javaClassMeta.setFields(fieldMetas);
+    }
+
+    private void paraseTypeParameterFlag(List<JavaFieldMeta> javaFieldMetas, JavaClassMeta javaClassMeta) {
+        boolean isClassTypePara = BooleanUtil.isTrue(javaClassMeta.getTypeParameter());
+        Map<String, String> typeParameterMap = new HashMap<>();
+        if(isClassTypePara){
+            typeParameterMap.putAll(javaClassMeta.getTypeParameters().stream().collect(Collectors.toMap(JavaTypeParameterMeta::getName, JavaTypeParameterMeta::getName)));
+        }
+        for (JavaFieldMeta javaFieldMeta : javaFieldMetas) {
+            JavaClassMeta returns = javaFieldMeta.getType();
+            if(returns == null){
+                continue;
+            }
+
+            if(CollectionUtil.isNotEmpty(returns.getTypeParameters())){
+                returns.setTypeParameter(true);
+                typeParameterMap.putAll(returns.getTypeParameters().stream().collect(Collectors.toMap(JavaTypeParameterMeta::getName, JavaTypeParameterMeta::getName)));
+            }
+            if(typeParameterMap.containsKey(returns.getClassName())){
+                returns.setTypeParameter(true);
+            }
+            List<JavaClassMeta> returnTypeArguments = returns.getTypeArguments();
+            if(CollectionUtil.isNotEmpty(returnTypeArguments)){
+                for (JavaClassMeta typeArgument : returnTypeArguments) {
+                    if(typeParameterMap.containsKey(typeArgument.getClassName())){
+                        typeArgument.setTypeParameter(true);
+                    }
+                }
+            }
+        }
     }
 
 

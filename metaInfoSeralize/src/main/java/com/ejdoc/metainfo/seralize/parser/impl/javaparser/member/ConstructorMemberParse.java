@@ -2,13 +2,11 @@ package com.ejdoc.metainfo.seralize.parser.impl.javaparser.member;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.enums.EnvPropEnum;
-import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
-import com.ejdoc.metainfo.seralize.model.JavaConstructorMeta;
-import com.ejdoc.metainfo.seralize.model.JavaMethodMeta;
-import com.ejdoc.metainfo.seralize.model.JavaParameterMeta;
+import com.ejdoc.metainfo.seralize.model.*;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
@@ -20,9 +18,8 @@ import com.github.javaparser.resolution.declarations.ResolvedConstructorDeclarat
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ConstructorMemberParse extends MethodMemberParse{
     private static final Logger log = LoggerFactory.getLogger(ConstructorMemberParse.class);
@@ -55,8 +52,44 @@ public class ConstructorMemberParse extends MethodMemberParse{
             javaConstructorMeta.setUniqueId(javaClassMeta.getClassName());
             result.add(javaConstructorMeta);
         }
-        javaClassMeta.setConstructors(result);
+
         replaceConstructMethodFullClassRefByImport(javaClassMeta,result);
+        paraseConstructTypeParameterFlag(result,javaClassMeta);
+        javaClassMeta.setConstructors(result);
+    }
+
+    /**
+     * 解析方法体对类型参数打标
+     * @param methodMetas
+     */
+    private void paraseConstructTypeParameterFlag(List<JavaConstructorMeta> methodMetas,JavaClassMeta javaClassMeta) {
+        boolean isClassTypePara = BooleanUtil.isTrue(javaClassMeta.getTypeParameter());
+        Map<String, String> typeParameterMap = new HashMap<>();
+        if(isClassTypePara){
+            typeParameterMap.putAll(javaClassMeta.getTypeParameters().stream().collect(Collectors.toMap(JavaTypeParameterMeta::getName, JavaTypeParameterMeta::getName)));
+        }
+        for (JavaConstructorMeta methodMeta : methodMetas) {
+
+            List<JavaParameterMeta> parameters = methodMeta.getParameters();
+            if(CollectionUtil.isNotEmpty(parameters)){
+                for (JavaParameterMeta parameter : parameters) {
+                    JavaClassMeta javaClass = parameter.getJavaClass();
+                    if(typeParameterMap.containsKey(javaClass.getClassName())){
+                        javaClass.setTypeParameter(true);
+                    }
+                    List<JavaClassMeta> typeArguments = javaClass.getTypeArguments();
+                    setParaseTypeParameterFlag(typeParameterMap, typeArguments);
+                    if(CollectionUtil.isNotEmpty(typeArguments)){
+                        for (JavaClassMeta typeArgument : typeArguments) {
+                            if(typeArgument.getTypeArgExtend() == null){
+                                continue;
+                            }
+                            setParaseTypeParameterFlag(typeParameterMap, ListUtil.of(typeArgument.getTypeArgExtend()));
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**

@@ -320,23 +320,59 @@ public class DocClassRenderUtil {
         return result.toString();
     }
 
+    private void createTypeArgumentsMd(JSONObject javaClass, StringBuilder typeArgumentStr) {
+        if(javaClass.containsKey("typeArguments")){
+            JSONArray typeParameters = javaClass.getJSONArray("typeArguments");
+            typeArgumentStr.append("< ");
+            StringBuilder typeParameterObjStr = new StringBuilder();
+            for (Object typeArgumentObj : typeParameters) {
+                typeParameterObjStr.append(",");
+                if(typeArgumentObj instanceof JSONObject){
+                    String name = ((JSONObject) typeArgumentObj).getStr("className", "");
+                    typeParameterObjStr.append(name);
+                }
+            }
+            typeArgumentStr.append(typeParameterObjStr.substring(1));
+            typeArgumentStr.append(" >");
+        }
+    }
+
     private void createTypeParametersMd(JSONObject javaClass, StringBuilder typeArgumentStr) {
         if(javaClass.containsKey("typeParameters")){
-            JSONArray typeArguments = javaClass.getJSONArray("typeParameters");
+            JSONArray typeParameters = javaClass.getJSONArray("typeParameters");
             typeArgumentStr.append("< ");
-            StringBuilder typeArgumentObjStr = new StringBuilder();
-            for (Object typeArgument : typeArguments) {
-                typeArgumentObjStr.append(",");
-                if(typeArgument instanceof JSONObject){
-                    JSONObject typeJsonObj = (JSONObject)typeArgument;
-                    typeArgumentObjStr.append(createClassNameLinkMd(typeJsonObj));
-                    createTypeParametersMd(typeJsonObj,typeArgumentStr);
-                }else  if(typeArgument instanceof String){
-                    typeArgumentObjStr.append(typeArgument);
+            StringBuilder typeParameterObjStr = new StringBuilder();
+            for (Object typeArgumentObj : typeParameters) {
+                typeParameterObjStr.append(",");
+                if(typeArgumentObj instanceof JSONObject){
+                    String name = ((JSONObject) typeArgumentObj).getStr("name", "");
+                    typeParameterObjStr.append(name);
+                    JSONObject typeJsonObj = (JSONObject)typeArgumentObj;
+                    if(typeJsonObj.containsKey("type")){
+                        typeParameterObjStr.append(" extends ");
+                        JSONObject typeClassJsonObj = typeJsonObj.getJSONObject("type");
+                        typeParameterObjStr.append(createClassNameLinkMd(typeClassJsonObj));
+                        if(typeClassJsonObj.containsKey("typeArguments")){
+                            StringBuilder typeArgumentBuild = new StringBuilder();
+                            typeParameterObjStr.append("< ");
+                            JSONArray typeArgumentsArr = typeClassJsonObj.getJSONArray("typeArguments");
+                            for (Object typeArgObj : typeArgumentsArr) {
+                                if(typeArgObj instanceof JSONObject){
+                                    JSONObject typeArgJSONObj = (JSONObject)typeArgObj;
+                                    typeArgumentBuild.append(",");
+                                    typeArgumentBuild.append(typeArgJSONObj.getStr("className",""));
+                                }
+                            }
+                            typeParameterObjStr.append(typeArgumentBuild.substring(1));
+                            typeParameterObjStr.append(" >");
+
+                        }
+                        createTypeParametersMd(typeClassJsonObj,typeParameterObjStr);
+                    }
                 }
 
             }
-            typeArgumentStr.append(typeArgumentObjStr.substring(1));
+            typeArgumentStr.append(typeParameterObjStr.substring(1));
             typeArgumentStr.append(" >");
         }
     }
@@ -351,7 +387,10 @@ public class DocClassRenderUtil {
                 paramStr.append(",");
                 paramStr.append(createClassNameLinkMd(param));
                 StringBuilder typeArgumentStr = new StringBuilder();
-                createTypeParametersMd(param,typeArgumentStr);
+                StringBuilder typeParameterStr = new StringBuilder();
+                createTypeParametersMd(param,typeParameterStr);
+                createTypeArgumentsMd(param,typeArgumentStr);
+                paramStr.append(typeParameterStr);
                 paramStr.append(typeArgumentStr);
                 paramStr.append(" ");
             }
@@ -370,7 +409,10 @@ public class DocClassRenderUtil {
                 paramStr.append(",");
                 paramStr.append(createClassNameLinkMd(param));
                 StringBuilder typeArgumentStr = new StringBuilder();
-                createTypeParametersMd(param,typeArgumentStr);
+                StringBuilder typeParameterStr = new StringBuilder();
+                createTypeParametersMd(param,typeParameterStr);
+                createTypeArgumentsMd(param,typeArgumentStr);
+                paramStr.append(typeParameterStr);
                 paramStr.append(typeArgumentStr);
                 paramStr.append(" ");
             }

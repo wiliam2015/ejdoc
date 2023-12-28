@@ -277,7 +277,7 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
 %>
 
 
-<% if(isNotEmpty(prop.allInterfaceClassDetailProp) && isNotEmpty(prop.interfaceClass) && prop.interfaceClass){
+<% if(isNotEmpty(prop.allInterfaceClassDetailProp) && ((isNotEmpty(prop.interfaceClass) && prop.interfaceClass) || (isNotEmpty(prop.abstractClass) && prop.abstractClass))){
     for(allSupperInterfaceClassObj in prop.allInterfaceClassDetailProp){
         println("");println("---");println("");
         print("### ");print("从");print(allSupperInterfaceClassObj.className);println("接口继承方法:");
