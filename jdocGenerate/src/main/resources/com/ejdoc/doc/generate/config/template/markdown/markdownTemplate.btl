@@ -135,6 +135,32 @@ ${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
 }
 %>
 
+<%
+if(isNotEmpty(prop.enumConstants)){
+        println("## 枚举常量概要");
+        println("");
+        println("|   索引  |  常量 |   描述   |   初始值   |");
+        println("| ---- | ---- | ---- | ---- |");
+        for(fieldsObj in prop.enumConstants){
+            print("|");
+            print(fieldsObjLP.index);
+            print("|");
+            print(fieldsObj.className);
+            print("|");
+            print(docClassFn.calCommentNoEnterDocMd(fieldsObj,prop,""));
+            print("|");
+                if(isNotEmpty(fieldsObj.initializer)){
+                   print(fieldsObj.initializer);
+                 }else{
+                   print("无");
+                }
+
+             println("|");
+
+          }
+
+    }
+%>
 
 <% if(isNotEmpty(prop.fields)){
     println("## 成员变量汇总");

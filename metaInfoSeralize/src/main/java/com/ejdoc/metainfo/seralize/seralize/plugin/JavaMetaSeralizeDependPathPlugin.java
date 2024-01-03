@@ -30,9 +30,6 @@ public class JavaMetaSeralizeDependPathPlugin extends AbstractJavaMetaSeralizePl
 
     private void parseDependPath(JavaClassMeta javaClassMeta,SeralizeConfig seralizeConfig) {
 
-        if(javaClassMeta != null && StrUtil.equals(javaClassMeta.getClassName(),"AbstractAsymmetricCrypto")){
-            System.out.println("AbstractAsymmetricCrypto");
-        }
         parseClassTypeParameterAndArgsDependPath(javaClassMeta,seralizeConfig);
 
         parseSupperClassDependPath(javaClassMeta,seralizeConfig);

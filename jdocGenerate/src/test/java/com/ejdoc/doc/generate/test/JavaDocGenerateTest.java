@@ -30,5 +30,14 @@ public class JavaDocGenerateTest {
 
     }
 
+    @Test
+    public void printJavaDocKaWareAdminConfigTest(){
+        DocGenerate javaDocGenerate = DocGenerateFactory.createDefaultJavaDocGenerate("testconfig/kawareadminDocFile.properties");
+
+        javaDocGenerate.printDoc();
+
+    }
+
+
 
 }
