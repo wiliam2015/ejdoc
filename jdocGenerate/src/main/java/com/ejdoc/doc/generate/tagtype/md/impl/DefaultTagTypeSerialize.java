@@ -23,6 +23,7 @@ public class DefaultTagTypeSerialize implements TagTypeSerialize {
     public String toSerialize(String type, TagTypeSerializeRootDocDto serializeRootDocDto) {
         JSONObject rootPropObj = serializeRootDocDto.getRootPropObj();
         JSONObject tagJsonObj = serializeRootDocDto.getTagJsonObj();
+        boolean appendName = serializeRootDocDto.isAppendName();
         StringBuilder tagSb = new StringBuilder();
 
         String name = tagJsonObj.getStr("name", "");
@@ -35,7 +36,7 @@ public class DefaultTagTypeSerialize implements TagTypeSerialize {
             value = value.trim().replaceAll(" {2,}","");
         }
         tagSb.append("  ");
-        if(StrUtil.isNotBlank(name)){
+        if(appendName && StrUtil.isNotBlank(name)){
             tagSb.append(name);
             tagSb.append(" - ");
         }

@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 
 import java.io.Serializable;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -120,6 +121,11 @@ public class JavaClassMeta  implements Serializable {
      */
     private List<JavaClassMeta> enumConstants;
 
+    /**
+     * 参数信息：主要给枚举类型使用
+     */
+    private List<JavaClassMeta> arguments;
+
     private List<JavaClassMeta> interfaces;
 
     /**
@@ -143,6 +149,9 @@ public class JavaClassMeta  implements Serializable {
      * 构造函数内部索引
      */
     private Map<String,String> constructorMetaIndex;
+
+    /**额外属性，扩展使用*/
+    private Map<String,Object> extProp;
 
     public JavaClassMeta(){}
 
@@ -578,6 +587,29 @@ public class JavaClassMeta  implements Serializable {
 
     public void setTypeArgExtend(JavaClassMeta typeArgExtend) {
         this.typeArgExtend = typeArgExtend;
+    }
+
+    public List<JavaClassMeta> getArguments() {
+        return arguments;
+    }
+
+    public void setArguments(List<JavaClassMeta> arguments) {
+        this.arguments = arguments;
+    }
+
+    public Map<String, Object> getExtProp() {
+        return extProp;
+    }
+
+    public void setExtProp(Map<String, Object> extProp) {
+        this.extProp = extProp;
+    }
+
+    public void putExtProp(String key,Object value){
+        if(this.extProp == null){
+            this.extProp = new HashMap<>();
+        }
+        this.extProp.put(key,value);
     }
 
     public String parseDeclarationStructure(){

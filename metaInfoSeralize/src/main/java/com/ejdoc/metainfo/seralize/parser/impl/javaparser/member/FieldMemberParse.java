@@ -24,14 +24,16 @@ public class FieldMemberParse extends AbstractJavaParseMemberParse{
 
     @Override
     protected void parseBodyDeclarationToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, NodeList<BodyDeclaration<?>> members, TypeDeclaration<?> typeDeclaration, JavaParserMetaContext javaParserMetaContext) {
+        String className = javaClassMeta.getClassName();
         List<JavaFieldMeta> javaFieldMetas = initJavaFieldMetas(javaClassMeta);
         String compileIncludePrivate = javaParserMetaContext.getEnvPropVal(EnvPropEnum.compile_include_private.getCode(), "");
         for (BodyDeclaration<?> member : members) {
             if(accept(member)){
                 JavaFieldMeta javaFieldMeta = parseFieldMember(member, metaFileInfo, typeDeclaration);
-                if(filterModifier(compileIncludePrivate,javaFieldMeta.getModifiers())){
-                    javaFieldMetas.add(javaFieldMeta);
-                }
+//                if(filterModifier(compileIncludePrivate,javaFieldMeta.getModifiers())){
+//                    javaFieldMetas.add(javaFieldMeta);
+//                }
+                javaFieldMetas.add(javaFieldMeta);
             }
         }
         List<JavaFieldMeta> fieldMetas = CollectionUtil.sortByProperty(javaFieldMetas, "name");
@@ -106,7 +108,7 @@ public class FieldMemberParse extends AbstractJavaParseMemberParse{
         returnTypeMeta.setFullClassName(variable.getType().asString());
         setFieldResolvedTypeDeclaration(returnTypeMeta,variable.getType());
 
-
+        setTypeArgumentsFromType(variable.getType(), returnTypeMeta);
 
         fieldMeta.setJavaModelMeta(javaModelMeta);
         fieldMeta.setType(returnTypeMeta);

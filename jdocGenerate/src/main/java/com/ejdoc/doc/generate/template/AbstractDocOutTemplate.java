@@ -27,7 +27,7 @@ public abstract class AbstractDocOutTemplate extends BaseOutTemplate implements 
     public String formatTemplate(DocOutFileInfo docOutFileInfo) {
         TemplateTypeEnum templateType = loadTemplateType();
         Map propMap = convertJsonFileToProp(docOutFileInfo);
-        String template = loadTemplate(templateType,propMap,docOutFileInfo.isMainFile());
+        String template = loadTemplate(templateType,propMap,docOutFileInfo);
         return template;
     }
 
@@ -40,7 +40,8 @@ public abstract class AbstractDocOutTemplate extends BaseOutTemplate implements 
         if(StrUtil.isNotBlank(docOutFileInfo.getRelativeRootPath())){
             relativePath = "/"+docOutFileInfo.getRelativeRootPath();
         }
-        String path = docOutRootPath+"/doc/"+templateType.getCode()+relativePath+"/"+docOutFileInfo.getFileName()+templateType.getExtension();
+        String path = StrUtil.join("/",docOutRootPath,"doc",docOutFileInfo.getDocType(),templateType.getCode()+relativePath,docOutFileInfo.getFileName()+templateType.getExtension());
+//        String path = docOutRootPath+"/doc/"+docOutFileInfo.getDocType()+"/"+templateType.getCode()+relativePath+"/"+docOutFileInfo.getFileName()+templateType.getExtension();
         FileUtil.writeString(formatData, path, "UTF-8");
     }
 

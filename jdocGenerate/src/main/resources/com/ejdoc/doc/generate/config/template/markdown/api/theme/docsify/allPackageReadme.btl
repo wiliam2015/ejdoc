@@ -1,0 +1,59 @@
+<% if(prop.packageType == "allPackage"){%>
+**${prop.title!}信息**
+<% if(isNotEmpty(prop.tableList)){%>
+
+|   包信息  |    描述   |
+| ---- | ---- |
+<%
+for(obj in prop.tableList){
+    var linkPath = "/route/allpackage/" + obj.packageNamePath+"/README.md";
+    print("|");print(docClassFn.createCommonLinkMd(obj.packageName,linkPath));print("|");print(obj.packageDesc);print("|");println();
+}
+%>
+<% }%>
+<% }%>
+
+
+<% if(prop.packageType == "allModule"){%>
+**${prop.title!}下所有包信息**
+<% if(isNotEmpty(prop.tableList)){%>
+
+|   包信息  |    描述   |
+| ---- | ---- |
+<%
+for(obj in prop.tableList){
+    var linkPath = "/route/allpackage/" + obj.packageNamePath+"/README.md";
+    print("|");print(docClassFn.createCommonLinkMd(obj.packageName,linkPath));print("|");print(obj.packageDesc);print("|");println();
+}
+%>
+<% }%>
+<% }%>
+
+
+
+<% if(prop.packageType == "allSerial"){%>
+**${prop.title!}下所有序列化信息**
+
+
+描述：序列化类是指具体实现了`java.io.Serializable`接口的类
+
+
+<% if(isNotEmpty(prop.tableList)){%>
+<%
+for(packageObj in prop.tableList){
+    if(isNotEmpty(packageObj.childList)){
+            println("---");
+            var linkPath = "/route/allpackage/" + packageObj.packageNamePath+"/README.md";
+            print("## 包名");print(packageObj.packageName);println();println();
+             for(classObj in packageObj.childList){
+                 var classFilePath = classObj.moduleName+"/"+ classObj.packageNamePath+"/"+classObj.className+".md";
+                 print("* 序列化类名:");print(docClassFn.createCommonLinkMd(classObj.fullClassName,classFilePath));println();
+             }
+             println("---");
+     }else{
+        print("*");print(packageObj.packageName);print("包下无序列化数据");print("*");println();println();
+     }
+}
+%>
+<% }%>
+<% }%>

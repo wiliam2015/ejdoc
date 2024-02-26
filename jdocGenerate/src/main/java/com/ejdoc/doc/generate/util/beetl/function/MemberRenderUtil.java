@@ -4,13 +4,18 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.ejdoc.doc.generate.util.DocParseUtil;
+import com.ejdoc.metainfo.seralize.index.JavaMetaFileInfo;
+import com.ejdoc.metainfo.seralize.index.MetaIndexContext;
 import org.beetl.core.Context;
+import org.beetl.core.GroupTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MemberRenderUtil {
+
 
     /**
      * 计算方法体声明结构
@@ -56,6 +61,107 @@ public class MemberRenderUtil {
         return result.toString();
     }
 
+    public boolean existExtProp(Object paras,String propName, Context ctx){
+        if(paras instanceof JSONObject){
+            JSONObject methodObj =( JSONObject)paras;
+            if(methodObj.containsKey("extProp")){
+                JSONObject extProp = methodObj.getJSONObject("extProp");
+                return extProp.containsKey(propName);
+            }
+        }
+        return false;
+    }
+    public String formatMockDataJson(Object jsonStr, Context ctx){
+        if(jsonStr instanceof String ){
+           return  JSONUtil.toJsonPrettyStr(jsonStr);
+        }
+        return "";
+    }
+
+    /**
+     * 存在类的源文件
+     * @param paras
+     * @param ctx
+     * @return
+     */
+    public boolean existClassSource(Object paras, Context ctx) {
+        if(paras instanceof JSONObject){
+            JSONObject classJsonObj =( JSONObject)paras;
+            String fullClassName = classJsonObj.getStr("fullClassName","");
+            if(StrUtil.isNotBlank(fullClassName)){
+                JavaMetaFileInfo javaMetaFile = MetaIndexContext.getJavaMetaFileByFullName(fullClassName);
+                if(javaMetaFile != null){
+                    JSONObject jsonObject = javaMetaFile.getJsonObject();
+                    if(jsonObject.containsKey("fields")){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 是否是枚举类
+     * @param paras
+     * @param ctx
+     * @return
+     */
+    public boolean isEnumClass(Object paras, Context ctx) {
+        if(paras instanceof JSONObject){
+            JSONObject methodObj =( JSONObject)paras;
+            String fullClassName = methodObj.getStr("fullClassName","");
+            if(StrUtil.isNotBlank(fullClassName)){
+                JavaMetaFileInfo javaMetaFile = MetaIndexContext.getJavaMetaFileByFullName(fullClassName);
+                if(javaMetaFile != null){
+                    JSONObject jsonObject = javaMetaFile.getJsonObject();
+                    return jsonObject.getBool("enumClass", false);
+                }
+            }
+        }
+        return false;
+    }
+    /**
+     * 存在类的源文件
+     * @param paras
+     * @param ctx
+     * @return
+     */
+    public JSONArray classFieldsJson(Object paras, Context ctx) {
+        if(paras instanceof JSONObject){
+            JSONObject methodObj =( JSONObject)paras;
+            String fullClassName = methodObj.getStr("fullClassName","");
+            if(StrUtil.isNotBlank(fullClassName)){
+                JavaMetaFileInfo javaMetaFile = MetaIndexContext.getJavaMetaFileByFullName(fullClassName);
+                if(javaMetaFile != null){
+                    JSONObject jsonObject = javaMetaFile.getJsonObject();
+                    Boolean enumClass = jsonObject.getBool("enumClass", false);
+                    if(enumClass){
+                        return jsonObject.getJSONArray("enumConstants");
+                    }else if(jsonObject.containsKey("fields")){
+                        return jsonObject.getJSONArray("fields");
+
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private String getClassTableMd( JSONObject jsonObject){
+        StringBuilder result = new StringBuilder();
+        String fullClassName = jsonObject.getStr("fullClassName","");
+        result.append(fullClassName).append("\n\n");
+        JSONArray fields = jsonObject.getJSONArray("fields");
+        if(CollectionUtil.isNotEmpty(fields)){
+
+            for (Object field : fields) {
+
+            }
+        }
+
+        return result.toString();
+    }
     /**
      * 计算markdown链接
      * @param paras
@@ -178,6 +284,26 @@ public class MemberRenderUtil {
 
             StringBuilder typeArgumentStr = new StringBuilder();
             createTypeArgMd(returnObj, typeArgumentStr);
+            returnStr.append(typeArgumentStr);
+        }
+        returnStr.append(" ");
+        return returnStr.toString();
+    }
+
+    /**
+     * 计算字段类型
+     * @param paras
+     * @param ctx
+     * @return
+     */
+    public String calFieldTypeMd(Object paras, Context ctx) {
+        StringBuilder returnStr = new StringBuilder();
+        if(paras instanceof JSONObject){
+            JSONObject fieldTypeObj =( JSONObject)paras;
+            returnStr.append(createClassNameLinkMd(fieldTypeObj));
+
+            StringBuilder typeArgumentStr = new StringBuilder();
+            createTypeArgMd(fieldTypeObj, typeArgumentStr);
             returnStr.append(typeArgumentStr);
         }
         returnStr.append(" ");

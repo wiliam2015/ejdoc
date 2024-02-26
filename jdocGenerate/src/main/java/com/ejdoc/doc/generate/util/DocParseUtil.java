@@ -48,6 +48,83 @@ public class DocParseUtil {
     }
 
     /**
+     * 解析JSF注释
+     * @param objects
+     * @param rootJsonObj
+     * @return
+     */
+    public static  String parseJSRCommentMd(JSONArray objects, JSONObject rootJsonObj) {
+        String packageName = rootJsonObj.getStr("packageName", "");
+        String moduleName = rootJsonObj.getStr("moduleName", "");
+        String projectName = rootJsonObj.getStr("projectName", "");
+        String className = rootJsonObj.getStr("className", "");
+        String fullClassName = rootJsonObj.getStr("fullClassName", "");
+        CommentSerializeRootDocDto serializeRootDocDto = new CommentSerializeRootDocDto();
+        serializeRootDocDto.setClassName(className);
+        serializeRootDocDto.setFullClassName(fullClassName);
+        serializeRootDocDto.setModuleName(moduleName);
+        serializeRootDocDto.setPackageName(packageName);
+        serializeRootDocDto.setProjectName(projectName);
+        StringBuilder result = new StringBuilder();
+        Map<String, CommentSerialize> mdCommentSerializeMap = CommentSerializeFactory.createMdJSRCommentSerializeMap();
+        for (Object object : objects) {
+            JSONObject commentJsonObj = (JSONObject)object;
+            String tagName = commentJsonObj.getStr("tagName");
+            String commentType = tagName.toUpperCase();
+            String content = commentJsonObj.getStr("content");
+            CommentSerialize commentSerialize = mdCommentSerializeMap.get(commentType);
+            if(commentSerialize != null){
+                if(commentSerialize.accept(commentType)){
+                    result.append(",");
+                    result.append(commentSerialize.toSerialize(content,serializeRootDocDto));
+                }
+            }
+        }
+        if(result.length() > 0){
+            return result.substring(1);
+        }
+        return "";
+    }
+
+    /**
+     * 解析JSF注释
+     * @param objects
+     * @param rootJsonObj
+     * @return
+     */
+    public static  String parseJSRCommentMdByType(JSONArray objects, JSONObject rootJsonObj,String jsrType) {
+        String packageName = rootJsonObj.getStr("packageName", "");
+        String moduleName = rootJsonObj.getStr("moduleName", "");
+        String projectName = rootJsonObj.getStr("projectName", "");
+        String className = rootJsonObj.getStr("className", "");
+        String fullClassName = rootJsonObj.getStr("fullClassName", "");
+        CommentSerializeRootDocDto serializeRootDocDto = new CommentSerializeRootDocDto();
+        serializeRootDocDto.setClassName(className);
+        serializeRootDocDto.setFullClassName(fullClassName);
+        serializeRootDocDto.setModuleName(moduleName);
+        serializeRootDocDto.setPackageName(packageName);
+        serializeRootDocDto.setProjectName(projectName);
+        StringBuilder result = new StringBuilder();
+        Map<String, CommentSerialize> mdCommentSerializeMap = CommentSerializeFactory.createMdJSRCommentSerializeMap();
+        for (Object object : objects) {
+            JSONObject commentJsonObj = (JSONObject)object;
+            String tagName = commentJsonObj.getStr("tagName");
+            String commentType = tagName.toUpperCase();
+            if(!StrUtil.equals(jsrType,tagName)){
+                continue;
+            }
+            String content = commentJsonObj.getStr("content");
+            CommentSerialize commentSerialize = mdCommentSerializeMap.get(commentType);
+            if(commentSerialize != null){
+                if(commentSerialize.accept(commentType)){
+                    result.append(commentSerialize.toSerialize(content,serializeRootDocDto));
+                }
+            }
+        }
+        return result.toString();
+    }
+
+    /**
      * 是否是jdk类
      * @param fullClassName
      * @return

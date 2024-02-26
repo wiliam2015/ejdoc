@@ -1,0 +1,73 @@
+<% if(prop.sideType == "allClass"){
+  println("<!-- _sidebar.md -->");
+  println("<!-- 空文件 -->");
+  println();
+}
+%>
+
+<% if(prop.sideType == "allInterface"){
+  println("<!-- _sidebar.md -->");
+  println("<!-- 空文件 -->");
+  println();
+}
+%>
+
+
+<% if(prop.sideType == "allClasstree"){
+ println("<!-- _sidebar.md -->");
+ println("<!-- 空文件 -->");
+ println();
+
+}
+%>
+
+<% if(prop.sideType == "allDeprecated"){
+ println("<!-- _sidebar.md -->");
+ println("<!-- 空文件 -->");
+ println();
+
+}
+%>
+
+<% if(prop.sideType == "allPackage"){
+  println("- **"+prop.title+"目录**");
+  println();
+  for(obj in prop.tableList){
+     var linkPath = "/route/allpackage/" + obj.packageNamePath+"/README.md";
+     print("	- ");println(docClassFn.createCommonLinkMd(obj.packageName,linkPath));
+  }
+}
+%>
+
+<% if(prop.sideType == "allModule"){
+  println("- **"+prop.title+"目录**");
+  println();
+  for(obj in prop.tableList){
+     var linkPath ="/route/allmodule/"+obj.moduleName+".md";
+     print("	- ");println(docClassFn.createCommonLinkMd(obj.moduleName,linkPath));
+  }
+}
+%>
+
+<% if(prop.sideType == "allSerial"){
+  println("- **"+prop.title+"目录**");
+  println();
+  for(obj in prop.tableList){
+     var linkPath ="/route/allserial/"+obj.moduleName+".md";
+     print("	- ");println(docClassFn.createCommonLinkMd(obj.moduleName,linkPath));
+  }
+}
+%>
+
+<% if(prop.sideType == "packageDetail"){
+  println("- **"+prop.title+"目录**");
+  println();
+  for(obj in prop.tableList){
+      if(!obj.firstHead){
+           var linkPath = obj.moduleName+"/"+ obj.packageNamePath+"/"+obj.className+".md";
+           print("	- ");println(docClassFn.createCommonLinkMd(obj.className,linkPath));
+      }
+  }
+}
+
+%>

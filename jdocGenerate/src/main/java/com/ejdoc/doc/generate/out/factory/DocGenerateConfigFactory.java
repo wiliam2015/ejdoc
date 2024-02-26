@@ -1,5 +1,6 @@
 package com.ejdoc.doc.generate.out.factory;
 
+import com.ejdoc.doc.generate.enums.DocTypeEnum;
 import com.ejdoc.doc.generate.enums.TemplateTypeEnum;
 import com.ejdoc.doc.generate.out.config.DocGenerateConfig;
 
@@ -10,40 +11,53 @@ public class DocGenerateConfigFactory {
 
     }
 
-    public static DocGenerateConfig createMarkdownConfig(){
+    public static DocGenerateConfig createApidocMarkdownConfig(){
         DocGenerateConfig docGenerateConfig = new DocGenerateConfig();
         docGenerateConfig.setLocale(Locale.CHINA);
+        docGenerateConfig.setDocTypeEnum(DocTypeEnum.API);
         docGenerateConfig.setTemplateType(TemplateTypeEnum.MarkDown);
         return docGenerateConfig;
     }
 
-    public static DocGenerateConfig createMarkdownConfig(String i18nClasspath, String templateClasspath){
+    public static DocGenerateConfig createJavadocMarkdownConfig(){
         DocGenerateConfig docGenerateConfig = new DocGenerateConfig();
         docGenerateConfig.setLocale(Locale.CHINA);
+        docGenerateConfig.setDocTypeEnum(DocTypeEnum.JAVA_DOC);
+        docGenerateConfig.setTemplateType(TemplateTypeEnum.MarkDown);
+        return docGenerateConfig;
+    }
+
+    public static DocGenerateConfig createJavadocMarkdownConfig(String i18nClasspath, String templateClasspath){
+        DocGenerateConfig docGenerateConfig = new DocGenerateConfig();
+        docGenerateConfig.setLocale(Locale.CHINA);
+        docGenerateConfig.setDocTypeEnum(DocTypeEnum.JAVA_DOC);
         docGenerateConfig.setTemplateType(TemplateTypeEnum.MarkDown);
         docGenerateConfig.setTemplateClasspath(templateClasspath);
         docGenerateConfig.setI18nClasspath(i18nClasspath);
         return docGenerateConfig;
     }
 
-    public static DocGenerateConfig createMarkdownConfig(Locale locale, String i18nClasspath, String templateClasspath){
+    public static DocGenerateConfig createJavadocMarkdownConfig(Locale locale, String i18nClasspath, String templateClasspath){
         DocGenerateConfig docGenerateConfig = new DocGenerateConfig();
         docGenerateConfig.setLocale(locale);
+        docGenerateConfig.setDocTypeEnum(DocTypeEnum.JAVA_DOC);
         docGenerateConfig.setTemplateType(TemplateTypeEnum.MarkDown);
         docGenerateConfig.setTemplateClasspath(templateClasspath);
         docGenerateConfig.setI18nClasspath(i18nClasspath);
         return docGenerateConfig;
     }
 
-    public static DocGenerateConfig createHtmlConfig(){
+    public static DocGenerateConfig createJavadocHtmlConfig(){
         DocGenerateConfig docGenerateConfig = new DocGenerateConfig();
+        docGenerateConfig.setDocTypeEnum(DocTypeEnum.JAVA_DOC);
         docGenerateConfig.setLocale(Locale.CHINA);
         docGenerateConfig.setTemplateType(TemplateTypeEnum.Html);
         return docGenerateConfig;
     }
 
-    public static DocGenerateConfig createHtmlConfig(String i18nClasspath, String templateClasspath){
+    public static DocGenerateConfig createJavadocHtmlConfig(String i18nClasspath, String templateClasspath){
         DocGenerateConfig docGenerateConfig = new DocGenerateConfig();
+        docGenerateConfig.setDocTypeEnum(DocTypeEnum.JAVA_DOC);
         docGenerateConfig.setLocale(Locale.CHINA);
         docGenerateConfig.setTemplateType(TemplateTypeEnum.Html);
         docGenerateConfig.setTemplateClasspath(templateClasspath);
@@ -51,8 +65,9 @@ public class DocGenerateConfigFactory {
         return docGenerateConfig;
     }
 
-    public static DocGenerateConfig createHtmlConfig(Locale locale, String i18nClasspath, String templateClasspath){
+    public static DocGenerateConfig createJavadocHtmlConfig(Locale locale, String i18nClasspath, String templateClasspath){
         DocGenerateConfig docGenerateConfig = new DocGenerateConfig();
+        docGenerateConfig.setDocTypeEnum(DocTypeEnum.JAVA_DOC);
         docGenerateConfig.setLocale(locale);
         docGenerateConfig.setTemplateType(TemplateTypeEnum.Html);
         docGenerateConfig.setTemplateClasspath(templateClasspath);

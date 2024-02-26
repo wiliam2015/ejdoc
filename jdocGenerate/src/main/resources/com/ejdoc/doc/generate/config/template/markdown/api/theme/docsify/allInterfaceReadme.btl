@@ -1,0 +1,24 @@
+<% if(prop.classType == "allInterface"){
+println("**"+prop.title+"信息**");
+}
+%>
+
+
+<%
+println();
+if(isNotEmpty(prop.tableList)){
+%>
+<%   for(obj in prop.tableList){
+    if(obj.firstHead){
+           println("");
+           print("## ");print(obj.head);println("  ");
+           print("|   接口信息  |    描述   |");println("  ");
+           print("| ---- | ---- |");println("  ");
+    }else{
+    var classFilePath = obj.moduleName+"/"+ obj.packageNamePath+"/"+obj.className+".md";
+        print("|");print(docClassFn.createCommonLinkMd(obj.classSimpleName,classFilePath));print("|");print(obj.classDesc);print("|");println();
+    }
+}
+%>
+<% }%>
+

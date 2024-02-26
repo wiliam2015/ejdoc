@@ -8,6 +8,9 @@ import com.ejdoc.doc.generate.template.DocTemplateTheme;
 import com.ejdoc.metainfo.seralize.seralize.JavaMetaSeralize;
 import com.ejdoc.metainfo.seralize.seralize.plugin.JavaMetaSeralizeDependPathPlugin;
 
+/**
+ * javadoc文档生成类
+ */
 public class JavaDocGenerate extends AbstractDocGenerate {
 
     public JavaDocGenerate(JavaDocGenerateConfig docGenerateConfig, DocOutTemplate docOutTemplate, DocTemplateTheme docTemplateTheme){

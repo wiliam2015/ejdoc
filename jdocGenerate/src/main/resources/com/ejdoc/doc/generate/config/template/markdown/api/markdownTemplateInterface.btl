@@ -1,0 +1,328 @@
+<%
+print("# 服务名称:");
+%>
+${docClassFn.calSimpleClassNameStructure(prop)}
+
+|  **${i18n.childfile.projectName!}:**    |  ${prop.projectName!}    |   **${i18n.childfile.moduleName!}:**   |${prop.moduleName!}|
+| ----: | :---- | ----: |:---- |
+|   **${i18n.childfile.packageName!}:**   |  ${prop.packageName!}    |   **全路径信息:**   |${prop.fullClassName!}|
+
+
+<% if(docClassFn.calIsDeprecated(prop)){
+     println("<strong>Deprecated</strong><br/>");
+     println("**已不推荐使用**");
+}
+%>
+
+${docClassFn.calCommentTagsMd(prop,prop,"TYPEPARAM","**类型参数描述：** \n\n")}
+
+
+${docClassFn.calCommentTagsMd(prop,prop,"AUTHOR","**作者：** \n\n")}
+
+${docClassFn.calCommentTagsMd(prop,prop,"SEE","**参考：** \n\n")}
+
+${docClassFn.calAllClassesMd(prop.allSupperClasses,"**所有父类：**  \n")}
+
+<% if(isNotEmpty(prop.interfaceClass) && prop.interfaceClass){%>
+${docClassFn.calAllClassesMd(prop.allInterfaceClasses,"**所有父级接口：**  \n")}
+<% }else{%>
+${docClassFn.calAllClassesMd(prop.allInterfaceClasses,"**所有实现接口：**  \n")}
+<% }%>
+
+${docClassFn.calAllClassesMd(prop.allSubClasses,"**所有子类：**  \n")}
+
+${docClassFn.calAllClassesMd(prop.allSubInterfaceClasses,"**所有子接口：**  \n")}
+
+${docClassFn.calFunctionInterfaceInfoMd(prop,"**Functional Interface：**  \n")}
+
+---
+<% if(docClassFn.calIsDeprecated(prop)){
+     println("<strong>Deprecated</strong><br/>");
+     println(docClassFn.printDeprecatedDesc(prop));
+}
+%>
+
+## 服务名称
+<% if(docClassFn.calIncludeMetaAndCustomAnnotation(prop)){
+     print("> ");print(docClassFn.printMetaAndCustomAnnotation(prop));
+}
+%>
+
+> ${docClassFn.calClassNameStructure(prop)}
+
+
+${docClassFn.calCommentDocMd(prop,prop,"**描述：** ")}
+
+
+<%
+if(isNotEmpty(prop.methods)){
+        println("## 方法汇总");
+        println("");
+        println("|   索引  |    方法体和简述   |");
+        println("| ---- | ---- |");
+        for(methodObj in prop.methods){
+            print("|");
+            print(methodObjLP.index);
+             print("|");
+             print(memberFn.calMethodStructureInnerLinkMd(methodObj,""));
+             if(docClassFn.calIsDeprecated(methodObj)){
+              print("<br/>");
+                print("<strong>Deprecated</strong><br/>");
+                print(docClassFn.printDeprecatedDesc(prop));
+              }
+             print("<br/><br/>");
+            print(docClassFn.calCommentNoEnterDocMd(methodObj,prop,""));
+            println("|");
+
+          }
+}
+%>
+
+
+
+
+<% if(isNotEmpty(prop.methods)){
+    println("## 方法详细信息");
+    println("");
+
+    for(methodObj in prop.methods){
+        println("");println("---");println("");
+        print("### ");print(methodObjLP.index);print(".");print(methodObj.name);println();
+        print("> **");print(memberFn.createHrefIdHtml(methodObj.name,"",memberFn.calUniqueMethodName(methodObj)));println("**");
+        println();
+        print("**方法签名：** ");
+        println();
+        println();
+        if(docClassFn.calIsDeprecated(methodObj)){
+           println("@Deprecated  ");
+        }
+        if(docClassFn.calIncludeMetaAndCustomAnnotation(methodObj)){
+             print("> ");print(docClassFn.printMetaAndCustomAnnotation(methodObj));
+        }
+        print("  ");println(memberFn.calMethodStructureMd(methodObj));
+        println();
+        println();
+        println(docClassFn.calCommentDocMd(methodObj,prop,"**方法描述：** \n\n"));
+        if(docClassFn.calIsDeprecated(methodObj)){
+           println("<strong>Deprecated</strong> \n\n");
+           println(docClassFn.calCommentTagsMd(methodObj,prop,"DEPRECATED",""));
+         }
+        println(); println();
+        println(docClassFn.calCommentTagsMd(methodObj,prop,"SINCE","**来源版本：** \n\n"));
+        println(); println();
+        println(docClassFn.calCommentTagsMd(methodObj,prop,"SEE","**另请参阅：** \n\n"));
+        println(); println();
+
+
+        if(isNotEmpty(methodObj.parameters)){
+            print("**参数字段：** ");println();println();
+            for(paramTreeTypeObj in methodObj.parameters){
+                println("|   索引  |   字段  |    类型简称  |  校验信息    |  描述    |   版本   |   初始值   |");
+                println("| ---- | ---- | ---- | ---- | ---- | ---- | ---- |");
+                 print("|");
+                 print(paramTreeTypeObjLP.index);
+                print("|");print(paramTreeTypeObj.name);
+                print("|");print(memberFn.calReturnMd(paramTreeTypeObj.javaClass));
+                print("|");print(docClassFn.calCommentJSRTagsMd(methodObj,prop,"PARAM","",paramTreeTypeObj.name));
+                print("|");print(docClassFn.calCommentTagsByParamMd(methodObj,prop,"PARAM","",paramTreeTypeObj.name));
+                print("|");print(docClassFn.calCommentTagsMd(methodObj,prop,"VERSION",""));
+                print("|");print("无");
+                println("|");println();
+
+                if(memberFn.existExtProp(paramTreeTypeObj,"paramType")){
+                     for(classTypeObj in paramTreeTypeObj.extProp.paramType){
+                            if(memberFn.existClassSource(classTypeObj)){
+                                print("类型");print(docClassFn.calLinkClassNameMd(classTypeObj));println("字段信息:");println();
+                                if(memberFn.isEnumClass(classTypeObj)){
+                                     println("");
+                                     println("|   索引  |   字段   |  描述    |   版本   |   构造参数信息   |");
+                                     println("| ---- | ---- | ---- | ---- | ---- |");
+                                     for(fieldsObj in memberFn.classFieldsJson(classTypeObj)){
+                                         if(fieldsObj.name != "serialVersionUID"){
+                                             print("|");
+                                             print(fieldsObjLP.index);
+                                             print("|");
+                                             print(fieldsObj.className);print("<br/>");
+                                             print("|");
+                                             print(docClassFn.calCommentNoEnterDocMd(fieldsObj,prop,""));
+                                             print("|");
+                                             print(docClassFn.calCommentTagsMd(fieldsObj,prop,"VERSION",""));
+                                             print("|");
+                                              if(isNotEmpty(fieldsObj.arguments)){
+                                                 print(docClassFn.calArgumentsMd(fieldsObj,""));
+                                              }else{
+                                                print("无");
+                                              }
+                                             println("|");
+                                         }
+                                     }
+                                }else{
+                                     println("");
+                                     println("|   索引  |   字段  |    类型简称|  校验信息   |  描述    |   版本   |   初始值   |");
+                                     println("| ---- | ---- | ---- | ---- | ---- | ---- | ---- |");
+                                     for(fieldsObj in memberFn.classFieldsJson(classTypeObj)){
+                                         if(fieldsObj.name != "serialVersionUID"){
+                                             print("|");
+                                             print(fieldsObjLP.index);
+                                             print("|");
+                                             print(memberFn.createInnerLinkIdMd(fieldsObj.name,"",fieldsObj.name));print("<br/>");
+                                             print("|");
+                                             print(memberFn.calFieldTypeMd(fieldsObj.type));
+                                             print("|");print(docClassFn.calDocCommentElementMetasJSRMd(fieldsObj,prop,""));
+                                             print("|");
+                                             print(docClassFn.calCommentNoEnterDocMd(fieldsObj,prop,""));
+                                             print("|");
+                                             print(docClassFn.calCommentTagsMd(fieldsObj,prop,"VERSION",""));
+                                             print("|");
+                                              if(isNotEmpty(fieldsObj.initializer)){
+                                                print(fieldsObj.initializer);
+                                              }else{
+                                                print("无");
+                                              }
+                                             println("|");
+                                         }
+                                     }
+                                }
+
+                            }else{
+                                println("|   索引  |   字段  |    类型简称  |  校验信息    |  描述    |   版本   |   初始值   |");
+                                println("| ---- | ---- | ---- | ---- | ---- | ---- | ---- |");
+                                 print("|");
+                                 print(classTypeObjLP.index);
+                                print("|");print(classTypeObj.className);
+                                print("|");print(memberFn.calReturnMd(classTypeObj));
+                                print("|");print("无");
+                                print("|");print("无");
+                                print("|");print(docClassFn.calCommentTagsMd(methodObj,prop,"VERSION",""));
+                                print("|");print("无");
+                                println("|");println();
+                            }
+                            println();println();
+                     }
+                }
+                println("---");println();
+            }
+            println();println();
+        }
+
+        if(isNotEmpty(methodObj.returns) && memberFn.existExtProp(methodObj.returns,"returnType")){
+           print("**返回字段：** ");println();println();
+
+           println("");
+           println("|   索引  |    类型简称  |   类型全称   | 校验信息   |  描述    |   版本   |   初始值   |");
+           println("| ---- | ---- | ---- | ---- | ---- | ---- | ---- |");
+           print("| 1 ");
+           print("|");print(docClassFn.calLinkClassNameMd(methodObj.returns));
+           print("|");print(methodObj.returns.fullClassName);
+           print("|");print(docClassFn.calCommentJSRTagsMd(methodObj,prop,"RETURN","",""));
+           print("|");print(docClassFn.calCommentTagsMd(methodObj,prop,"RETURN",""));
+           print("|");print(docClassFn.calCommentTagsMd(methodObj,prop,"VERSION",""));
+           print("| 无 | ");
+           println();println();
+
+            for(returnTreeTypeObj in methodObj.returns.extProp.returnType){
+
+                if(memberFn.existClassSource(returnTreeTypeObj)){
+                    print("类型");println(docClassFn.calLinkClassNameMd(returnTreeTypeObj)); print("字段信息");  println();
+                    if(memberFn.isEnumClass(returnTreeTypeObj)){
+                         println("");
+                         println("|   索引  |   字段   |  描述    |   版本   |   构造参数信息   |");
+                         println("| ---- | ---- | ---- | ---- | ---- |");
+                         for(fieldsObj in memberFn.classFieldsJson(returnTreeTypeObj)){
+                             if(fieldsObj.name != "serialVersionUID"){
+                                 print("|");
+                                 print(fieldsObjLP.index);
+                                 print("|");
+                                 print(fieldsObj.className);print("<br/>");
+                                 print("|");
+                                 print(docClassFn.calCommentNoEnterDocMd(fieldsObj,prop,""));
+                                 print("|");
+                                 print(docClassFn.calCommentTagsMd(fieldsObj,prop,"VERSION",""));
+                                 print("|");
+                                  if(isNotEmpty(fieldsObj.arguments)){
+                                     print(docClassFn.calArgumentsMd(fieldsObj,""));
+                                  }else{
+                                    print("无");
+                                  }
+                                 println("|");
+                             }
+                         }
+                    }else{
+                        println("");
+                        println("|   索引  |   字段  |  类型简称  | 校验信息   |  描述    |   版本   |   初始值   |");
+                        println("| ---- | ---- | ---- | ---- | ---- | ---- | ---- |");
+                        for(fieldsObj in memberFn.classFieldsJson(returnTreeTypeObj)){
+                            if(fieldsObj.name != "serialVersionUID"){
+                                print("|");
+                                print(fieldsObjLP.index);
+                                print("|");
+                                print(memberFn.createInnerLinkIdMd(fieldsObj.name,"",fieldsObj.name));print("<br/>");
+                                print("|");
+                                print(memberFn.calFieldTypeMd(fieldsObj.type));
+                                print("|");print(docClassFn.calDocCommentElementMetasJSRMd(fieldsObj,prop,""));
+                                print("|");
+                                print(docClassFn.calCommentNoEnterDocMd(fieldsObj,prop,""));
+                                print("|");
+                                print(docClassFn.calCommentTagsMd(fieldsObj,prop,"VERSION",""));
+                                print("|");
+                                 if(isNotEmpty(fieldsObj.initializer)){
+                                   print(fieldsObj.initializer);
+                                 }else{
+                                   print("无");
+                                 }
+                                println("|");
+                            }
+                        }
+                         println();println();
+                    }
+
+                }else{
+                    print("返回类型:");println(docClassFn.calLinkClassNameMd(returnTreeTypeObj));  println();
+                    println("");
+                    println("|   索引  |    类型简称  |   类型全称   | 校验信息 |  描述    |   版本   |   初始值   |");
+                    println("| ---- | ---- | ---- | ---- | ----| ---- | ---- |");
+                    print("| 1 ");
+                    print("|");print(returnTreeTypeObj.className);
+                    print("|");print(returnTreeTypeObj.fullClassName);
+                    print("|");print("无");
+                    print("| 无  ");
+                    print("|");print(docClassFn.calCommentTagsMd(returnTreeTypeObj,prop,"VERSION",""));
+                    println("| 无 | ");
+
+                    println();println();
+                }
+                println("---");println();
+            }
+            println();println();
+        }
+
+        println(docClassFn.calCommentTagsMd(methodObj,prop,"THROWS","**异常信息：** \n\n"));
+        println(docClassFn.calCommentTagsMd(methodObj,prop,"EXCEPTION","**异常信息：** \n\n"));
+        println();
+        println();
+
+
+        print("**样例数据：** ");
+        println();println();
+
+        if(memberFn.existExtProp(methodObj,"paramMockData")){
+            print("**入参数据：** \n\n ");
+            println("```");
+            println(memberFn.formatMockDataJson(methodObj.extProp.paramMockData));
+            println("```");
+            println();println();
+        }
+
+
+
+        if(memberFn.existExtProp(methodObj,"returnMockData")){
+            print("**出参数据：** \n\n ");
+            println("```");
+             println(memberFn.formatMockDataJson(methodObj.extProp.returnMockData));
+            println("```");
+            println();println();
+        }
+
+      }
+    }
+%>

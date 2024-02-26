@@ -16,14 +16,15 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import com.github.javaparser.ast.type.TypeParameter;
+import com.github.javaparser.ast.type.*;
 import com.github.javaparser.resolution.UnsolvedSymbolException;
+import com.github.javaparser.resolution.types.ResolvedType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class AbstractJavaParseMemberParse extends BaseJavaParse implements JavaParserMemberParse {
     private static final Logger log = LoggerFactory.getLogger(AbstractJavaParseMemberParse.class);
@@ -174,6 +175,70 @@ public abstract class AbstractJavaParseMemberParse extends BaseJavaParse impleme
         }
     }
 
+    /**
+     * 循环设置类型参数
+     * @param parameter
+     * @param paramClass
+     */
+    protected   void setTypeArgumentsFromType(Type parameter, JavaClassMeta paramClass) {
+        if(parameter.isClassOrInterfaceType()){
+            ClassOrInterfaceType paramclassOrInterfaceType = parameter.asClassOrInterfaceType();
+            paramClass.setClassName(paramclassOrInterfaceType.getName().getId());
+            Optional<NodeList<Type>> typeArguments = paramclassOrInterfaceType.getTypeArguments();
+            if(typeArguments.isPresent()){
+                List<JavaClassMeta> typeArgumentsList = new ArrayList<>();
+                JavaClassMeta typeClassMeth = null;
+                for (Type type : typeArguments.get()) {
+                    ResolvedType resolve = null;
+
+                    typeClassMeth = new JavaClassMeta();
+                    typeClassMeth.setClassName(type.asString());
+                    try {
+                        resolve = type.resolve();
+                    }catch(UnsolvedSymbolException ue) {
+                        log.debug("setTypeArgumentsFromType type.resolve UnsolvedSymbolException error",ue);
+                        UnSolvedSymbolTool.addUnSolveTOCache(ue.getMessage());
+                    }catch (Exception e) {
+                        log.error("setTypeArgumentsFromType type.resolve error {}",paramClass.getClassName(),e);
+                    }
+                    setFullClassNameFromResolvedType(typeClassMeth,resolve);
+
+
+                    ResolvedType typeArgResolve = null;
+                    try {
+                        if(type.isWildcardType()){
+                            WildcardType wildcardType = type.asWildcardType();
+                            Optional<ReferenceType> extendedType = wildcardType.getExtendedType();
+                            if(extendedType.isPresent()){
+                                JavaClassMeta typeArgExtend = new JavaClassMeta();
+                                if(extendedType.get().isClassOrInterfaceType()){
+                                    typeArgExtend.setClassName(extendedType.get().asClassOrInterfaceType().getNameAsString());
+                                    typeArgExtend.setFullClassName(extendedType.get().asClassOrInterfaceType().getNameAsString());
+                                }
+                                typeArgResolve =extendedType.get().resolve();
+
+                                if(typeArgResolve != null){
+                                    setFullClassNameFromResolvedType(typeArgExtend,typeArgResolve);
+                                }
+                                typeClassMeth.setTypeArgExtend(typeArgExtend);
+                            }
+                        }
+                    } catch(UnsolvedSymbolException ue) {
+                        log.debug("setTypeArgumentsFromType type.resolve UnsolvedSymbolException error",ue);
+                        UnSolvedSymbolTool.addUnSolveTOCache(ue.getMessage());
+                    }catch (Exception e) {
+                        log.error("setTypeArgumentsFromType type.resolve error {}",paramClass.getClassName(),e);
+                    }
+
+
+
+                    typeArgumentsList.add(typeClassMeth);
+                    setTypeArgumentsFromType(type,typeClassMeth);
+                }
+                paramClass.setTypeArguments(typeArgumentsList);
+            }
+        }
+    }
     protected abstract void parseBodyDeclarationToJavaClassMeta(JavaClassMeta javaClassMeta, MetaFileInfoDto metaFileInfo, NodeList<BodyDeclaration<?>> members, TypeDeclaration<?> typeDeclaration,JavaParserMetaContext javaParserMetaContext);
 
 

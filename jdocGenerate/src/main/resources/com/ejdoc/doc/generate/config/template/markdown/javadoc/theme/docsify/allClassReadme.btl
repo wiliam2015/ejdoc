@@ -1,0 +1,121 @@
+<% if(prop.classType == "allClass"){
+println("**"+prop.title+"信息**");
+}
+%>
+
+<% if(prop.classType == "allPackage" || prop.classType == "packageDetail"){
+println("# 程序包"+prop.title+"");
+if(isNotEmpty(prop.firstComment)){
+  println("简述："+prop.firstComment);
+}
+}
+%>
+
+<%
+println();
+if(isNotEmpty(prop.tableList)){
+%>
+<%   for(obj in prop.tableList){
+    if(obj.firstHead){
+           println("");
+           print("## ");print(obj.head);println("  ");
+           print("|   类信息  |    描述   |");println("  ");
+           print("| ---- | ---- |");println("  ");
+    }else{
+    var classFilePath = obj.moduleName+"/"+ obj.packageNamePath+"/"+obj.className+".md";
+        print("|");print(docClassFn.createCommonLinkMd(obj.classSimpleName,classFilePath));print("|");print(obj.classDesc);print("|");println();
+    }
+}
+%>
+<% }%>
+
+<%
+println();
+if(isNotEmpty(prop.interfaceList)){
+print("## 接口概要");
+%>
+<%   for(obj in prop.interfaceList){
+    if(obj.firstHead){
+           println("");
+           print("### ");print(obj.head);println("  ");
+           print("|   接口  |    描述   |");println("  ");
+           print("| ---- | ---- |");println("  ");
+    }else{
+    var classFilePath = obj.moduleName+"/"+ obj.packageNamePath+"/"+obj.className+".md";
+        print("|");print(docClassFn.createCommonLinkMd(obj.classSimpleName,classFilePath));print("|");print(obj.classDesc);print("|");println();
+    }
+}
+%>
+<% }%>
+
+<%
+println();
+if(isNotEmpty(prop.classList)){
+print("## 类概要");
+%>
+<%   for(obj in prop.classList){
+    if(obj.firstHead){
+           println("");
+           print("### ");print(obj.head);println("  ");
+           print("|   类  |    描述   |");println("  ");
+           print("| ---- | ---- |");println("  ");
+    }else{
+    var classFilePath = obj.moduleName+"/"+ obj.packageNamePath+"/"+obj.className+".md";
+        print("|");print(docClassFn.createCommonLinkMd(obj.classSimpleName,classFilePath));print("|");print(obj.classDesc);print("|");println();
+    }
+}
+%>
+<% }%>
+
+<%
+println();
+if(isNotEmpty(prop.enumList)){
+print("## 枚举概要");
+%>
+<%   for(obj in prop.enumList){
+    if(obj.firstHead){
+           println("");
+           print("### ");print(obj.head);println("  ");
+           print("|   枚举  |    描述   |");println("  ");
+           print("| ---- | ---- |");println("  ");
+    }else{
+    var classFilePath = obj.moduleName+"/"+ obj.packageNamePath+"/"+obj.className+".md";
+        print("|");print(docClassFn.createCommonLinkMd(obj.classSimpleName,classFilePath));print("|");print(obj.classDesc);print("|");println();
+    }
+}
+%>
+<% }%>
+
+<%
+println();
+if(isNotEmpty(prop.annoList)){
+print("## 注释类型概要");
+%>
+<%   for(obj in prop.annoList){
+    if(obj.firstHead){
+           println("");
+           print("### ");print(obj.head);println("  ");
+           print("|   注释类型  |    描述   |");println("  ");
+           print("| ---- | ---- |");println("  ");
+    }else{
+    var classFilePath = obj.moduleName+"/"+ obj.packageNamePath+"/"+obj.className+".md";
+        print("|");print(docClassFn.createCommonLinkMd(obj.classSimpleName,classFilePath));print("|");print(obj.classDesc);print("|");println();
+    }
+}
+%>
+<% }%>
+
+<% if(prop.classType == "allPackage" || prop.classType == "packageDetail"){
+if(isNotEmpty(prop.allComment)){
+println("## 详细描述");
+  println(prop.allComment);
+}
+}
+%>
+<% if(prop.classType == "allPackage" || prop.classType == "packageDetail"){
+if(isNotEmpty(prop.author)){
+println("### 作者");
+  println(prop.author);
+}
+}
+%>

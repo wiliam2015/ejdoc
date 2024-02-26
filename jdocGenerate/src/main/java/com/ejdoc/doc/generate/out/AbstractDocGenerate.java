@@ -92,6 +92,7 @@ public abstract class AbstractDocGenerate implements DocGenerate{
         renderThemeFile(seralizeConfig, renderFilePath,jsonFilePath);
         log.info("ready create render theme doc file finish");
 
+        log.info("the create doc folder path:{}",renderFilePath);
         return printUnsolveSymbol();
     }
 
@@ -143,7 +144,7 @@ public abstract class AbstractDocGenerate implements DocGenerate{
                 afterResolveFile(jsonFile, seralizeConfig,this.environment,false);
             }
         }
-        return docOutRootPath + "/doc/"+docGenerateConfig.getTemplateType().getCode();
+        return docOutRootPath + "/doc/"+docGenerateConfig.getDocTypeEnum().getCode()+"/"+docGenerateConfig.getTemplateType().getCode();
     }
 
     /**
@@ -194,6 +195,7 @@ public abstract class AbstractDocGenerate implements DocGenerate{
         docOutFileInfo.setDocOutRootPath(docOutRootPath);
         docOutFileInfo.setLocale(docGenerateConfig.getLocale());
         docOutFileInfo.setTemplateType(docGenerateConfig.getTemplateType());
+        docOutFileInfo.setDocType(docGenerateConfig.getDocTypeEnum().getCode());
         String templateData = docOutTemplate.formatTemplate(docOutFileInfo);
         if(StrUtil.isBlank(templateData)){
             log.warn("jsonFileName templateData is Empty fileName:{}", jsonFile.getName());

@@ -586,7 +586,8 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
      * @param renderFile 写入文件
      */
     private void writeThemeTemplateFile(String renderFilePath, Map<String, Object> prop,String templateName,String renderFile) {
-        String templateFile = "/markdown/theme/docsify/" + templateName;
+        String docType = getDocGenerateConfig().getDocTypeEnum().getCode();
+        String templateFile = "/markdown/"+ docType +"/theme/docsify/" + templateName;
         Template sideBarTemplate = getGroupTemplate().getTemplate(templateFile);
         String sideBarContent = renderByTemplate(prop, sideBarTemplate);
         String sideBarFile = renderFilePath + renderFile;
@@ -839,7 +840,8 @@ public class JavaDocDocsifyTemplateTheme extends BaseOutTemplate implements DocT
             FileUtil.copyFile(renderFilePath +"/projectMetaInfo.md", renderFilePath +"/README.md", StandardCopyOption.REPLACE_EXISTING);
         }
 
-        ClassPathResource staticResource = new ClassPathResource("com/ejdoc/doc/generate/config/template/markdown/theme/docsify/static.zip");
+        String docType = getDocGenerateConfig().getDocTypeEnum().getCode();
+        ClassPathResource staticResource = new ClassPathResource("com/ejdoc/doc/generate/config/template/markdown/"+docType+"/theme/docsify/static.zip");
         InputStream stream = staticResource.getStream();
         FastByteArrayOutputStream read = IoUtil.read(stream);
         FileUtil.writeBytes(read.toByteArray(), renderFilePath +"/static.zip");

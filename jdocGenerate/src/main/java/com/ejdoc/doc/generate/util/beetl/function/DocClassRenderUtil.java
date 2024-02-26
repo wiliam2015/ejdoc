@@ -12,6 +12,8 @@ import com.ejdoc.doc.generate.util.DocParseUtil;
 import com.ejdoc.metainfo.seralize.enums.JavaDocTagTypeEnum;
 import com.ejdoc.metainfo.seralize.util.EjdocStrUtil;
 import org.beetl.core.Context;
+import org.beetl.core.GroupTemplate;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -575,6 +577,30 @@ public class DocClassRenderUtil {
         return result.replace("\n","");
     }
 
+    public String calArgumentsMd(Object paras,String appendBefore, Context ctx) {
+        StringBuilder result = new StringBuilder();
+        if(paras instanceof JSONObject) {
+            JSONObject argumentParentObj = (JSONObject) paras;
+            JSONArray jsonArray = argumentParentObj.getJSONArray("arguments");
+            if(CollectionUtil.isNotEmpty(jsonArray)){
+                result.append("(");
+                StringBuilder innerResult = new StringBuilder();
+                for (Object jsonClassObj : jsonArray) {
+                    JSONObject param = (JSONObject)jsonClassObj;
+                    innerResult.append(",");
+                    innerResult.append(param.getStr("value",""));
+                    innerResult.append(":");
+                    innerResult.append(createClassNameLinkMd(param));
+                }
+                result.append(innerResult.substring(1));
+                result.append(")");
+            }
+        }
+        if(result.length() > 0 ){
+            return appendBefore + result;
+        }
+        return "";
+    }
     /**
      * 注解类型是否有默认值
      * @param paras
@@ -649,6 +675,186 @@ public class DocClassRenderUtil {
         return javaDocCommentOptional;
     }
 
+    public String calDocCommentElementMetasJSRMd(Object paras,Object rootProp,String appendBefore, Context ctx) {
+        StringBuilder result = new StringBuilder();
+        if(paras instanceof JSONObject && rootProp instanceof JSONObject){
+            JSONObject jsonObject =( JSONObject)paras;
+            JSONObject rootPropObj =( JSONObject)rootProp;
+
+            if(jsonObject.containsKey("javaModelMeta")){
+                JSONObject javaModelMeta = jsonObject.getJSONObject("javaModelMeta");
+                if(javaModelMeta.containsKey("javaDocComment")){
+
+                    JSONObject javaDocComment = javaModelMeta.getJSONObject("javaDocComment");
+                    String value ="";
+                    boolean values = javaDocComment.containsKey("javaDocCommentElementMetas");
+                    if(values){
+                        value = DocParseUtil.parseJSRCommentMd(javaDocComment.getJSONArray("javaDocCommentElementMetas"),rootPropObj);
+                    }else{
+                        value = javaModelMeta.getStr("comment", "");
+                        value = value.trim().replaceAll(" {2,}","");
+                    }
+                    result.append(value);
+                }
+            }
+        }
+
+        if(result.length() > 0 ){
+            return appendBefore +result;
+        }
+        return "无";
+    }
+    public String calCommentJSRTagsMd(Object paras,Object rootProp,String type,String appendBefore,String paramName, Context ctx) {
+        StringBuilder result = new StringBuilder();
+        if(paras instanceof JSONObject && rootProp instanceof JSONObject){
+            JSONObject jsonObject =( JSONObject)paras;
+            JSONObject rootPropObj =( JSONObject)rootProp;
+
+            if(jsonObject.containsKey("javaModelMeta")){
+                JSONObject javaModelMeta = jsonObject.getJSONObject("javaModelMeta");
+                if(javaModelMeta.containsKey("tags")){
+
+                    JSONArray tags = javaModelMeta.getJSONArray("tags");
+                    StringBuilder tagSb = new StringBuilder();
+                    for (Object tag : tags) {
+                        if(tag instanceof JSONObject){
+                            JSONObject tagJsonObj = (JSONObject)tag;
+
+                            String tagType = tagJsonObj.getStr("type", "");
+                            String name = tagJsonObj.getStr("name", "");
+                            String tagName = tagJsonObj.getStr("tagName", "");
+                            if(!(type.equals(tagType) || type.equals(tagName))){
+                                continue;
+                            }
+                            if(StrUtil.isNotBlank(paramName) && !name.equals(paramName)){
+                                continue;
+                            }
+
+                            String value ="";
+                            boolean values = tagJsonObj.containsKey("values");
+                            if(values){
+                                value = DocParseUtil.parseJSRCommentMd(tagJsonObj.getJSONArray("values"),rootPropObj);
+                            }else{
+                                value = tagJsonObj.getStr("value", "");
+                                value = value.trim().replaceAll(" {2,}","");
+                            }
+                            tagSb.append(value);
+
+                        }
+                    }
+                    result.append(tagSb);
+                }
+            }
+        }
+
+        if(result.length() > 0 ){
+            return appendBefore +result;
+        }
+        return "";
+    }
+    public String calCommentJSRTagsByParamMd(Object paras,Object rootProp,String type,String jsrType,String appendBefore,String paramName, Context ctx) {
+        StringBuilder result = new StringBuilder();
+        if(paras instanceof JSONObject && rootProp instanceof JSONObject){
+            JSONObject jsonObject =( JSONObject)paras;
+            JSONObject rootPropObj =( JSONObject)rootProp;
+
+            if(jsonObject.containsKey("javaModelMeta")){
+                JSONObject javaModelMeta = jsonObject.getJSONObject("javaModelMeta");
+                if(javaModelMeta.containsKey("tags")){
+
+                    JSONArray tags = javaModelMeta.getJSONArray("tags");
+                    StringBuilder tagSb = new StringBuilder();
+                    for (Object tag : tags) {
+                        if(tag instanceof JSONObject){
+                            JSONObject tagJsonObj = (JSONObject)tag;
+
+                            String tagType = tagJsonObj.getStr("type", "");
+                            String name = tagJsonObj.getStr("name", "");
+                            String tagName = tagJsonObj.getStr("tagName", "");
+                            if(!(type.equals(tagType) || type.equals(tagName))){
+                                continue;
+                            }
+                            if(!name.equals(paramName)){
+                                continue;
+                            }
+
+                            String value ="";
+                            boolean values = tagJsonObj.containsKey("values");
+                            if(values){
+                                value = DocParseUtil.parseJSRCommentMdByType(tagJsonObj.getJSONArray("values"),rootPropObj,jsrType);
+                            }else{
+                                value = tagJsonObj.getStr("value", "");
+                                value = value.trim().replaceAll(" {2,}","");
+                            }
+                            tagSb.append(value);
+
+                        }
+                    }
+                    result.append(tagSb);
+                }
+            }
+        }
+
+        if(result.length() > 0 ){
+            return appendBefore +result;
+        }
+        return "无";
+    }
+
+    public String calCommentTagsByParamMd(Object paras,Object rootProp,String type,String appendBefore,String paramName, Context ctx) {
+        StringBuilder result = new StringBuilder();
+        if(paras instanceof JSONObject && rootProp instanceof JSONObject){
+            JSONObject jsonObject =( JSONObject)paras;
+            JSONObject rootPropObj =( JSONObject)rootProp;
+
+            if(jsonObject.containsKey("javaModelMeta")){
+                JSONObject javaModelMeta = jsonObject.getJSONObject("javaModelMeta");
+                if(javaModelMeta.containsKey("tags")){
+
+
+                    Map<String, TagTypeSerialize> mdTagTypeSerializeMap = TagTypeSerializeFactory.createMdTagTypeSerializeMap();
+
+                    JSONArray tags = javaModelMeta.getJSONArray("tags");
+                    StringBuilder tagSb = new StringBuilder();
+                    for (Object tag : tags) {
+                        if(tag instanceof JSONObject){
+                            JSONObject tagJsonObj = (JSONObject)tag;
+
+                            String tagType = tagJsonObj.getStr("type", "");
+                            String name = tagJsonObj.getStr("name", "");
+                            String tagName = tagJsonObj.getStr("tagName", "");
+                            if(!(type.equals(tagType) || type.equals(tagName))){
+                                continue;
+                            }
+                            if(!name.equals(paramName)){
+                                continue;
+                            }
+                            TagTypeSerialize tagTypeSerialize = mdTagTypeSerializeMap.get(tagName.toUpperCase());
+                            if(tagTypeSerialize == null){
+                                tagTypeSerialize = mdTagTypeSerializeMap.get(JavaDocTagTypeEnum.DEFAULT.getName());
+                            }
+                            if(tagTypeSerialize != null){
+                                TagTypeSerializeRootDocDto tagTypeSerializeRootDocDto = new TagTypeSerializeRootDocDto();
+                                tagTypeSerializeRootDocDto.setRootPropObj(rootPropObj);
+                                tagTypeSerializeRootDocDto.setTagJsonObj(tagJsonObj);
+                                tagTypeSerializeRootDocDto.setAppendName(false);
+                                String tagVal =tagTypeSerialize.toSerialize(type,tagTypeSerializeRootDocDto);
+                                if(StrUtil.isNotBlank(tagVal)){
+                                    tagSb.append(tagVal);
+                                }
+                            }
+                        }
+                    }
+                    result.append(tagSb);
+                }
+            }
+        }
+
+        if(result.length() > 0 ){
+            return appendBefore +result;
+        }
+        return "无";
+    }
     public String calCommentTagsMd(Object paras,Object rootProp,String type,String appendBefore, Context ctx) {
         StringBuilder result = new StringBuilder();
         if(paras instanceof JSONObject && rootProp instanceof JSONObject){
@@ -683,7 +889,7 @@ public class DocClassRenderUtil {
                                 String tagVal =tagTypeSerialize.toSerialize(type,tagTypeSerializeRootDocDto);
                                 if(StrUtil.isNotBlank(tagVal)){
                                     tagSb.append(tagVal);
-                                    tagSb.append("\n\n");
+//                                    tagSb.append("\n\n");
                                 }
                             }
                         }

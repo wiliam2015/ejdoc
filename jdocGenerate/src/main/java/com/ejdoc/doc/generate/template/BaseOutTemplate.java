@@ -9,6 +9,7 @@ import cn.hutool.setting.GroupedMap;
 import cn.hutool.setting.Setting;
 import com.ejdoc.doc.generate.enums.TemplateTypeEnum;
 import com.ejdoc.doc.generate.exception.JavaDocSerializeException;
+import com.ejdoc.doc.generate.model.DocOutFileInfo;
 import com.ejdoc.doc.generate.out.config.DocGenerateConfig;
 import com.ejdoc.doc.generate.util.beetl.function.DocClassRenderUtil;
 import com.ejdoc.doc.generate.util.beetl.function.MemberRenderUtil;
@@ -83,11 +84,16 @@ public class BaseOutTemplate {
 
     }
 
-    protected String loadTemplate(TemplateTypeEnum templateType, Map propMap, boolean mainFile){
+    protected String loadTemplate(TemplateTypeEnum templateType, Map propMap,DocOutFileInfo docOutFileInfo){
         Template template = loadCustomTemplate(templateType, docGenerateConfig);
+        boolean mainFile = docOutFileInfo.isMainFile();
+        String docType = docOutFileInfo.getDocType();
+        String templateAppendName = (String)propMap.getOrDefault("templateAppendName", "");
         String appendName = "";
         if(mainFile){
             appendName = "Main";
+        }else if(StrUtil.isNotBlank(templateAppendName)){
+            appendName = templateAppendName;
         }
         if(template == null){
             if(templateType == null){
@@ -95,10 +101,10 @@ public class BaseOutTemplate {
             }
             switch (templateType){
                 case MarkDown:
-                    template = groupTemplate.getTemplate( "/markdown/markdownTemplate"+appendName+".btl");
+                    template = groupTemplate.getTemplate( "/markdown/"+docType+"/markdownTemplate"+appendName+".btl");
                     break;
                 case Html:
-                    template = groupTemplate.getTemplate( "/html/htmlTemplate"+appendName+".btl");
+                    template = groupTemplate.getTemplate( "/html/"+docType+"/htmlTemplate"+appendName+".btl");
                     break;
             }
         }

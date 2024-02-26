@@ -1,0 +1,37 @@
+<% if(prop.classType == "allClasstree"){
+println("## 类分层结构");
+}
+%>
+
+
+<%
+println();
+for(obj in prop.tableList!){
+    print(docClassFn.calAllClassesHierarchyMd(obj));println("  ");
+}
+%>
+
+
+<%
+println("## 接口分层结构");
+println();
+for(obj in prop.interfaceTableList!){
+    print(docClassFn.calAllClassesHierarchyMd(obj));println("  ");
+}
+%>
+
+<%
+println("## 异常分层结构");
+println();
+for(obj in prop.exceptionTableList!){
+    print(docClassFn.calAllClassesHierarchyMd(obj));println("  ");
+}
+%>
+
+<%
+println("## 枚举分层结构");
+println();
+for(obj in prop.enumTableList!){
+    print(docClassFn.calAllClassesHierarchyMd(obj));println("  ");
+}
+%>

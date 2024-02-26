@@ -1,7 +1,9 @@
 package com.ejdoc.metainfo.seralize.model;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JavaMethodMeta implements Serializable {
 
@@ -50,6 +52,11 @@ public class JavaMethodMeta implements Serializable {
     private Boolean transients;
 
     private Boolean volatiles;
+
+    /**
+     * 扩展属性
+     */
+    private Map<String,Object> extProp;
 
     public String getName() {
         return name;
@@ -234,5 +241,20 @@ public class JavaMethodMeta implements Serializable {
 
     public void setUniqueId(String uniqueId) {
         this.uniqueId = uniqueId;
+    }
+
+    public Map<String, Object> getExtProp() {
+        return extProp;
+    }
+
+    public void setExtProp(Map<String, Object> extProp) {
+        this.extProp = extProp;
+    }
+
+    public void putExtProp(String key,Object value){
+        if(this.extProp == null){
+            this.extProp = new HashMap<>();
+        }
+        this.extProp.put(key,value);
     }
 }

@@ -108,7 +108,7 @@ public class CommentSerializeLinkImpl implements CommentSerialize {
     private void processCommentLinkDto(CommentLinkDto commentLinkDto, CommentSerializeRootDocDto serializeRootDocDto) {
 
         JavaClassMeta classMeta = MetaIndexContext.getClassMetaByFullName(serializeRootDocDto.getFullClassName());
-
+        commentLinkDto.setLinkJavaClassMeta(classMeta);
         if(commentLinkDto.isClassLink()){
             if(commentLinkDto.getFullName().startsWith("java")){
 
@@ -223,7 +223,12 @@ public class CommentSerializeLinkImpl implements CommentSerialize {
             }
         }
         if(StrUtil.isNotBlank(uniqueName)){
-            content = memberRenderUtil.createALinkHrefIdHtml(commentLinkDto.getLabelName(),"jdkClass",uniqueName,null);
+            String prex ="";
+            JavaClassMeta linkJavaClassMeta = commentLinkDto.getLinkRefJavaClassMeta();
+            if(linkJavaClassMeta != null && BooleanUtil.isTrue(linkJavaClassMeta.getJdkClass())){
+                prex ="jdkClass";
+            }
+            content = memberRenderUtil.createALinkHrefIdHtml(commentLinkDto.getLabelName(),prex,uniqueName,null);
         }
         return content;
     }

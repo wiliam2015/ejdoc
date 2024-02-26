@@ -32,6 +32,11 @@ public class DocOutFileInfo {
     private boolean mainFile;
 
     private SeralizeConfig seralizeConfig;
+    /**
+     * 文档类型
+     * @see com.ejdoc.doc.generate.enums.DocTypeEnum
+     */
+    private String docType;
 
     public String getFileName() {
         return fileName;
@@ -111,5 +116,13 @@ public class DocOutFileInfo {
 
     public void setSeralizeConfig(SeralizeConfig seralizeConfig) {
         this.seralizeConfig = seralizeConfig;
+    }
+
+    public String getDocType() {
+        return docType;
+    }
+
+    public void setDocType(String docType) {
+        this.docType = docType;
     }
 }

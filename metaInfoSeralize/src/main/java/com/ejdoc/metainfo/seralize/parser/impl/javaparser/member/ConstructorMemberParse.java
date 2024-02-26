@@ -38,9 +38,10 @@ public class ConstructorMemberParse extends MethodMemberParse{
         }
         if(CollectionUtil.isNotEmpty(constructorMetas)){
             for (JavaConstructorMeta constructorMeta : constructorMetas) {
-                if(filterModifier(compileIncludePrivate,constructorMeta.getModifiers())){
-                    result.add(constructorMeta);
-                }
+//                if(filterModifier(compileIncludePrivate,constructorMeta.getModifiers())){
+//                    result.add(constructorMeta);
+//                }
+                result.add(constructorMeta);
             }
         }else{
             JavaConstructorMeta javaConstructorMeta = new JavaConstructorMeta();
