@@ -6,6 +6,7 @@ import cn.hutool.core.util.ClassLoaderUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
+import com.ejdoc.metainfo.seralize.env.MetaEnvironment;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
 import com.ejdoc.metainfo.seralize.model.JavaModuleMeta;
 import com.ejdoc.metainfo.seralize.parser.impl.AbstractMetaInfoParser;
@@ -41,6 +42,14 @@ public class JavaParserMetaInfoParser extends AbstractMetaInfoParser {
 
     public JavaParserMetaInfoParser(String configFilePath) {
         super(configFilePath);
+
+        this.javaParser = JavaParserCreateFactory.createJavaParser(metaFileRead);
+
+        this.javaParserTypeDeclarationParseList = initJavaParserTypeDeclarationParseList();
+    }
+
+    public JavaParserMetaInfoParser(MetaEnvironment metaEnvironment) {
+        super(metaEnvironment);
 
         this.javaParser = JavaParserCreateFactory.createJavaParser(metaFileRead);
 

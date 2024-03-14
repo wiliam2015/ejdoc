@@ -2,8 +2,10 @@ package com.ejdoc.doc.generate.out.apidoc.mockdata;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.BooleanUtil;
+import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import com.ejdoc.doc.generate.util.JdkClassUtil;
 import com.ejdoc.metainfo.seralize.index.MetaIndexContext;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
 import com.ejdoc.metainfo.seralize.model.JavaDocCommentElementMeta;
@@ -19,6 +21,7 @@ public class DefaultApiTypeMockData implements ApiTypeMockData{
 
     private String className;
     private String fullClassName;
+
     public DefaultApiTypeMockData(String className,String fullClassName){
         this.className = className;
         this.fullClassName = fullClassName;
@@ -30,7 +33,7 @@ public class DefaultApiTypeMockData implements ApiTypeMockData{
     }
 
     @Override
-    public Object mockData(List<ApiMockTypeArgument> apiMockTypeArguments,String name, List<JavaDocCommentElementMeta> javaDocCommentElementMetas ){
+    public Object mockData(List<ApiMockTypeArgument> apiMockTypeArguments,String name, List<JavaDocCommentElementMeta> javaDocCommentElementMetas,int invokeCount ){
         Map<String,Object> mockResult = new HashMap<>();
         JavaClassMeta javaClassMeta = MetaIndexContext.getClassMetaByFullName(this.fullClassName);
         if(javaClassMeta != null){
@@ -38,7 +41,7 @@ public class DefaultApiTypeMockData implements ApiTypeMockData{
                 return getEnumMockData(javaClassMeta);
             }
 
-            mockResult.putAll(mockFieldData(apiMockTypeArguments, javaClassMeta.getFields()));
+            mockResult.putAll(mockFieldData(apiMockTypeArguments, javaClassMeta.getFields(),invokeCount));
         }
         if(CollectionUtil.isNotEmpty(mockResult)){
             return mockResult;
@@ -46,7 +49,7 @@ public class DefaultApiTypeMockData implements ApiTypeMockData{
         return null;
     }
 
-    private  Map<String,Object> mockFieldData(List<ApiMockTypeArgument> apiMockTypeArguments, List<JavaFieldMeta> fields) {
+    private  Map<String,Object> mockFieldData(List<ApiMockTypeArgument> apiMockTypeArguments, List<JavaFieldMeta> fields,int invokeCount ) {
         Map<String,Object> mockResult = new HashMap<>();
         if(CollectionUtil.isNotEmpty(fields)){
             for (JavaFieldMeta field : fields) {
@@ -60,23 +63,31 @@ public class DefaultApiTypeMockData implements ApiTypeMockData{
                 }
                 JavaClassMeta type = field.getType();
                 if(type != null){
-                    List<JavaDocCommentElementMeta> noTextComment = getJavaDocCommentElementMetas(field);
+                    //递归，防止同类型引用栈内存溢出
+                    if(invokeCount > 0 && StrUtil.equals(this.fullClassName,type.getFullClassName())){
+                        return mockResult;
+                    }
 
+                    setJdkClassTypeParameter(type);
+
+                    List<JavaDocCommentElementMeta> noTextComment = getJavaDocCommentElementMetas(field);
+                    //如果有类型参数需要使用类型实参转换具体的值
                     if(BooleanUtil.isTrue(type.getTypeParameter()) && CollectionUtil.isNotEmpty(apiMockTypeArguments)){
                         for (ApiMockTypeArgument apiMockTypeArgument : apiMockTypeArguments) {
-                            ApiTypeMockData apiTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(apiMockTypeArgument.getClassName(), apiMockTypeArgument.getFullClassName());
-                            Object mockFieldResult = apiTypeMockData.mockData(apiMockTypeArgument.getChildApiMockTypeArguments(),field.getName(),noTextComment);
+                            ApiTypeMockData apiTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(apiMockTypeArgument.getClassName(), apiMockTypeArgument.getFullClassName(),this.fullClassName);
+                            Object mockFieldResult = apiTypeMockData.mockData(apiMockTypeArgument.getChildApiMockTypeArguments(),field.getName(),noTextComment,invokeCount+1);
                             if(mockFieldResult != null){
                                 mockResult.put(field.getName(),mockFieldResult);
                             }
                         }
 
                     }else{
-                        ApiTypeMockData apiTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(type.getClassName(), type.getFullClassName());
-//                        List<ApiMockTypeArgument> apiFieldMockTypeArguments = new ArrayList<>();
-//                        fillApiMockTypeArguments(type.getTypeArguments(),apiFieldMockTypeArguments);
+                        ApiTypeMockData apiTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(type.getClassName(), type.getFullClassName(),this.fullClassName);
+                        List<ApiMockTypeArgument> apiFieldMockTypeArguments = new ArrayList<>();
+                        fillApiMockTypeArguments(type.getTypeArguments(),apiFieldMockTypeArguments);
 
-                        Object mockFieldResult = apiTypeMockData.mockData(apiMockTypeArguments,field.getName(),noTextComment);
+//                        Object mockFieldResult = apiTypeMockData.mockData(apiMockTypeArguments,field.getName(),noTextComment);
+                        Object mockFieldResult = apiTypeMockData.mockData(apiFieldMockTypeArguments,field.getName(),noTextComment,invokeCount+1);
                         if(mockFieldResult != null){
                             mockResult.put(field.getName(),mockFieldResult);
                         }
@@ -87,6 +98,18 @@ public class DefaultApiTypeMockData implements ApiTypeMockData{
         return mockResult;
     }
 
+    /**
+     * jdk内部类设置是否是TypeParameter
+     * @param type
+     */
+    private  void setJdkClassTypeParameter(JavaClassMeta type) {
+        if(JdkClassUtil.isJdkClass(type.getFullClassName())){
+            Class<Object> objectClass = ClassUtil.loadClass(type.getFullClassName());
+            if(objectClass != null &&  objectClass.getTypeParameters() != null && objectClass.getTypeParameters().length > 0){
+                type.setTypeParameter(true);
+            }
+        }
+    }
     private  List<JavaDocCommentElementMeta> getJavaDocCommentElementMetas(JavaFieldMeta field) {
         List<JavaDocCommentElementMeta> noTextComment = new ArrayList<>();
         JavaModelMeta javaModelMeta = field.getJavaModelMeta();

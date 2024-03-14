@@ -152,7 +152,6 @@ public class MethodMemberParse extends AbstractJavaParseMemberParse{
 
         Optional<Javadoc> javadoc = methodDeclaration.getJavadoc();
         NodeList<AnnotationExpr> annotations = methodDeclaration.getAnnotations();
-
         //方法名与方法体
         javaMethodMeta.setName(methodDeclaration.getNameAsString());
         javaMethodMeta.setCallSignature(methodDeclaration.getDeclarationAsString());
@@ -297,8 +296,12 @@ public class MethodMemberParse extends AbstractJavaParseMemberParse{
         ResolvedType returnTypeDeclaration = getMethodReturnResolvedType(resolve);
         JavaClassMeta returnType = new JavaClassMeta();
         Type type = methodDeclaration.getType();
-        returnType.setClassName(type.toString());
-        returnType.setFullClassName(type.toString());
+        String className = type.toString();
+        if( type.isClassOrInterfaceType()){
+            className = type.asClassOrInterfaceType().getName().asString();
+        }
+        returnType.setClassName(className);
+        returnType.setFullClassName(className);
 
         setFullClassNameFromResolvedType(returnType,returnTypeDeclaration);
 

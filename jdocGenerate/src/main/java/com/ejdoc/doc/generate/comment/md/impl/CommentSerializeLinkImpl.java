@@ -135,7 +135,16 @@ public class CommentSerializeLinkImpl implements CommentSerialize {
     private String parseLinkContent(CommentLinkDto commentLinkDto, String content) {
 
         String uniqueName ="";
-        if(commentLinkDto.isOnlyClassLink()){
+        if(StrUtil.equals(commentLinkDto.getOtherType(),"http")){
+            uniqueName = commentLinkDto.getFullName();
+        }else if(StrUtil.equals(commentLinkDto.getOtherType(),"md")){
+            JavaClassMeta linkJavaClassMeta = commentLinkDto.getLinkJavaClassMeta();
+            if(linkJavaClassMeta != null) {
+                String preName = "/"+linkJavaClassMeta.getModuleName();
+                uniqueName = preName+commentLinkDto.getFullName();
+            }
+
+        }else if(commentLinkDto.isOnlyClassLink()){
             if(commentLinkDto.getLinkRefJavaClassMeta() != null){
                 uniqueName = getLinkContentPreName(commentLinkDto.getLinkRefJavaClassMeta());
                 setLableName(commentLinkDto,commentLinkDto.getLinkRefJavaClassMeta());
@@ -228,6 +237,9 @@ public class CommentSerializeLinkImpl implements CommentSerialize {
             if(linkJavaClassMeta != null && BooleanUtil.isTrue(linkJavaClassMeta.getJdkClass())){
                 prex ="jdkClass";
             }
+            if(StrUtil.equals(commentLinkDto.getOtherType(),"http")){
+                prex ="outHttp";
+            }
             content = memberRenderUtil.createALinkHrefIdHtml(commentLinkDto.getLabelName(),prex,uniqueName,null);
         }
         return content;
@@ -302,7 +314,25 @@ public class CommentSerializeLinkImpl implements CommentSerialize {
         String methodName="";
         String fieldName="";
         List<String> params = new ArrayList<>();
-        if(content.startsWith("#")){
+        if(content.startsWith("http")){
+            String[] split = content.split("\\s+");
+            if(split.length > 1){
+                labelName = split[1];
+                commentLinkDto.setUseCustomLableName(true);
+            }
+            fullName=split[0];
+            commentLinkDto.setOtherType("http");
+
+        }else if(content.startsWith("/") && content.contains(".md")){
+            String[] split = content.split("\\s+");
+            if(split.length > 1){
+                labelName = split[1];
+                commentLinkDto.setUseCustomLableName(true);
+            }
+            fullName=split[0];
+            commentLinkDto.setOtherType("md");
+
+        }else if(content.startsWith("#")){
             memberName = content.substring(1);
             labelName = memberName;
         }else if(content.contains("#")){

@@ -13,7 +13,7 @@ public class BigDecimalApiTypeMockData extends AbstractBaseTypeApiTypeMockData {
 
     @Override
     public  Object mockBaseData(String name){
-        return RandomSource.numberSource().randomPercent();
+        return RandomSource.numberSource().randomInt(100, 1000);
     }
 
 }

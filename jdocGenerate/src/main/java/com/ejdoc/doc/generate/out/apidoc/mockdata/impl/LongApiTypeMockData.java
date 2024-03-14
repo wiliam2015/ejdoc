@@ -14,6 +14,6 @@ public class LongApiTypeMockData extends AbstractBaseTypeApiTypeMockData {
 
     @Override
     public  Object mockBaseData(String name){
-        return RandomSource.numberSource().randomLong(1L,100L);
+        return RandomSource.numberSource().randomLong(1000L,10000L);
     }
 }

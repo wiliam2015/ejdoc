@@ -14,6 +14,6 @@ public class DoubleApiTypeMockData extends AbstractBaseTypeApiTypeMockData {
 
     @Override
     public  Object mockBaseData(String name){
-        return RandomSource.numberSource().randomDouble(0.01D, 0.51D);
+        return RandomSource.numberSource().randomDouble(100.11D, 1000.66D);
     }
 }

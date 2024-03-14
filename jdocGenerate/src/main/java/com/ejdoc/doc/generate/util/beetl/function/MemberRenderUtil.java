@@ -1,6 +1,7 @@
 package com.ejdoc.doc.generate.util.beetl.function;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
@@ -9,13 +10,13 @@ import com.ejdoc.doc.generate.util.DocParseUtil;
 import com.ejdoc.metainfo.seralize.index.JavaMetaFileInfo;
 import com.ejdoc.metainfo.seralize.index.MetaIndexContext;
 import org.beetl.core.Context;
-import org.beetl.core.GroupTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MemberRenderUtil {
-
+    private static final Logger log = LoggerFactory.getLogger(MemberRenderUtil.class);
 
     /**
      * 计算方法体声明结构
@@ -72,10 +73,14 @@ public class MemberRenderUtil {
         return false;
     }
     public String formatMockDataJson(Object jsonStr, Context ctx){
-        if(jsonStr instanceof String ){
-           return  JSONUtil.toJsonPrettyStr(jsonStr);
+        try {
+            if(jsonStr instanceof String ){
+               return  JSONUtil.toJsonPrettyStr(jsonStr);
+            }
+        } catch (Exception e) {
+            log.error("formatMockDataJson error format json:{}",jsonStr,e);
         }
-        return "";
+        return Convert.toStr(jsonStr);
     }
 
     /**
@@ -226,7 +231,7 @@ public class MemberRenderUtil {
 
     public String createALinkHrefIdHtml(Object name,String prex,String uniqueName, Context ctx) {
         StringBuilder result = new StringBuilder();
-        if(StrUtil.equals("jdkClass",prex)){
+        if(StrUtil.equals("jdkClass",prex) || StrUtil.equals("outHttp",prex)){
             result.append("<a target='_blank' href=\"");
             result.append(uniqueName);
             result.append("\">");
@@ -310,6 +315,70 @@ public class MemberRenderUtil {
         return returnStr.toString();
     }
 
+    /**
+     * 计算字段类型
+     * @param paras
+     * @param apiFieldTypeArgObj  api类型参数字段
+     * @param ctx
+     * @return
+     */
+    public String calApiFieldTypeMd(Object paras,Object apiFieldTypeArgObj, Context ctx) {
+        StringBuilder returnStr = new StringBuilder();
+        if(paras instanceof JSONObject){
+            JSONObject fieldTypeObj =( JSONObject)paras;
+            returnStr.append(createClassNameLinkMd(fieldTypeObj));
+
+            StringBuilder typeArgumentStr = new StringBuilder();
+//            createTypeArgMd(fieldTypeObj, typeArgumentStr);
+            createApiTypeArgMd(fieldTypeObj, typeArgumentStr,apiFieldTypeArgObj,0,true);
+            returnStr.append(typeArgumentStr);
+
+            StringBuilder apiFieldTypeArgJSONObjStr = new StringBuilder();
+            createApiTypeParamMd(fieldTypeObj,apiFieldTypeArgObj, apiFieldTypeArgJSONObjStr);
+            returnStr.append(apiFieldTypeArgJSONObjStr);
+        }
+        returnStr.append(" ");
+        return returnStr.toString();
+    }
+
+    private void createApiTypeParamMd( JSONObject fieldTypeObj, Object apiFieldTypeArgObj,StringBuilder apiFieldTypeArgJSONObjStr) {
+        Boolean typeParameter = fieldTypeObj.getBool("typeParameter", false);
+        if(typeParameter &&  apiFieldTypeArgObj instanceof JSONObject){
+            JSONObject apiFieldTypeArgJSONObj =( JSONObject) apiFieldTypeArgObj;
+            apiFieldTypeArgJSONObjStr.append(":");
+            createApiTypeArgMd(apiFieldTypeArgJSONObj, apiFieldTypeArgJSONObjStr,apiFieldTypeArgObj,0,false);
+        }
+    }
+
+    private void createApiTypeArgMd(JSONObject javaClass, StringBuilder typeArgumentStr,Object apiFieldTypeArgObj,int count,boolean appendClose) {
+        if(javaClass.containsKey("typeArguments")){
+            JSONArray typeArguments = javaClass.getJSONArray("typeArguments");
+            if(appendClose ){
+                typeArgumentStr.append("< ");
+            }else if(count > 0){
+                typeArgumentStr.append("< ");
+            }
+            StringBuilder typeArgumentObjStr = new StringBuilder();
+            for (Object typeArgument : typeArguments) {
+                typeArgumentObjStr.append(",");
+                JSONObject typeJsonObj = (JSONObject)typeArgument;
+                typeArgumentObjStr.append(createClassNameLinkMd(typeJsonObj));
+                createApiTypeArgMd(typeJsonObj,typeArgumentObjStr,apiFieldTypeArgObj,count+1,appendClose);
+
+                StringBuilder apiFieldTypeArgJSONObjStr = new StringBuilder();
+                createApiTypeParamMd(typeJsonObj,apiFieldTypeArgObj, apiFieldTypeArgJSONObjStr);
+
+                typeArgumentObjStr.append(apiFieldTypeArgJSONObjStr);
+            }
+            typeArgumentStr.append(typeArgumentObjStr.substring(1));
+            if(appendClose){
+                typeArgumentStr.append(" >");
+            }else if(count > 0){
+                typeArgumentStr.append(" >");
+            }
+
+        }
+    }
 
     private String calUniqueParam(Object paras, Context ctx) {
         StringBuilder resultStr = new StringBuilder();
@@ -404,8 +473,11 @@ public class MemberRenderUtil {
             }
             typeArgumentStr.append(typeArgumentObjStr.substring(1));
             typeArgumentStr.append(" >");
+
         }
     }
+
+
 
     private String calModifer(JSONObject javaClass) {
         StringBuilder methodStr = new StringBuilder();

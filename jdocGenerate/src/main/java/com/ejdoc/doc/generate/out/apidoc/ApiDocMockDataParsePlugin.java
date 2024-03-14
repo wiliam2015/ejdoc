@@ -44,7 +44,7 @@ public class ApiDocMockDataParsePlugin extends AbstractJavaMetaSeralizePlugin im
 
         if(CollectionUtil.isNotEmpty(javaClassMetaList)){
             for (JavaClassMeta javaClassMeta : javaClassMetaList) {
-                if(BooleanUtil.isFalse(javaClassMeta.getInterfaceClass())){
+                if(!BooleanUtil.isTrue(javaClassMeta.getInterfaceClass())){
                     continue;
                 }
                 String fullClassName = javaClassMeta.getFullClassName();
@@ -77,13 +77,13 @@ public class ApiDocMockDataParsePlugin extends AbstractJavaMetaSeralizePlugin im
 
                 JavaClassMeta returns = method.getReturns();
                 if(returns != null){
-                    ApiTypeMockData apiReturnTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(returns.getClassName(),returns.getFullClassName());
+                    ApiTypeMockData apiReturnTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(returns.getClassName(),returns.getFullClassName(),"");
                     List<JavaClassMeta> typeArgumentsParam = returns.getTypeArguments();
                     List<ApiMockTypeArgument> apiMockTypeArguments = new ArrayList<>();
                     fillApiMockTypeArguments(typeArgumentsParam,apiMockTypeArguments);
 
                     List<JavaDocCommentElementMeta> javaDocCommentElementMetas = paramCommentTagMap.get("apiReturn");
-                    Object mockReturnResult= apiReturnTypeMockData.mockData(apiMockTypeArguments,"apiReturn",javaDocCommentElementMetas);
+                    Object mockReturnResult= apiReturnTypeMockData.mockData(apiMockTypeArguments,"apiReturn",javaDocCommentElementMetas,0);
                     method.putExtProp("returnMockData",JSONUtil.toJsonStr(mockReturnResult));
                 }
                 List<JavaParameterMeta> parameters = method.getParameters();
@@ -93,13 +93,13 @@ public class ApiDocMockDataParsePlugin extends AbstractJavaMetaSeralizePlugin im
                         Map<String,Object> paramMockMap = new HashMap<>();
                         JavaClassMeta javaClass = parameter.getJavaClass();
                         if(javaClass != null){
-                            ApiTypeMockData apiTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(javaClass.getClassName(),javaClass.getFullClassName());
+                            ApiTypeMockData apiTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(javaClass.getClassName(),javaClass.getFullClassName(),"");
                             List<JavaClassMeta> typeArgumentsParam = javaClass.getTypeArguments();
                             List<ApiMockTypeArgument> apiMockTypeArguments = new ArrayList<>();
                             fillApiMockTypeArguments(typeArgumentsParam,apiMockTypeArguments);
 
                             List<JavaDocCommentElementMeta> javaDocCommentElementMetas = paramCommentTagMap.get(parameter.getName());
-                            Object mockResult = apiTypeMockData.mockData(apiMockTypeArguments,parameter.getName(),javaDocCommentElementMetas);
+                            Object mockResult = apiTypeMockData.mockData(apiMockTypeArguments,parameter.getName(),javaDocCommentElementMetas,0);
                             if(mockResult != null){
                                 paramMockMap.put(parameter.getName(),mockResult);
                                 mockParamData.add(paramMockMap);

@@ -94,7 +94,9 @@ public class ApiDocTreeTypeParsePlugin extends AbstractJavaMetaSeralizePlugin im
     private List<JavaClassMeta> parseClassTreeType(JavaClassMeta classMeta) {
         List<JavaClassMeta> resultList = new ArrayList<>();
         JavaClassMeta javaClassMeta = getSimpleJavaClassMeta(classMeta);
-        resultList.add(javaClassMeta);
+        if(!StrUtil.startWith(classMeta.getFullClassName(),"java")){
+            resultList.add(javaClassMeta);
+        }
 
         List<JavaClassMeta> typeArguments = classMeta.getTypeArguments();
         recursionParseTypeArguments(resultList, typeArguments,javaClassMeta);
@@ -112,7 +114,9 @@ public class ApiDocTreeTypeParsePlugin extends AbstractJavaMetaSeralizePlugin im
                 if(type != null && !BooleanUtil.isTrue(type.getTypeParameter()) && !StrUtil.startWith(type.getFullClassName(),"java")){
                     JavaClassMeta simpleJavaClassMeta = getSimpleJavaClassMeta(type);
                     returnList.add(simpleJavaClassMeta);
-                    recursinoParseSubClassType(type,returnList);
+                    if(!StrUtil.equals(type.getFullClassName(),returns.getFullClassName())){
+                        recursinoParseSubClassType(type,returnList);
+                    }
                 }
             }
         }
@@ -124,7 +128,9 @@ public class ApiDocTreeTypeParsePlugin extends AbstractJavaMetaSeralizePlugin im
             for (JavaClassMeta typeArgument : typeArguments) {
                 JavaClassMeta simpleJavaClassMeta = getSimpleJavaClassMeta(typeArgument);
                 firstFloorTypeArguments.add(simpleJavaClassMeta);
-                returnList.add(simpleJavaClassMeta);
+                if(!StrUtil.startWith(typeArgument.getFullClassName(),"java")){
+                    returnList.add(simpleJavaClassMeta);
+                }
                 recursionParseTypeArguments(returnList,typeArgument.getTypeArguments(),simpleJavaClassMeta);
                 recursinoParseSubClassType(typeArgument, returnList);
             }

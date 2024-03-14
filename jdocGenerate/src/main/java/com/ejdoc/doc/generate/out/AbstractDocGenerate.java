@@ -7,6 +7,7 @@ import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+import com.ejdoc.doc.generate.enums.TemplateTypeEnum;
 import com.ejdoc.doc.generate.env.DocOutEnvironment;
 import com.ejdoc.doc.generate.env.impl.DefaultDocOutEnvironment;
 import com.ejdoc.doc.generate.model.DocOutFileInfo;
@@ -24,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -67,9 +69,7 @@ public abstract class AbstractDocGenerate implements DocGenerate{
     public Set<String> printDoc(){
         log.info("start printDoc");
         log.info("environment ready start");
-        String javaDocOutConfigFilePath = this.environment.getJavaDocOutConfigFilePath();
-        log.info("load javaDocOutConfigFile:{}",javaDocOutConfigFilePath);
-        MetaInfoParser metaInfoParser = new JavaParserMetaInfoParser(javaDocOutConfigFilePath);
+        MetaInfoParser metaInfoParser = new JavaParserMetaInfoParser(this.environment.getMetaEnvironment());
         SeralizeConfig seralizeConfig = new SeralizeConfig();
         seralizeConfig.setPrettyFormat(true);
         seralizeConfig.setUseAbsPath(true);
@@ -88,12 +88,34 @@ public abstract class AbstractDocGenerate implements DocGenerate{
         String renderFilePath = renderTemplateFile(seralizeConfig, jsonFilePath);
         log.info("ready create render template doc file finish");
 
+        log.info("ready copy resource file file start");
+        copyResourceFile(seralizeConfig, jsonFilePath);
+        log.info("ready copy resource file file finish");
+
         log.info("ready create render theme doc file start");
         renderThemeFile(seralizeConfig, renderFilePath,jsonFilePath);
         log.info("ready create render theme doc file finish");
 
         log.info("the create doc folder path:{}",renderFilePath);
         return printUnsolveSymbol();
+    }
+
+    /**
+     * 复制资源文件
+     * @param seralizeConfig
+     * @param jsonFilePath
+     */
+    private void copyResourceFile(SeralizeConfig seralizeConfig, String jsonFilePath) {
+        String docOutRootPath = this.environment.getDocOutRootPath();
+        List<File> resourceFiles = FileUtil.loopFiles(jsonFilePath, subFile -> FileTypeUtil.getType(subFile).equals("md"));
+        if(CollectionUtil.isNotEmpty(resourceFiles)){
+            for (File resFile : resourceFiles) {
+                if(resFile.getName().equals(MAIN_JSON_FILE)){
+                    continue;
+                }
+                copyFile(seralizeConfig,docOutRootPath, jsonFilePath, resFile,false);
+            }
+        }
     }
 
     /**
@@ -177,7 +199,7 @@ public abstract class AbstractDocGenerate implements DocGenerate{
 
     }
 
-    private void resolveFile(SeralizeConfig seralizeConfig,String docOutRootPath, String jsonFilePath, File jsonFile,boolean mainFile) {
+    protected void resolveFile(SeralizeConfig seralizeConfig,String docOutRootPath, String jsonFilePath, File jsonFile,boolean mainFile) {
         DocOutFileInfo docOutFileInfo = new DocOutFileInfo();
         String jsonFileName = jsonFile.getName();
         if(!mainFile && jsonFileName.equals(MAIN_JSON_FILE)){
@@ -205,4 +227,50 @@ public abstract class AbstractDocGenerate implements DocGenerate{
     }
 
 
+    /**
+     * 复制文件
+     * @param seralizeConfig
+     * @param docOutRootPath
+     * @param jsonFilePath
+     * @param jsonFile
+     * @param mainFile
+     */
+    protected void copyFile(SeralizeConfig seralizeConfig,String docOutRootPath, String jsonFilePath, File jsonFile,boolean mainFile) {
+        DocOutFileInfo docOutFileInfo = new DocOutFileInfo();
+        String jsonFileName = jsonFile.getName();
+        if(!mainFile && jsonFileName.equals(MAIN_JSON_FILE)){
+            return;
+        }
+        docOutFileInfo.setFileName(FileUtil.mainName(jsonFileName));
+        String filePath = jsonFile.getPath();
+        String replaceFilePath = filePath.replace(jsonFilePath,"").replace("/"+jsonFileName,"");
+        docOutFileInfo.setRelativeRootPath(replaceFilePath);
+        docOutFileInfo.setJsonFileRootPath(jsonFilePath);
+        docOutFileInfo.setFullFilePath(jsonFile.getPath());
+        docOutFileInfo.setJsonFile(jsonFile);
+        docOutFileInfo.setSeralizeConfig(seralizeConfig);
+        docOutFileInfo.setMainFile(mainFile);
+        docOutFileInfo.setDocOutRootPath(docOutRootPath);
+        docOutFileInfo.setLocale(docGenerateConfig.getLocale());
+        docOutFileInfo.setTemplateType(docGenerateConfig.getTemplateType());
+        docOutFileInfo.setDocType(docGenerateConfig.getDocTypeEnum().getCode());
+        copyFile(docOutFileInfo);
+    }
+
+    /**
+     * 复制文件
+     * @param docOutFileInfo 文件信息
+     */
+    protected void copyFile(DocOutFileInfo docOutFileInfo) {
+        String docOutRootPath = docOutFileInfo.getDocOutRootPath();
+        TemplateTypeEnum templateType = docOutFileInfo.getTemplateType();
+        Assert.notNull(docOutRootPath,"docOutRootPath not null");
+        String relativePath = "";
+        if(StrUtil.isNotBlank(docOutFileInfo.getRelativeRootPath())){
+            relativePath = "/"+docOutFileInfo.getRelativeRootPath();
+        }
+        String outFilePath = StrUtil.join("/",docOutRootPath,"doc",docOutFileInfo.getDocType(),templateType.getCode()+relativePath,docOutFileInfo.getFileName()+templateType.getExtension());
+        String sourFilePath = docOutFileInfo.getFullFilePath();
+        FileUtil.copyFile(sourFilePath, outFilePath, StandardCopyOption.REPLACE_EXISTING);
+    }
 }

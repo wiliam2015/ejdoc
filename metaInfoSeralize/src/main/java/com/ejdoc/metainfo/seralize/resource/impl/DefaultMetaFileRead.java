@@ -142,13 +142,14 @@ public class DefaultMetaFileRead implements MetaFileRead {
                 MetaFileInfoDto defaultMetaFile = null;
                 for (ModuleInfoDto moduleInfoDto : subProjectInfo) {
                     String loopPath = moduleInfoDto.getModulePath()+ sourceDir;
+                    String moduleName = moduleInfoDto.getModuleName();
+                    if(CollectionUtil.isNotEmpty(loadModuleNameMap) && !loadModuleNameMap.containsKey(moduleName)){
+                        continue;
+                    }
+
                     List<File> files = FileUtil.loopFiles(loopPath,subFile -> FileTypeUtil.getType(subFile).equals("java"));
                     if(CollectionUtil.isNotEmpty(files)){
                         for (File file : files) {
-                            String moduleName = moduleInfoDto.getModuleName();
-                            if(CollectionUtil.isNotEmpty(loadModuleNameMap) && !loadModuleNameMap.containsKey(moduleName)){
-                                continue;
-                            }
                             defaultMetaFile = new MetaFileInfoDto();
                             defaultMetaFile.setMetaFile(file);
                             defaultMetaFile.setMetaFilePath(file.getPath());

@@ -36,6 +36,9 @@ public class CommentLinkDto {
 
     private boolean methodLink;
 
+    /**其他类型  http,md*/
+    private String otherType;
+
     //基本信息 end
 
     //加工信息 start
@@ -176,5 +179,13 @@ public class CommentLinkDto {
 
     public void setUseCustomLableName(boolean useCustomLableName) {
         this.useCustomLableName = useCustomLableName;
+    }
+
+    public String getOtherType() {
+        return otherType;
+    }
+
+    public void setOtherType(String otherType) {
+        this.otherType = otherType;
     }
 }

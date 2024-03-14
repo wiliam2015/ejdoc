@@ -2,6 +2,8 @@ package com.ejdoc.doc.generate.util;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ClassLoaderUtil;
+import cn.hutool.core.util.ClassUtil;
+import cn.hutool.core.util.StrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.reflect.generics.reflectiveObjects.*;
@@ -113,5 +115,19 @@ public class JdkClassUtil {
 //            System.out.println(getMethodFullName(method));
 //
 //        }
+    }
+
+    /**
+     * 是否是jdk内部类
+     * @param fullClassName
+     * @return
+     */
+    public static boolean isJdkClass(String fullClassName){
+        if(StrUtil.isBlank(fullClassName)){
+            return false;
+        }
+        fullClassName = fullClassName.trim();
+
+        return fullClassName.startsWith("java.") || fullClassName.startsWith("javax.");
     }
 }

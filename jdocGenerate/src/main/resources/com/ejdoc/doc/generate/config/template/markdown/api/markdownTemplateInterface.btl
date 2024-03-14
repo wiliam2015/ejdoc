@@ -108,6 +108,9 @@ if(isNotEmpty(prop.methods)){
            println(docClassFn.calCommentTagsMd(methodObj,prop,"DEPRECATED",""));
          }
         println(); println();
+        println(docClassFn.calCommentTagsMd(methodObj,prop,"THROWS","**异常信息：** \n\n"));
+        println(docClassFn.calCommentTagsMd(methodObj,prop,"EXCEPTION","**异常信息：** \n\n"));
+        println(); println();
         println(docClassFn.calCommentTagsMd(methodObj,prop,"SINCE","**来源版本：** \n\n"));
         println(); println();
         println(docClassFn.calCommentTagsMd(methodObj,prop,"SEE","**另请参阅：** \n\n"));
@@ -165,9 +168,9 @@ if(isNotEmpty(prop.methods)){
                                              print("|");
                                              print(fieldsObjLP.index);
                                              print("|");
-                                             print(memberFn.createInnerLinkIdMd(fieldsObj.name,"",fieldsObj.name));print("<br/>");
+                                             print(fieldsObj.name);print("<br/>");
                                              print("|");
-                                             print(memberFn.calFieldTypeMd(fieldsObj.type));
+                                             print(memberFn.calApiFieldTypeMd(fieldsObj.type,classTypeObj));
                                              print("|");print(docClassFn.calDocCommentElementMetasJSRMd(fieldsObj,prop,""));
                                              print("|");
                                              print(docClassFn.calCommentNoEnterDocMd(fieldsObj,prop,""));
@@ -200,6 +203,7 @@ if(isNotEmpty(prop.methods)){
                             println();println();
                      }
                 }
+                 println();println();
                 println("---");println();
             }
             println();println();
@@ -256,9 +260,9 @@ if(isNotEmpty(prop.methods)){
                                 print("|");
                                 print(fieldsObjLP.index);
                                 print("|");
-                                print(memberFn.createInnerLinkIdMd(fieldsObj.name,"",fieldsObj.name));print("<br/>");
+                                print(fieldsObj.name);print("<br/>");
                                 print("|");
-                                print(memberFn.calFieldTypeMd(fieldsObj.type));
+                                print(memberFn.calApiFieldTypeMd(fieldsObj.type,returnTreeTypeObj));
                                 print("|");print(docClassFn.calDocCommentElementMetasJSRMd(fieldsObj,prop,""));
                                 print("|");
                                 print(docClassFn.calCommentNoEnterDocMd(fieldsObj,prop,""));
@@ -291,16 +295,11 @@ if(isNotEmpty(prop.methods)){
 
                     println();println();
                 }
+                 println();println();
                 println("---");println();
             }
             println();println();
         }
-
-        println(docClassFn.calCommentTagsMd(methodObj,prop,"THROWS","**异常信息：** \n\n"));
-        println(docClassFn.calCommentTagsMd(methodObj,prop,"EXCEPTION","**异常信息：** \n\n"));
-        println();
-        println();
-
 
         print("**样例数据：** ");
         println();println();

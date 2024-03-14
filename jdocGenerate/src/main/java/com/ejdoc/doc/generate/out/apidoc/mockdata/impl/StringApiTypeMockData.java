@@ -14,6 +14,6 @@ public class StringApiTypeMockData extends AbstractBaseTypeApiTypeMockData {
 
     @Override
     public  Object mockBaseData(String name){
-        return RandomSource.personInfoSource().randomEnglishName();
+        return RandomSource.languageSource().randomEnglishText(2);
     }
 }
