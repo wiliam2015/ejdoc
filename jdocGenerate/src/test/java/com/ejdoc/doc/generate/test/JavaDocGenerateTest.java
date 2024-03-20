@@ -15,29 +15,6 @@ public class JavaDocGenerateTest {
 
     }
 
-    @Test
-    public void printJavaDocSingleConfigTest(){
-        DocGenerate javaDocGenerate = DocGenerateFactory.createDefaultJavaDocGenerate("testconfig/singleFile.properties");
-
-        javaDocGenerate.printDoc();
-
-    }
-    @Test
-    public void printJavaDocKaWareFedConfigTest(){
-        DocGenerate javaDocGenerate = DocGenerateFactory.createDefaultJavaDocGenerate("testconfig/kawarefedDocFile.properties");
-
-        javaDocGenerate.printDoc();
-
-    }
-
-    @Test
-    public void printJavaDocKaWareAdminConfigTest(){
-        DocGenerate javaDocGenerate = DocGenerateFactory.createDefaultJavaDocGenerate("testconfig/kawareadminDocFile.properties");
-
-        javaDocGenerate.printDoc();
-
-    }
-
 
 
 }

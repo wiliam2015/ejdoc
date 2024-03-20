@@ -1,12 +1,5 @@
 package com.ejdoc.doc.generate.test;
 
-import com.ejdoc.doc.generate.enums.TemplateTypeEnum;
-import com.ejdoc.doc.generate.model.DocTemplateThemeInfo;
-import com.ejdoc.doc.generate.out.config.DocGenerateConfig;
-import com.ejdoc.doc.generate.out.factory.DocGenerateConfigFactory;
-import com.ejdoc.doc.generate.template.DocTemplateTheme;
-import com.ejdoc.doc.generate.template.markdown.theme.JavaDocDocsifyTemplateTheme;
-import com.ejdoc.metainfo.seralize.index.MetaIndexContextBuilder;
 
 public class DocsifyThemeTest {
 
