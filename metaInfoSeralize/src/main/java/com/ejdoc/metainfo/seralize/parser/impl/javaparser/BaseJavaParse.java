@@ -274,6 +274,12 @@ public class BaseJavaParse {
                     parseExpression(value,result);
                 }
             }
+        }else if(expression.isIntegerLiteralExpr()){
+            IntegerLiteralExpr integerLiteralExpr = (IntegerLiteralExpr)expression;
+            javaClassMeta.setValue(integerLiteralExpr.getValue());
+            javaClassMeta.setClassName("Integer");
+            javaClassMeta.setFullClassName("java.lang.Integer");
+            result.add(javaClassMeta);
         }
     }
 

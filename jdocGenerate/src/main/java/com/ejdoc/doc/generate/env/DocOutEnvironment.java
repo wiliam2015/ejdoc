@@ -1,5 +1,7 @@
 package com.ejdoc.doc.generate.env;
 
+import com.ejdoc.metainfo.seralize.env.MetaEnvironment;
+
 import java.util.Map;
 
 public interface DocOutEnvironment {
@@ -15,6 +17,7 @@ public interface DocOutEnvironment {
      * @return
      */
     String getProjectRootPath();
+    String getVersion();
 
     String getProp(String propKey);
 
@@ -25,4 +28,6 @@ public interface DocOutEnvironment {
      * @return 配置文件路径
      */
     String getJavaDocOutConfigFilePath();
+
+    MetaEnvironment getMetaEnvironment();
 }

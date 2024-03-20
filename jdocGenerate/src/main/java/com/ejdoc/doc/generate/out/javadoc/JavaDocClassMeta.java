@@ -16,6 +16,8 @@ public class JavaDocClassMeta  {
     private JavaMetaSeralizePluginData javaMetaSeralizePluginData;
 
     private String jsonFilePath;
+    /**所有嵌套类*/
+    private List<JavaClassMeta> allNestedClasses;
     private List<JavaClassMeta> allSupperClasses;
 
     private List<JavaClassMeta> allInterfaceClasses;
@@ -201,5 +203,30 @@ public class JavaDocClassMeta  {
             }
             this.supperClassList.addAll(supperClassList);
         }
+    }
+
+    public boolean addNestedClasses(JavaClassMeta javaClassMeta){
+        if(allNestedClasses == null){
+            allNestedClasses = new ArrayList<>();
+        }
+        boolean exist = false;
+        for (JavaClassMeta classMeta : allNestedClasses) {
+            if(classMeta.getFullClassName().equals(javaClassMeta.getFullClassName())){
+                exist = true;
+                break;
+            }
+        }
+        if(!exist){
+            return allNestedClasses.add(javaClassMeta);
+        }
+        return false;
+    }
+
+    public List<JavaClassMeta> getAllNestedClasses() {
+        return allNestedClasses;
+    }
+
+    public void setAllNestedClasses(List<JavaClassMeta> allNestedClasses) {
+        this.allNestedClasses = allNestedClasses;
     }
 }

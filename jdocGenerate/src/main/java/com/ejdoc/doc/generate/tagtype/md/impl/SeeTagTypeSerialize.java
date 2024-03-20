@@ -6,14 +6,12 @@ import cn.hutool.json.JSONObject;
 import com.ejdoc.doc.generate.tagtype.TagTypeSerialize;
 import com.ejdoc.doc.generate.tagtype.dto.SeeTagTypeDto;
 import com.ejdoc.doc.generate.tagtype.dto.TagTypeSerializeRootDocDto;
+import com.ejdoc.doc.generate.util.ImportUtil;
 import com.ejdoc.doc.generate.util.beetl.function.MemberRenderUtil;
 import com.ejdoc.metainfo.seralize.enums.JavaDocTagTypeEnum;
 import com.ejdoc.metainfo.seralize.index.MetaIndexContext;
 import com.ejdoc.metainfo.seralize.index.TreeIndexClassMeta;
-import com.ejdoc.metainfo.seralize.model.JavaClassImportMeta;
 import com.ejdoc.metainfo.seralize.model.JavaClassMeta;
-import com.ejdoc.metainfo.seralize.model.JavaFieldMeta;
-import com.ejdoc.metainfo.seralize.model.JavaMethodMeta;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -179,28 +177,8 @@ public class SeeTagTypeSerialize  implements TagTypeSerialize {
         JavaClassMeta classMeta = MetaIndexContext.getClassMetaByFullName(fullClassName);
         if(classMeta != null){
             seeTagTypeDto.setLinkJavaClassMeta(classMeta);
-            List<JavaClassMeta> classMetaByPackage = MetaIndexContext.getClassMetaByPackage(classMeta.getPackageName());
-            if(CollectionUtil.isNotEmpty(classMetaByPackage)){
-                for (JavaClassMeta javaClassMeta : classMetaByPackage) {
-                    imports.add(javaClassMeta.getFullClassName());
-                }
-            }
-            List<JavaClassImportMeta> importsClass = classMeta.getImports();
-            //导入子包引入
-            for (JavaClassImportMeta importInfo : importsClass) {
-                if(!importInfo.getName().startsWith("java")){
-                    if(importInfo.isAsteriskImport() && !importInfo.isStaticImport()){
-                        List<JavaClassMeta> packageClassList = MetaIndexContext.getClassMetaByPackage(importInfo.getName());
-                        if(CollectionUtil.isNotEmpty(packageClassList)){
-                            for (JavaClassMeta javaClassMeta : packageClassList) {
-                                imports.add(javaClassMeta.getFullClassName());
-                            }
-                        }
-                    }else{
-                        imports.add(importInfo.getName());
-                    }
-                }
-            }
+
+            imports.addAll(ImportUtil.getImportClassNames(classMeta));
         }
 
         seeTagTypeDto.setImports(imports);

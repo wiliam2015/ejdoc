@@ -6,6 +6,8 @@ import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.setting.Setting;
 import com.ejdoc.doc.generate.env.DocOutEnvironment;
+import com.ejdoc.metainfo.seralize.env.MetaEnvironment;
+import com.ejdoc.metainfo.seralize.env.impl.DefaultMetaEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +29,10 @@ public class DefaultDocOutEnvironment implements DocOutEnvironment {
 
     private final Setting PROPS;
 
+    private String docOutRootPath;
+
+    private MetaEnvironment metaEnvironment;
+
     public DefaultDocOutEnvironment(){
         this("");
     }
@@ -34,6 +40,7 @@ public class DefaultDocOutEnvironment implements DocOutEnvironment {
     public DefaultDocOutEnvironment(String configFilePath){
         Setting defaultMetaEnvSetting = new Setting(DEFAULT_CONFIG_FILE_DIR+CONFIG_FILE_NAME, CharsetUtil.CHARSET_UTF_8, true);
         this.javaDocOutConfigFilePath =DEFAULT_CONFIG_FILE_DIR+CONFIG_FILE_NAME;
+
 
         try {
             defaultMetaEnvSetting.addSetting(new Setting(CONFIG_FILE_NAME,CharsetUtil.CHARSET_UTF_8, true));
@@ -48,34 +55,44 @@ public class DefaultDocOutEnvironment implements DocOutEnvironment {
             this.javaDocOutConfigFilePath = configFilePath;
         }
 
-        autoGetDefaultProjectPath(defaultMetaEnvSetting);
+        metaEnvironment = new DefaultMetaEnvironment(javaDocOutConfigFilePath);
+        defaultMetaEnvSetting.putAll(metaEnvironment.getAllProp());
+
         PROPS = defaultMetaEnvSetting;
+
+        checkRequiredAttribute();
+
+
 
     }
 
-    /**
-     * 尝试自动获取项目根目录
-     * @param defaultMetaEnvSetting
-     */
-    private void autoGetDefaultProjectPath(Setting defaultMetaEnvSetting) {
-        String projectRootDir = defaultMetaEnvSetting.getStr("doc.out.root.dir", "");
-        if(StrUtil.isBlank(projectRootDir)){
-
-        }
+    private void checkRequiredAttribute() {
+        getDocOutRootPath();
     }
 
     @Override
     public String getDocOutRootPath() {
-        String docOutRootDir = PROPS.getStr("doc.out.root.dir", "");
-        Assert.notBlank(docOutRootDir, "docOutRoot not Blank properties !");
-        return docOutRootDir;
+        if(StrUtil.isBlank(docOutRootPath)){
+            String docOutRootDir = PROPS.getStr("doc.out.root.dir", "");
+            if(StrUtil.isBlank(docOutRootDir)){
+                docOutRootDir = metaEnvironment.getProjectRootPath()+"/docmd";
+                log.info("auto detection doc out dir:{}",docOutRootDir);
+            }
+            Assert.notBlank(docOutRootDir, "docOutRoot not Blank properties !");
+            log.info("load doc out dir:{}",docOutRootDir);
+            docOutRootPath=  docOutRootDir;
+        }
+       return docOutRootPath;
     }
 
     @Override
     public String getProjectRootPath() {
-        String projectRootDir = PROPS.getStr("project.root.dir", "");
-        Assert.notBlank(projectRootDir, "projectRootDir not Blank properties !");
-        return projectRootDir;
+        return metaEnvironment.getProjectRootPath();
+    }
+
+    @Override
+    public String getVersion() {
+        return this.PROPS.get("version");
     }
 
     @Override
@@ -91,5 +108,10 @@ public class DefaultDocOutEnvironment implements DocOutEnvironment {
     @Override
     public String getJavaDocOutConfigFilePath() {
         return javaDocOutConfigFilePath;
+    }
+
+    @Override
+    public MetaEnvironment getMetaEnvironment() {
+        return metaEnvironment;
     }
 }

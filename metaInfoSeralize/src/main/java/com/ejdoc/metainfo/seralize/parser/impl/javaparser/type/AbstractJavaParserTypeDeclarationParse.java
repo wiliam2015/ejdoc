@@ -1,8 +1,11 @@
 package com.ejdoc.metainfo.seralize.parser.impl.javaparser.type;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
+import com.ejdoc.metainfo.seralize.index.MetaIndexContext;
 import com.ejdoc.metainfo.seralize.model.*;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.BaseJavaParse;
 import com.ejdoc.metainfo.seralize.parser.impl.javaparser.JavaParserMetaContext;
@@ -17,10 +20,7 @@ import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.nodeTypes.NodeWithName;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import com.github.javaparser.ast.type.Type;
-import com.github.javaparser.ast.type.TypeParameter;
+import com.github.javaparser.ast.type.*;
 import com.github.javaparser.javadoc.Javadoc;
 import com.github.javaparser.resolution.UnsolvedSymbolException;
 import com.github.javaparser.resolution.types.ResolvedType;
@@ -141,36 +141,154 @@ public abstract class AbstractJavaParserTypeDeclarationParse extends BaseJavaPar
     protected void parseSuperJavaClass(JavaClassMeta javaClassMeta, TypeDeclaration<?> typeDeclaration) {
 
         if(typeDeclaration.isClassOrInterfaceDeclaration()){
-            NodeList<ClassOrInterfaceType> extendedTypes = ((ClassOrInterfaceDeclaration)typeDeclaration).getExtendedTypes();
+            ClassOrInterfaceDeclaration classOrInterfaceDeclaration = (ClassOrInterfaceDeclaration) typeDeclaration;
+            NodeList<ClassOrInterfaceType> extendedTypes = classOrInterfaceDeclaration.getExtendedTypes();
 
             if(CollectionUtil.isNotEmpty(extendedTypes)){
                 List<JavaClassMeta> superClasses = new ArrayList<>();
                 for (ClassOrInterfaceType extendedType : extendedTypes) {
-                    superClasses.add(convertClassOrInterfaceTypeToSimpleClassMeta(extendedType));
+                    superClasses.add(convertClassOrInterfaceTypeToSimpleClassMeta(extendedType,javaClassMeta.getImports()));
                 }
                 javaClassMeta.setSuperClasses(superClasses);
+            }else{
+                if(classOrInterfaceDeclaration.isInterface()){
+                    return;
+                }
+                if(classOrInterfaceDeclaration.isEnumDeclaration()){
+                    return;
+                }
+                if(classOrInterfaceDeclaration.isAnnotationDeclaration()){
+                    return;
+                }
+                JavaClassMeta superJavaClassMeta = new JavaClassMeta();
+                superJavaClassMeta.setClassName("Object");
+                superJavaClassMeta.setFullClassName("java.lang.Object");
+                superJavaClassMeta.setPackageName("java.lang");
+                superJavaClassMeta.setJdkClass(true);
+                superJavaClassMeta.setInterfaceClass(false);
+                superJavaClassMeta.setClassNamePrefix("java.lang.");
+                superJavaClassMeta.setModifiers(ListUtil.of("public"));
+                javaClassMeta.setSuperClasses(ListUtil.of(superJavaClassMeta));
             }
         }
     }
 
-    protected JavaClassMeta convertClassOrInterfaceTypeToSimpleClassMeta(ClassOrInterfaceType implementedType) {
+    protected JavaClassMeta convertClassOrInterfaceTypeToSimpleClassMeta(ClassOrInterfaceType implementedType, List<JavaClassImportMeta> imports) {
         if(implementedType == null){
             return null;
         }
         JavaClassMeta javaClassMeta = new JavaClassMeta();
         Optional<NodeList<Type>> typeArguments = implementedType.getTypeArguments();
         if(typeArguments.isPresent()){
-            List<String> collect = typeArguments.get().stream().map(Type::asString).collect(Collectors.toList());
-            javaClassMeta.setTypeParameters(collect);
+            List<JavaClassMeta> typeArgsList = new ArrayList<>();
+            for (Type type : typeArguments.get()) {
+                JavaClassMeta typeArgs = new JavaClassMeta();
+                setTypeArgumentsFromType(type,typeArgs);
+                typeArgsList.add(typeArgs);
+            }
+            javaClassMeta.setTypeArguments(typeArgsList);
         }
         javaClassMeta.setClassName(implementedType.getNameAsString());
         javaClassMeta.setFullClassName(implementedType.getNameAsString());
         ResolvedType resolve = getRefClassResolvedType(implementedType);
         setFullClassNameFromResolvedType(javaClassMeta,resolve);
+        if(StrUtil.equals(javaClassMeta.getFullClassName(),javaClassMeta.getClassName())){
+            List<String> importPackageClass = getImportPackageClass(imports);
+            if(CollectionUtil.isNotEmpty(importPackageClass)){
+                for (String packageClass : importPackageClass) {
+                    if(packageClass.endsWith(javaClassMeta.getClassName())){
+                        javaClassMeta.setFullClassName(packageClass);
+                    }
+                }
+            }
+        }
         return javaClassMeta;
     }
 
+    /**
+     * 循环设置类型参数
+     * @param parameter
+     * @param paramClass
+     */
+    protected   void setTypeArgumentsFromType(Type parameter, JavaClassMeta paramClass) {
+        if(parameter.isClassOrInterfaceType()){
+            ClassOrInterfaceType paramclassOrInterfaceType = parameter.asClassOrInterfaceType();
+            paramClass.setClassName(paramclassOrInterfaceType.getName().getId());
+            Optional<NodeList<Type>> typeArguments = paramclassOrInterfaceType.getTypeArguments();
+            if(typeArguments.isPresent()){
+                List<JavaClassMeta> typeArgumentsList = new ArrayList<>();
+                JavaClassMeta typeClassMeth = null;
+                for (Type type : typeArguments.get()) {
+                    ResolvedType resolve = null;
+                    JavaClassMeta typeArgClassMeth = new JavaClassMeta();
+                    typeClassMeth = new JavaClassMeta();
+                    typeClassMeth.setClassName(type.asString());
+                    try {
 
+                        resolve = type.resolve();
+                    }catch(UnsolvedSymbolException ue) {
+                        log.debug("setTypeArgumentsFromType type.resolve UnsolvedSymbolException error",ue);
+                        UnSolvedSymbolTool.addUnSolveTOCache(ue.getMessage());
+                    }catch (Exception e) {
+                        log.error("setTypeArgumentsFromType type.resolve error {}",paramClass.getClassName(),e);
+                    }
+
+                    setFullClassNameFromResolvedType(typeClassMeth,resolve);
+
+
+                    ResolvedType typeArgResolve = null;
+                    try {
+                        if(type.isWildcardType()){
+                            WildcardType wildcardType = type.asWildcardType();
+                            Optional<ReferenceType> extendedType = wildcardType.getExtendedType();
+                            if(extendedType.isPresent()){
+                                JavaClassMeta typeArgExtend = new JavaClassMeta();
+                                if(extendedType.get().isClassOrInterfaceType()){
+                                    typeArgExtend.setClassName(extendedType.get().asClassOrInterfaceType().getNameAsString());
+                                    typeArgExtend.setFullClassName(extendedType.get().asClassOrInterfaceType().getNameAsString());
+                                }
+                                typeArgResolve =extendedType.get().resolve();
+
+                                if(typeArgResolve != null){
+                                    setFullClassNameFromResolvedType(typeArgExtend,typeArgResolve);
+                                }
+                                typeClassMeth.setTypeArgExtend(typeArgExtend);
+                            }
+                        }
+                    } catch(UnsolvedSymbolException ue) {
+                        log.debug("setTypeArgumentsFromType type.resolve UnsolvedSymbolException error",ue);
+                        UnSolvedSymbolTool.addUnSolveTOCache(ue.getMessage());
+                    }catch (Exception e) {
+                        log.error("setTypeArgumentsFromType type.resolve error {}",paramClass.getClassName(),e);
+                    }
+
+                    typeArgumentsList.add(typeClassMeth);
+                    setTypeArgumentsFromType(type,typeClassMeth);
+                }
+                paramClass.setTypeArguments(typeArgumentsList);
+            }
+        }
+    }
+
+    protected List<String> getImportPackageClass(List<JavaClassImportMeta> importsClass){
+        List<String> imports = new ArrayList<>();
+        //导入子包引入
+        for (JavaClassImportMeta importInfo : importsClass) {
+            if(!importInfo.getName().startsWith("java")){
+                if(importInfo.isAsteriskImport() && !importInfo.isStaticImport()){
+                    List<JavaClassMeta> packageClassList = MetaIndexContext.getClassMetaByPackage(importInfo.getName());
+                    if(CollectionUtil.isNotEmpty(packageClassList)){
+                        for (JavaClassMeta javaClassMeta : packageClassList) {
+                            imports.add(javaClassMeta.getFullClassName());
+                        }
+                    }
+                }else{
+                    imports.add(importInfo.getName());
+                }
+            }
+        }
+        return imports;
+    }
 
 
     protected  ResolvedType getRefClassResolvedType(ClassOrInterfaceType implementedType) {
@@ -285,7 +403,6 @@ public abstract class AbstractJavaParserTypeDeclarationParse extends BaseJavaPar
             javaClassMeta.setValue(simpleName.getIdentifier());
             javaClassMeta.setNestedClass(typeDeclaration.isNestedType());
 
-
             if(typeDeclaration.isPrivate()){
                 javaClassMeta.setPrimitiveClass(typeDeclaration.isPrivate());
             }
@@ -315,11 +432,8 @@ public abstract class AbstractJavaParserTypeDeclarationParse extends BaseJavaPar
                 ClassOrInterfaceDeclaration javaClass = (ClassOrInterfaceDeclaration)typeDeclaration;
                 NodeList<TypeParameter> typeParameters = javaClass.getTypeParameters();
                 if(CollectionUtil.isNotEmpty(typeParameters)){
-                    List<String> typeParameterList = new ArrayList<>();
-                    for (TypeParameter typeParameter : typeParameters) {
-                        typeParameterList.add(typeParameter.getNameAsString());
-                    }
-                    javaClassMeta.setTypeParameters(typeParameterList);
+                    setTypeParametersFromDeclaration(typeParameters,javaClassMeta);
+                    javaClassMeta.setTypeParameter(true);
                 }
 
                 if(javaClass.isAbstract()){
@@ -338,6 +452,46 @@ public abstract class AbstractJavaParserTypeDeclarationParse extends BaseJavaPar
         }
     }
 
+    protected  void setTypeParametersFromDeclaration(NodeList<TypeParameter> typeParameters, JavaClassMeta javaClassMeta) {
+        if(CollectionUtil.isNotEmpty(typeParameters)){
+            List<JavaTypeParameterMeta> typeParametersResult = new ArrayList<>();
+            JavaTypeParameterMeta javaTypeParameterMeta = null;
+            for (TypeParameter typeParameter : typeParameters) {
+                javaTypeParameterMeta = new JavaTypeParameterMeta();
+                javaTypeParameterMeta.setName(typeParameter.getNameAsString());
+
+                NodeList<ClassOrInterfaceType> typeBound = typeParameter.getTypeBound();
+                if(CollectionUtil.isNotEmpty(typeBound)){
+                    for (ClassOrInterfaceType classOrInterfaceType : typeBound) {
+                        SimpleName name = classOrInterfaceType.getName();
+                        JavaClassMeta type = new JavaClassMeta();
+                        type.setClassName(name.getIdentifier());
+                        type.setFullClassName(name.getIdentifier());
+                        try {
+                            setFullClassNameFromResolvedType(type,classOrInterfaceType.resolve());
+                        } catch (UnsolvedSymbolException ue){
+                            log.debug("setTypeParametersFromDeclaration error",ue);
+                            UnSolvedSymbolTool.addUnSolveTOCache(ue.getMessage());
+                        }
+                        Optional<NodeList<Type>> typeArguments = classOrInterfaceType.getTypeArguments();
+                        if(typeArguments.isPresent()){
+                            List<JavaClassMeta> typeArgs = new ArrayList<>();
+                            for (Type typeArg : typeArguments.get()) {
+                                JavaClassMeta classMeta = new JavaClassMeta();
+                                setTypeArgumentsFromType(typeArg,classMeta);
+                                typeArgs.add(classMeta);
+                            }
+                            type.setTypeArguments(typeArgs);
+                        }
+
+                        javaTypeParameterMeta.setType(type);
+                    }
+                }
+                typeParametersResult.add(javaTypeParameterMeta);
+            }
+            javaClassMeta.setTypeParameters(typeParametersResult);
+        }
+    }
     public List<JavaParserMemberParse> getJavaParserMemberParseList() {
         return javaParserMemberParseList;
     }

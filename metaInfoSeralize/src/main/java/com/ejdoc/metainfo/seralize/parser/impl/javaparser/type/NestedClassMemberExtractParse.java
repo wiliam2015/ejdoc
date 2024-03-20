@@ -64,7 +64,7 @@ public class NestedClassMemberExtractParse extends AbstractJavaParserTypeDeclara
         if(CollectionUtil.isNotEmpty(implementedTypes)){
             List<JavaClassMeta> javaClassMetaList = new ArrayList<>();
             for (ClassOrInterfaceType implementedType : implementedTypes) {
-                javaClassMetaList.add(convertClassOrInterfaceTypeToSimpleClassMeta(implementedType));
+                javaClassMetaList.add(convertClassOrInterfaceTypeToSimpleClassMeta(implementedType,javaClassMeta.getImports()));
                 javaClassMeta.setInterfaces(javaClassMetaList);
             }
         }

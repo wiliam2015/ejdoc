@@ -1,7 +1,10 @@
 package com.ejdoc.metainfo.seralize.model;
 
+import cn.hutool.core.util.StrUtil;
+
 import java.io.Serializable;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,10 +39,12 @@ public class JavaClassMeta  implements Serializable {
     /**嵌套类*/
     private String nestedClassName;
 
+    /**类型参数类名信息*/
+    private JavaClassMeta typeArgExtend;
     /**
      * 类型注解参数
      */
-    private List<String> typeParameters;
+    private List<JavaTypeParameterMeta> typeParameters;
 
     /**
      * 类型参数
@@ -95,6 +100,12 @@ public class JavaClassMeta  implements Serializable {
 
     private Boolean voidClass;
 
+    private Boolean jdkClass;
+    /**类型参数*/
+    private Boolean typeParameter;
+    /**通配符类型，类似结构：Class<? extends Aspect> */
+    private Boolean wildcardType;
+
     private List<JavaClassMeta> superClasses;
 
     private List<String> modifiers;
@@ -109,6 +120,11 @@ public class JavaClassMeta  implements Serializable {
      * 枚举信息
      */
     private List<JavaClassMeta> enumConstants;
+
+    /**
+     * 参数信息：主要给枚举类型使用
+     */
+    private List<JavaClassMeta> arguments;
 
     private List<JavaClassMeta> interfaces;
 
@@ -133,6 +149,9 @@ public class JavaClassMeta  implements Serializable {
      * 构造函数内部索引
      */
     private Map<String,String> constructorMetaIndex;
+
+    /**额外属性，扩展使用*/
+    private Map<String,Object> extProp;
 
     public JavaClassMeta(){}
 
@@ -177,6 +196,9 @@ public class JavaClassMeta  implements Serializable {
     }
 
     public void setFullClassName(String fullClassName) {
+        if(StrUtil.contains(fullClassName,"$")){
+            fullClassName= fullClassName.replace("$",".");
+        }
         this.fullClassName = fullClassName;
     }
 
@@ -228,12 +250,12 @@ public class JavaClassMeta  implements Serializable {
         this.fields = fields;
     }
 
-    public List<String> getTypeParameters() {
+    public List<JavaTypeParameterMeta> getTypeParameters() {
         return typeParameters;
     }
 
 
-    public void setTypeParameters(List<String> typeParameters) {
+    public void setTypeParameters(List<JavaTypeParameterMeta> typeParameters) {
         this.typeParameters = typeParameters;
     }
 
@@ -535,6 +557,61 @@ public class JavaClassMeta  implements Serializable {
         this.nestedClassName = nestedClassName;
     }
 
+    public Boolean getJdkClass() {
+        return jdkClass;
+    }
+
+    public void setJdkClass(Boolean jdkClass) {
+        this.jdkClass = jdkClass;
+    }
+
+    public Boolean getTypeParameter() {
+        return typeParameter;
+    }
+
+    public void setTypeParameter(Boolean typeParameter) {
+        this.typeParameter = typeParameter;
+    }
+
+    public Boolean getWildcardType() {
+        return wildcardType;
+    }
+
+    public void setWildcardType(Boolean wildcardType) {
+        this.wildcardType = wildcardType;
+    }
+
+    public JavaClassMeta getTypeArgExtend() {
+        return typeArgExtend;
+    }
+
+    public void setTypeArgExtend(JavaClassMeta typeArgExtend) {
+        this.typeArgExtend = typeArgExtend;
+    }
+
+    public List<JavaClassMeta> getArguments() {
+        return arguments;
+    }
+
+    public void setArguments(List<JavaClassMeta> arguments) {
+        this.arguments = arguments;
+    }
+
+    public Map<String, Object> getExtProp() {
+        return extProp;
+    }
+
+    public void setExtProp(Map<String, Object> extProp) {
+        this.extProp = extProp;
+    }
+
+    public void putExtProp(String key,Object value){
+        if(this.extProp == null){
+            this.extProp = new HashMap<>();
+        }
+        this.extProp.put(key,value);
+    }
+
     public String parseDeclarationStructure(){
         StringBuilder sb = new StringBuilder();
         if(this.publicClass != null && this.publicClass){
@@ -561,8 +638,14 @@ public class JavaClassMeta  implements Serializable {
         if(this.typeParameters != null && this.typeParameters.size() > 0){
             sb.append("<");
             for (int i = 0; i < this.typeParameters.size(); i++) {
-                String typeParameter = typeParameters.get(i);
-                sb.append(typeParameter);
+                JavaTypeParameterMeta javaTypeParameterMeta = typeParameters.get(i);
+                String name = javaTypeParameterMeta.getName();
+                sb.append(name);
+                JavaClassMeta type = javaTypeParameterMeta.getType();
+                if(type != null){
+                    sb.append("extend ");
+                    sb.append(type.getClassName());
+                }
                 if(this.typeParameters.size() != (i+1)){
                     sb.append(",");
                 }

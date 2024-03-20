@@ -16,11 +16,18 @@ public class TreeIndexClassMeta {
 
     private List<JavaClassMeta> allInterfaceClasses;
 
+
+    /**所有嵌套类*/
+    private List<JavaClassMeta> allNestedClasses;
+
     private List<JavaClassMeta> allSubClasses;
 
     private List<JavaClassMeta> allSubInterfaceClasses;
 
     private List<JavaClassMeta> supperClassList;
+
+    /**嵌套类*/
+    private List<JavaClassMeta> nestedClasses;
 
     private List<JavaClassMeta> childClassList;
 
@@ -263,4 +270,61 @@ public class TreeIndexClassMeta {
         this.childInterfaceList = childInterfaceList;
     }
 
+    public boolean addAllNestedClasses(JavaClassMeta javaClassMeta){
+        if(allNestedClasses == null){
+            allNestedClasses = new ArrayList<>();
+        }
+        boolean exist = false;
+        for (JavaClassMeta classMeta : allNestedClasses) {
+            if(classMeta.getFullClassName().equals(javaClassMeta.getFullClassName())){
+                exist = true;
+                break;
+            }
+        }
+        if(!exist){
+            return allNestedClasses.add(javaClassMeta);
+        }
+        return false;
+    }
+
+    public List<JavaClassMeta> getAllNestedClasses() {
+        return allNestedClasses;
+    }
+
+    public void setAllNestedClasses(List<JavaClassMeta> allNestedClasses) {
+        this.allNestedClasses = allNestedClasses;
+    }
+
+    public void addNestedClassesList(List<JavaClassMeta> classList) {
+        if(classList != null && classList.size() != 0){
+            if(this.nestedClasses == null){
+                this.nestedClasses = new ArrayList<>();
+            }
+            this.nestedClasses.addAll(classList);
+        }
+    }
+    public boolean addNestedClasses(JavaClassMeta javaClassMeta){
+        if(nestedClasses == null){
+            nestedClasses = new ArrayList<>();
+        }
+        boolean exist = false;
+        for (JavaClassMeta classMeta : nestedClasses) {
+            if(classMeta.getFullClassName().equals(javaClassMeta.getFullClassName())){
+                exist = true;
+                break;
+            }
+        }
+        if(!exist){
+            return nestedClasses.add(javaClassMeta);
+        }
+        return false;
+    }
+
+    public List<JavaClassMeta> getNestedClasses() {
+        return nestedClasses;
+    }
+
+    public void setNestedClasses(List<JavaClassMeta> nestedClasses) {
+        this.nestedClasses = nestedClasses;
+    }
 }

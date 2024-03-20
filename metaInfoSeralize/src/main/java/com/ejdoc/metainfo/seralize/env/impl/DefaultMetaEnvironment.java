@@ -1,6 +1,7 @@
 package com.ejdoc.metainfo.seralize.env.impl;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.io.resource.NoResourceException;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.CharsetUtil;
@@ -35,6 +36,14 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
 
     private final Setting PROPS;
 
+    private ProjectCompileEnum projectCompile;
+
+    private String projectRootPath;
+
+    private String projectSourcePath;
+    private String projectMetaSeralizeOutPath;
+
+
     public DefaultMetaEnvironment(){
         this("");
     }
@@ -58,6 +67,19 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
 
         autoLoadProjectTypeEnv();
 
+        setPropDefaultVal();
+
+    }
+
+    /**
+     * 设置属性默认值
+     */
+    private void setPropDefaultVal() {
+        String version = PROPS.getStr("version", "");
+        if(StrUtil.isBlank(version)){
+            PROPS.put("version","1.0.0");
+        }
+
     }
 
 
@@ -74,8 +96,8 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
                 String name = readXmlEleText(document,"name");
                 String description =readXmlEleText(document,"description");
                 String url = readXmlEleText(document,"url");
-
-                if(StrUtil.isNotBlank(version)){
+                String configVersion = PROPS.getStr("version", "");
+                if(StrUtil.isNotBlank(version) && StrUtil.isBlank(configVersion) ){
                     PROPS.put("version",version);
                 }
                 if(StrUtil.isNotBlank(name)){
@@ -110,26 +132,110 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
      */
     private void checkRequiredAttribute() {
         getProjectRootPath();
-        getProjectSourceDir();
         getProjectCompileType();
+        getProjectSourceDir();
+        getProjectMetaSeralizeOutPath();
+    }
+
+    private String getProjectMetaSeralizeOutPath() {
+        if(StrUtil.isBlank(projectMetaSeralizeOutPath)){
+            String projectMetaSeralizeOutDir = PROPS.getStr("project.meta.seralize.out", "");
+            if(StrUtil.isBlank(projectMetaSeralizeOutDir)){
+                String projectRootPath = getProjectRootPath();
+                projectMetaSeralizeOutDir=projectRootPath + "/docmeta";
+                if(StrUtil.isNotBlank(projectMetaSeralizeOutDir)){
+                    PROPS.set("project.meta.seralize.out", projectMetaSeralizeOutDir);
+                    log.info("auto detection project meta seralize out dir:{}",projectMetaSeralizeOutDir);
+                }
+            }
+            Assert.notBlank(projectMetaSeralizeOutDir, "[project.meta.seralize.out] properties is require,please config in metaDir.properties !");
+            log.info("project meta seralize out dir:{}",projectMetaSeralizeOutDir);
+            projectMetaSeralizeOutPath= projectMetaSeralizeOutDir;
+        }
+        return projectMetaSeralizeOutPath;
     }
 
 
     @Override
     public String getProjectRootPath() {
+        if(StrUtil.isBlank(projectRootPath)){
+            String projectRootDir = PROPS.getStr("project.root.dir", "");
+            if(StrUtil.isBlank(projectRootDir)){
+                projectRootDir = getPath("pom.xml");
+                if(StrUtil.isBlank(projectRootDir)){
+                    projectRootDir = getPath("settings.gradle");
+                }
+                if(StrUtil.isNotBlank(projectRootDir)){
+                    PROPS.set("project.root.dir", projectRootDir);
+                    log.info("auto detection project root dir:{}",projectRootDir);
+                }
+            }
+            Assert.notBlank(projectRootDir, "[project.root.dir] properties is require,please config in metaDir.properties !");
+            log.info("project root dir:{}",projectRootDir);
+            projectRootPath= projectRootDir;
+        }
+        return projectRootPath;
+    }
 
-        String projectRootDir = PROPS.getStr("project.root.dir", "");
-        Assert.notBlank(projectRootDir, "[project.root.dir] properties is require,please config in metaDir.properties !");
-        log.info("project root dir:{}",projectRootDir);
-        return projectRootDir;
+    public String  getPath(String fileName) {
+//        String fileName ="pom.xml";
+        ClassPathResource classPathResource = new ClassPathResource("/");
+        String classpath = classPathResource.getAbsolutePath();
+        if(StrUtil.isNotBlank(classpath)){
+            File dir = new File(classpath);
+            String projectDir ="";
+            int count = 0;
+            while (dir.getParentFile() != null){
+                dir= dir.getParentFile();
+                if(dir != null){
+                    File currentPathFile = findCurrentPathFile(dir, fileName);
+                    if(currentPathFile != null){
+                        projectDir = currentPathFile.getAbsolutePath();
+
+                    }
+                }
+                if(count++ > 3){
+                    break;
+                }
+            }
+            return projectDir;
+
+        }
+        return "";
+    }
+
+    /**
+     * 查找当前文件路径下的文件
+     * @param dir
+     * @param fileName
+     * @return
+     */
+    private  File findCurrentPathFile(File dir,String fileName) {
+        try {
+            File[] matches = dir.listFiles((d, f) -> fileName.equals(f));
+            return matches != null && matches.length > 0 ? matches[0].getParentFile() : null;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public String getProjectSourceDir() {
-        String projectSourceDir = PROPS.getStr("project.source.dir", "");
-        Assert.notBlank(projectSourceDir, "[project.source.dir] properties is require,please config in metaDir.properties !");
-        log.info("project source dir:{}",projectSourceDir);
-        return projectSourceDir;
+        if(StrUtil.isBlank(projectSourcePath)){
+            String projectSourceDir = PROPS.getStr("project.source.dir", "");
+            if(StrUtil.isBlank(projectSourceDir)){
+                ProjectCompileEnum projectCompileType = getProjectCompileType();
+                if(projectCompileType ==ProjectCompileEnum.Maven || projectCompileType ==ProjectCompileEnum.Gradle){
+                    projectSourceDir = "/src/main/java";
+                    PROPS.set("project.source.dir", projectSourceDir);
+                    log.info("auto detection project source dir:{}",projectSourceDir);
+                }
+            }
+            Assert.notBlank(projectSourceDir, "[project.source.dir] properties is require,please config in metaDir.properties !");
+            log.info("project source dir:{}",projectSourceDir);
+            projectSourcePath=  projectSourceDir;
+        }
+        return projectSourcePath;
     }
 
     @Override
@@ -165,12 +271,15 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
 
     @Override
     public ProjectCompileEnum getProjectCompileType() {
-        String projectCompileType = autoDecisionCompileType();
-        Assert.notBlank(projectCompileType, "the compile type not detect,please config in metaDir.properties.the porp name is [project.compile.type] !");
-        ProjectCompileEnum projectCompileEnum = ProjectCompileEnum.convertToEnumByName(projectCompileType);
-        Assert.notNull(projectCompileEnum, "not support the compile type ["+projectCompileType+"]!");
-        log.info("project compile type:{}",projectCompileType);
-        return projectCompileEnum;
+        if(projectCompile == null){
+            String projectCompileType = autoDecisionCompileType();
+            Assert.notBlank(projectCompileType, "the compile type not detect,please config in metaDir.properties.the porp name is [project.compile.type] !");
+            ProjectCompileEnum projectCompileEnum = ProjectCompileEnum.convertToEnumByName(projectCompileType);
+            Assert.notNull(projectCompileEnum, "not support the compile type ["+projectCompileType+"]!");
+            log.info("project compile type:{}",projectCompileType);
+            projectCompile =  projectCompileEnum;
+        }
+        return projectCompile;
     }
 
     /**
@@ -187,9 +296,11 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
             if(FileUtil.isNotEmpty(new File(mavenPomFile))){
                 PROPS.put("project.compile.type",ProjectCompileEnum.Maven.name());
                 projectCompileType = ProjectCompileEnum.Maven.name();
+                log.info("auto detection project compile type maven");
             }else if(FileUtil.isNotEmpty(new File(gradleSetFile))){
                 PROPS.put("project.compile.type",ProjectCompileEnum.Gradle.name());
                 projectCompileType = ProjectCompileEnum.Gradle.name();
+                log.info("auto detection project compile type gradle");
             }
         }
         return projectCompileType;

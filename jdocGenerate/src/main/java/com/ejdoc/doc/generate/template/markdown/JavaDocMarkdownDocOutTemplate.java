@@ -95,21 +95,33 @@ public class JavaDocMarkdownDocOutTemplate extends MarkdownDocOutTemplate{
             List<JSONObject> jsonObjectList = new ArrayList<>();
             for (Object obj : allClassJsonArray) {
                 JSONObject classJsonObj = (JSONObject)obj;
-                String dependencyRelativePath = classJsonObj.getStr("dependencyRelativePath");
-                if(StrUtil.isNotBlank(dependencyRelativePath)){
-                    Path filePath = Paths.get(basePath,dependencyRelativePath+".json");
-                    JSONObject dependencyRelativeObj = JSONUtil.readJSONObject(filePath.toFile(), CharsetUtil.CHARSET_UTF_8);
-                    if(dependencyRelativeObj.containsKey("methods")){
-                        JSONObject copyJsonObj = new JSONObject();
-                        copyJsonObj.putOpt("methods",dependencyRelativeObj.get("methods"));
-                        copyJsonObj.putOpt("className",dependencyRelativeObj.get("className"));
-                        copyJsonObj.putOpt("classNamePrefix",dependencyRelativeObj.get("classNamePrefix"));
-                        copyJsonObj.putOpt("fullClassName",dependencyRelativeObj.get("fullClassName"));
-                        copyJsonObj.putOpt("dependencyRelativePath",dependencyRelativePath);
-                        jsonObjectList.add(copyJsonObj);
+                Boolean jdkClass = classJsonObj.getBool("jdkClass",false);
+                if(jdkClass){
+                    JSONObject copyJsonObj = new JSONObject();
+                    copyJsonObj.putOpt("jdkClass",true);
+                    copyJsonObj.putOpt("className",classJsonObj.get("className"));
+                    copyJsonObj.putOpt("fullClassName",classJsonObj.get("fullClassName"));
+                    copyJsonObj.putOpt("classNamePrefix",classJsonObj.get("classNamePrefix"));
+                    jsonObjectList.add(copyJsonObj);
+                }else{
+                    String dependencyRelativePath = classJsonObj.getStr("dependencyRelativePath");
+                    if(StrUtil.isNotBlank(dependencyRelativePath)){
+                        Path filePath = Paths.get(basePath,dependencyRelativePath+".json");
+                        JSONObject dependencyRelativeObj = JSONUtil.readJSONObject(filePath.toFile(), CharsetUtil.CHARSET_UTF_8);
+                        if(dependencyRelativeObj.containsKey("methods")){
+                            JSONObject copyJsonObj = new JSONObject();
+                            copyJsonObj.putOpt("jdkClass",false);
+                            copyJsonObj.putOpt("methods",dependencyRelativeObj.get("methods"));
+                            copyJsonObj.putOpt("fields",dependencyRelativeObj.get("fields"));
+                            copyJsonObj.putOpt("className",dependencyRelativeObj.get("className"));
+                            copyJsonObj.putOpt("classNamePrefix",dependencyRelativeObj.get("classNamePrefix"));
+                            copyJsonObj.putOpt("fullClassName",dependencyRelativeObj.get("fullClassName"));
+                            copyJsonObj.putOpt("dependencyRelativePath",dependencyRelativePath);
+                            jsonObjectList.add(copyJsonObj);
+                        }
                     }
-
                 }
+
             }
 
             return jsonObjectList;

@@ -27,9 +27,10 @@ public class AnnotationMemberParse extends AbstractJavaParseMemberParse{
         for (BodyDeclaration<?> member : members) {
             if(accept(member)){
                 JavaMethodMeta parseAnnoMember = parseAnnoMember(member, metaFileInfo, typeDeclaration);
-                if(filterModifier(compileIncludePrivate,parseAnnoMember.getModifiers())){
-                    javaFieldMetas.add(parseAnnoMember);
-                }
+//                if(filterModifier(compileIncludePrivate,parseAnnoMember.getModifiers())){
+//                    javaFieldMetas.add(parseAnnoMember);
+//                }
+                javaFieldMetas.add(parseAnnoMember);
             }
         }
         javaClassMeta.setMethods(javaFieldMetas);

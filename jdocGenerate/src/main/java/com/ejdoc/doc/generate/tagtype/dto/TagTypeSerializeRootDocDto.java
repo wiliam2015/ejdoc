@@ -13,6 +13,7 @@ public class TagTypeSerializeRootDocDto {
     /** 标签对象 */
     private JSONObject tagJsonObj;
 
+    private boolean appendName = true;
     public JSONObject getRootPropObj() {
         return rootPropObj;
     }
@@ -27,5 +28,13 @@ public class TagTypeSerializeRootDocDto {
 
     public void setTagJsonObj(JSONObject tagJsonObj) {
         this.tagJsonObj = tagJsonObj;
+    }
+
+    public boolean isAppendName() {
+        return appendName;
+    }
+
+    public void setAppendName(boolean appendName) {
+        this.appendName = appendName;
     }
 }

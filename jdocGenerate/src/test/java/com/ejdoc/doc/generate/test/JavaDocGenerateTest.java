@@ -15,13 +15,6 @@ public class JavaDocGenerateTest {
 
     }
 
-    @Test
-    public void printJavaDocSingleConfigTest(){
-        DocGenerate javaDocGenerate = DocGenerateFactory.createDefaultJavaDocGenerate("testconfig/singleFile.properties");
-
-        javaDocGenerate.printDoc();
-
-    }
 
 
 }

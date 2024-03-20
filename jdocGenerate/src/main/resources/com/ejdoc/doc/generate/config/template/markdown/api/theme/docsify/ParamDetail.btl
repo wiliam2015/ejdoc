@@ -1,0 +1,25 @@
+<% if(isNotEmpty(prop.fields)){
+    println("## 成员变量汇总");
+    println("");
+    println("|   索引  |   修饰符  |    类型简称  |   字段与描述   |   初始值   |");
+    println("| ---- | ---- | ---- | ---- | ---- |");
+    for(fieldsObj in prop.fields){
+        print("|");
+        print(fieldsObjLP.index);
+        print("|");
+        print(docClassFn.calModifer(fieldsObj.modifiers));
+        print("|");
+        print(docClassFn.createClassNameLinkMd(fieldsObj.type));
+        print("|");
+        print(memberFn.createInnerLinkIdMd(fieldsObj.name,"",fieldsObj.name));print("<br/>");
+        print(docClassFn.calCommentNoEnterDocMd(fieldsObj,prop,""));
+        print("|");
+         if(isNotEmpty(fieldsObj.initializer)){
+           print(fieldsObj.initializer);
+         }else{
+           print("无");
+         }
+        println("|");
+      }
+    }
+%>

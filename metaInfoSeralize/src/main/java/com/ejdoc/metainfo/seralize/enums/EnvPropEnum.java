@@ -9,6 +9,7 @@ public enum EnvPropEnum {
     project_source_dir("project.source.dir","项目源文件目录"),
     project_meta_seralize_out("project.meta.seralize.out","项目元数据输出目录"),
     compile_include_private("compile.include.private","是否包含私有类型"),
+    load_module_name("load.module.name","加载module名称"),
     ;
 
     private String code;

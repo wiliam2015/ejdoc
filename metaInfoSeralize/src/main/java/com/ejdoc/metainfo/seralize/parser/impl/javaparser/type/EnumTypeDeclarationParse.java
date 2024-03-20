@@ -62,7 +62,7 @@ public class EnumTypeDeclarationParse extends AbstractJavaParserTypeDeclarationP
         if(CollectionUtil.isNotEmpty(implementedTypes)){
             List<JavaClassMeta> javaClassMetaList = new ArrayList<>();
             for (ClassOrInterfaceType implementedType : implementedTypes) {
-                javaClassMetaList.add(convertClassOrInterfaceTypeToSimpleClassMeta(implementedType));
+                javaClassMetaList.add(convertClassOrInterfaceTypeToSimpleClassMeta(implementedType,javaClassMeta.getImports()));
                 javaClassMeta.setInterfaces(javaClassMetaList);
             }
         }
@@ -80,12 +80,15 @@ public class EnumTypeDeclarationParse extends AbstractJavaParserTypeDeclarationP
         NodeList<AnnotationExpr> annotations = entry.getAnnotations();
         JavaModelMeta javaModelMeta = new JavaModelMeta();
         createJavaDocTag(javadoc,javaModelMeta);
-
-        if(CollectionUtil.isNotEmpty(arguments)){
-            for (Expression argument : arguments) {
-            }
-        }
         JavaClassMeta fieldMeta = new JavaClassMeta();
+        if(CollectionUtil.isNotEmpty(arguments)){
+            List<JavaClassMeta> result = new ArrayList<>();
+            for (Expression argument : arguments) {
+                parseExpression(argument,result);
+            }
+            fieldMeta.setArguments(result);
+        }
+
         fieldMeta.setJavaModelMeta(javaModelMeta);
         fieldMeta.setClassName(name.getIdentifier());
         return fieldMeta;

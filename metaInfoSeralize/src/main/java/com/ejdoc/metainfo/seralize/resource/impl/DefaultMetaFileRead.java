@@ -7,6 +7,7 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.dto.ModuleInfoDto;
+import com.ejdoc.metainfo.seralize.enums.EnvPropEnum;
 import com.ejdoc.metainfo.seralize.env.MetaEnvironment;
 import com.ejdoc.metainfo.seralize.env.impl.DefaultMetaEnvironment;
 import com.ejdoc.metainfo.seralize.resource.MetaFileRead;
@@ -132,6 +133,7 @@ public class DefaultMetaFileRead implements MetaFileRead {
     private List<MetaFileInfoDto>  readAllFile(){
         List<MetaFileInfoDto> resultFile = new ArrayList<>();
         String projectRootPath = this.metaEnvironment.getProjectRootPath();
+        Map<String, String> loadModuleNameMap = getLoadModuleNameMap();
         File projectRootFile = new File(projectRootPath);
         String sourceDir = this.metaEnvironment.getProjectSourceDir();
         if(this.metaEnvironment.isIncludeSubProject()){
@@ -140,6 +142,11 @@ public class DefaultMetaFileRead implements MetaFileRead {
                 MetaFileInfoDto defaultMetaFile = null;
                 for (ModuleInfoDto moduleInfoDto : subProjectInfo) {
                     String loopPath = moduleInfoDto.getModulePath()+ sourceDir;
+                    String moduleName = moduleInfoDto.getModuleName();
+                    if(CollectionUtil.isNotEmpty(loadModuleNameMap) && !loadModuleNameMap.containsKey(moduleName)){
+                        continue;
+                    }
+
                     List<File> files = FileUtil.loopFiles(loopPath,subFile -> FileTypeUtil.getType(subFile).equals("java"));
                     if(CollectionUtil.isNotEmpty(files)){
                         for (File file : files) {
@@ -151,7 +158,8 @@ public class DefaultMetaFileRead implements MetaFileRead {
                             defaultMetaFile.setProjectName(projectRootFile.getName());
                             defaultMetaFile.setProjectPath(projectRootPath);
 
-                            defaultMetaFile.setModuleName(moduleInfoDto.getModuleName());
+
+                            defaultMetaFile.setModuleName(moduleName);
                             defaultMetaFile.setModulePath(moduleInfoDto.getModulePath());
                             defaultMetaFile.setModuleDesc(moduleInfoDto.getModuleDesc());
 
@@ -185,6 +193,19 @@ public class DefaultMetaFileRead implements MetaFileRead {
         }
         return resultFile;
     }
+
+    private Map<String, String> getLoadModuleNameMap() {
+        Map<String,String> loadModuleNameMap = new HashMap<>();
+        String loadModuleName = this.metaEnvironment.getProp(EnvPropEnum.load_module_name.getCode(), "");
+        if(StrUtil.isNotBlank(loadModuleName)){
+            String[] moduleNames = loadModuleName.split(",");
+            for (String moduleName : moduleNames) {
+                loadModuleNameMap.put(moduleName,moduleName);
+            }
+        }
+        return loadModuleNameMap;
+    }
+
     @Override
     public MetaEnvironment getMetaEnvironment() {
         return metaEnvironment;

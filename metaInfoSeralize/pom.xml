@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ejdoc</artifactId>
         <groupId>com.ejdoc</groupId>
-        <version>0.5.1-SNAPSHOT</version>
+        <version>0.5.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -60,6 +60,12 @@
         <dependency>
             <groupId>com.github.javaparser</groupId>
             <artifactId>javaparser-symbol-solver-core</artifactId>
+        </dependency>
+
+        <!-- 解析html -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
         </dependency>
     </dependencies>
 

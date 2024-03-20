@@ -12,6 +12,8 @@ import com.ejdoc.doc.generate.util.DocParseUtil;
 import com.ejdoc.metainfo.seralize.enums.JavaDocTagTypeEnum;
 import com.ejdoc.metainfo.seralize.util.EjdocStrUtil;
 import org.beetl.core.Context;
+import org.beetl.core.GroupTemplate;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -39,6 +41,19 @@ public class DocClassRenderUtil {
         return result.toString();
     }
 
+    public String calSimpleClassNameStructure(Object paras, Context ctx){
+        StringBuilder result = new StringBuilder();
+        if(paras instanceof JSONObject){
+            JSONObject classObj =( JSONObject)paras;
+            result.append(classObj.getStr("className"));
+            StringBuilder typeArgumentStr = new StringBuilder();
+            createTypeParametersMd(classObj,typeArgumentStr);
+            result.append(typeArgumentStr);
+        }
+        result.append(" ");
+        return result.toString();
+    }
+
     public String calAllClassesMd(Object paras, String appendBefore,Context ctx){
         StringBuilder result = new StringBuilder();
         if(paras != null && paras instanceof JSONArray){
@@ -48,8 +63,12 @@ public class DocClassRenderUtil {
                 int i = 1;
                 for (Object allClass : allClasses) {
                     JSONObject allClassObj =( JSONObject)allClass;
-                    innerLoopSb.append(",");
+                    innerLoopSb.append(", &nbsp;");
                     innerLoopSb.append(createClassNameLinkMd(allClassObj));
+                    StringBuilder typeArgumentStr = new StringBuilder();
+                    createTypeParametersMd(allClassObj,typeArgumentStr);
+                    innerLoopSb.append(typeArgumentStr);
+
                     if((i++)%5 == 0 ){
                         innerLoopSb.append("\n");
                     }
@@ -90,6 +109,40 @@ public class DocClassRenderUtil {
         return result.toString();
     }
 
+    public String calLinkNestedRefClassNameMd(Object paras,Context ctx){
+        StringBuilder result = new StringBuilder();
+        if(paras != null && paras instanceof JSONObject){
+            JSONObject allClasses =(JSONObject)paras;
+            String nestedClassFullClassName = allClasses.getStr("nestedClassFullClassName", "");
+            String nestedClassName = allClasses.getStr("nestedClassName", "");
+            String classNamePrefix = nestedClassFullClassName.replace(nestedClassName,"");
+            result.append(classNamePrefix);
+            result.append(createNestedRefClassNameLinkMd(allClasses));
+        }
+        return result.toString();
+    }
+
+    public  String createNestedRefClassNameLinkMd(JSONObject classJson) {
+        StringBuilder result = new StringBuilder();
+        if(classJson.containsKey("dependencyRelativePath")){
+            result.append("[");
+            result.append(classJson.getStr("nestedClassName"));
+            result.append("](");
+            result.append(classJson.getStr("dependencyRelativePath"));
+            result.append(".md");
+            result.append(")");
+        }else  if(classJson.getBool("typeParameter",false)){
+            result.append(classJson.getStr("className"));
+        }else{
+
+            String fullClassName = classJson.getStr("nestedClassFullClassName");
+            String className = classJson.getStr("nestedClassName");
+            result.append(DocParseUtil.parseJdkClassLink(className,fullClassName));
+
+        }
+        return result.toString();
+    }
+
     public String calLinkClassNameMd(Object paras,Context ctx){
         StringBuilder result = new StringBuilder();
         if(paras != null && paras instanceof JSONObject){
@@ -119,7 +172,7 @@ public class DocClassRenderUtil {
                 for (Object allClass : allClasses) {
                     JSONObject methodObj =( JSONObject)allClass;
                     String methodName = methodObj.getStr("name");
-                    innerLoopSb.append(",");
+                    innerLoopSb.append(", &nbsp;&nbsp;");
                     String linkPath = basePath+".md#"+memberRenderUtil.calUniqueMethodName(methodObj,ctx);
                     innerLoopSb.append(createCommonLinkMd(methodName,linkPath));
                     if((i++)%10==0){
@@ -131,6 +184,33 @@ public class DocClassRenderUtil {
                     result.append(appendBefore);
                 }
                 result.append(innerLoopSb.substring(1));
+            }
+        }
+        return result.toString();
+    }
+
+    /**
+     * 计算所有Jdk父类的方法明细，生成markdown结构
+     * @param paras
+     * @param ctx
+     * @return
+     */
+    public String calAllJdkClassesDetailMethodMd(Object paras,Context ctx){
+        StringBuilder result = new StringBuilder();
+        if(paras != null && paras instanceof JSONObject){
+            JSONObject classJson =(JSONObject)paras;
+            String fullClassName = classJson.getStr("fullClassName");
+            List<String> allJdkMethods = DocParseUtil.parseJdkClassMethodMd(fullClassName);
+            if(CollectionUtil.isNotEmpty(allJdkMethods)){
+                int i = 1;
+                for (String allJdkMethod : allJdkMethods) {
+                    if((i++)%10==0){
+                        result.append("\n");
+                    }
+                    result.append(allJdkMethod).append(", &nbsp;&nbsp;");
+                }
+            }else{
+                result.append("无方法信息");
             }
         }
         return result.toString();
@@ -242,23 +322,59 @@ public class DocClassRenderUtil {
         return result.toString();
     }
 
+    private void createTypeArgumentsMd(JSONObject javaClass, StringBuilder typeArgumentStr) {
+        if(javaClass.containsKey("typeArguments")){
+            JSONArray typeParameters = javaClass.getJSONArray("typeArguments");
+            typeArgumentStr.append("< ");
+            StringBuilder typeParameterObjStr = new StringBuilder();
+            for (Object typeArgumentObj : typeParameters) {
+                typeParameterObjStr.append(",");
+                if(typeArgumentObj instanceof JSONObject){
+                    String name = ((JSONObject) typeArgumentObj).getStr("className", "");
+                    typeParameterObjStr.append(name);
+                }
+            }
+            typeArgumentStr.append(typeParameterObjStr.substring(1));
+            typeArgumentStr.append(" >");
+        }
+    }
+
     private void createTypeParametersMd(JSONObject javaClass, StringBuilder typeArgumentStr) {
         if(javaClass.containsKey("typeParameters")){
-            JSONArray typeArguments = javaClass.getJSONArray("typeParameters");
+            JSONArray typeParameters = javaClass.getJSONArray("typeParameters");
             typeArgumentStr.append("< ");
-            StringBuilder typeArgumentObjStr = new StringBuilder();
-            for (Object typeArgument : typeArguments) {
-                typeArgumentObjStr.append(",");
-                if(typeArgument instanceof JSONObject){
-                    JSONObject typeJsonObj = (JSONObject)typeArgument;
-                    typeArgumentObjStr.append(createClassNameLinkMd(typeJsonObj));
-                    createTypeParametersMd(typeJsonObj,typeArgumentStr);
-                }else  if(typeArgument instanceof String){
-                    typeArgumentObjStr.append(typeArgument);
+            StringBuilder typeParameterObjStr = new StringBuilder();
+            for (Object typeArgumentObj : typeParameters) {
+                typeParameterObjStr.append(",");
+                if(typeArgumentObj instanceof JSONObject){
+                    String name = ((JSONObject) typeArgumentObj).getStr("name", "");
+                    typeParameterObjStr.append(name);
+                    JSONObject typeJsonObj = (JSONObject)typeArgumentObj;
+                    if(typeJsonObj.containsKey("type")){
+                        typeParameterObjStr.append(" extends ");
+                        JSONObject typeClassJsonObj = typeJsonObj.getJSONObject("type");
+                        typeParameterObjStr.append(createClassNameLinkMd(typeClassJsonObj));
+                        if(typeClassJsonObj.containsKey("typeArguments")){
+                            StringBuilder typeArgumentBuild = new StringBuilder();
+                            typeParameterObjStr.append("< ");
+                            JSONArray typeArgumentsArr = typeClassJsonObj.getJSONArray("typeArguments");
+                            for (Object typeArgObj : typeArgumentsArr) {
+                                if(typeArgObj instanceof JSONObject){
+                                    JSONObject typeArgJSONObj = (JSONObject)typeArgObj;
+                                    typeArgumentBuild.append(",");
+                                    typeArgumentBuild.append(typeArgJSONObj.getStr("className",""));
+                                }
+                            }
+                            typeParameterObjStr.append(typeArgumentBuild.substring(1));
+                            typeParameterObjStr.append(" >");
+
+                        }
+                        createTypeParametersMd(typeClassJsonObj,typeParameterObjStr);
+                    }
                 }
 
             }
-            typeArgumentStr.append(typeArgumentObjStr.substring(1));
+            typeArgumentStr.append(typeParameterObjStr.substring(1));
             typeArgumentStr.append(" >");
         }
     }
@@ -273,7 +389,10 @@ public class DocClassRenderUtil {
                 paramStr.append(",");
                 paramStr.append(createClassNameLinkMd(param));
                 StringBuilder typeArgumentStr = new StringBuilder();
-                createTypeParametersMd(param,typeArgumentStr);
+                StringBuilder typeParameterStr = new StringBuilder();
+                createTypeParametersMd(param,typeParameterStr);
+                createTypeArgumentsMd(param,typeArgumentStr);
+                paramStr.append(typeParameterStr);
                 paramStr.append(typeArgumentStr);
                 paramStr.append(" ");
             }
@@ -292,7 +411,10 @@ public class DocClassRenderUtil {
                 paramStr.append(",");
                 paramStr.append(createClassNameLinkMd(param));
                 StringBuilder typeArgumentStr = new StringBuilder();
-                createTypeParametersMd(param,typeArgumentStr);
+                StringBuilder typeParameterStr = new StringBuilder();
+                createTypeParametersMd(param,typeParameterStr);
+                createTypeArgumentsMd(param,typeArgumentStr);
+                paramStr.append(typeParameterStr);
                 paramStr.append(typeArgumentStr);
                 paramStr.append(" ");
             }
@@ -325,11 +447,27 @@ public class DocClassRenderUtil {
             result.append(classJson.getStr("dependencyRelativePath"));
             result.append(".md");
             result.append(")");
+        }else  if(classJson.getBool("typeParameter",false)){
+            result.append(classJson.getStr("className"));
         }else{
 
             String fullClassName = classJson.getStr("fullClassName");
             String className = classJson.getStr("className");
-            result.append(DocParseUtil.parseJdkClassLink(className,fullClassName));
+
+            Boolean nestedClass = classJson.getBool("nestedClass",false);
+            if(nestedClass){
+                String filePath = "";
+                String nestedClassFullClassName = classJson.getStr("nestedClassFullClassName");
+                if(StrUtil.isNotBlank(nestedClassFullClassName)){
+                    filePath = nestedClassFullClassName.replace(".", "/");
+                }
+                filePath = filePath +"."+className;
+                result.append(DocParseUtil.parseJdkClassLink(className,fullClassName,filePath));
+            }else{
+                result.append(DocParseUtil.parseJdkClassLink(className,fullClassName));
+            }
+
+
 
         }
         return result.toString();
@@ -439,6 +577,30 @@ public class DocClassRenderUtil {
         return result.replace("\n","");
     }
 
+    public String calArgumentsMd(Object paras,String appendBefore, Context ctx) {
+        StringBuilder result = new StringBuilder();
+        if(paras instanceof JSONObject) {
+            JSONObject argumentParentObj = (JSONObject) paras;
+            JSONArray jsonArray = argumentParentObj.getJSONArray("arguments");
+            if(CollectionUtil.isNotEmpty(jsonArray)){
+                result.append("(");
+                StringBuilder innerResult = new StringBuilder();
+                for (Object jsonClassObj : jsonArray) {
+                    JSONObject param = (JSONObject)jsonClassObj;
+                    innerResult.append(",");
+                    innerResult.append(param.getStr("value",""));
+                    innerResult.append(":");
+                    innerResult.append(createClassNameLinkMd(param));
+                }
+                result.append(innerResult.substring(1));
+                result.append(")");
+            }
+        }
+        if(result.length() > 0 ){
+            return appendBefore + result;
+        }
+        return "";
+    }
     /**
      * 注解类型是否有默认值
      * @param paras
@@ -513,6 +675,186 @@ public class DocClassRenderUtil {
         return javaDocCommentOptional;
     }
 
+    public String calDocCommentElementMetasJSRMd(Object paras,Object rootProp,String appendBefore, Context ctx) {
+        StringBuilder result = new StringBuilder();
+        if(paras instanceof JSONObject && rootProp instanceof JSONObject){
+            JSONObject jsonObject =( JSONObject)paras;
+            JSONObject rootPropObj =( JSONObject)rootProp;
+
+            if(jsonObject.containsKey("javaModelMeta")){
+                JSONObject javaModelMeta = jsonObject.getJSONObject("javaModelMeta");
+                if(javaModelMeta.containsKey("javaDocComment")){
+
+                    JSONObject javaDocComment = javaModelMeta.getJSONObject("javaDocComment");
+                    String value ="";
+                    boolean values = javaDocComment.containsKey("javaDocCommentElementMetas");
+                    if(values){
+                        value = DocParseUtil.parseJSRCommentMd(javaDocComment.getJSONArray("javaDocCommentElementMetas"),rootPropObj);
+                    }else{
+                        value = javaModelMeta.getStr("comment", "");
+                        value = value.trim().replaceAll(" {2,}","");
+                    }
+                    result.append(value);
+                }
+            }
+        }
+
+        if(result.length() > 0 ){
+            return appendBefore +result;
+        }
+        return "无";
+    }
+    public String calCommentJSRTagsMd(Object paras,Object rootProp,String type,String appendBefore,String paramName, Context ctx) {
+        StringBuilder result = new StringBuilder();
+        if(paras instanceof JSONObject && rootProp instanceof JSONObject){
+            JSONObject jsonObject =( JSONObject)paras;
+            JSONObject rootPropObj =( JSONObject)rootProp;
+
+            if(jsonObject.containsKey("javaModelMeta")){
+                JSONObject javaModelMeta = jsonObject.getJSONObject("javaModelMeta");
+                if(javaModelMeta.containsKey("tags")){
+
+                    JSONArray tags = javaModelMeta.getJSONArray("tags");
+                    StringBuilder tagSb = new StringBuilder();
+                    for (Object tag : tags) {
+                        if(tag instanceof JSONObject){
+                            JSONObject tagJsonObj = (JSONObject)tag;
+
+                            String tagType = tagJsonObj.getStr("type", "");
+                            String name = tagJsonObj.getStr("name", "");
+                            String tagName = tagJsonObj.getStr("tagName", "");
+                            if(!(type.equals(tagType) || type.equals(tagName))){
+                                continue;
+                            }
+                            if(StrUtil.isNotBlank(paramName) && !name.equals(paramName)){
+                                continue;
+                            }
+
+                            String value ="";
+                            boolean values = tagJsonObj.containsKey("values");
+                            if(values){
+                                value = DocParseUtil.parseJSRCommentMd(tagJsonObj.getJSONArray("values"),rootPropObj);
+                            }else{
+                                value = tagJsonObj.getStr("value", "");
+                                value = value.trim().replaceAll(" {2,}","");
+                            }
+                            tagSb.append(value);
+
+                        }
+                    }
+                    result.append(tagSb);
+                }
+            }
+        }
+
+        if(result.length() > 0 ){
+            return appendBefore +result;
+        }
+        return "";
+    }
+    public String calCommentJSRTagsByParamMd(Object paras,Object rootProp,String type,String jsrType,String appendBefore,String paramName, Context ctx) {
+        StringBuilder result = new StringBuilder();
+        if(paras instanceof JSONObject && rootProp instanceof JSONObject){
+            JSONObject jsonObject =( JSONObject)paras;
+            JSONObject rootPropObj =( JSONObject)rootProp;
+
+            if(jsonObject.containsKey("javaModelMeta")){
+                JSONObject javaModelMeta = jsonObject.getJSONObject("javaModelMeta");
+                if(javaModelMeta.containsKey("tags")){
+
+                    JSONArray tags = javaModelMeta.getJSONArray("tags");
+                    StringBuilder tagSb = new StringBuilder();
+                    for (Object tag : tags) {
+                        if(tag instanceof JSONObject){
+                            JSONObject tagJsonObj = (JSONObject)tag;
+
+                            String tagType = tagJsonObj.getStr("type", "");
+                            String name = tagJsonObj.getStr("name", "");
+                            String tagName = tagJsonObj.getStr("tagName", "");
+                            if(!(type.equals(tagType) || type.equals(tagName))){
+                                continue;
+                            }
+                            if(!name.equals(paramName)){
+                                continue;
+                            }
+
+                            String value ="";
+                            boolean values = tagJsonObj.containsKey("values");
+                            if(values){
+                                value = DocParseUtil.parseJSRCommentMdByType(tagJsonObj.getJSONArray("values"),rootPropObj,jsrType);
+                            }else{
+                                value = tagJsonObj.getStr("value", "");
+                                value = value.trim().replaceAll(" {2,}","");
+                            }
+                            tagSb.append(value);
+
+                        }
+                    }
+                    result.append(tagSb);
+                }
+            }
+        }
+
+        if(result.length() > 0 ){
+            return appendBefore +result;
+        }
+        return "无";
+    }
+
+    public String calCommentTagsByParamMd(Object paras,Object rootProp,String type,String appendBefore,String paramName, Context ctx) {
+        StringBuilder result = new StringBuilder();
+        if(paras instanceof JSONObject && rootProp instanceof JSONObject){
+            JSONObject jsonObject =( JSONObject)paras;
+            JSONObject rootPropObj =( JSONObject)rootProp;
+
+            if(jsonObject.containsKey("javaModelMeta")){
+                JSONObject javaModelMeta = jsonObject.getJSONObject("javaModelMeta");
+                if(javaModelMeta.containsKey("tags")){
+
+
+                    Map<String, TagTypeSerialize> mdTagTypeSerializeMap = TagTypeSerializeFactory.createMdTagTypeSerializeMap();
+
+                    JSONArray tags = javaModelMeta.getJSONArray("tags");
+                    StringBuilder tagSb = new StringBuilder();
+                    for (Object tag : tags) {
+                        if(tag instanceof JSONObject){
+                            JSONObject tagJsonObj = (JSONObject)tag;
+
+                            String tagType = tagJsonObj.getStr("type", "");
+                            String name = tagJsonObj.getStr("name", "");
+                            String tagName = tagJsonObj.getStr("tagName", "");
+                            if(!(type.equals(tagType) || type.equals(tagName))){
+                                continue;
+                            }
+                            if(!name.equals(paramName)){
+                                continue;
+                            }
+                            TagTypeSerialize tagTypeSerialize = mdTagTypeSerializeMap.get(tagName.toUpperCase());
+                            if(tagTypeSerialize == null){
+                                tagTypeSerialize = mdTagTypeSerializeMap.get(JavaDocTagTypeEnum.DEFAULT.getName());
+                            }
+                            if(tagTypeSerialize != null){
+                                TagTypeSerializeRootDocDto tagTypeSerializeRootDocDto = new TagTypeSerializeRootDocDto();
+                                tagTypeSerializeRootDocDto.setRootPropObj(rootPropObj);
+                                tagTypeSerializeRootDocDto.setTagJsonObj(tagJsonObj);
+                                tagTypeSerializeRootDocDto.setAppendName(false);
+                                String tagVal =tagTypeSerialize.toSerialize(type,tagTypeSerializeRootDocDto);
+                                if(StrUtil.isNotBlank(tagVal)){
+                                    tagSb.append(tagVal);
+                                }
+                            }
+                        }
+                    }
+                    result.append(tagSb);
+                }
+            }
+        }
+
+        if(result.length() > 0 ){
+            return appendBefore +result;
+        }
+        return "无";
+    }
     public String calCommentTagsMd(Object paras,Object rootProp,String type,String appendBefore, Context ctx) {
         StringBuilder result = new StringBuilder();
         if(paras instanceof JSONObject && rootProp instanceof JSONObject){
@@ -547,31 +889,9 @@ public class DocClassRenderUtil {
                                 String tagVal =tagTypeSerialize.toSerialize(type,tagTypeSerializeRootDocDto);
                                 if(StrUtil.isNotBlank(tagVal)){
                                     tagSb.append(tagVal);
-                                    tagSb.append("\n\n");
+//                                    tagSb.append("\n\n");
                                 }
                             }
-//                            if(type.equals(tagType)){
-//                                if(type.equals("SEE")){
-//                                    System.out.println("sss");
-//                                }
-//                                String name = tagJsonObj.getStr("name", "");
-//                                String value = "";
-//                                boolean values = tagJsonObj.containsKey("values");
-//                                if(values){
-//                                    value = parseCommentMd(tagJsonObj.getJSONArray("values"),rootPropObj);
-//                                }else{
-//                                    value = tagJsonObj.getStr("value", "");
-////                                    value = value.trim().replace("\n","").replaceAll(" {2,}","");
-//                                    value = value.trim().replaceAll(" {2,}","");
-//                                }
-//                                tagSb.append("  ");
-//                                if(StrUtil.isNotBlank(name)){
-//                                    tagSb.append(name);
-//                                    tagSb.append(" - ");
-//                                }
-//                                tagSb.append(value);
-//                                tagSb.append("\n\n");
-//                            }
                         }
                     }
                     result.append(tagSb);

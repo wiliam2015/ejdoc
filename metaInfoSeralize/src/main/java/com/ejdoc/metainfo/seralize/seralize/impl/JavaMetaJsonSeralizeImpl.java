@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -153,24 +154,82 @@ public class JavaMetaJsonSeralizeImpl implements JavaMetaJsonSeralize {
             for (JavaModuleMeta javaModuleMeta : javaModuleMetas) {
                 List<JavaClassMeta> javaClassMetas = javaModuleMeta.getJavaClassMetas();
                 String moduleName = javaModuleMeta.getName();
-                for (JavaClassMeta javaClassMeta : javaClassMetas) {
-                    String javaClassMetaJson ;
-                    if(seralizeConfig.isPrettyFormat()){
-                        javaClassMetaJson = JSONUtil.toJsonPrettyStr(javaClassMeta);
-                    }else{
-                        javaClassMetaJson = JSONUtil.toJsonStr(javaClassMeta);
-                    }
-                    String packageName = javaClassMeta.getPackageName();
-                    String packageDir = "";
-                    if(StrUtil.isNotBlank(packageName)){
-                        packageDir = packageName.replace(".","/");
-                    }
-                    String outFilePath = configFilePath + "/doc/" + moduleName + "/" + packageDir + "/" + javaClassMeta.getClassName() + ".json";
-                    FileUtil.writeString(javaClassMetaJson, outFilePath, "UTF-8");
-                }
+
+                createMetaClassJson(seralizeConfig, configFilePath, javaClassMetas, moduleName);
+                //copy md file
+                copyMdFileToMoudle(metaEnvironment,configFilePath, moduleName);
             }
         }
+
+
         return configFilePath+"/doc";
+    }
+
+    /**
+     * 创建java类的json描述文件
+     * @param seralizeConfig
+     * @param configFilePath
+     * @param javaClassMetas
+     * @param moduleName
+     */
+    private  void createMetaClassJson(SeralizeConfig seralizeConfig, String configFilePath, List<JavaClassMeta> javaClassMetas, String moduleName) {
+        for (JavaClassMeta javaClassMeta : javaClassMetas) {
+            String javaClassMetaJson ;
+            if(seralizeConfig.isPrettyFormat()){
+                javaClassMetaJson = JSONUtil.toJsonPrettyStr(javaClassMeta);
+            }else{
+                javaClassMetaJson = JSONUtil.toJsonStr(javaClassMeta);
+            }
+            String packageName = javaClassMeta.getPackageName();
+            String packageDir = "";
+            if(StrUtil.isNotBlank(packageName)){
+                packageDir = packageName.replace(".","/");
+            }
+            String outFilePath = configFilePath + "/doc/" + moduleName + "/" + packageDir + "/" + javaClassMeta.getClassName() + ".json";
+            FileUtil.writeString(javaClassMetaJson, outFilePath, "UTF-8");
+        }
+    }
+
+    /**
+     * 复制md文件到Moudle
+     * @param metaEnvironment
+     * @param moduleName
+     */
+    private  void copyMdFileToMoudle(MetaEnvironment metaEnvironment,String configFilePath, String moduleName) {
+        String projectRootPath = metaEnvironment.getProjectRootPath();
+        List<File> mdfiles = FileUtil.loopFiles(projectRootPath+"/"+ moduleName, subFile -> FileTypeUtil.getType(subFile).equals("md"));
+        if(CollectionUtil.isNotEmpty(mdfiles)){
+            for (File mdfile : mdfiles) {
+                String sourFilePath = mdfile.getAbsolutePath();
+                String outFilePath = configFilePath + "/doc/" + moduleName + "/" +calResourceOutFilePath(moduleName, sourFilePath);
+                FileUtil.copyFile(sourFilePath, outFilePath, StandardCopyOption.REPLACE_EXISTING);
+            }
+        }
+    }
+
+    /**
+     * 计算copy的资源文件路径
+     * @param moduleName
+     * @param sourFilePath
+     * @return
+     */
+    private  String calResourceOutFilePath(String moduleName, String sourFilePath) {
+        String outFilePath ="";
+        String searchSrcJavaStr = moduleName + "/src/main/java";
+        if(StrUtil.contains(sourFilePath, searchSrcJavaStr)){
+            outFilePath = sourFilePath.substring(sourFilePath.indexOf(searchSrcJavaStr)+searchSrcJavaStr.length());
+        }else {
+            String searchSrcResStr = moduleName + "/src/main/resources";
+            if(StrUtil.contains(sourFilePath, searchSrcResStr)){
+                outFilePath = sourFilePath.substring(sourFilePath.indexOf(searchSrcResStr)+searchSrcResStr.length());
+            }else{
+                outFilePath = sourFilePath.substring(sourFilePath.indexOf(moduleName)+ moduleName.length());
+            }
+        }
+        if(outFilePath.startsWith("/")){
+            return outFilePath.substring(1);
+        }
+        return outFilePath;
     }
 
     public MetaInfoParser getMetaInfoParser() {

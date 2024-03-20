@@ -26,6 +26,9 @@ public abstract class AbstractMetaInfoParser implements MetaInfoParser {
     public AbstractMetaInfoParser(String configFilePath){
         this(new DefaultMetaFileRead(configFilePath));
     }
+    public AbstractMetaInfoParser(MetaEnvironment metaEnvironment){
+        this(new DefaultMetaFileRead(metaEnvironment));
+    }
     public AbstractMetaInfoParser(MetaFileRead metaFileRead){
         this.metaFileRead = metaFileRead;
     }
