@@ -89,7 +89,7 @@ public abstract class AbstractDocGenerate implements DocGenerate{
         log.info("ready create render template doc file finish");
 
         log.info("ready copy resource file file start");
-        copyResourceFile(seralizeConfig, jsonFilePath);
+        copyResourceFile(seralizeConfig, jsonFilePath,renderFilePath);
         log.info("ready copy resource file file finish");
 
         log.info("ready create render theme doc file start");
@@ -105,7 +105,7 @@ public abstract class AbstractDocGenerate implements DocGenerate{
      * @param seralizeConfig
      * @param jsonFilePath
      */
-    private void copyResourceFile(SeralizeConfig seralizeConfig, String jsonFilePath) {
+    private void copyResourceFile(SeralizeConfig seralizeConfig, String jsonFilePath,String renderFilePath) {
         String docOutRootPath = this.environment.getDocOutRootPath();
         List<File> resourceFiles = FileUtil.loopFiles(jsonFilePath, subFile -> FileTypeUtil.getType(subFile).equals("md"));
         if(CollectionUtil.isNotEmpty(resourceFiles)){
@@ -131,6 +131,9 @@ public abstract class AbstractDocGenerate implements DocGenerate{
         docTemplateThemeInfo.setRenderFilePath(renderFilePath);
         docTemplateThemeInfo.setDocOutRootPath(environment.getDocOutRootPath());
         docTemplateThemeInfo.setProjectRootPath(environment.getProjectRootPath());
+        docTemplateThemeInfo.setVersion(environment.getVersion());
+        String renderFileRootPath = StrUtil.join("/",environment.getDocOutRootPath(),"doc",docGenerateConfig.getDocTypeEnum().getCode(),docGenerateConfig.getTemplateType().getCode());
+        docTemplateThemeInfo.setRenderFileRootPath(renderFileRootPath);
         docTemplateTheme.writeTemplateThemeFile(docTemplateThemeInfo);
     }
 
@@ -148,6 +151,7 @@ public abstract class AbstractDocGenerate implements DocGenerate{
      */
     private String renderTemplateFile(SeralizeConfig seralizeConfig, String jsonFilePath) {
         String docOutRootPath = this.environment.getDocOutRootPath();
+        String version = this.environment.getVersion();
         List<File> jsonFiles = FileUtil.loopFiles(jsonFilePath, subFile -> FileTypeUtil.getType(subFile).equals("json"));
         //生命周期钩子
         afterCreateBatchMetaFile(jsonFiles, seralizeConfig,this.environment);
@@ -166,7 +170,7 @@ public abstract class AbstractDocGenerate implements DocGenerate{
                 afterResolveFile(jsonFile, seralizeConfig,this.environment,false);
             }
         }
-        return docOutRootPath + "/doc/"+docGenerateConfig.getDocTypeEnum().getCode()+"/"+docGenerateConfig.getTemplateType().getCode();
+        return StrUtil.join("/",docOutRootPath,"doc",docGenerateConfig.getDocTypeEnum().getCode(),docGenerateConfig.getTemplateType().getCode(),"v",version);
     }
 
     /**
@@ -215,6 +219,7 @@ public abstract class AbstractDocGenerate implements DocGenerate{
         docOutFileInfo.setSeralizeConfig(seralizeConfig);
         docOutFileInfo.setMainFile(mainFile);
         docOutFileInfo.setDocOutRootPath(docOutRootPath);
+        docOutFileInfo.setVersion(environment.getVersion());
         docOutFileInfo.setLocale(docGenerateConfig.getLocale());
         docOutFileInfo.setTemplateType(docGenerateConfig.getTemplateType());
         docOutFileInfo.setDocType(docGenerateConfig.getDocTypeEnum().getCode());
@@ -254,23 +259,8 @@ public abstract class AbstractDocGenerate implements DocGenerate{
         docOutFileInfo.setLocale(docGenerateConfig.getLocale());
         docOutFileInfo.setTemplateType(docGenerateConfig.getTemplateType());
         docOutFileInfo.setDocType(docGenerateConfig.getDocTypeEnum().getCode());
-        copyFile(docOutFileInfo);
+        docOutFileInfo.setVersion(this.environment.getVersion());
+        docOutTemplate.copyFile(docOutFileInfo);
     }
 
-    /**
-     * 复制文件
-     * @param docOutFileInfo 文件信息
-     */
-    protected void copyFile(DocOutFileInfo docOutFileInfo) {
-        String docOutRootPath = docOutFileInfo.getDocOutRootPath();
-        TemplateTypeEnum templateType = docOutFileInfo.getTemplateType();
-        Assert.notNull(docOutRootPath,"docOutRootPath not null");
-        String relativePath = "";
-        if(StrUtil.isNotBlank(docOutFileInfo.getRelativeRootPath())){
-            relativePath = "/"+docOutFileInfo.getRelativeRootPath();
-        }
-        String outFilePath = StrUtil.join("/",docOutRootPath,"doc",docOutFileInfo.getDocType(),templateType.getCode()+relativePath,docOutFileInfo.getFileName()+templateType.getExtension());
-        String sourFilePath = docOutFileInfo.getFullFilePath();
-        FileUtil.copyFile(sourFilePath, outFilePath, StandardCopyOption.REPLACE_EXISTING);
-    }
 }

@@ -17,6 +17,7 @@ public interface DocOutEnvironment {
      * @return
      */
     String getProjectRootPath();
+    String getVersion();
 
     String getProp(String propKey);
 

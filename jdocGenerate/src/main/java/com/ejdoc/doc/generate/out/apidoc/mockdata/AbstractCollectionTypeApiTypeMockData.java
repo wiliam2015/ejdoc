@@ -10,7 +10,7 @@ public abstract class AbstractCollectionTypeApiTypeMockData implements ApiTypeMo
 
 
     @Override
-    public Object mockData(List<ApiMockTypeArgument> apiMockTypeArguments,String name, List<JavaDocCommentElementMeta> javaDocCommentElementMetas,int invokeCount) {
+    public Object mockData(List<ApiMockTypeArgument> apiMockTypeArguments,String name, List<JavaDocCommentElementMeta> javaDocCommentElementMetas) {
         String mockContent = "";
         if(CollectionUtil.isNotEmpty(javaDocCommentElementMetas)){
             for (JavaDocCommentElementMeta javaDocCommentElementMeta : javaDocCommentElementMetas) {

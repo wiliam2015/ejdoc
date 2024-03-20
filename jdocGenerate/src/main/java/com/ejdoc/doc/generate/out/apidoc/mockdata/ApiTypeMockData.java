@@ -16,5 +16,5 @@ public interface ApiTypeMockData {
      */
     String mockType();
 
-    Object mockData(List<ApiMockTypeArgument> apiMockTypeArguments ,String name, List<JavaDocCommentElementMeta> javaDocCommentElementMetas,int invokeCount );
+    Object mockData(List<ApiMockTypeArgument> apiMockTypeArguments ,String name, List<JavaDocCommentElementMeta> javaDocCommentElementMetas );
 }

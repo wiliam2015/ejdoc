@@ -25,8 +25,10 @@
       <!-- 加载中…… -->
     </div>
     <select class="select-version p-none" onchange="location.href=this.value">
-      <option value="doc.html">最新版</option>
-<!--      <option value="v/v1.33.0/doc.html">v1.33.0</option>-->
+      <option value="index.html">最新版</option>
+      <% for(version in prop.versions!){ %>
+      <option value="v/${version}/index.html">${version}</option>
+      <%  } %>
       <option value="/">首页</option>
     </select>
     <div class="zk-box p-none">
@@ -99,9 +101,9 @@
 <script>
 			window.$docsify = {
 				//name: "${prop.name!}", // 名字
-				repo: 'https://github.com/dromara/sa-token', // github地址
+				repo: 'https://github.com/wiliam2015/ejdoc', // github地址
 				// themeColor: '#06A3D7', // 主题颜色
-				//basePath: location.pathname.substr(0, location.pathname.lastIndexOf('/') + 1), // 自动计算项目名字
+				basePath: location.pathname.substr(0, location.pathname.lastIndexOf('/') + 1), // 自动计算项目名字
 				// basePath: '/sa-token-doc/',		// 设置文件加载的父路径, 这在一些带项目名部署的文件中非常有效
 				auto2top: true, // 是否在切换页面后回到顶部
 				// coverpage: true, // 开启封面

@@ -37,7 +37,7 @@ public class MapTypeApiTypeMockData implements ApiTypeMockData {
     }
 
     @Override
-    public Object mockData(List<ApiMockTypeArgument> apiMockTypeArguments,String name, List<JavaDocCommentElementMeta> javaDocCommentElementMetas,int invokeCount) {
+    public Object mockData(List<ApiMockTypeArgument> apiMockTypeArguments,String name, List<JavaDocCommentElementMeta> javaDocCommentElementMetas) {
         String mockContent = "";
         if(CollectionUtil.isNotEmpty(javaDocCommentElementMetas)){
             for (JavaDocCommentElementMeta javaDocCommentElementMeta : javaDocCommentElementMetas) {
@@ -49,7 +49,7 @@ public class MapTypeApiTypeMockData implements ApiTypeMockData {
         if(StrUtil.isNotBlank(mockContent)){
             return paraseMapContent(mockContent);
         }
-        return mockMapData(apiMockTypeArguments,name,javaDocCommentElementMetas,invokeCount);
+        return mockMapData(apiMockTypeArguments,name,javaDocCommentElementMetas);
     }
 
     private Object paraseMapContent(String mockContent){
@@ -99,15 +99,12 @@ public class MapTypeApiTypeMockData implements ApiTypeMockData {
         return result;
     }
 
-    public Object mockMapData(List<ApiMockTypeArgument> apiMockTypeArguments, String name, List<JavaDocCommentElementMeta> javaDocCommentElementMetas,int invokeCount) {
+    public Object mockMapData(List<ApiMockTypeArgument> apiMockTypeArguments, String name, List<JavaDocCommentElementMeta> javaDocCommentElementMetas) {
         Map<String,Object> mockContent =new HashMap<>();
         if(CollectionUtil.isNotEmpty(apiMockTypeArguments)){
             for (ApiMockTypeArgument apiMockTypeArgument : apiMockTypeArguments) {
-                if(invokeCount > 0 &&(StrUtil.equals(apiMockTypeArgument.getFullClassName(),this.refFullClassName))){
-                    continue;
-                }
                 ApiTypeMockData apiTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(apiMockTypeArgument.getClassName(), apiMockTypeArgument.getFullClassName(),this.refFullClassName);
-                Object mockFieldResult = apiTypeMockData.mockData(apiMockTypeArgument.getChildApiMockTypeArguments(),"apiTypeArgument",javaDocCommentElementMetas,invokeCount+1);
+                Object mockFieldResult = apiTypeMockData.mockData(apiMockTypeArgument.getChildApiMockTypeArguments(),"apiTypeArgument",javaDocCommentElementMetas);
                 if(mockFieldResult != null){
                     mockContent.put("mockKey",mockFieldResult);
                 }

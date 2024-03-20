@@ -83,7 +83,7 @@ public class ApiDocMockDataParsePlugin extends AbstractJavaMetaSeralizePlugin im
                     fillApiMockTypeArguments(typeArgumentsParam,apiMockTypeArguments);
 
                     List<JavaDocCommentElementMeta> javaDocCommentElementMetas = paramCommentTagMap.get("apiReturn");
-                    Object mockReturnResult= apiReturnTypeMockData.mockData(apiMockTypeArguments,"apiReturn",javaDocCommentElementMetas,0);
+                    Object mockReturnResult= apiReturnTypeMockData.mockData(apiMockTypeArguments,"apiReturn",javaDocCommentElementMetas);
                     method.putExtProp("returnMockData",JSONUtil.toJsonStr(mockReturnResult));
                 }
                 List<JavaParameterMeta> parameters = method.getParameters();
@@ -99,7 +99,7 @@ public class ApiDocMockDataParsePlugin extends AbstractJavaMetaSeralizePlugin im
                             fillApiMockTypeArguments(typeArgumentsParam,apiMockTypeArguments);
 
                             List<JavaDocCommentElementMeta> javaDocCommentElementMetas = paramCommentTagMap.get(parameter.getName());
-                            Object mockResult = apiTypeMockData.mockData(apiMockTypeArguments,parameter.getName(),javaDocCommentElementMetas,0);
+                            Object mockResult = apiTypeMockData.mockData(apiMockTypeArguments,parameter.getName(),javaDocCommentElementMetas);
                             if(mockResult != null){
                                 paramMockMap.put(parameter.getName(),mockResult);
                                 mockParamData.add(paramMockMap);

@@ -29,10 +29,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ApiDocDocsifyTemplateTheme extends BaseOutTemplate implements DocTemplateTheme {
@@ -60,13 +57,23 @@ public class ApiDocDocsifyTemplateTheme extends BaseOutTemplate implements DocTe
         String renderFilePath = docTemplateThemeInfo.getRenderFilePath();
         String jsonFilePath = docTemplateThemeInfo.getJsonFilePath();
         String projectRootPath = docTemplateThemeInfo.getProjectRootPath();
+        String renderFileRootPath = docTemplateThemeInfo.getRenderFileRootPath();
 
         Map<String,Object> propMap = new HashMap<>();
         List<ApiDocDocsifyThemeDto> apiDocDocsifyThemeDtos = readyBaseData(docTemplateThemeInfo);
 
-        createRouteInfo(docTemplateThemeInfo, apiDocDocsifyThemeDtos);
+        readyRenderProp(jsonFilePath,renderFileRootPath,docTemplateThemeInfo, propMap);
 
-        readyRenderProp(jsonFilePath, propMap);
+        //当前版本文件渲染
+        renderTemplateThemeFile(renderFilePath,apiDocDocsifyThemeDtos,projectRootPath,propMap);
+        //最新版本文件渲染
+        renderTemplateThemeFile(renderFileRootPath,apiDocDocsifyThemeDtos,projectRootPath,propMap);
+    }
+
+    private void renderTemplateThemeFile(String renderFilePath,List<ApiDocDocsifyThemeDto> apiDocDocsifyThemeDtos, String projectRootPath, Map<String,Object> propMap) {
+
+        createRouteInfo(renderFilePath, apiDocDocsifyThemeDtos);
+
         //渲染主文件index.html
         writeThemeTemplateFile(renderFilePath, propMap,"index.html","/index.html");
 
@@ -80,11 +87,21 @@ public class ApiDocDocsifyTemplateTheme extends BaseOutTemplate implements DocTe
      * @param jsonFilePath
      * @param propMap
      */
-    private void readyRenderProp(String jsonFilePath, Map<String, Object> propMap) {
+    private void readyRenderProp(String jsonFilePath,String renderFileRootPath,DocTemplateThemeInfo docTemplateThemeInfo, Map<String, Object> propMap) {
         JSONObject jsonObject = JSONUtil.readJSONObject(new File(jsonFilePath +"/projectMetaInfo.json"), CharsetUtil.CHARSET_UTF_8);
         if(jsonObject != null && jsonObject.size()> 0){
             propMap.putAll(jsonObject);
         }
+
+        List<String> versions = Arrays.stream(FileUtil.ls(renderFileRootPath + "/v")).filter(File::isDirectory).map(File::getName).collect(Collectors.toList());
+        if(CollectionUtil.isEmpty(versions)){
+            versions = new ArrayList<>();
+        }
+        if(!versions.contains(docTemplateThemeInfo.getVersion())){
+            versions.add(docTemplateThemeInfo.getVersion());
+        }
+        propMap.put("versions",versions);
+
     }
 
     /**
@@ -159,11 +176,11 @@ public class ApiDocDocsifyTemplateTheme extends BaseOutTemplate implements DocTe
 
     /**
      * 创建路由信息 所有模块  所有包  所有类 所有树级类索引
-     * @param docTemplateThemeInfo
+     * @param renderFilePath
      * @param apiDocDocsifyThemeDtos
      */
-    private void createRouteInfo(DocTemplateThemeInfo docTemplateThemeInfo, List<ApiDocDocsifyThemeDto> apiDocDocsifyThemeDtos) {
-        String renderFilePath = docTemplateThemeInfo.getRenderFilePath();
+    private void createRouteInfo(String renderFilePath, List<ApiDocDocsifyThemeDto> apiDocDocsifyThemeDtos) {
+//        String renderFilePath = docTemplateThemeInfo.getRenderFilePath();
 
         createAllInterfaceRoute(renderFilePath, apiDocDocsifyThemeDtos);
 

@@ -10,12 +10,16 @@ import com.ejdoc.doc.generate.out.apidoc.mockdata.collimpl.MapTypeApiTypeMockDat
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ApiTypeMockDataFactory {
 
     private ApiTypeMockDataFactory(){}
 
     static Map<String,ApiTypeMockData> apiTypeMockDataMap;
+
+    /**循环引用mapkey，防止循环引用*/
+    static Map<String,Integer> circleRefMap = new ConcurrentHashMap<>();
     static Map<String,ApiTypeMockData> defaultApiTypeMockDataMap = new HashMap<>();
 
 //    static CollectionTypeApiTypeMockData collectionTypeApiTypeMockData = new CollectionTypeApiTypeMockData();
@@ -49,6 +53,14 @@ public class ApiTypeMockDataFactory {
         if(apiTypeMockDataMap == null){
             createapiTypeMockDataMap();
         }
+        String circleRefMapKey =fullClassName+"-"+refFullClassName;
+        Integer refCount = circleRefMap.getOrDefault(circleRefMapKey, 0);
+        if(refCount > 1){
+            return new DefaultCircleRefApiTypeMockData(className, fullClassName);
+        }else{
+            circleRefMap.put(circleRefMapKey,refCount+1);
+        }
+
         ApiTypeMockData apiTypeMockData = apiTypeMockDataMap.get(fullClassName);
         if(apiTypeMockData != null){
             return apiTypeMockData;

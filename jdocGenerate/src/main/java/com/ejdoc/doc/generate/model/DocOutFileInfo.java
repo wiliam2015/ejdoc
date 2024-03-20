@@ -37,6 +37,7 @@ public class DocOutFileInfo {
      * @see com.ejdoc.doc.generate.enums.DocTypeEnum
      */
     private String docType;
+    private String version;
 
     public String getFileName() {
         return fileName;
@@ -124,5 +125,13 @@ public class DocOutFileInfo {
 
     public void setDocType(String docType) {
         this.docType = docType;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

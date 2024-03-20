@@ -91,6 +91,11 @@ public class DefaultDocOutEnvironment implements DocOutEnvironment {
     }
 
     @Override
+    public String getVersion() {
+        return this.PROPS.get("version");
+    }
+
+    @Override
     public String getProp(String propKey) {
         Assert.notBlank(propKey, "propKey not Blank properties !");
         return this.PROPS.get(propKey);

@@ -12,6 +12,8 @@ public class DocTemplateThemeInfo {
     private TemplateTypeEnum templateType;
 
     private String renderFilePath;
+    /**渲染文件根目录*/
+    private String renderFileRootPath;
 
     private String jsonFilePath;
 
@@ -21,6 +23,8 @@ public class DocTemplateThemeInfo {
      * 项目根目录
      */
     private String projectRootPath;
+    /**当前版本*/
+    private String version;
 
     public String getDocOutRootPath() {
         return docOutRootPath;
@@ -68,5 +72,21 @@ public class DocTemplateThemeInfo {
 
     public void setProjectRootPath(String projectRootPath) {
         this.projectRootPath = projectRootPath;
+    }
+
+    public String getRenderFileRootPath() {
+        return renderFileRootPath;
+    }
+
+    public void setRenderFileRootPath(String renderFileRootPath) {
+        this.renderFileRootPath = renderFileRootPath;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

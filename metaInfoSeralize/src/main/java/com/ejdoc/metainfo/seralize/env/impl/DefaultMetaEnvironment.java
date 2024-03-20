@@ -67,6 +67,19 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
 
         autoLoadProjectTypeEnv();
 
+        setPropDefaultVal();
+
+    }
+
+    /**
+     * 设置属性默认值
+     */
+    private void setPropDefaultVal() {
+        String version = PROPS.getStr("version", "");
+        if(StrUtil.isBlank(version)){
+            PROPS.put("version","1.0.0");
+        }
+
     }
 
 
@@ -83,8 +96,8 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
                 String name = readXmlEleText(document,"name");
                 String description =readXmlEleText(document,"description");
                 String url = readXmlEleText(document,"url");
-
-                if(StrUtil.isNotBlank(version)){
+                String configVersion = PROPS.getStr("version", "");
+                if(StrUtil.isNotBlank(version) && StrUtil.isBlank(configVersion) ){
                     PROPS.put("version",version);
                 }
                 if(StrUtil.isNotBlank(name)){

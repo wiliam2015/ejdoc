@@ -16,4 +16,10 @@ public interface DocOutTemplate {
      * @param formatData
      */
     void writeFormat(String formatData,DocOutFileInfo docOutFileInfo);
+
+    /**
+     * 复制资源文件到相关目录
+     * @param docOutFileInfo
+     */
+    void copyFile(DocOutFileInfo docOutFileInfo);
 }

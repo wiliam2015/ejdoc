@@ -14,7 +14,7 @@ public abstract class AbstractBaseTypeApiTypeMockData implements ApiTypeMockData
     private  final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public Object mockData(List<ApiMockTypeArgument> apiMockTypeArguments,String name, List<JavaDocCommentElementMeta> javaDocCommentElementMetas,int invokeCount) {
+    public Object mockData(List<ApiMockTypeArgument> apiMockTypeArguments,String name, List<JavaDocCommentElementMeta> javaDocCommentElementMetas) {
         String mockContent = "";
         if(CollectionUtil.isNotEmpty(javaDocCommentElementMetas)){
             for (JavaDocCommentElementMeta javaDocCommentElementMeta : javaDocCommentElementMetas) {
