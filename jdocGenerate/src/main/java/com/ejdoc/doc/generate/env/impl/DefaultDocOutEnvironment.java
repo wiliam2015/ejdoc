@@ -38,6 +38,13 @@ public class DefaultDocOutEnvironment implements DocOutEnvironment {
     }
 
     public DefaultDocOutEnvironment(String configFilePath){
+        this(configFilePath,null);
+    }
+
+    public DefaultDocOutEnvironment(Map<String,String> customProp){
+        this("",customProp);
+    }
+    public DefaultDocOutEnvironment(String configFilePath,Map<String,String> customProp){
         Setting defaultMetaEnvSetting = new Setting(DEFAULT_CONFIG_FILE_DIR+CONFIG_FILE_NAME, CharsetUtil.CHARSET_UTF_8, true);
         this.javaDocOutConfigFilePath =DEFAULT_CONFIG_FILE_DIR+CONFIG_FILE_NAME;
 
@@ -55,16 +62,14 @@ public class DefaultDocOutEnvironment implements DocOutEnvironment {
             this.javaDocOutConfigFilePath = configFilePath;
         }
 
-        metaEnvironment = new DefaultMetaEnvironment(javaDocOutConfigFilePath);
+        metaEnvironment = new DefaultMetaEnvironment(javaDocOutConfigFilePath,customProp);
         defaultMetaEnvSetting.putAll(metaEnvironment.getAllProp());
 
         PROPS = defaultMetaEnvSetting;
 
         checkRequiredAttribute();
-
-
-
     }
+
 
     private void checkRequiredAttribute() {
         getDocOutRootPath();

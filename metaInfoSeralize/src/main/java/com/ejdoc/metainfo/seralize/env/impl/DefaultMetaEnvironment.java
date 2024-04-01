@@ -1,5 +1,6 @@
 package com.ejdoc.metainfo.seralize.env.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.io.resource.NoResourceException;
@@ -48,7 +49,12 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
         this("");
     }
 
+
     public DefaultMetaEnvironment(String configFilePath){
+        this(configFilePath,null);
+    }
+
+    public DefaultMetaEnvironment(String configFilePath,Map<String,String> customProp){
         Setting defaultMetaEnvSetting = new Setting(DEFAULT_CONFIG_FILE_DIR+CONFIG_FILE_NAME, CharsetUtil.CHARSET_UTF_8, true);
 
         try {
@@ -62,14 +68,17 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
         }
 
         PROPS = defaultMetaEnvSetting;
+        if(CollectionUtil.isNotEmpty(customProp)){
+            PROPS.putAll(customProp);
+        }
 
         checkRequiredAttribute();
 
         autoLoadProjectTypeEnv();
 
         setPropDefaultVal();
-
     }
+
 
     /**
      * 设置属性默认值
