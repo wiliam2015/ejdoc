@@ -7,7 +7,7 @@
     <groupId>com.ejdoc</groupId>
     <artifactId>ejdoc</artifactId>
     <packaging>pom</packaging>
-    <version>0.6.0</version>
+    <version>0.6.1</version>
     <name>ejdoc</name>
     <description>ejdoc提供基于现有的javadoc无侵入简单生成api文档，让开发更专注。</description>
     <url>https://github.com/wiliam2015/ejdoc</url>

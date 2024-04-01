@@ -2,6 +2,8 @@ package com.ejdoc.doc.generate.out.factory;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.ejdoc.doc.generate.enums.TemplateTypeEnum;
+import com.ejdoc.doc.generate.env.DocOutEnvironment;
+import com.ejdoc.doc.generate.env.impl.DefaultDocOutEnvironment;
 import com.ejdoc.doc.generate.out.apidoc.ApiDocGenerate;
 import com.ejdoc.doc.generate.out.apidoc.ApiDocGenerateConfig;
 import com.ejdoc.doc.generate.out.config.DocGenerateConfig;
@@ -14,6 +16,8 @@ import com.ejdoc.doc.generate.template.markdown.JavaDocMarkdownDocOutTemplate;
 import com.ejdoc.doc.generate.template.markdown.ApiDocMarkdownDocOutTemplate;
 import com.ejdoc.doc.generate.template.markdown.theme.ApiDocDocsifyTemplateTheme;
 import com.ejdoc.doc.generate.template.markdown.theme.JavaDocDocsifyTemplateTheme;
+
+import java.util.Map;
 
 public class DocGenerateFactory {
 
@@ -38,6 +42,10 @@ public class DocGenerateFactory {
     }
 
 
+    /**
+     * 创建默认的api文档实例
+     * @return api文档实例
+     */
     public static ApiDocGenerate createDefaultApiDocGenerate(){
         DocGenerateConfig markdownConfig = DocGenerateConfigFactory.createApidocMarkdownConfig();
         DocOutTemplate defaultDocOutTemplate = createDefaultApiDocOutTemplate(markdownConfig);
@@ -47,6 +55,11 @@ public class DocGenerateFactory {
         return apiDocGenerate;
     }
 
+    /**
+     * 创建默认的api文档实例
+     * @param configFilePath 配置文件
+     * @return api文档实例
+     */
     public static ApiDocGenerate createDefaultApiDocGenerate(String configFilePath){
         DocGenerateConfig markdownConfig = DocGenerateConfigFactory.createApidocMarkdownConfig();
         DocOutTemplate defaultDocOutTemplate = createDefaultApiDocOutTemplate(markdownConfig);
@@ -56,6 +69,36 @@ public class DocGenerateFactory {
         return apiDocGenerate;
     }
 
+    /**
+     * 创建默认的api文档实例
+     * @param configFilePath 配置文件
+     * @param customProps 自定义属性
+     * @return api文档实例
+     */
+    public static ApiDocGenerate createDefaultApiDocGenerate(String configFilePath, Map<String,String> customProps){
+        DocGenerateConfig markdownConfig = DocGenerateConfigFactory.createApidocMarkdownConfig();
+        DocOutTemplate defaultDocOutTemplate = createDefaultApiDocOutTemplate(markdownConfig);
+        ApiDocGenerateConfig apiDocGenerateConfig = BeanUtil.copyProperties(markdownConfig,ApiDocGenerateConfig.class);
+        DocTemplateTheme docTemplateTheme = new ApiDocDocsifyTemplateTheme(markdownConfig);
+        DocOutEnvironment docOutEnvironment =new DefaultDocOutEnvironment(configFilePath,customProps);
+        ApiDocGenerate apiDocGenerate = new ApiDocGenerate(apiDocGenerateConfig,docOutEnvironment,defaultDocOutTemplate,docTemplateTheme);
+        return apiDocGenerate;
+    }
+
+    /**
+     *  创建默认的api文档实例
+     * @param customProps 自定义属性
+     * @return api文档实例
+     */
+    public static ApiDocGenerate createDefaultApiDocGenerate(Map<String,String> customProps){
+        DocGenerateConfig markdownConfig = DocGenerateConfigFactory.createApidocMarkdownConfig();
+        DocOutTemplate defaultDocOutTemplate = createDefaultApiDocOutTemplate(markdownConfig);
+        ApiDocGenerateConfig apiDocGenerateConfig = BeanUtil.copyProperties(markdownConfig,ApiDocGenerateConfig.class);
+        DocTemplateTheme docTemplateTheme = new ApiDocDocsifyTemplateTheme(markdownConfig);
+        DocOutEnvironment docOutEnvironment =new DefaultDocOutEnvironment(customProps);
+        ApiDocGenerate apiDocGenerate = new ApiDocGenerate(apiDocGenerateConfig,docOutEnvironment,defaultDocOutTemplate,docTemplateTheme);
+        return apiDocGenerate;
+    }
     private static DocOutTemplate createDefaultJavaDocOutTemplate(DocGenerateConfig docGenerateConfig) {
         DocOutTemplate docOutTemplate = null;
         TemplateTypeEnum templateType = docGenerateConfig.getTemplateType();

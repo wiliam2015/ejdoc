@@ -40,9 +40,12 @@ public abstract class AbstractMetaInfoParser implements MetaInfoParser {
         JavaProjectMeta javaProjectMeta = new JavaProjectMeta();
         File file = metaFileRead.readProjectMetaFile();
         MetaEnvironment metaEnvironment = metaFileRead.getMetaEnvironment();
-        Assert.notNull(file,"read projectMeta.yml file is null");
-        Dict dict = YamlUtil.loadByPath(file.getPath());
-        Assert.notEmpty(dict,"projectMeta.yml  content is empty");
+//        Assert.notNull(file,"read projectMeta.yml file is null");
+        Dict dict = new Dict();
+        if(file != null && file.exists()){
+            dict = YamlUtil.loadByPath(file.getPath());
+        }
+//        Assert.notEmpty(dict,"projectMeta.yml  content is empty");
         String name = dict.get("name", "");
         Boolean open = dict.get("open", false);
         String title = dict.get("title", "");
