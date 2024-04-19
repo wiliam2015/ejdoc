@@ -49,16 +49,9 @@ public class ApiTypeMockDataFactory {
         return apiTypeMockDataMap;
     }
 
-    public static ApiTypeMockData getApiTypeMockDataIfNullForDefaulMock(String className,String fullClassName,String refFullClassName){
+    public static ApiTypeMockData getApiTypeMockDataIfNullForDefaulMock(String className,String fullClassName,String refUniqueId){
         if(apiTypeMockDataMap == null){
             createapiTypeMockDataMap();
-        }
-        String circleRefMapKey =fullClassName+"-"+refFullClassName;
-        Integer refCount = circleRefMap.getOrDefault(circleRefMapKey, 0);
-        if(refCount > 1){
-            return new DefaultCircleRefApiTypeMockData(className, fullClassName);
-        }else{
-            circleRefMap.put(circleRefMapKey,refCount+1);
         }
 
         ApiTypeMockData apiTypeMockData = apiTypeMockDataMap.get(fullClassName);
@@ -66,31 +59,42 @@ public class ApiTypeMockDataFactory {
             return apiTypeMockData;
         }
 
-        if(defaultApiTypeMockDataMap.containsKey(fullClassName)){
-            return defaultApiTypeMockDataMap.get(fullClassName);
-        }
-
         if(StrUtil.startWith(fullClassName,"java")){
             Class<Object> objectClass = ClassUtil.loadClass(fullClassName);
             if(objectClass != null && (ArrayUtil.isNotEmpty(objectClass.getInterfaces()) || objectClass.isInterface())){
                 for (Class<?> anInterface : objectClass.getInterfaces()) {
                     if(anInterface.getName().equals("java.util.Collection")){
-                        return new CollectionTypeApiTypeMockData(className, fullClassName,refFullClassName);
+                        return new CollectionTypeApiTypeMockData(className, fullClassName,refUniqueId);
 
                     }else if(anInterface.getName().equals("java.util.Map")){
-                        return new MapTypeApiTypeMockData(className, fullClassName,refFullClassName);
+                        return new MapTypeApiTypeMockData(className, fullClassName,refUniqueId);
                     }
                 }
                 if(objectClass.isInterface()){
                     if(fullClassName.equals("java.util.Collection")){
-                        return new CollectionTypeApiTypeMockData(className, fullClassName,refFullClassName);
+                        return new CollectionTypeApiTypeMockData(className, fullClassName,refUniqueId);
 
                     }else if(fullClassName.equals("java.util.Map")){
-                        return new MapTypeApiTypeMockData(className, fullClassName,refFullClassName);
+                        return new MapTypeApiTypeMockData(className, fullClassName,refUniqueId);
                     }
                 }
             }
         }
+
+
+        String circleRefMapKey =refUniqueId;
+        Integer refCount = circleRefMap.getOrDefault(circleRefMapKey, 0);
+        if(refCount > 0){
+            return new DefaultCircleRefApiTypeMockData(className, fullClassName);
+        }else{
+            circleRefMap.put(circleRefMapKey,refCount+1);
+        }
+
+        if(defaultApiTypeMockDataMap.containsKey(fullClassName)){
+            return defaultApiTypeMockDataMap.get(fullClassName);
+        }
+
+
 
         DefaultApiTypeMockData defaultApiTypeMockData = new DefaultApiTypeMockData(className, fullClassName);
         defaultApiTypeMockDataMap.put(fullClassName,defaultApiTypeMockData);

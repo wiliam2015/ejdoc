@@ -100,15 +100,16 @@ public class MapTypeApiTypeMockData implements ApiTypeMockData {
     }
 
     public Object mockMapData(List<ApiMockTypeArgument> apiMockTypeArguments, String name, List<JavaDocCommentElementMeta> javaDocCommentElementMetas) {
-        Map<String,Object> mockContent =new HashMap<>();
-        if(CollectionUtil.isNotEmpty(apiMockTypeArguments)){
-            for (ApiMockTypeArgument apiMockTypeArgument : apiMockTypeArguments) {
-                ApiTypeMockData apiTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(apiMockTypeArgument.getClassName(), apiMockTypeArgument.getFullClassName(),this.refFullClassName);
-                Object mockFieldResult = apiTypeMockData.mockData(apiMockTypeArgument.getChildApiMockTypeArguments(),"apiTypeArgument",javaDocCommentElementMetas);
-                if(mockFieldResult != null){
-                    mockContent.put("mockKey",mockFieldResult);
-                }
-            }
+        Map<Object,Object> mockContent =new HashMap<>();
+        if(CollectionUtil.size(apiMockTypeArguments) == 2){
+            ApiMockTypeArgument mapKeyApiMock = apiMockTypeArguments.get(0);
+            ApiMockTypeArgument mapValApiMock = apiMockTypeArguments.get(1);
+
+            ApiTypeMockData mapKeyApiMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(mapKeyApiMock.getClassName(), mapKeyApiMock.getFullClassName(),mapKeyApiMock.getApiTypeArgumentUniqueName());
+            Object mapKeyApiFieldResult = mapKeyApiMockData.mockData(mapKeyApiMock.getChildApiMockTypeArguments(),name,javaDocCommentElementMetas);
+            ApiTypeMockData mapKeyValMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(mapValApiMock.getClassName(), mapValApiMock.getFullClassName(),mapValApiMock.getApiTypeArgumentUniqueName());
+            Object mapKeyValFieldResult = mapKeyValMockData.mockData(mapValApiMock.getChildApiMockTypeArguments(),name,javaDocCommentElementMetas);
+            mockContent.put(mapKeyApiFieldResult,mapKeyValFieldResult);
 
         }else{
             mockContent.put("mockKey","mockValue");

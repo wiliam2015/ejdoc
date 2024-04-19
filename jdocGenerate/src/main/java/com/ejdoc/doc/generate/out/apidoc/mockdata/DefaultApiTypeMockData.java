@@ -33,7 +33,7 @@ public class DefaultApiTypeMockData implements ApiTypeMockData{
     }
 
     @Override
-    public Object mockData(List<ApiMockTypeArgument> apiMockTypeArguments,String name, List<JavaDocCommentElementMeta> javaDocCommentElementMetas ){
+    public Object mockData(List<ApiMockTypeArgument> apiMockTypeArguments,String uniqueName, List<JavaDocCommentElementMeta> javaDocCommentElementMetas ){
         Map<String,Object> mockResult = new HashMap<>();
         JavaClassMeta javaClassMeta = MetaIndexContext.getClassMetaByFullName(this.fullClassName);
         if(javaClassMeta != null){
@@ -41,7 +41,7 @@ public class DefaultApiTypeMockData implements ApiTypeMockData{
                 return getEnumMockData(javaClassMeta);
             }
 
-            mockResult.putAll(mockFieldData(apiMockTypeArguments, javaClassMeta.getFields()));
+            mockResult.putAll(mockFieldData(apiMockTypeArguments, javaClassMeta.getFields(),uniqueName));
         }
         if(CollectionUtil.isNotEmpty(mockResult)){
             return mockResult;
@@ -49,7 +49,7 @@ public class DefaultApiTypeMockData implements ApiTypeMockData{
         return null;
     }
 
-    private  Map<String,Object> mockFieldData(List<ApiMockTypeArgument> apiMockTypeArguments, List<JavaFieldMeta> fields ) {
+    private  Map<String,Object> mockFieldData(List<ApiMockTypeArgument> apiMockTypeArguments, List<JavaFieldMeta> fields,String uniqueName ) {
         Map<String,Object> mockResult = new HashMap<>();
         if(CollectionUtil.isNotEmpty(fields)){
             for (JavaFieldMeta field : fields) {
@@ -66,23 +66,24 @@ public class DefaultApiTypeMockData implements ApiTypeMockData{
                     setJdkClassTypeParameter(type);
 
                     List<JavaDocCommentElementMeta> noTextComment = getJavaDocCommentElementMetas(field);
+                    String fieldUniqueId=StrUtil.join("-",uniqueName,field.getUniqueId());
                     //如果有类型参数需要使用类型实参转换具体的值
                     if(BooleanUtil.isTrue(type.getTypeParameter()) && CollectionUtil.isNotEmpty(apiMockTypeArguments)){
                         for (ApiMockTypeArgument apiMockTypeArgument : apiMockTypeArguments) {
-                            ApiTypeMockData apiTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(apiMockTypeArgument.getClassName(), apiMockTypeArgument.getFullClassName(),this.fullClassName);
-                            Object mockFieldResult = apiTypeMockData.mockData(apiMockTypeArgument.getChildApiMockTypeArguments(),field.getName(),noTextComment);
+                            ApiTypeMockData apiTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(apiMockTypeArgument.getClassName(), apiMockTypeArgument.getFullClassName(),apiMockTypeArgument.getApiTypeArgumentUniqueName());
+                            Object mockFieldResult = apiTypeMockData.mockData(apiMockTypeArgument.getChildApiMockTypeArguments(),uniqueName,noTextComment);
                             if(mockFieldResult != null){
                                 mockResult.put(field.getName(),mockFieldResult);
                             }
                         }
 
                     }else{
-                        ApiTypeMockData apiTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(type.getClassName(), type.getFullClassName(),this.fullClassName);
+                        ApiTypeMockData apiTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(type.getClassName(), type.getFullClassName(),fieldUniqueId);
                         List<ApiMockTypeArgument> apiFieldMockTypeArguments = new ArrayList<>();
-                        fillApiMockTypeArguments(type.getTypeArguments(),apiFieldMockTypeArguments);
+                        fillApiMockTypeArguments(type.getTypeArguments(),apiFieldMockTypeArguments,fieldUniqueId);
 
 //                        Object mockFieldResult = apiTypeMockData.mockData(apiMockTypeArguments,field.getName(),noTextComment);
-                        Object mockFieldResult = apiTypeMockData.mockData(apiFieldMockTypeArguments,field.getName(),noTextComment);
+                        Object mockFieldResult = apiTypeMockData.mockData(apiFieldMockTypeArguments,uniqueName,noTextComment);
                         if(mockFieldResult != null){
                             mockResult.put(field.getName(),mockFieldResult);
                         }
@@ -132,17 +133,19 @@ public class DefaultApiTypeMockData implements ApiTypeMockData{
      * 递归填充类型参数
      * @param typeArgumentsParam
      * @param apiMockTypeArguments
+     * @param preUniqueName 唯一name前缀
      */
-    private void fillApiMockTypeArguments(List<JavaClassMeta> typeArgumentsParam, List<ApiMockTypeArgument> apiMockTypeArguments) {
+    private void fillApiMockTypeArguments(List<JavaClassMeta> typeArgumentsParam, List<ApiMockTypeArgument> apiMockTypeArguments,String preUniqueName) {
         if(CollectionUtil.isNotEmpty(typeArgumentsParam)){
             ApiMockTypeArgument apiMockTypeArgument = null;
             for (JavaClassMeta classMeta : typeArgumentsParam) {
                 apiMockTypeArgument = new ApiMockTypeArgument();
                 apiMockTypeArgument.setClassName(classMeta.getClassName());
                 apiMockTypeArgument.setFullClassName(classMeta.getFullClassName());
+                apiMockTypeArgument.setApiTypeArgumentUniqueName(StrUtil.join("-",preUniqueName,classMeta.getClassName()));
                 if(CollectionUtil.isNotEmpty(classMeta.getTypeArguments())){
                     List<ApiMockTypeArgument> childApiMockTypeArguments = new ArrayList<>();
-                    fillApiMockTypeArguments(classMeta.getTypeArguments(),childApiMockTypeArguments);
+                    fillApiMockTypeArguments(classMeta.getTypeArguments(),childApiMockTypeArguments,apiMockTypeArgument.getApiTypeArgumentUniqueName());
                     apiMockTypeArgument.setChildApiMockTypeArguments(childApiMockTypeArguments);
                 }
                 apiMockTypeArguments.add(apiMockTypeArgument);

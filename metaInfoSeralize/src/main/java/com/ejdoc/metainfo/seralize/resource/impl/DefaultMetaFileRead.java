@@ -3,6 +3,7 @@ package com.ejdoc.metainfo.seralize.resource.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
@@ -11,15 +12,18 @@ import com.ejdoc.metainfo.seralize.enums.EnvPropEnum;
 import com.ejdoc.metainfo.seralize.env.MetaEnvironment;
 import com.ejdoc.metainfo.seralize.env.impl.DefaultMetaEnvironment;
 import com.ejdoc.metainfo.seralize.resource.MetaFileRead;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 public class DefaultMetaFileRead implements MetaFileRead {
-
+    private static final Logger log = LoggerFactory.getLogger(DefaultMetaFileRead.class);
     private MetaEnvironment metaEnvironment;
 
     private List<MetaFileInfoDto> defaultMetaFiles;
@@ -35,12 +39,21 @@ public class DefaultMetaFileRead implements MetaFileRead {
     public DefaultMetaFileRead(MetaEnvironment metaEnvironment){
         Assert.notNull(metaEnvironment, "MetaEnvironment can not be null !");
         this.metaEnvironment = metaEnvironment;
-        this.defaultMetaFiles = readAllFile();
     }
 
     private Map<String,List<File>> projectFileCacheMap = new HashMap<>();
 
     public List<MetaFileInfoDto> readAllMetaFile() {
+        this.defaultMetaFiles = readAllFile();
+        List<String> sourceDirs = this.metaEnvironment.getSourceDirs();
+        List<String> sourceJarFiles = this.metaEnvironment.getSourceJarFiles();
+        List<String> sourceFiles = this.metaEnvironment.getSourceFiles();
+        List<MetaFileInfoDto> sourceJarFileList = readCustomerSourceJarFile(sourceJarFiles);
+        List<MetaFileInfoDto> sourceDirFileList = readCustomerSourceDir(sourceDirs);
+        List<MetaFileInfoDto> sourceFileDataList = readCustomerSourceFileData(sourceFiles);
+        this.defaultMetaFiles.addAll(sourceJarFileList);
+        this.defaultMetaFiles.addAll(sourceDirFileList);
+        this.defaultMetaFiles.addAll(sourceFileDataList);
         return this.defaultMetaFiles;
     }
 
@@ -128,7 +141,95 @@ public class DefaultMetaFileRead implements MetaFileRead {
     }
 
 
+    private List<MetaFileInfoDto>  readCustomerSourceDir(List<String> sourceDirList){
+        String projectRootPath = this.metaEnvironment.getProjectRootPath();
+        File projectRootFile = new File(projectRootPath);
+        List<MetaFileInfoDto> resultFile = new ArrayList<>();
+        if(CollectionUtil.isNotEmpty(sourceDirList)){
+            for (String sourcePath : sourceDirList) {
+                List<File> files = FileUtil.loopFiles(sourcePath,subFile -> FileTypeUtil.getType(subFile).equals("java"));
+                if(CollectionUtil.isNotEmpty(files)){
+                    MetaFileInfoDto defaultMetaFile = null;
+                    for (File file : files) {
+                        defaultMetaFile = new MetaFileInfoDto();
 
+                        defaultMetaFile.setMetaFile(file);
+                        defaultMetaFile.setMetaFilePath(file.getPath());
+                        defaultMetaFile.setMetaFileName(file.getName());
+
+                        defaultMetaFile.setProjectName(projectRootFile.getName());
+                        defaultMetaFile.setProjectPath(projectRootPath);
+
+                        defaultMetaFile.setModuleName(projectRootFile.getName());
+                        defaultMetaFile.setModulePath(projectRootPath);
+
+                        resultFile.add(defaultMetaFile);
+                    }
+                }
+            }
+        }
+        return resultFile;
+    }
+
+    private List<MetaFileInfoDto>  readCustomerSourceJarFile(List<String> sourceJarParthList){
+        String projectRootPath = this.metaEnvironment.getProjectRootPath();
+        File projectRootFile = new File(projectRootPath);
+        List<MetaFileInfoDto> resultFile = new ArrayList<>();
+        if(CollectionUtil.isNotEmpty(sourceJarParthList)){
+            for (String sourceJarPath : sourceJarParthList) {
+                try {
+                    JarFile jarFile = new JarFile(sourceJarPath);
+                    Enumeration<JarEntry> entries = jarFile.entries();
+                    MetaFileInfoDto defaultMetaFile = null;
+                    while (entries.hasMoreElements()){
+                        defaultMetaFile = new MetaFileInfoDto();
+                        JarEntry jarEntry = entries.nextElement();
+                        InputStream inputStream = jarFile.getInputStream(jarEntry);
+                        String data = IoUtil.readUtf8(inputStream);
+
+                        defaultMetaFile.setMetFileData(data);
+                        defaultMetaFile.setMetaFileName(jarEntry.getName());
+
+                        defaultMetaFile.setProjectName(projectRootFile.getName());
+                        defaultMetaFile.setProjectPath(projectRootPath);
+
+                        defaultMetaFile.setModuleName(projectRootFile.getName());
+                        defaultMetaFile.setModulePath(projectRootPath);
+
+                        resultFile.add(defaultMetaFile);
+                    }
+                } catch (IOException e) {
+                    log.error("readCustomerSourceJarFile error",e);
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return resultFile;
+    }
+
+    private List<MetaFileInfoDto>  readCustomerSourceFileData(List<String> sourceFileDataPaths){
+        String projectRootPath = this.metaEnvironment.getProjectRootPath();
+        File projectRootFile = new File(projectRootPath);
+        List<MetaFileInfoDto> resultFile = new ArrayList<>();
+        if(CollectionUtil.isNotEmpty(sourceFileDataPaths)){
+            for (String sourceFileDataPath : sourceFileDataPaths) {
+                File file = new File(sourceFileDataPath);
+                MetaFileInfoDto defaultMetaFile = null;
+                defaultMetaFile.setMetaFile(file);
+                defaultMetaFile.setMetaFilePath(file.getPath());
+                defaultMetaFile.setMetaFileName(file.getName());
+
+                defaultMetaFile.setProjectName(projectRootFile.getName());
+                defaultMetaFile.setProjectPath(projectRootPath);
+
+                defaultMetaFile.setModuleName(projectRootFile.getName());
+                defaultMetaFile.setModulePath(projectRootPath);
+
+                resultFile.add(defaultMetaFile);
+            }
+        }
+        return resultFile;
+    }
 
     private List<MetaFileInfoDto>  readAllFile(){
         List<MetaFileInfoDto> resultFile = new ArrayList<>();

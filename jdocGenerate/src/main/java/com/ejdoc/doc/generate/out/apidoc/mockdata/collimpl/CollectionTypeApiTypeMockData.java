@@ -54,8 +54,8 @@ public class CollectionTypeApiTypeMockData implements ApiTypeMockData {
         List<Object> mockContent = new ArrayList<>();
         if(CollectionUtil.isNotEmpty(apiMockTypeArguments)){
             for (ApiMockTypeArgument apiMockTypeArgument : apiMockTypeArguments) {
-                ApiTypeMockData apiTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(apiMockTypeArgument.getClassName(), apiMockTypeArgument.getFullClassName(),this.refFullClassName);
-                Object mockFieldResult = apiTypeMockData.mockData(apiMockTypeArgument.getChildApiMockTypeArguments(),"apiTypeArgument",javaDocCommentElementMetas);
+                ApiTypeMockData apiTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(apiMockTypeArgument.getClassName(), apiMockTypeArgument.getFullClassName(),apiMockTypeArgument.getApiTypeArgumentUniqueName());
+                Object mockFieldResult = apiTypeMockData.mockData(apiMockTypeArgument.getChildApiMockTypeArguments(),name,javaDocCommentElementMetas);
                 if(mockFieldResult != null){
                     mockContent.add(mockFieldResult);
                 }

@@ -7,7 +7,7 @@
     <groupId>com.ejdoc</groupId>
     <artifactId>ejdoc</artifactId>
     <packaging>pom</packaging>
-    <version>0.6.1</version>
+    <version>0.6.2</version>
     <name>ejdoc</name>
     <description>ejdoc提供基于现有的javadoc无侵入简单生成api文档，让开发更专注。</description>
     <url>https://github.com/wiliam2015/ejdoc</url>
@@ -62,17 +62,17 @@
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-api</artifactId>
-                <version>2.9.1</version>
+                <version>2.17.1</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-core</artifactId>
-                <version>2.9.1</version>
+                <version>2.17.1</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-slf4j-impl</artifactId>
-                <version>2.9.1</version>
+                <version>2.17.1</version>
             </dependency>
             <dependency>
                 <groupId>com.github.javaparser</groupId>
@@ -101,6 +101,12 @@
         </license>
     </licenses>
 
+    <scm>
+        <connection>scm:git@github.com:wiliam2015/ejdoc.git</connection>
+        <developerConnection>scm:git@github.com:wiliam2015/ejdoc.git</developerConnection>
+        <url>git@github.com:wiliam2015/ejdoc.git</url>
+    </scm>
+
     <developers>
         <developer>
             <name>wiliam</name>
@@ -120,17 +126,17 @@
 
             <plugins>
                 <!--发布到中央SNAPSHOT仓库插件-->
-<!--                <plugin>-->
-<!--                    <groupId>org.sonatype.plugins</groupId>-->
-<!--                    <artifactId>nexus-staging-maven-plugin</artifactId>-->
-<!--                    <version>1.6.7</version>-->
-<!--                    <extensions>true</extensions>-->
-<!--                    <configuration>-->
-<!--                        <serverId>ossrh</serverId>-->
-<!--                        <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>-->
-<!--                        <autoReleaseAfterClose>true</autoReleaseAfterClose>-->
-<!--                    </configuration>-->
-<!--                </plugin>-->
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>1.6.7</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <serverId>ossrh</serverId>
+                        <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    </configuration>
+                </plugin>
 
                 <!--发布到中央release仓库插件-->
                 <plugin>

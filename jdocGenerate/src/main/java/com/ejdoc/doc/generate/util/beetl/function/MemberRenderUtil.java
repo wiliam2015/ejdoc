@@ -75,7 +75,10 @@ public class MemberRenderUtil {
     public String formatMockDataJson(Object jsonStr, Context ctx){
         try {
             if(jsonStr instanceof String ){
-               return  JSONUtil.toJsonPrettyStr(jsonStr);
+                String jsonData = Convert.toStr(jsonStr).trim();
+                if(jsonData.startsWith("{") || jsonData.startsWith("[")){
+                    return  JSONUtil.toJsonPrettyStr(jsonStr);
+                }
             }
         } catch (Exception e) {
             log.error("formatMockDataJson error format json:{}",jsonStr,e);

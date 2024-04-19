@@ -11,6 +11,8 @@ public class ApiMockTypeArgument {
 
     private String fullClassName;
 
+    private String apiTypeArgumentUniqueName;
+
     private List<ApiMockTypeArgument> childApiMockTypeArguments;
 
     public String getClassName() {
@@ -35,5 +37,13 @@ public class ApiMockTypeArgument {
 
     public void setChildApiMockTypeArguments(List<ApiMockTypeArgument> childApiMockTypeArguments) {
         this.childApiMockTypeArguments = childApiMockTypeArguments;
+    }
+
+    public String getApiTypeArgumentUniqueName() {
+        return apiTypeArgumentUniqueName;
+    }
+
+    public void setApiTypeArgumentUniqueName(String apiTypeArgumentUniqueName) {
+        this.apiTypeArgumentUniqueName = apiTypeArgumentUniqueName;
     }
 }

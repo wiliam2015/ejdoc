@@ -20,6 +20,8 @@ public class MetaFileInfoDto {
 
     private File metaFile;
 
+    private String metFileData;
+
 
     public String getProjectName() {
         return projectName;
@@ -83,5 +85,13 @@ public class MetaFileInfoDto {
 
     public void setModuleDesc(String moduleDesc) {
         this.moduleDesc = moduleDesc;
+    }
+
+    public String getMetFileData() {
+        return metFileData;
+    }
+
+    public void setMetFileData(String metFileData) {
+        this.metFileData = metFileData;
     }
 }

@@ -92,6 +92,10 @@ public class ApiDocDocsifyTemplateTheme extends BaseOutTemplate implements DocTe
         if(jsonObject != null && jsonObject.size()> 0){
             propMap.putAll(jsonObject);
         }
+        Map<String, String> templateCustomProp = docTemplateThemeInfo.getTemplateCustomProp();
+        if(CollectionUtil.isNotEmpty(templateCustomProp)){
+            propMap.putAll(templateCustomProp);
+        }
 
         List<String> versions = Arrays.stream(FileUtil.ls(renderFileRootPath + "/v")).filter(File::isDirectory).map(File::getName).collect(Collectors.toList());
         if(CollectionUtil.isEmpty(versions)){

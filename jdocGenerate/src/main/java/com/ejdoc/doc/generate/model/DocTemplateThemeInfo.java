@@ -3,6 +3,8 @@ package com.ejdoc.doc.generate.model;
 import com.ejdoc.doc.generate.enums.TemplateTypeEnum;
 import com.ejdoc.metainfo.seralize.seralize.config.SeralizeConfig;
 
+import java.util.Map;
+
 public class DocTemplateThemeInfo {
     /**
      * doc文档输出路径
@@ -25,6 +27,9 @@ public class DocTemplateThemeInfo {
     private String projectRootPath;
     /**当前版本*/
     private String version;
+
+    /**模板透传属性*/
+    private Map<String,String> templateCustomProp;
 
     public String getDocOutRootPath() {
         return docOutRootPath;
@@ -88,5 +93,13 @@ public class DocTemplateThemeInfo {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public Map<String, String> getTemplateCustomProp() {
+        return templateCustomProp;
+    }
+
+    public void setTemplateCustomProp(Map<String, String> templateCustomProp) {
+        this.templateCustomProp = templateCustomProp;
     }
 }

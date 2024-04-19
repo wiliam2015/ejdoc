@@ -22,6 +22,7 @@ import org.w3c.dom.NodeList;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -184,6 +185,36 @@ public class DefaultMetaEnvironment implements MetaEnvironment {
             projectRootPath= projectRootDir;
         }
         return projectRootPath;
+    }
+
+    @Override
+    public List<String> getSourceDirs() {
+        String customSourceDir = PROPS.getStr("custom.sourcefile.dir", "");
+        if(StrUtil.isNotBlank(customSourceDir)){
+            log.info("source dirs:{}",customSourceDir);
+            return  Arrays.asList(customSourceDir.split(","));
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<String> getSourceJarFiles() {
+        String customSourceJarPath = PROPS.getStr("custom.sourcejar.path", "");
+        if(StrUtil.isNotBlank(customSourceJarPath)){
+            log.info("source jar path files:{}",customSourceJarPath);
+            return  Arrays.asList(customSourceJarPath.split(","));
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<String> getSourceFiles() {
+        String customSourceFilePath = PROPS.getStr("custom.sourcefile.path", "");
+        if(StrUtil.isNotBlank(customSourceFilePath)){
+            log.info("source file paths:{}",customSourceFilePath);
+            return  Arrays.asList(customSourceFilePath.split(","));
+        }
+        return new ArrayList<>();
     }
 
     public String  getPath(String fileName) {

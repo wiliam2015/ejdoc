@@ -75,15 +75,17 @@ public class ApiDocMockDataParsePlugin extends AbstractJavaMetaSeralizePlugin im
             for (JavaMethodMeta method : methods) {
                 Map<String, List<JavaDocCommentElementMeta>> paramCommentTagMap = getMethodParamCommentTagMap(method);
 
+                String methodFullUniqueId =StrUtil.join("-",javaClassMeta.getFullClassName(),method.getUniqueId());
                 JavaClassMeta returns = method.getReturns();
                 if(returns != null){
-                    ApiTypeMockData apiReturnTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(returns.getClassName(),returns.getFullClassName(),"");
+                    ApiTypeMockData apiReturnTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(returns.getClassName(),returns.getFullClassName(),methodFullUniqueId);
                     List<JavaClassMeta> typeArgumentsParam = returns.getTypeArguments();
                     List<ApiMockTypeArgument> apiMockTypeArguments = new ArrayList<>();
-                    fillApiMockTypeArguments(typeArgumentsParam,apiMockTypeArguments);
+                    String typeArgumentPreUniqueId = StrUtil.join("-",methodFullUniqueId,returns.getClassName());
+                    fillApiMockTypeArguments(typeArgumentsParam,apiMockTypeArguments,typeArgumentPreUniqueId);
 
                     List<JavaDocCommentElementMeta> javaDocCommentElementMetas = paramCommentTagMap.get("apiReturn");
-                    Object mockReturnResult= apiReturnTypeMockData.mockData(apiMockTypeArguments,"apiReturn",javaDocCommentElementMetas);
+                    Object mockReturnResult= apiReturnTypeMockData.mockData(apiMockTypeArguments,typeArgumentPreUniqueId,javaDocCommentElementMetas);
                     method.putExtProp("returnMockData",JSONUtil.toJsonStr(mockReturnResult));
                 }
                 List<JavaParameterMeta> parameters = method.getParameters();
@@ -93,13 +95,14 @@ public class ApiDocMockDataParsePlugin extends AbstractJavaMetaSeralizePlugin im
                         Map<String,Object> paramMockMap = new HashMap<>();
                         JavaClassMeta javaClass = parameter.getJavaClass();
                         if(javaClass != null){
-                            ApiTypeMockData apiTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(javaClass.getClassName(),javaClass.getFullClassName(),"");
+                            String paramUniqueName =StrUtil.join("-",methodFullUniqueId,javaClass.getClassName());
+                            ApiTypeMockData apiTypeMockData = ApiTypeMockDataFactory.getApiTypeMockDataIfNullForDefaulMock(javaClass.getClassName(),javaClass.getFullClassName(),paramUniqueName);
                             List<JavaClassMeta> typeArgumentsParam = javaClass.getTypeArguments();
                             List<ApiMockTypeArgument> apiMockTypeArguments = new ArrayList<>();
-                            fillApiMockTypeArguments(typeArgumentsParam,apiMockTypeArguments);
+                            fillApiMockTypeArguments(typeArgumentsParam,apiMockTypeArguments,paramUniqueName);
 
                             List<JavaDocCommentElementMeta> javaDocCommentElementMetas = paramCommentTagMap.get(parameter.getName());
-                            Object mockResult = apiTypeMockData.mockData(apiMockTypeArguments,parameter.getName(),javaDocCommentElementMetas);
+                            Object mockResult = apiTypeMockData.mockData(apiMockTypeArguments, paramUniqueName,javaDocCommentElementMetas);
                             if(mockResult != null){
                                 paramMockMap.put(parameter.getName(),mockResult);
                                 mockParamData.add(paramMockMap);
@@ -117,17 +120,19 @@ public class ApiDocMockDataParsePlugin extends AbstractJavaMetaSeralizePlugin im
      * 递归填充类型参数
      * @param typeArgumentsParam
      * @param apiMockTypeArguments
+     * @param preUniqueName 唯一name前缀
      */
-    private void fillApiMockTypeArguments(List<JavaClassMeta> typeArgumentsParam, List<ApiMockTypeArgument> apiMockTypeArguments) {
+    private void fillApiMockTypeArguments(List<JavaClassMeta> typeArgumentsParam, List<ApiMockTypeArgument> apiMockTypeArguments,String preUniqueName) {
         if(CollectionUtil.isNotEmpty(typeArgumentsParam)){
             ApiMockTypeArgument apiMockTypeArgument = null;
             for (JavaClassMeta classMeta : typeArgumentsParam) {
                 apiMockTypeArgument = new ApiMockTypeArgument();
                 apiMockTypeArgument.setClassName(classMeta.getClassName());
                 apiMockTypeArgument.setFullClassName(classMeta.getFullClassName());
+                apiMockTypeArgument.setApiTypeArgumentUniqueName(StrUtil.join("-",preUniqueName,classMeta.getClassName()));
                 if(CollectionUtil.isNotEmpty(classMeta.getTypeArguments())){
                     List<ApiMockTypeArgument> childApiMockTypeArguments = new ArrayList<>();
-                    fillApiMockTypeArguments(classMeta.getTypeArguments(),childApiMockTypeArguments);
+                    fillApiMockTypeArguments(classMeta.getTypeArguments(),childApiMockTypeArguments,apiMockTypeArgument.getApiTypeArgumentUniqueName());
                     apiMockTypeArgument.setChildApiMockTypeArguments(childApiMockTypeArguments);
                 }
                 apiMockTypeArguments.add(apiMockTypeArgument);

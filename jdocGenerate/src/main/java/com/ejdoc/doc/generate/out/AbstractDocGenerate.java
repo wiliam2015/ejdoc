@@ -132,6 +132,7 @@ public abstract class AbstractDocGenerate implements DocGenerate{
         docTemplateThemeInfo.setDocOutRootPath(environment.getDocOutRootPath());
         docTemplateThemeInfo.setProjectRootPath(environment.getProjectRootPath());
         docTemplateThemeInfo.setVersion(environment.getVersion());
+        docTemplateThemeInfo.setTemplateCustomProp(environment.getAllProp());
         String renderFileRootPath = StrUtil.join("/",environment.getDocOutRootPath(),"doc",docGenerateConfig.getDocTypeEnum().getCode(),docGenerateConfig.getTemplateType().getCode());
         docTemplateThemeInfo.setRenderFileRootPath(renderFileRootPath);
         docTemplateTheme.writeTemplateThemeFile(docTemplateThemeInfo);
