@@ -192,15 +192,33 @@ public abstract class AbstractJavaParseMemberParse extends BaseJavaParse impleme
                     ResolvedType resolve = null;
 
                     typeClassMeth = new JavaClassMeta();
-                    typeClassMeth.setClassName(type.asString());
-                    try {
-                        resolve = type.resolve();
-                    }catch(UnsolvedSymbolException ue) {
-                        log.debug("setTypeArgumentsFromType type.resolve UnsolvedSymbolException error",ue);
-                        UnSolvedSymbolTool.addUnSolveTOCache(ue.getMessage());
-                    }catch (Exception e) {
-                        log.error("setTypeArgumentsFromType type.resolve error {}",paramClass.getClassName(),e);
+                    Optional<ClassOrInterfaceType> typeOptional = type.toClassOrInterfaceType();
+                    if(typeOptional.isPresent()){
+                        ClassOrInterfaceType classOrInterfaceType = typeOptional.get();
+                        typeClassMeth.setClassName(classOrInterfaceType.getNameAsString());
+                        typeClassMeth.setFullClassName(classOrInterfaceType.getNameAsString());
+                        try {
+                            resolve = classOrInterfaceType.resolve();
+                        }catch(UnsolvedSymbolException ue) {
+                            log.debug("setTypeArgumentsFromType type.resolve UnsolvedSymbolException error",ue);
+                            UnSolvedSymbolTool.addUnSolveTOCache(ue.getMessage());
+                        }catch (Exception e) {
+                            log.error("setTypeArgumentsFromType type.resolve error {}",paramClass.getClassName(),e);
+                        }
+                    }else{
+                        typeClassMeth.setClassName(type.asString());
+                        typeClassMeth.setFullClassName(type.asString());
+                        try {
+                            resolve = type.resolve();
+                        }catch(UnsolvedSymbolException ue) {
+                            log.debug("setTypeArgumentsFromType type.resolve UnsolvedSymbolException error",ue);
+                            UnSolvedSymbolTool.addUnSolveTOCache(ue.getMessage());
+                        }catch (Exception e) {
+                            log.error("setTypeArgumentsFromType type.resolve error {}",paramClass.getClassName(),e);
+                        }
                     }
+
+
                     setFullClassNameFromResolvedType(typeClassMeth,resolve);
 
 

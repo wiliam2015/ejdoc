@@ -2,7 +2,6 @@ package com.ejdoc.metainfo.seralize.parser.impl.javaparser;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.util.ClassLoaderUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
@@ -20,7 +19,6 @@ import com.github.javaparser.ast.body.TypeDeclaration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
@@ -127,6 +125,8 @@ public class JavaParserMetaInfoParser extends AbstractMetaInfoParser {
 
         }
     }
+
+
 
     /**
      * 因为解析的是注释文件，在java文件中，有注释的地方是

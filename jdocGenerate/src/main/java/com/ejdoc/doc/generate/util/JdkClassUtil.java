@@ -2,7 +2,6 @@ package com.ejdoc.doc.generate.util;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ClassLoaderUtil;
-import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
