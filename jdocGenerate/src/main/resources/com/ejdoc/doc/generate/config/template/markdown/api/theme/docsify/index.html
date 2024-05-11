@@ -60,13 +60,13 @@
         </div>
       </div>
     </div>
-    <a class="wzi" href="/">首页</a>
+    <a class="wzi" href="${prop.apiIndexHref!}">首页</a>
     <a class="wzi" href="#/route/allpackage/README.md">所有包</a>
     <a class="wzi" href="#/route/allinterface/README.md">所有接口</a>
     <a class="wzi" href="#/route/allclass/README.md">所有类</a>
     <a class="wzi" href="#/route/allmodule/README.md">所有模块</a>
     <a class="wzi" href="#/route/alldeprecated/README.md">Deprecated</a>
-    <a class="wzi" href="#/route/allclasstree/README.md">所有层级</a>
+<!--    <a class="wzi" href="#/route/allclasstree/README.md">所有层级</a>-->
     <a class="wzi" href="#/route/allserial/README.md">所有序列化类</a>
 
 
@@ -101,7 +101,9 @@
 <script>
 			window.$docsify = {
 				//name: "${prop.name!}", // 名字
-				repo: '${prop.apiGitRepoAddress!}', // git地址
+				 <% if(isEmpty(prop.notSeeApiGitRepo)){ %>
+				  repo: '${prop.apiGitRepoAddress!}', // git地址
+				 <% } %>
 				// themeColor: '#06A3D7', // 主题颜色
 				basePath: location.pathname.substr(0, location.pathname.lastIndexOf('/') + 1), // 自动计算项目名字
 				// basePath: '/sa-token-doc/',		// 设置文件加载的父路径, 这在一些带项目名部署的文件中非常有效

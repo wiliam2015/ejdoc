@@ -2,6 +2,7 @@ package com.ejdoc.metainfo.seralize.parser.impl.javaparser;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.dto.ModuleInfoDto;
@@ -17,6 +18,8 @@ import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.JavaParserTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,6 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 public class JavaParserCreateFactory {
+    private static final Logger log = LoggerFactory.getLogger(JavaParserCreateFactory.class);
     /**
      * 文件目录缓存
      */
@@ -52,7 +56,12 @@ public class JavaParserCreateFactory {
         List<String> srcPaths = loadSrcPath(metaFileRead);
         if(CollectionUtil.isNotEmpty(srcPaths)){
             for (String srcPath : srcPaths) {
-                combinedTypeSolverNewCode.add(new JavaParserTypeSolver(srcPath, parserConfiguration));
+                if(FileUtil.exist(srcPath)){
+                    combinedTypeSolverNewCode.add(new JavaParserTypeSolver(srcPath, parserConfiguration));
+                }else{
+                    log.warn("path:[{}] not exist,do not load src path",srcPath);
+                }
+
             }
         }else {
 
