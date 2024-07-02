@@ -1,5 +1,6 @@
 package com.ejdoc.doc.generate.out.config;
 
+import com.ejdoc.doc.generate.enums.ApiTypeEnum;
 import com.ejdoc.doc.generate.enums.DocTypeEnum;
 import com.ejdoc.doc.generate.enums.TemplateTypeEnum;
 
@@ -36,6 +37,10 @@ public class DocGenerateConfig {
      * 文档类型
      */
     private DocTypeEnum docTypeEnum;
+    /**
+     * API类型，当docTypeEnum为api时必须
+     */
+    private ApiTypeEnum apiTypeEnum;
 
     public Locale getLocale() {
         return locale;
@@ -83,5 +88,13 @@ public class DocGenerateConfig {
 
     public void setDocTypeEnum(DocTypeEnum docTypeEnum) {
         this.docTypeEnum = docTypeEnum;
+    }
+
+    public ApiTypeEnum getApiTypeEnum() {
+        return apiTypeEnum;
+    }
+
+    public void setApiTypeEnum(ApiTypeEnum apiTypeEnum) {
+        this.apiTypeEnum = apiTypeEnum;
     }
 }

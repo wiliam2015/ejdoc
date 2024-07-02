@@ -7,6 +7,7 @@ import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.setting.GroupedMap;
 import cn.hutool.setting.Setting;
+import com.ejdoc.doc.generate.enums.TemplateThemeEnum;
 import com.ejdoc.doc.generate.enums.TemplateTypeEnum;
 import com.ejdoc.doc.generate.exception.JavaDocSerializeException;
 import com.ejdoc.doc.generate.model.DocOutFileInfo;
@@ -89,6 +90,7 @@ public class BaseOutTemplate {
         boolean mainFile = docOutFileInfo.isMainFile();
         String docType = docOutFileInfo.getDocType();
         String templateAppendName = (String)propMap.getOrDefault("templateAppendName", "");
+        TemplateThemeEnum templateTheme = docOutFileInfo.getTemplateTheme();
         String appendName = "";
         if(mainFile){
             appendName = "Main";
@@ -99,9 +101,12 @@ public class BaseOutTemplate {
             if(templateType == null){
                 templateType = TemplateTypeEnum.MarkDown;
             }
+            if(templateTheme == null){
+                templateTheme = TemplateThemeEnum.Docsify;
+            }
             switch (templateType){
                 case MarkDown:
-                    template = groupTemplate.getTemplate( "/markdown/"+docType+"/markdownTemplate"+appendName+".btl");
+                    template = groupTemplate.getTemplate( "/markdown/"+docType+"/theme/"+templateTheme.getCode()+"/markdownTemplate"+appendName+".btl");
                     break;
                 case Html:
                     template = groupTemplate.getTemplate( "/html/"+docType+"/htmlTemplate"+appendName+".btl");

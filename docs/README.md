@@ -1,13 +1,13 @@
 # ejdoc
 ## 简介
-ejdoc提供基于现有的javadoc无侵入简单生成api文档，目前支持一键生成javadoc。后续功能还在迭代开发中。
+ejdoc提供基于现有的javadoc无侵入简单生成api文档，目前支持一键生成javadoc文档,API文档。
 
-原生的javadoc样式一直没什么改变，现在前端的发展这么迅速，所以有了利用现在的前端技术重新生成javadoc的想法，ejdoc就是此想法的实现。
+原生的javadoc样式一直没什么改变，现在前端的发展这么迅速，所以有了利用现在的前端技术重新生成javadoc与API文档的想法，ejdoc就是此想法的实现。
 
 ejdoc充分利用前端的技术，将样式与数据抽离，按照自己想要的样式生成javadoc，充分利用现有的前端技术发展的成果。
 
 ## ejdoc名称的由来
-ejdoc简单快速生成doc文档，不只是javadoc，让开发更专注，写代码同时就将文档写好了，提高开发效率。
+ejdoc简单快速生成doc文档，javadoc文档和API文档等，让开发更专注，写代码同时就将文档写好了，提高开发效率。
 
 ## 包含组件
 
@@ -20,7 +20,8 @@ ejdoc简单快速生成doc文档，不只是javadoc，让开发更专注，写�
 
 ## 文档
 
-[中文文档](http://wiliam.me/ejdoc/docs/)
+[参考文档](http://wiliam.me/ejdoc/api/doc/markdown/index.html)
+[API文档](http://wiliam.me/ejdoc/api/doc/markdown/index.html)
 
 ## 安装
 
@@ -101,3 +102,6 @@ public class JavaDocGenerate {
 * 开发过程中大量的使用了hutool工具包，大幅度提高了编码效率。
 * 生成doc模板使用了beetl，使用简单生成快速。
 * javadoc默认主题使用的是docsify前端文档生成模块。
+
+## 效果样例
+### Vitepress主题API

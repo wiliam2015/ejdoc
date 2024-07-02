@@ -3,6 +3,7 @@ package com.ejdoc.doc.generate.template;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
+import com.ejdoc.doc.generate.enums.TemplateThemeEnum;
 import com.ejdoc.doc.generate.enums.TemplateTypeEnum;
 import com.ejdoc.doc.generate.model.DocOutFileInfo;
 import com.ejdoc.doc.generate.out.config.DocGenerateConfig;
@@ -34,15 +35,24 @@ public abstract class AbstractDocOutTemplate extends BaseOutTemplate implements 
 
     @Override
     public void writeFormat(String formatData, DocOutFileInfo docOutFileInfo) {
+        String renderCurrentVersion = docOutFileInfo.getRenderCurrentVersion();
+        if(StrUtil.equals(renderCurrentVersion,"true")){
+            return ;
+        }
         String docOutRootPath = docOutFileInfo.getDocOutRootPath();
         TemplateTypeEnum templateType = docOutFileInfo.getTemplateType();
+        TemplateThemeEnum templateTheme = docOutFileInfo.getTemplateTheme();
         Assert.notNull(docOutRootPath,"docOutRootPath not null");
         String version = docOutFileInfo.getVersion();
         String relativePath = "";
         if(StrUtil.isNotBlank(docOutFileInfo.getRelativeRootPath())){
             relativePath = "/"+docOutFileInfo.getRelativeRootPath();
         }
-        String path = StrUtil.join("/",docOutRootPath,"doc",docOutFileInfo.getDocType(),templateType.getCode(),"v",version,relativePath,docOutFileInfo.getFileName()+templateType.getExtension());
+        String templateDir =templateType.getCode();
+        if(templateTheme != null && StrUtil.isNotBlank(templateTheme.getSrcDir())){
+            templateDir = StrUtil.join("/",templateDir,templateTheme.getSrcDir());
+        }
+        String path = StrUtil.join("/",docOutRootPath,"doc",docOutFileInfo.getDocType(),templateDir,"v",version,relativePath,docOutFileInfo.getFileName()+templateType.getExtension());
         FileUtil.writeString(formatData, path, "UTF-8");
     }
 
@@ -56,12 +66,17 @@ public abstract class AbstractDocOutTemplate extends BaseOutTemplate implements 
         String docOutRootPath = docOutFileInfo.getDocOutRootPath();
         String version = docOutFileInfo.getVersion();
         TemplateTypeEnum templateType = docOutFileInfo.getTemplateType();
+        TemplateThemeEnum templateTheme = docOutFileInfo.getTemplateTheme();
         Assert.notNull(docOutRootPath,"docOutRootPath not null");
         String relativePath = "";
         if(StrUtil.isNotBlank(docOutFileInfo.getRelativeRootPath())){
             relativePath = "/"+docOutFileInfo.getRelativeRootPath();
         }
-        String outFilePath = StrUtil.join("/",docOutRootPath,"doc",docOutFileInfo.getDocType(),templateType.getCode(),"v",version,relativePath,docOutFileInfo.getFileName()+templateType.getExtension());
+        String templateDir =templateType.getCode();
+        if(templateTheme != null && StrUtil.isNotBlank(templateTheme.getSrcDir())){
+            templateDir = StrUtil.join("/",templateDir,templateTheme.getSrcDir());
+        }
+        String outFilePath = StrUtil.join("/",docOutRootPath,"doc",docOutFileInfo.getDocType(),templateDir,"v",version,relativePath,docOutFileInfo.getFileName()+templateType.getExtension());
         String sourFilePath = docOutFileInfo.getFullFilePath();
         FileUtil.copyFile(sourFilePath, outFilePath, StandardCopyOption.REPLACE_EXISTING);
     }

@@ -4,6 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
+import com.ejdoc.doc.generate.enums.TemplateThemeEnum;
 import com.ejdoc.doc.generate.enums.TemplateTypeEnum;
 import com.ejdoc.doc.generate.model.DocOutFileInfo;
 import com.ejdoc.doc.generate.out.config.DocGenerateConfig;
@@ -74,12 +75,17 @@ public class ApiDocMarkdownDocOutTemplate extends MarkdownDocOutTemplate {
         String docOutRootPath = docOutFileInfo.getDocOutRootPath();
         String version = docOutFileInfo.getVersion();
         TemplateTypeEnum templateType = docOutFileInfo.getTemplateType();
+        TemplateThemeEnum templateTheme = docOutFileInfo.getTemplateTheme();
         Assert.notNull(docOutRootPath,"docOutRootPath not null");
         String relativePath = "";
         if(StrUtil.isNotBlank(docOutFileInfo.getRelativeRootPath())){
             relativePath = "/"+docOutFileInfo.getRelativeRootPath();
         }
-        String outFilePath = StrUtil.join("/",docOutRootPath,"doc",docOutFileInfo.getDocType(),templateType.getCode(),relativePath,docOutFileInfo.getFileName()+templateType.getExtension());
+        String templateDir =templateType.getCode();
+        if(templateTheme != null && StrUtil.isNotBlank(templateTheme.getSrcDir())){
+            templateDir = StrUtil.join("/",templateDir,templateTheme.getSrcDir());
+        }
+        String outFilePath = StrUtil.join("/",docOutRootPath,"doc",docOutFileInfo.getDocType(),templateDir,relativePath,docOutFileInfo.getFileName()+templateType.getExtension());
         String sourFilePath = docOutFileInfo.getFullFilePath();
         FileUtil.copyFile(sourFilePath, outFilePath, StandardCopyOption.REPLACE_EXISTING);
     }
@@ -91,13 +97,18 @@ public class ApiDocMarkdownDocOutTemplate extends MarkdownDocOutTemplate {
     private void doWriteLatestVersionFile(String formatData, DocOutFileInfo docOutFileInfo) {
         String docOutRootPath = docOutFileInfo.getDocOutRootPath();
         TemplateTypeEnum templateType = docOutFileInfo.getTemplateType();
+        TemplateThemeEnum templateTheme = docOutFileInfo.getTemplateTheme();
         Assert.notNull(docOutRootPath,"docOutRootPath not null");
         String version = docOutFileInfo.getVersion();
         String relativePath = "";
         if(StrUtil.isNotBlank(docOutFileInfo.getRelativeRootPath())){
             relativePath = "/"+docOutFileInfo.getRelativeRootPath();
         }
-        String path = StrUtil.join("/",docOutRootPath,"doc",docOutFileInfo.getDocType(),templateType.getCode(),relativePath,docOutFileInfo.getFileName()+templateType.getExtension());
+        String templateDir =templateType.getCode();
+        if(templateTheme != null && StrUtil.isNotBlank(templateTheme.getSrcDir())){
+            templateDir = StrUtil.join("/",templateDir,templateTheme.getSrcDir());
+        }
+        String path = StrUtil.join("/",docOutRootPath,"doc",docOutFileInfo.getDocType(),templateDir,relativePath,docOutFileInfo.getFileName()+templateType.getExtension());
         FileUtil.writeString(formatData, path, "UTF-8");
     }
 

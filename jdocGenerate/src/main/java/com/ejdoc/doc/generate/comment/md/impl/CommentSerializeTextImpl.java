@@ -20,6 +20,6 @@ public class CommentSerializeTextImpl implements CommentSerialize {
     @Override
     public String toSerialize(String content, CommentSerializeRootDocDto serializeRootDocDto) {
 //        return content.trim().replace("\n","").replaceAll(" {2,}","");
-        return content.trim().replaceAll(" {2,}","");
+        return content.trim().replaceAll(" {2,}","").replaceAll("<","< ").replaceAll(">"," >");
     }
 }

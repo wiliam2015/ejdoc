@@ -1,5 +1,6 @@
 package com.ejdoc.doc.generate.model;
 
+import com.ejdoc.doc.generate.enums.TemplateThemeEnum;
 import com.ejdoc.doc.generate.enums.TemplateTypeEnum;
 import com.ejdoc.metainfo.seralize.seralize.config.SeralizeConfig;
 
@@ -29,6 +30,8 @@ public class DocOutFileInfo {
 
     private TemplateTypeEnum templateType;
 
+    private TemplateThemeEnum templateTheme;
+
     private boolean mainFile;
 
     private SeralizeConfig seralizeConfig;
@@ -38,6 +41,10 @@ public class DocOutFileInfo {
      */
     private String docType;
     private String version;
+    /**
+     * 渲染当前版本文件
+     */
+    private String renderCurrentVersion;
 
     public String getFileName() {
         return fileName;
@@ -133,5 +140,21 @@ public class DocOutFileInfo {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public TemplateThemeEnum getTemplateTheme() {
+        return templateTheme;
+    }
+
+    public void setTemplateTheme(TemplateThemeEnum templateTheme) {
+        this.templateTheme = templateTheme;
+    }
+
+    public String getRenderCurrentVersion() {
+        return renderCurrentVersion;
+    }
+
+    public void setRenderCurrentVersion(String renderCurrentVersion) {
+        this.renderCurrentVersion = renderCurrentVersion;
     }
 }

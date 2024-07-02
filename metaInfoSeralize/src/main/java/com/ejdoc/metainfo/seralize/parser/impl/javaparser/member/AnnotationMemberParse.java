@@ -1,6 +1,7 @@
 package com.ejdoc.metainfo.seralize.parser.impl.javaparser.member;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.ejdoc.metainfo.seralize.dto.MetaFileInfoDto;
 import com.ejdoc.metainfo.seralize.enums.EnvPropEnum;
 import com.ejdoc.metainfo.seralize.model.*;
@@ -70,7 +71,34 @@ public class AnnotationMemberParse extends AbstractJavaParseMemberParse{
         JavaModelMeta javaModelMeta = new JavaModelMeta();
         createJavaDocTag(javadoc,javaModelMeta);
         setAnnotations(annotations,javaModelMeta);
+        //方法唯一ID解析
+        parseMethodUniqueId(javaFieldMeta);
         return javaFieldMeta;
+    }
+
+    /**
+     * 方法唯一ID解析
+     * @param javaMethodMeta
+     */
+    private  void parseMethodUniqueId(JavaMethodMeta javaMethodMeta) {
+        StringBuilder uniqueId = new StringBuilder(javaMethodMeta.getName());
+        List<JavaParameterMeta> parameters = javaMethodMeta.getParameters();
+        if(CollectionUtil.isNotEmpty(parameters)){
+            for (JavaParameterMeta parameter : parameters) {
+                JavaClassMeta javaClass = parameter.getJavaClass();
+                if(javaClass != null){
+                    String className = javaClass.getClassName();
+                    //数组类型
+                    if(StrUtil.isNotBlank(javaClass.getArrayFullClassName())){
+                        className = className.replace("[","").replace("]","").trim();
+                        className +="-a";
+                    }
+                    uniqueId.append("-");
+                    uniqueId.append(className);
+                }
+            }
+        }
+        javaMethodMeta.setUniqueId(uniqueId.toString().toLowerCase());
     }
 
     private JavaClassMeta parseAnnoMethodDefaulVal(Expression expression) {

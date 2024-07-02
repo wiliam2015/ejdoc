@@ -8,6 +8,12 @@ import java.util.Optional;
 public enum JavaDocJsrCommentTypeEnum {
     NOT_NULL("NotNull","NOTNULL"),
     Min("Min","MIN"),
+    Max("Max","MAX"),
+    Size("Size","SIZE"),
+    Past("Past",    "PAST"),
+    Future("Future","FUTURE"),
+    Pattern("Pattern","PATTERN"),
+    Jsr303Tag("Jsr303Tag","JSR303TAG"),
     ;
 
     private String code;

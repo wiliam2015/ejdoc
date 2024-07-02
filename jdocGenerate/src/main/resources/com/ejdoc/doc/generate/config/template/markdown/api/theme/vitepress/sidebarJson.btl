@@ -1,0 +1,112 @@
+<% if(prop.sideType == "allClass"){
+
+}
+%>
+
+<% if(prop.sideType == "allInterface"){
+
+}
+%>
+
+
+<% if(prop.sideType == "allClasstree"){
+
+
+}
+%>
+
+<% if(prop.sideType == "allDeprecated"){
+
+}
+%>
+
+<% if(prop.sideType == "allPackage"){
+    print("'");print(prop.sidePath);println("':[");
+        println("{");
+            print("text:");print("'");print(prop.title+"目录");println("',");
+            print("items:");println("[");
+            for(obj in prop.tableList){
+                var linkPath = "/route/allpackage/" + obj.packageNamePath+"/README.md";
+                print("{");
+                print("text:");print("'");print(obj.packageName);println("',");
+                print("link:");print("'");print(linkPath);println("'");
+                print("}");
+                if(!objLP.last){
+                    print(",");
+                }
+            }
+            println("]");
+        println("}");
+    println("]");
+    println();
+}
+%>
+
+<% if(prop.sideType == "allModule"){
+  print("'");print(prop.sidePath);println("':[");
+      println("{");
+          print("text:");print("'");print(prop.title+"目录");println("',");
+          print("items:");println("[");
+          for(obj in prop.tableList){
+              var linkPath ="/route/allmodule/"+obj.moduleName+".md";
+              print("{");
+              print("text:");print("'");print(obj.moduleName);println("',");
+              print("link:");print("'");print(linkPath);println("'");
+              print("}");
+              if(!objLP.last){
+                  print(",");
+              }
+          }
+          println("]");
+      println("}");
+  println("]");
+  println();
+}
+%>
+
+<% if(prop.sideType == "allSerial"){
+    print("'");print(prop.sidePath);println("':[");
+        println("{");
+            print("text:");print("'");print(prop.title+"目录");println("',");
+            print("items:");println("[");
+            for(obj in prop.tableList){
+                var linkPath ="/route/allserial/"+obj.moduleName+".md";
+                print("{");
+                print("text:");print("'");print(obj.moduleName);println("',");
+                print("link:");print("'");print(linkPath);println("'");
+                print("}");
+                if(!objLP.last){
+                    print(",");
+                }
+            }
+            println("]");
+        println("}");
+    println("]");
+    println();
+}
+%>
+
+<% if(prop.sideType == "packageDetail"){
+    print("'");print(prop.sidePath);println("':[");
+        println("{");
+            print("text:");print("'");print(prop.title+"目录");println("',");
+            print("items:");println("[");
+            for(obj in prop.tableList){
+                 if(!obj.firstHead){
+                    var linkPath = obj.moduleName+"/"+ obj.packageNamePath+"/"+obj.className+".md";
+                     print("{");
+                     print("text:");print("'");print(obj.className);println("',");
+                     print("link:");print("'");print(linkPath);println("'");
+                     print("}");
+                     if(!objLP.last){
+                         print(",");
+                     }
+                 }
+            }
+            println("]");
+        println("}");
+    println("]");
+    println();
+}
+
+%>

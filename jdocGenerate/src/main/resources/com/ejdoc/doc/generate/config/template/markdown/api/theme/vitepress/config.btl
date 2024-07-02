@@ -1,0 +1,35 @@
+import { defineConfig } from 'vitepress'
+
+// https://vitepress.dev/reference/site-config
+export default defineConfig({
+  title: "${prop.name!}",
+  description: "API文档自动化生成和管理",
+  ignoreDeadLinks: true,
+  lastUpdated: true,
+  srcDir: 'src',
+  markdown: {
+      lineNumbers: true
+   },
+  themeConfig: {
+    // https://vitepress.dev/reference/default-theme-config
+    nav: [
+      { text: '首页', link: '/' },
+      { text: '所有接口', link: '/route/allinterface/README' },
+      { text: '所有包', link: '/route/allpackage/README' },
+      { text: '所有模块', link: '/route/allmodule/README' },
+      { text: '所有层级', link: '/route/allclasstree/README' },
+      { text: '所有类', link: '/route/allclass/README' },
+      { text: '所有序列化类', link: '/route/allserial/README' },
+      { text: 'Deprecated类', link: '/route/alldeprecated/README' }
+    ],
+
+    <% if(isNotEmpty(prop.sidbarContent)){
+     print("sidebar:{");println(prop.sidbarContent);println("},");
+    }%>
+
+
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+    ]
+  }
+})

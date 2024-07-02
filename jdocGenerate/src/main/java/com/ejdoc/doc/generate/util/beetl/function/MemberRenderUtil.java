@@ -193,6 +193,19 @@ public class MemberRenderUtil {
         }
         return result.toString();
     }
+
+    /**
+     * 计算markdown链接
+     * @param content
+     * @param ctx
+     * @return
+     */
+    public String replaceHtmlArrow(String content, Context ctx) {
+        if(StrUtil.isNotBlank(content)){
+            return content.replaceAll("<","< ").replaceAll(">"," >");
+        }
+       return content;
+    }
     /**
      * 计算markdown链接
      * @param paras

@@ -1,15 +1,18 @@
 package com.ejdoc.doc.generate.enums;
 
 public enum TemplateThemeEnum {
-    Docsify("docsify","markdown"),
+    Docsify("docsify","markdown",""),
+    Vitepress("vitepress","markdown","src"),
     ;
 
     private String code;
     private String templateType;
+    private String srcDir;
 
-    TemplateThemeEnum(String code, String templateType){
+    TemplateThemeEnum(String code, String templateType,String srcDir){
         this.code = code;
         this.templateType = templateType;
+        this.srcDir = srcDir;
     }
 
 
@@ -37,5 +40,13 @@ public enum TemplateThemeEnum {
 
     public void setTemplateType(String templateType) {
         this.templateType = templateType;
+    }
+
+    public String getSrcDir() {
+        return srcDir;
+    }
+
+    public void setSrcDir(String srcDir) {
+        this.srcDir = srcDir;
     }
 }

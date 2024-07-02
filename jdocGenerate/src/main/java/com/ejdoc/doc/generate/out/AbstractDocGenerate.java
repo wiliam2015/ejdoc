@@ -7,6 +7,7 @@ import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+import com.ejdoc.doc.generate.enums.TemplateThemeEnum;
 import com.ejdoc.doc.generate.enums.TemplateTypeEnum;
 import com.ejdoc.doc.generate.env.DocOutEnvironment;
 import com.ejdoc.doc.generate.env.impl.DefaultDocOutEnvironment;
@@ -153,6 +154,7 @@ public abstract class AbstractDocGenerate implements DocGenerate{
     private String renderTemplateFile(SeralizeConfig seralizeConfig, String jsonFilePath) {
         String docOutRootPath = this.environment.getDocOutRootPath();
         String version = this.environment.getVersion();
+        String renderFilePath = StrUtil.join("/",docOutRootPath,"doc",docGenerateConfig.getDocTypeEnum().getCode(),docGenerateConfig.getTemplateType().getCode(),"v",version);
         List<File> jsonFiles = FileUtil.loopFiles(jsonFilePath, subFile -> FileTypeUtil.getType(subFile).equals("json"));
         //生命周期钩子
         afterCreateBatchMetaFile(jsonFiles, seralizeConfig,this.environment);
@@ -171,7 +173,7 @@ public abstract class AbstractDocGenerate implements DocGenerate{
                 afterResolveFile(jsonFile, seralizeConfig,this.environment,false);
             }
         }
-        return StrUtil.join("/",docOutRootPath,"doc",docGenerateConfig.getDocTypeEnum().getCode(),docGenerateConfig.getTemplateType().getCode(),"v",version);
+        return renderFilePath;
     }
 
     /**
@@ -223,12 +225,16 @@ public abstract class AbstractDocGenerate implements DocGenerate{
         docOutFileInfo.setVersion(environment.getVersion());
         docOutFileInfo.setLocale(docGenerateConfig.getLocale());
         docOutFileInfo.setTemplateType(docGenerateConfig.getTemplateType());
+        docOutFileInfo.setRenderCurrentVersion(environment.getProp("render.current.version"));
         docOutFileInfo.setDocType(docGenerateConfig.getDocTypeEnum().getCode());
+        TemplateThemeEnum templateThemeEnum = TemplateThemeEnum.convertToEnumByName(docGenerateConfig.getTemplateTheme());
+        docOutFileInfo.setTemplateTheme(templateThemeEnum);
         String templateData = docOutTemplate.formatTemplate(docOutFileInfo);
         if(StrUtil.isBlank(templateData)){
             log.warn("jsonFileName templateData is Empty fileName:{}", jsonFile.getName());
             return;
         }
+
         docOutTemplate.writeFormat(templateData,docOutFileInfo);
     }
 

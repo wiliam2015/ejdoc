@@ -1,5 +1,6 @@
 package com.ejdoc.doc.generate.out.factory;
 
+import com.ejdoc.doc.generate.enums.ApiTypeEnum;
 import com.ejdoc.doc.generate.enums.DocTypeEnum;
 import com.ejdoc.doc.generate.enums.TemplateTypeEnum;
 import com.ejdoc.doc.generate.out.config.DocGenerateConfig;
@@ -16,6 +17,15 @@ public class DocGenerateConfigFactory {
         docGenerateConfig.setLocale(Locale.CHINA);
         docGenerateConfig.setDocTypeEnum(DocTypeEnum.API);
         docGenerateConfig.setTemplateType(TemplateTypeEnum.MarkDown);
+        docGenerateConfig.setApiTypeEnum(ApiTypeEnum.RPC);
+        return docGenerateConfig;
+    }
+    public static DocGenerateConfig createApidocMarkdownConfig(ApiTypeEnum apiTypeEnum){
+        DocGenerateConfig docGenerateConfig = new DocGenerateConfig();
+        docGenerateConfig.setLocale(Locale.CHINA);
+        docGenerateConfig.setDocTypeEnum(DocTypeEnum.API);
+        docGenerateConfig.setTemplateType(TemplateTypeEnum.MarkDown);
+        docGenerateConfig.setApiTypeEnum(apiTypeEnum);
         return docGenerateConfig;
     }
 
