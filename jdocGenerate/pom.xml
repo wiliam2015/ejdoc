@@ -13,7 +13,7 @@
 
     <artifactId>jdocGenerate</artifactId>
     <name>${project.artifactId}</name>
-    <version>0.6.4</version>
+    <version>0.6.5</version>
     <description>doc文档生成组件</description>
 
     <properties>
