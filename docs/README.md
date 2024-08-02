@@ -20,8 +20,9 @@ ejdoc简单快速生成doc文档，javadoc文档和API文档等，让开发更�
 
 ## 文档
 
-[参考文档](http://wiliam.me/ejdoc/refdoc/index.html)  |
-[API文档](http://wiliam.me/ejdoc/api/doc/markdown/index.html)
+
+<a href="/refdoc/index.html" target="_blank">参考文档</a> <br/>
+<a href="/api/doc/markdown/index.html" target="_blank">API文档</a>
 
 
 ## 效果样例
