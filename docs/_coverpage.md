@@ -9,8 +9,8 @@
 - 众多主题
 
 [GitHub](https://github.com/wiliam2015/ejdoc)
-<a href="/ejdoc/api/doc/markdown/index.html" target="_blank">API文档</a>
-<a href="/refdoc/index.html" target="_blank">参考文档</a>
+<a href="api/doc/markdown/index.html" target="_blank">API文档</a>
+<a href="refdoc/index.html" target="_blank">参考文档</a>
 [Get Started](#ejdoc)
 
 <!-- 背景色 -->
