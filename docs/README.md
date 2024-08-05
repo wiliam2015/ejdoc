@@ -21,8 +21,8 @@ ejdoc简单快速生成doc文档，javadoc文档和API文档等，让开发更�
 ## 文档
 
 
-<a href="/refdoc/index.html" target="_blank">参考文档</a> <br/>
-<a href="/api/doc/markdown/index.html" target="_blank">API文档</a>
+<a href="refdoc/index.html" target="_blank">参考文档</a> <br/>
+<a href="api/doc/markdown/index.html" target="_blank">API文档</a>
 
 
 ## 效果样例

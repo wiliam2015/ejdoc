@@ -1,6 +1,6 @@
 
 
-# ejdoc <small>0.5.1</small>
+# ejdoc <small>0.6.6</small>
 
 > java doc与API文档自动生成工具。
 

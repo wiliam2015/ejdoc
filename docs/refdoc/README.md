@@ -12,20 +12,20 @@
 <dependency>
    <groupId>com.ejdoc</groupId>
    <artifactId>jdocGenerate</artifactId>
-   <version>0.5.1</version>
+   <version>0.6.6</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-implementation 'com.ejdoc:jdocGenerate:0.5.1'
+implementation 'com.ejdoc:jdocGenerate:0.6.6'
 ```
 
 ### 下载jar
 
 点击以下链接，下载`jdocGenerate-X.X.X.jar`即可：
 
-- [Maven中央库](https://repo1.maven.org/maven2/com/ejdoc/jdocGenerate/0.5.1/)
+- [Maven中央库](https://repo1.maven.org/maven2/com/ejdoc/jdocGenerate/0.6.6/)
 
 ### 支持项目的目录结构
 支持标准的Maven的单模块和父子模块的目录结构
